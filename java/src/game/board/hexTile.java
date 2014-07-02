@@ -1,5 +1,7 @@
 package game.board;
 
+import game.pieces.*;
+
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 
