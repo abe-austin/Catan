@@ -2,6 +2,7 @@ package game.board;
 
 import game.pieces.*;
 import shared.definitions.HexType;
+import player.player;
 
 public abstract class hexTile {
 	
