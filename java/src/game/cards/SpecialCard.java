@@ -10,6 +10,10 @@ import shared.definitions.SpecialCardType;
 public class SpecialCard extends Card {
     private SpecialCardType special;
 
+    public SpecialCard(SpecialCardType type) {
+        special = type;
+    }
+
     @Override
     public CardType getCardType() {
         return CardType.SPECIAL;
@@ -20,12 +24,5 @@ public class SpecialCard extends Card {
      */
     public SpecialCardType getSpecial() {
         return special;
-    }
-
-    /**
-     * @param special the special to set
-     */
-    public void setSpecial(SpecialCardType special) {
-        this.special = special;
     }
 }

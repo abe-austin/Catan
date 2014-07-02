@@ -4,7 +4,7 @@ import game.bank.Bank;
 import game.board.BoardModel;
 import java.util.HashSet;
 import java.util.Set;
-import player.player;
+import player.Player;
 
 /**
  *
@@ -12,13 +12,13 @@ import player.player;
  */
 public class GameModel {
     private BoardModel board;
-    private Set<player> players;
+    private Set<Player> players;
     private Bank bank;
 
     public GameModel() {
         board = new BoardModel();
         bank = new Bank();
-        players = new HashSet<player>();
+        players = new HashSet<Player>();
     }
 
     /**
@@ -38,14 +38,14 @@ public class GameModel {
     /**
      * @return the players
      */
-    public Set<player> getPlayers() {
+    public Set<Player> getPlayers() {
         return players;
     }
 
     /**
      * @param players the players to set
      */
-    public void addPlayers(player aPlayer) {
+    public void addPlayers(Player aPlayer) {
         this.players.add(aPlayer);
     }
 

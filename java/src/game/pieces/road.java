@@ -1,16 +1,16 @@
 package game.pieces;
 
-import player.player;
+import player.Player;
 import shared.definitions.Cost;
 import shared.definitions.PieceType;
 
 public class road extends BoardPiece {
 	
 	private boolean isActivated;
-	private player owner;
+	private Player owner;
 	private Cost c;
 	
-	public road(player own) {
+	public road(Player own) {
 		isActivated = false;
 		owner = own;
 		c = Cost.ROAD;
@@ -36,9 +36,9 @@ public class road extends BoardPiece {
 	}
 	
 	/**
-	 * @return Who the controlling player is
+	 * @return Who the controlling Player is
 	 */
-	public player getOwner() {
+	public Player getOwner() {
 		return owner;
 	}
 	

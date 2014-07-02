@@ -21,6 +21,11 @@ public class Bank {
         resourceCards = new HashSet<ResourceCard>();
         developmentCards = new HashSet<DevelopmentCard>();
         specialCards = new HashSet<SpecialCard>();
+
+        addSpecialCard(new SpecialCard(SpecialCardType.LARGEST_ARMY));
+        addSpecialCard(new SpecialCard(SpecialCardType.LONGEST_ROAD));
+
+        
     }
     /**
      * adds a resource to the bank's resource cards
@@ -38,8 +43,10 @@ public class Bank {
      */
     public ResourceCard giveResourceCard(ResourceType resourceType){
         for(ResourceCard card : resourceCards) {
-            if(card.getResource().equals(resourceType))
+            if(card.getResource().equals(resourceType)) {
+                resourceCards.remove(card);
                 return card;
+            }
         }
         
         return null;
@@ -60,8 +67,10 @@ public class Bank {
      */
     public DevelopmentCard giveDevelopmentCard(DevCardType devCardType){
         for(DevelopmentCard card : developmentCards) {
-            if(card.getDevelopment().equals(devCardType))
+            if(card.getDevelopment().equals(devCardType)) {
+                developmentCards.remove(card);
                 return card;
+            }
         }
 
         return null;
@@ -83,8 +92,10 @@ public class Bank {
      */
     public SpecialCard giveSpecialCard(SpecialCardType specialCardType){
         for(SpecialCard card : specialCards) {
-            if(card.getSpecial().equals(specialCardType))
+            if(card.getSpecial().equals(specialCardType)) {
+                specialCards.remove(card);
                 return card;
+            }
         }
         
         return null;
