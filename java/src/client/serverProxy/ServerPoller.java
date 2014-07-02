@@ -5,6 +5,7 @@
  */
 
 package client.serverProxy;
+import game.GameModel;
 
 /**
  *
@@ -18,18 +19,20 @@ public class ServerPoller {
      */
     public ServerPoller(){}
     /**
+     * @pre the server proxy being pass in is valid
      * sets the server proxy that it will connect to
      * @param serverProxy  the serverProxy
      */
-    public setServerProxy( ServerProxyFacade serverProxy){}
+    public void setServerProxy( ServerProxyFacade serverProxy){}
     /**
      * sends the current game model to the model
-     * @param gameModel the current gameModel received from the serverProxy
      */
-    public sendGameModel(GameModel gameModel){}
+    public void sendGameModel(){}
     /**
-     * polls the server to see if there have been changes
+     * @pre the server poller has a valid server proxy already set
+     * polls the server to see if there have been changes in the game model and 
+     * gets the game model if there were changes
      */
-    public poll(){}
+    public void poll(){}
 
 }
