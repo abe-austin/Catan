@@ -42,6 +42,8 @@ public class Player {
 
             for(int i = 0; i < 15; i++)
                 boardPieces.add(new road(this));
+
+            // TO DO add more here
         }
 
         /**
@@ -118,6 +120,8 @@ public class Player {
          */
         public void addSpecialCard(SpecialCard specialCard){
             specialCards.add(specialCard);
+            points.addPoint();
+            points.addPoint();
         }
 
         /**
@@ -132,6 +136,8 @@ public class Player {
             for(SpecialCard card : specialCards) {
                 if(card.getSpecial().equals(specialCardType)) {
                     specialCards.remove(card);
+                    points.subtractPoint();
+                    points.subtractPoint();
                     return card;
                 }
             }
