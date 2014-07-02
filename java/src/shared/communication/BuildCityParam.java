@@ -1,9 +1,11 @@
 package shared.communication;
 
+import game.board.corner;
+
 public class BuildCityParam {
 
 	private int playerIndex;
-	private Corner corner;
+	private corner c;
 	private boolean free;
 	
 	public BuildCityParam(){}
@@ -14,11 +16,11 @@ public class BuildCityParam {
 	public void setPlayerIndex(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
-	public Corner getCorner() {
-		return corner;
+	public corner getCorner() {
+		return c;
 	}
-	public void setCorner(Corner corner) {
-		this.corner = corner;
+	public void setCorner(corner c) {
+		this.c = c;
 	}
 	public boolean isFree() {
 		return free;

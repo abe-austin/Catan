@@ -1,9 +1,12 @@
 package shared.communication;
 
+import java.util.List;
+import game.cards.ResourceCard;
+
 public class DiscardCardsParam {
 	
 	private int playerIndex;
-	private List<Card> cards;
+	private List<ResourceCard> cards;
 	
 	public DiscardCardsParam(){}
 
@@ -15,11 +18,11 @@ public class DiscardCardsParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public List<Card> getCards() {
+	public List<ResourceCard> getCards() {
 		return cards;
 	}
 
-	public void setCards(List<Card> cards) {
+	public void setCards(List<ResourceCard> cards) {
 		this.cards = cards;
 	}
 }
