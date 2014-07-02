@@ -1,6 +1,7 @@
 package game.board;
 
 import game.pieces.BoardPiece;
+import game.pieces.robber;
 
 /**
  *
@@ -9,6 +10,7 @@ import game.pieces.BoardPiece;
 public class BoardModel {
     private hexTile[][] tiles;
     private BoardPiece[][] pieces;
+    private robber rob;
 
     public BoardModel() {
         

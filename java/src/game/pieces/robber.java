@@ -3,7 +3,7 @@ package game.pieces;
 import game.board.boardCoord;
 import shared.definitions.PieceType;
 
-public class robber extends BoardPiece {
+public class robber {
 	
 	private boardCoord location;
 	

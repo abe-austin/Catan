@@ -4,7 +4,7 @@ import player.Player;
 import shared.definitions.Cost;
 import shared.definitions.PieceType;
 
-public class settlement extends BoardPiece {
+public class settlement implements BoardPiece {
 	private boolean isActivated;
 	private Player owner;
 	private Cost c;
@@ -23,8 +23,8 @@ public class settlement extends BoardPiece {
 	/**
 	 * Sets the piece as active on the board
 	 */
-	public void setActive() {
-		isActivated = true;
+	public void setActive(boolean set) {
+		isActivated = set;
 	}
 	
 	/**

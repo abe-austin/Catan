@@ -4,7 +4,7 @@ import player.Player;
 import shared.definitions.Cost;
 import shared.definitions.PieceType;
 
-public class road extends BoardPiece {
+public class road implements BoardPiece {
 	
 	private boolean isActivated;
 	private Player owner;
@@ -24,8 +24,8 @@ public class road extends BoardPiece {
 	/**
 	 * Sets the piece as active on the board
 	 */
-	public void setActive() {
-		isActivated = true;
+	public void setActive(boolean set) {
+		isActivated = set;
 	}
 	
 	/**
