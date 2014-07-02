@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import game.board.edge;
 import game.board.corner;
-import game.board.boardCoord;
+import shared.locations.HexLocation;
 
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
@@ -39,7 +39,7 @@ public class ServerProxyFacade {
 	public Card buyDevCard(int playerInex){ return null; }
 	public Card[] playYearOfPlenty(int playerIndex, ResourceType resourceOne, ResourceType resourceTwo){ return null; }
 	public boolean playRoadBuilder(int playerIndex, edge edgeOne, edge edgeTwo){ return false; }
-	public Card playSoldier(int playerIndex, int victimIndex, boardCoord newRobberLocation){ return null; }
+	public Card playSoldier(int playerIndex, int victimIndex, HexLocation newRobberLocation){ return null; }
 	public List<Card> playMonopoly(int playerIndex, ResourceType resource){ return null; }
 	public boolean playMonument(int playerIndex){ return false; }
 	

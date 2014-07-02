@@ -3,11 +3,12 @@ package game.board;
 import game.pieces.*;
 import shared.definitions.HexType;
 import player.Player;
+import shared.locations.HexLocation;
 
 public abstract class hexTile {
 	
 	protected HexType myType;
-	protected boardCoord location;
+	protected HexLocation location;
 	
 	boolean canBuild(edge e, Player p) {
 		return false;

@@ -1,16 +1,16 @@
 package game.pieces;
 
-import game.board.boardCoord;
+import shared.locations.HexLocation;
 import shared.definitions.PieceType;
 
 public class robber {
 	
-	private boardCoord location;
+	private HexLocation location;
 	
 	/**
 	 * @param loc the initial location of the robber (where the desert is)
 	 */
-	public robber(boardCoord loc) {
+	public robber(HexLocation loc) {
 		location = loc;
 	}
 
@@ -21,14 +21,14 @@ public class robber {
 	/**
 	 * @param loc new location for the robber (which tile the player has moved it to) 
 	 */
-	public void updateLocation(boardCoord loc) {
+	public void updateLocation(HexLocation loc) {
 		location = loc;
 	}
 	
 	/**
 	 * @return the robber's current location
 	 */
-	public boardCoord getLocation() {
+	public HexLocation getLocation() {
 		return location;
 	}
 }
