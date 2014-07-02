@@ -2,6 +2,7 @@ package game.pieces;
 
 import player.player;
 import shared.definitions.Cost;
+import shared.definitions.PieceType;
 
 public class city {
 	private boolean isActivated;
@@ -13,6 +14,10 @@ public class city {
 		owner = own;
 		c = Cost.CITY;
 	}
+
+        public PieceType getPieceType() {
+            return PieceType.CITY;
+        }
 	
 	/**
 	 * Sets the piece as active on the board

@@ -1,6 +1,7 @@
 package game.bank;
 
 import game.cards.*;
+import java.util.HashSet;
 import java.util.Set;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
@@ -16,13 +17,17 @@ public class Bank {
     /**
      * default constructor
      */
-    public Bank(){}
+    public Bank() {
+        resourceCards = new HashSet<ResourceCard>();
+        developmentCards = new HashSet<DevelopmentCard>();
+        specialCards = new HashSet<SpecialCard>();
+    }
     /**
      * adds a resource to the bank's resource cards
      * @param resourceCard the card to be add to the bank
      */
     public void addResourceCard(ResourceCard resourceCard){
-        
+        resourceCards.add(resourceCard);
     }
     /**
      * removes a resource card from the bank and gives it to someone else
@@ -32,6 +37,11 @@ public class Bank {
      * @return a ResourceCard of the specified type
      */
     public ResourceCard giveResourceCard(ResourceType resourceType){
+        for(ResourceCard card : resourceCards) {
+            if(card.getResource().equals(resourceType))
+                return card;
+        }
+        
         return null;
     }
     /**
@@ -39,7 +49,7 @@ public class Bank {
      * @param devCard the development card to be added to the bank
      */
     public void addDevelopmentCard(DevelopmentCard devCard){
-        
+        developmentCards.add(devCard);
     }
     /**
      * removes a specific development card from the bank and gives it to someone else
@@ -49,6 +59,11 @@ public class Bank {
      * @return a Development card of the given type
      */
     public DevelopmentCard giveDevelopmentCard(DevCardType devCardType){
+        for(DevelopmentCard card : developmentCards) {
+            if(card.getDevelopment().equals(devCardType))
+                return card;
+        }
+
         return null;
     }
     /**
@@ -56,7 +71,7 @@ public class Bank {
      * @param specialCard the special card to be added to the bank
      */
     public void addSpecialCard(SpecialCard specialCard){
-        
+        specialCards.add(specialCard);
     }
     /**
      * removes a specified special card from the bank and gives it to someone else
@@ -67,6 +82,11 @@ public class Bank {
      * @return the specified SpecialCard
      */
     public SpecialCard giveSpecialCard(SpecialCardType specialCardType){
+        for(SpecialCard card : specialCards) {
+            if(card.getSpecial().equals(specialCardType))
+                return card;
+        }
+        
         return null;
     }
     /**
@@ -75,6 +95,11 @@ public class Bank {
      * @return true if the bank has at least one, false otherwise
      */
     public boolean hasResource(ResourceType resourceType){
+        for(ResourceCard card : resourceCards) {
+            if(card.getResource().equals(resourceType))
+                return true;
+        }
+
         return false;
     }
     /**
@@ -83,6 +108,11 @@ public class Bank {
      * @return true if the bank has at least one, false otherwise
      */
     public boolean hasDevelopmentCard(DevCardType devCardType){
+        for(DevelopmentCard card : developmentCards) {
+            if(card.getDevelopment().equals(devCardType))
+                return true;
+        }
+
         return false;
     }
     /**
@@ -91,6 +121,11 @@ public class Bank {
      *         false otherwise
      */
     public boolean hasLongestRoad(){
+        for(SpecialCard card : specialCards) {
+            if(card.getSpecial().equals(SpecialCardType.LONGEST_ROAD))
+                return true;
+        }
+
         return false;
     }
     /**
@@ -99,6 +134,11 @@ public class Bank {
      *         false otherwise
      */
     public boolean hasLargestArmy(){
+        for(SpecialCard card : specialCards) {
+            if(card.getSpecial().equals(SpecialCardType.LARGEST_ARMY))
+                return true;
+        }
+
         return false;
     }
 }

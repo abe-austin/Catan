@@ -1,5 +1,6 @@
 package game.cards;
 
+import shared.definitions.CardType;
 import shared.definitions.ResourceType;
 
 /**

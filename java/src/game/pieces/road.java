@@ -2,6 +2,7 @@ package game.pieces;
 
 import player.player;
 import shared.definitions.Cost;
+import shared.definitions.PieceType;
 
 public class road {
 	
@@ -14,6 +15,10 @@ public class road {
 		owner = own;
 		c = Cost.ROAD;
 	}
+
+        public PieceType getPieceType() {
+            return PieceType.ROAD;
+        }
 	
 	/**
 	 * Sets the piece as active on the board
