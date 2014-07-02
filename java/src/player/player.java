@@ -18,9 +18,6 @@ import shared.definitions.SpecialCardType;
 public class Player extends CardOwner {
 	private CatanColor color;
         private Set<BoardPiece> boardPieces;
-        private Set<ResourceCard> resourceCards;
-        private Set<DevelopmentCard> developmentCards;
-        private Set<SpecialCard> specialCards;
         private Points points;
         private int soldiersPlayed;
 
