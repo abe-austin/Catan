@@ -1,5 +1,7 @@
 package client.serverProxy;
 
+import game.GameModel;
+import game.cards.Card;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +33,7 @@ public class ServerProxyFacade {
 	public boolean offerTrade(int playerIndex, List<Card> offer, int recieveIndex){ return false; }
 	public boolean maritimetrade(int playerIndex, int ratio, ResourceType input, ResourceType output){ return false; }
 	public boolean finishTurn(){ return false; }
-	public Card buyDevCard(int playerInex){ return false; }
+	public Card buyDevCard(int playerInex){ return null; }
 	public Card[] playYearOfPlenty(int playerIndex, ResourceType resourceOne, ResourceType resourceTwo){ return null; }
 	public boolean playRoadBuilder(int playerIndex, Edge edgeOne, Edge edgeTwo){ return false; }
 	public Card playSoldier(int playerIndex, int victimIndex, HexTile newRobberLocation){ return null; }

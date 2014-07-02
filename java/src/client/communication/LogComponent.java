@@ -1,6 +1,5 @@
 package client.communication;
 
-import java.util.List;
 import java.util.*;
 import java.awt.*;
 import java.awt.font.*;
@@ -9,6 +8,7 @@ import javax.swing.*;
 
 import shared.definitions.*;
 import client.utils.*;
+import java.util.List;
 
 
 /**
@@ -114,8 +114,8 @@ public class LogComponent extends JComponent {
 		
 		List<String> result = new ArrayList<String>();
 		
-		try (Scanner scanner = new Scanner(text)) {
-			
+		try {
+                        Scanner scanner = new Scanner(text);
 			scanner.useDelimiter("\\s+");
 			
 			String line = "";
@@ -146,7 +146,7 @@ public class LogComponent extends JComponent {
 			if (line.length() > 0) {
 				result.add(line.toString());
 			}
-		}
+		} catch (Exception e) {}
 		
 		return result;
 	}

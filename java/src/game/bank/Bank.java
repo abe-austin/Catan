@@ -31,7 +31,7 @@ public class Bank {
      * @param resourceType the type of resource to be given
      * @return a ResourceCard of the specified type
      */
-    public ResourceCard giveResourceCard(ResourceCardType resourceType){
+    public ResourceCard giveResourceCard(ResourceType resourceType){
         return null;
     }
     /**

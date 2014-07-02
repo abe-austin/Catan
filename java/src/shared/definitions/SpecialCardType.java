@@ -12,5 +12,5 @@ package shared.definitions;
  */
 public enum SpecialCardType {
     
-    LARGEST_ARMY,LONGEST_ROAD
+    LARGEST_ARMY,LONGEST_ROAD;
 }
