@@ -4,15 +4,12 @@ import player.Player;
 import shared.definitions.Cost;
 import shared.definitions.PieceType;
 
-public class settlement implements BoardPiece {
-	private boolean isActivated;
-	private Player owner;
-	private Cost c;
+public class settlement extends BoardPiece {
+	private Cost cost;
 	
-	public settlement(Player own) {
-		isActivated = false;
-		owner = own;
-		c = Cost.SETTLEMENT;
+	public settlement(Player owner) {
+            super(owner);
+            cost = Cost.SETTLEMENT;
 	}
 
         @Override
@@ -21,30 +18,9 @@ public class settlement implements BoardPiece {
         }
 	
 	/**
-	 * Sets the piece as active on the board
-	 */
-	public void setActive(boolean set) {
-		isActivated = set;
-	}
-	
-	/**
-	 * @return Whether the piece is active on the board or not
-	 */
-	public boolean isActive() {
-		return isActivated;
-	}
-	
-	/**
-	 * @return Who the controlling Player is
-	 */
-	public Player getOwner() {
-		return owner;
-	}
-	
-	/**
 	 * @return What the associated cost is
 	 */
 	public Cost getCost() {
-		return c;
+		return cost;
 	}
 }

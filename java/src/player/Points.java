@@ -23,7 +23,7 @@ public class Points {
             return points;
         }
 
-        public boolean checkWin() {
+        public boolean isVictory() {
             return points >= 10;
         }
 }

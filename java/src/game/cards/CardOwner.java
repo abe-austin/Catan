@@ -11,9 +11,9 @@ import shared.definitions.SpecialCardType;
  * @author Kevin MacMaster
  */
 public class CardOwner {
-        private Set<ResourceCard> resourceCards;
-        private Set<DevelopmentCard> developmentCards;
-        private Set<SpecialCard> specialCards;
+        protected Set<ResourceCard> resourceCards;
+        protected Set<DevelopmentCard> developmentCards;
+        protected Set<SpecialCard> specialCards;
 
         public CardOwner() {
             resourceCards = new HashSet<ResourceCard>();
