@@ -4,7 +4,7 @@ import player.player;
 import shared.definitions.Cost;
 import shared.definitions.PieceType;
 
-public class city {
+public class city extends BoardPiece {
 	private boolean isActivated;
 	private player owner;
 	private Cost c;
@@ -15,6 +15,7 @@ public class city {
 		c = Cost.CITY;
 	}
 
+        @Override
         public PieceType getPieceType() {
             return PieceType.CITY;
         }

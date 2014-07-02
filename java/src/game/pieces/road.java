@@ -4,7 +4,7 @@ import player.player;
 import shared.definitions.Cost;
 import shared.definitions.PieceType;
 
-public class road {
+public class road extends BoardPiece {
 	
 	private boolean isActivated;
 	private player owner;
@@ -16,6 +16,7 @@ public class road {
 		c = Cost.ROAD;
 	}
 
+        @Override
         public PieceType getPieceType() {
             return PieceType.ROAD;
         }

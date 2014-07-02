@@ -4,7 +4,7 @@ import player.player;
 import shared.definitions.Cost;
 import shared.definitions.PieceType;
 
-public class settlement {
+public class settlement extends BoardPiece {
 	private boolean isActivated;
 	private player owner;
 	private Cost c;
@@ -15,6 +15,7 @@ public class settlement {
 		c = Cost.SETTLEMENT;
 	}
 
+        @Override
         public PieceType getPieceType() {
             return PieceType.SETTLEMENT;
         }
