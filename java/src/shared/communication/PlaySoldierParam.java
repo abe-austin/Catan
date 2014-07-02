@@ -1,12 +1,12 @@
 package shared.communication;
 
-import game.board.boardCoord;
+import shared.locations.HexLocation;
 
 public class PlaySoldierParam {
 
 	private int playerIndex;
 	private int victimIndex;
-	private boardCoord newRobberLocation;
+	private HexLocation newRobberLocation;
 	
 	public PlaySoldierParam(){}
 
@@ -26,11 +26,11 @@ public class PlaySoldierParam {
 		this.victimIndex = victimIndex;
 	}
 
-	public boardCoord getNewRobberLocation() {
+	public HexLocation getNewRobberLocation() {
 		return newRobberLocation;
 	}
 
-	public void setNewRobberLocation(boardCoord newRobberLocation) {
+	public void setNewRobberLocation(HexLocation newRobberLocation) {
 		this.newRobberLocation = newRobberLocation;
 	}
 	

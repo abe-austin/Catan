@@ -2,15 +2,15 @@ package shared.communication;
 
 public class AddAIParam {
 	
-	private AI ai;
+	private String ai;
 	
 	public AddAIParam(){}
 
-	public AI getAi() {
+	public String getAi() {
 		return ai;
 	}
 
-	public void setAi(AI ai) {
+	public void setAi(String ai) {
 		this.ai = ai;
 	}
 

@@ -11,6 +11,16 @@ import shared.locations.HexLocation;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 
+/**
+ * A proxy between the client controller and the server
+ * Takes information from the communicator and formats it the passes
+ * that information to the server to be processed
+ * Receives responses from the server and reformats it then sends the 
+ * reformatted information to the client controller
+ * 
+ * @author brentroberts
+ *
+ */
 public class ServerProxyFacade {
 	private Server server;
 	private boolean mockServer;
@@ -27,7 +37,7 @@ public class ServerProxyFacade {
      * @param username 	the string of the username
      * @param password 	the string of the password
      * @return			<code>true</code> if login was successful, 
-     * 					<code>false</code> if it was not successful
+     *                  <code>false</code> if it was not successful
      */
 	public boolean loginUser(String username, String password){ return false; }
 

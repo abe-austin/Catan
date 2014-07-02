@@ -1,5 +1,7 @@
 package shared.communication;
 
+import shared.definitions.LogLevel;
+
 public class ChangeLogLevelParam {
 	
 	private LogLevel logLevel;
