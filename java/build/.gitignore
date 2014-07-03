@@ -4,3 +4,5 @@ player/*
 shared/*
 /client
 /game
+/player
+/shared
