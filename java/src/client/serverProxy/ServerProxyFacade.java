@@ -9,6 +9,8 @@ import game.board.corner;
 import shared.locations.HexLocation;
 
 import shared.definitions.CatanColor;
+import shared.definitions.Command;
+import shared.definitions.LogLevel;
 import shared.definitions.ResourceType;
 
 /**

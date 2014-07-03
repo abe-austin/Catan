@@ -10,6 +10,10 @@ import shared.definitions.DevCardType;
 public class DevelopmentCard extends Card {
     private DevCardType development;
 
+    public DevelopmentCard(DevCardType development) {
+        this.development = development;
+    }
+
     @Override
     public CardType getCardType() {
         return CardType.DEVELOPMENT;
@@ -20,12 +24,5 @@ public class DevelopmentCard extends Card {
      */
     public DevCardType getDevelopment() {
         return development;
-    }
-
-    /**
-     * @param development the development to set
-     */
-    public void setDevelopment(DevCardType development) {
-        this.development = development;
     }
 }

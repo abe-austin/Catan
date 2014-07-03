@@ -1,6 +1,7 @@
 package shared.communication;
 
 import java.util.List;
+import shared.definitions.Command;
 
 public class DoGameCommandsParam {
 	

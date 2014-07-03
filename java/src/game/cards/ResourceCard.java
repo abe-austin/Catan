@@ -10,6 +10,10 @@ import shared.definitions.ResourceType;
 public class ResourceCard extends Card {
     private ResourceType resource;
 
+    public ResourceCard(ResourceType type) {
+        this.resource = type;
+    }
+
 
     public CardType getCardType() {
         return CardType.RESOURCE;
@@ -20,12 +24,5 @@ public class ResourceCard extends Card {
      */
     public ResourceType getResource() {
         return resource;
-    }
-
-    /**
-     * @param resource the resource to set
-     */
-    public void setResource(ResourceType resource) {
-        this.resource = resource;
     }
 }

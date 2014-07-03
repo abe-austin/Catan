@@ -1,15 +1,16 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import cs340.model.commands.Command;
+import shared.definitions.Command;
 
 public class GameHistory{
 	
 	private List<Command> gameCommands;
 	
 	public GameHistory(){
-		gameCommands = new List<Command>();
+		gameCommands = new ArrayList<Command>();
 	}
 	
 	/**
