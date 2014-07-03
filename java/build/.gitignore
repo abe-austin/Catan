@@ -2,3 +2,5 @@ client/*
 game/*
 player/*
 shared/*
+/client
+/game

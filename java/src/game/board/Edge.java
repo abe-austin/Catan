@@ -11,6 +11,12 @@ public class Edge {
 	private List<HexTile> tilesBelongedTo;
 	BoardPiece builtStructure;
 	
+	/**
+	 * @param loc where on the map the edge is located, comprised of the hex coordinates, and which edge on that hex this comprises
+	 * @param tilesBelongedTo, the list of tile(s) that share this particular edge
+	 * @pre initialization of this assumes that the world's hexes have been created by the game already, so that they can be included 
+	 * in the list for this object's initialization.
+	 */
 	public Edge(EdgeLocation loc, List<HexTile> tilesBelongedTo) {
 		this.location = loc;
 		this.tilesBelongedTo = tilesBelongedTo;
