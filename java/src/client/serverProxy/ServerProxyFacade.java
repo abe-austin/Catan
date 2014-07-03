@@ -20,7 +20,7 @@ import shared.definitions.ResourceType;
  * Receives responses from the server and reformats it then sends the 
  * reformatted information to the client controller
  * 
- * @author brentroberts
+ * @author Brent
  *
  */
 public class ServerProxyFacade {

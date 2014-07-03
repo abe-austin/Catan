@@ -5,7 +5,7 @@ import javax.xml.ws.Response;
 /**
  * Connects to the server through HTTP and rends requests/receive response
  * 
- * @author brentroberts
+ * @author Brent
  * 
  */
 public interface Server {	

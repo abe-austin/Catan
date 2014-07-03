@@ -41,7 +41,16 @@ public abstract class BoardPiece {
         active = set;
     }
 
+    /**
+     * 
+     * @return the type of board piece
+     */
     abstract public PieceType getPieceType();
+
+    /**
+     *
+     * @return the cost to place board piece
+     */
     abstract public Cost getCost();
     
 }
