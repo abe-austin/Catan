@@ -25,21 +25,21 @@ public class MockServer implements Server{
 	
 	private Response registerUser(String json){ return null; }
 	
-	private Response getAllGames(String json){ return null; }
+	private Response getAllGames(){ return null; }
 	
 	private Response createGame(String json){ return null; }
 
 	private Response joinGame(String json){ return null; }
 
-	private Response getGameModel(String json){ return null; }
+	private Response getGameModel(){ return null; }
 
-	private Response resetGame(String json){ return null; }
+	private Response resetGame(){ return null; }
 
-	private Response getGameCommands(String json){ return null; }
+	private Response getGameCommands(){ return null; }
 
 	private Response doGameCommands(String json){ return null; }
 
-	private Response getAIList(String json){ return null; }
+	private Response getAIList(){ return null; }
 
 	private Response addAI(String json){ return null; }
 	
@@ -63,7 +63,7 @@ public class MockServer implements Server{
 
 	private Response maritimeTrade(String json){ return null; }
 
-	private Response finishTurn(String json){ return null; }
+	private Response finishTurn(){ return null; }
 
 	private Response buyDevCard(String json){ return null; }
 	

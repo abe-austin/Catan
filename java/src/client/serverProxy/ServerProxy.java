@@ -3,7 +3,7 @@ package client.serverProxy;
 import javax.xml.ws.Response;
 
 /**
- * Communicates with the server through HTTP
+ * Communicates with the server through http
  * 
  * @author Brent
  *
