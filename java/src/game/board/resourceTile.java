@@ -14,7 +14,7 @@ public class ResourceTile extends HexTile {
         /**
          * @return the type
          */
-        public ResourceType getType() {
+        public ResourceType getResourceType() {
             return type;
         }
 

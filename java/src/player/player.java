@@ -57,6 +57,10 @@ public class Player extends CardOwner {
             return null;
         }
 
+        /**
+         * In addition to Card Owner functionality
+         *   this keeps track of soldier cards played
+         */
         @Override
         public DevelopmentCard giveDevelopmentCard(DevCardType devCardType) {
             DevelopmentCard card = super.giveDevelopmentCard(devCardType);
@@ -67,6 +71,11 @@ public class Player extends CardOwner {
             return null;
         }
 
+        /**
+         * In addition to Card Owner functionality
+         *   this keeps track of points that come from
+         *   special cards
+         */
         @Override
         public SpecialCard giveSpecialCard(SpecialCardType specialCardType){
             SpecialCard card = super.giveSpecialCard(specialCardType);
@@ -79,6 +88,11 @@ public class Player extends CardOwner {
             return card;
         }
 
+        /**
+         * In addition to Card Owner functionality
+         *   this keeps track of points that come from
+         *   special cards
+         */
         @Override
         public void addSpecialCard(SpecialCard specialCard){
             super.addSpecialCard(specialCard);
@@ -115,7 +129,7 @@ public class Player extends CardOwner {
         }
 
         /**
-         * @return the number of cards in hand
+         * @return the number of cards in hand (resources)
          */
         public int getHandSize() {
             return resourceCards.size();
