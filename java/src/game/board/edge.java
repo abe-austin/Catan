@@ -5,13 +5,13 @@ import java.util.List;
 import shared.locations.EdgeLocation;
 import game.pieces.BoardPiece;
 
-public class edge {
+public class Edge {
 	
 	private EdgeLocation loc;
-	private List<hexTile> tilesBelongedTo;
+	private List<HexTile> tilesBelongedTo;
 	BoardPiece builtStructure;
 	
-	public edge(EdgeLocation loc, List<hexTile> tilesBelongedTo) {
+	public Edge(EdgeLocation loc, List<HexTile> tilesBelongedTo) {
 		this.loc = loc;
 		this.tilesBelongedTo = tilesBelongedTo;
 		builtStructure = null;		
@@ -26,16 +26,16 @@ public class edge {
 	}
 	
 	/**
-	 * @param road the game piece that is being placed on this edge
+	 * @param road the game piece that is being placed on this Edge
 	 */
 	public void buildStructure(BoardPiece road){
 		builtStructure = road;
 	}
 	
 	/**
-	 * @return the tiles that share this edge
+	 * @return the tiles that share this Edge
 	 */
-	public List<hexTile> getConnectedHexes(){
+	public List<HexTile> getConnectedHexes(){
 		return tilesBelongedTo;
 	}
 	

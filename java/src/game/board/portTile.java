@@ -3,9 +3,9 @@ package game.board;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 
-public class portTile extends hexTile {
+public class PortTile extends HexTile {
 	
-	public portTile() {
+	public PortTile() {
 		myType = HexType.PORT;
 	}
 	//Set portType somewhere

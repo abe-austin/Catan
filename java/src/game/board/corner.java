@@ -5,13 +5,13 @@ import java.util.List;
 import shared.locations.VertexLocation;
 import game.pieces.BoardPiece;
 
-public class corner {
+public class Corner {
 	
 	private VertexLocation loc;
-	private List<hexTile> tilesBelongedTo;
+	private List<HexTile> tilesBelongedTo;
 	BoardPiece builtStructure;
 	
-	public corner(VertexLocation loc, List<hexTile> tilesBelongedTo) {
+	public Corner(VertexLocation loc, List<HexTile> tilesBelongedTo) {
 		this.loc = loc;
 		this.tilesBelongedTo = tilesBelongedTo;
 		builtStructure = null;		
@@ -43,7 +43,7 @@ public class corner {
 	/**
 	 * @return the tiles that share this edge
 	 */
-	public List<hexTile> getConnectedHexes(){
+	public List<HexTile> getConnectedHexes(){
 		return tilesBelongedTo;
 	}
 	

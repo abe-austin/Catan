@@ -1,11 +1,11 @@
 package shared.communication;
 
-import game.board.corner;
+import game.board.Corner;
 
 public class BuildSettlementParam {
 
 	private int playerIndex;
-	private corner c;
+	private Corner c;
 	private boolean free;
 	
 	public BuildSettlementParam(){}
@@ -18,11 +18,11 @@ public class BuildSettlementParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public corner getCorner() {
+	public Corner getCorner() {
 		return c;
 	}
 
-	public void setCorner(corner c) {
+	public void setCorner(Corner c) {
 		this.c = c;
 	}
 

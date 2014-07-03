@@ -4,10 +4,10 @@ import player.Player;
 import shared.definitions.Cost;
 import shared.definitions.PieceType;
 
-public class settlement extends BoardPiece {
+public class Settlement extends BoardPiece {
 	private Cost cost;
 	
-	public settlement(Player owner) {
+	public Settlement(Player owner) {
             super(owner);
             cost = Cost.SETTLEMENT;
 	}

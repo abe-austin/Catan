@@ -2,9 +2,9 @@ package game.board;
 
 import shared.definitions.HexType;
 
-public class oceanTile extends hexTile {
+public class OceanTile extends HexTile {
 	
-	public oceanTile() {
+	public OceanTile() {
 		myType = HexType.WATER;
 	}
 }

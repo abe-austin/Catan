@@ -4,8 +4,8 @@ import game.GameModel;
 import game.cards.Card;
 import java.util.List;
 import java.util.Set;
-import game.board.edge;
-import game.board.corner;
+import game.board.Edge;
+import game.board.Corner;
 import shared.locations.HexLocation;
 
 import shared.definitions.CatanColor;
@@ -212,11 +212,11 @@ public class ServerProxyFacade {
      * @post 				players spends necessary resources
      * @post 				map lists the new road
      * @param playerIndex 	the integer of the players index
-     * @param e				the <code>edge</code> to build the road on
+     * @param e				the <code>Edge</code> to build the road on
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful 
      */
-	public boolean buildRoad(int playerIndex, edge e){ return false; }
+	public boolean buildRoad(int playerIndex, Edge e){ return false; }
 	
     /**
      * player builds a settlement
@@ -230,12 +230,12 @@ public class ServerProxyFacade {
      * @post  				players spends necessary resources
      * @post		  		map lists the new settlement
      * @param playerIndex 	the integer of the players index
-     * @param c				<code>corner</code> the corner to build settlement on
-     * @param free			<code>boolean</code> whether the <code>corner</code> is free or not
+     * @param c				<code>Corner</code> the Corner to build settlement on
+     * @param free			<code>boolean</code> whether the <code>Corner</code> is free or not
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful 
      */
-	public boolean buildSettlement(int playerIndex, corner c, boolean free){ return false; }
+	public boolean buildSettlement(int playerIndex, Corner c, boolean free){ return false; }
 	
     /**
      * player builds a city
@@ -248,12 +248,12 @@ public class ServerProxyFacade {
      * @post				player gets settlement back
      * @post				map lists the new city
      * @param playerIndex 	the integer of the players index
-     * @param c				<code>corner</code> the corner to build city on
-     * @param free			<code>boolean</code> whether the <code>corner</code> is free or not     
+     * @param c				<code>Corner</code> the Corner to build city on
+     * @param free			<code>boolean</code> whether the <code>Corner</code> is free or not
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful 
      */
-	public boolean buildCity(int playerIndex, corner c, boolean free){ return false; }
+	public boolean buildCity(int playerIndex, Corner c, boolean free){ return false; }
 	
     /**
      * offer a trade to another player
@@ -339,12 +339,12 @@ public class ServerProxyFacade {
      * @post 				player uses two roads
      * @post		 		the map correctly lists the roads played
      * @param playerIndex	the integer of the players index
-     * @param edgeOne		the <code>edge</code> to place road on
-     * @param edgeTwo		the <code>edge</code> to place road on
+     * @param edgeOne		the <code>Edge</code> to place road on
+     * @param edgeTwo		the <code>Edge</code> to place road on
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful    
      */
-	public boolean playRoadBuilder(int playerIndex, edge edgeOne, edge edgeTwo){ return false; }
+	public boolean playRoadBuilder(int playerIndex, Edge edgeOne, Edge edgeTwo){ return false; }
 	
     /**
      * player plays a soldier card

@@ -3,14 +3,14 @@ package game.pieces;
 import shared.locations.HexLocation;
 import shared.definitions.PieceType;
 
-public class robber {
+public class Robber {
 	
 	private HexLocation location;
 	
 	/**
-	 * @param loc the initial location of the robber (where the desert is)
+	 * @param loc the initial location of the Robber (where the desert is)
 	 */
-	public robber(HexLocation loc) {
+	public Robber(HexLocation loc) {
 		location = loc;
 	}
 
@@ -19,14 +19,14 @@ public class robber {
         }
 	
 	/**
-	 * @param loc new location for the robber (which tile the player has moved it to) 
+	 * @param loc new location for the Robber (which tile the player has moved it to)
 	 */
 	public void updateLocation(HexLocation loc) {
 		location = loc;
 	}
 	
 	/**
-	 * @return the robber's current location
+	 * @return the Robber's current location
 	 */
 	public HexLocation getLocation() {
 		return location;

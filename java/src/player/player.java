@@ -5,9 +5,9 @@ import game.cards.DevelopmentCard;
 import game.cards.ResourceCard;
 import game.cards.SpecialCard;
 import game.pieces.BoardPiece;
-import game.pieces.city;
-import game.pieces.road;
-import game.pieces.settlement;
+import game.pieces.City;
+import game.pieces.Road;
+import game.pieces.Settlement;
 import java.util.HashSet;
 import java.util.Set;
 import shared.definitions.CatanColor;
@@ -32,13 +32,13 @@ public class Player extends CardOwner {
 
             // initalize board pieces
             for(int i = 0; i < 5; i++)
-                boardPieces.add(new settlement(this));
+                boardPieces.add(new Settlement(this));
 
             for(int i = 0; i < 4; i++)
-                boardPieces.add(new city(this));
+                boardPieces.add(new City(this));
 
             for(int i = 0; i < 15; i++)
-                boardPieces.add(new road(this));
+                boardPieces.add(new Road(this));
 
             // TO DO add more here
         }

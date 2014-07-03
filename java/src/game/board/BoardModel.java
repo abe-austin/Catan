@@ -1,20 +1,20 @@
 package game.board;
 
 import game.pieces.BoardPiece;
-import game.pieces.robber;
+import game.pieces.Robber;
 
 /**
  *
  * @author Kevin MacMaster
  */
 public class BoardModel {
-    private hexTile[][] tiles;
+    private HexTile[][] tiles;
     private BoardPiece[][] pieces;
-    private robber rob;
+    private Robber rob;
 
     public BoardModel() {
         pieces = new BoardPiece[10][10];
-        tiles = new hexTile[10][10];
+        tiles = new HexTile[10][10];
 
         // Create Hex Tiles here
     }
@@ -35,7 +35,7 @@ public class BoardModel {
      * @param y position on board
      * @return HexTile at given position
      */
-    public hexTile getHexTileAt(int x, int y) {
+    public HexTile getHexTileAt(int x, int y) {
         return tiles[x][y];
     }
 
@@ -43,7 +43,7 @@ public class BoardModel {
      * 
      * @return Robber
      */
-    public robber getRobber() {
+    public Robber getRobber() {
         return rob;
     }
 }

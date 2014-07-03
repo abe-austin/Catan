@@ -16,6 +16,7 @@ public class Bank extends CardOwner {
         addSpecialCard(new SpecialCard(SpecialCardType.LARGEST_ARMY));
         addSpecialCard(new SpecialCard(SpecialCardType.LONGEST_ROAD));
 
+        // Adding Resource Cards to Bank
         for(int i = 0; i < 19; i++) {
             addResourceCard(new ResourceCard(ResourceType.BRICK));
             addResourceCard(new ResourceCard(ResourceType.ORE));
@@ -24,6 +25,7 @@ public class Bank extends CardOwner {
             addResourceCard(new ResourceCard(ResourceType.WHEAT));
         }
 
+        // Adding Development Cards to Bank
         for(int i = 0; i < 14; i++) {
             if(i < 2) {
                 addDevelopmentCard(new DevelopmentCard(DevCardType.MONOPOLY));

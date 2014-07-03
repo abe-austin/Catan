@@ -2,9 +2,9 @@ package game.board;
 
 import shared.definitions.HexType;
 
-public class desertTile extends hexTile {
+public class DesertTile extends HexTile {
 	
-	public desertTile(){
+	public DesertTile(){
 		myType = HexType.DESERT; 
 	}
 }

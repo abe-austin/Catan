@@ -1,11 +1,11 @@
 package shared.communication;
 
-import game.board.edge;
+import game.board.Edge;
 
 public class BuildRoadParam {
 
 	private int playerIndex;
-	private edge e;
+	private Edge e;
 	
 	public BuildRoadParam(){}
 
@@ -17,11 +17,11 @@ public class BuildRoadParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public edge getEdge() {
+	public Edge getEdge() {
 		return e;
 	}
 
-	public void setEdge(edge e) {
+	public void setEdge(Edge e) {
 		this.e = e;
 	}
 	

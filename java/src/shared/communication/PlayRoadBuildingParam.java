@@ -1,12 +1,12 @@
 package shared.communication;
 
-import game.board.edge;
+import game.board.Edge;
 
 public class PlayRoadBuildingParam {
 
 	private int playerIndex;
-	private edge edgeOne;
-	private edge edgeTwo;
+	private Edge edgeOne;
+	private Edge edgeTwo;
 	
 	public PlayRoadBuildingParam(){}
 
@@ -18,19 +18,19 @@ public class PlayRoadBuildingParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public edge getEdgeOne() {
+	public Edge getEdgeOne() {
 		return edgeOne;
 	}
 
-	public void setEdgeOne(edge edgeOne) {
+	public void setEdgeOne(Edge edgeOne) {
 		this.edgeOne = edgeOne;
 	}
 
-	public edge getEdgeTwo() {
+	public Edge getEdgeTwo() {
 		return edgeTwo;
 	}
 
-	public void setEdgeTwo(edge edgeTwo) {
+	public void setEdgeTwo(Edge edgeTwo) {
 		this.edgeTwo = edgeTwo;
 	}
 	
