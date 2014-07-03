@@ -7,12 +7,12 @@ import game.pieces.BoardPiece;
 
 public class Edge {
 	
-	private EdgeLocation loc;
+	private EdgeLocation location;
 	private List<HexTile> tilesBelongedTo;
 	BoardPiece builtStructure;
 	
 	public Edge(EdgeLocation loc, List<HexTile> tilesBelongedTo) {
-		this.loc = loc;
+		this.location = loc;
 		this.tilesBelongedTo = tilesBelongedTo;
 		builtStructure = null;		
 	}

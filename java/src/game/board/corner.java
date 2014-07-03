@@ -7,12 +7,12 @@ import game.pieces.BoardPiece;
 
 public class Corner {
 	
-	private VertexLocation loc;
+	private VertexLocation location;
 	private List<HexTile> tilesBelongedTo;
 	BoardPiece builtStructure;
 	
 	public Corner(VertexLocation loc, List<HexTile> tilesBelongedTo) {
-		this.loc = loc;
+		this.location = loc;
 		this.tilesBelongedTo = tilesBelongedTo;
 		builtStructure = null;		
 	}
@@ -20,30 +20,36 @@ public class Corner {
 	/**
 	 * @return whether there has been an object built here already
 	 */
-	public boolean hasStructure()
-	{
+	public boolean hasStructure() {
 		return(builtStructure != null);
 	}
 	
 	/**
-	 * @return what structure is already built here (for determining whether there is a settlement that a city can be built on)
+	 * @return what structure is already built here (for determining
+         * whether there is a settlement that a city can be built on)
 	 */
 	public BoardPiece getStructure() {
 		return builtStructure;
 	}
 	
 	/**
+         * @pre if there is a structure there, it was a settlement
 	 * @param road the game piece that is being placed on this edge
+         * @post there is now a BoardPiece on this corner (city or settlement)
 	 */
-	public void buildStructure(BoardPiece building){
-		builtStructure = building;
-		//If building city will need to delete the settlement
+	public void buildStructure(BoardPiece building) {
+                if(builtStructure != null)
+                    builtStructure.setActive(false);
+
+                builtStructure = building;
+
+                builtStructure.setActive(true);
 	}
 	
 	/**
 	 * @return the tiles that share this edge
 	 */
-	public List<HexTile> getConnectedHexes(){
+	public List<HexTile> getConnectedHexes() {
 		return tilesBelongedTo;
 	}
 	
