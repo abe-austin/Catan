@@ -8,7 +8,12 @@ public class PlayRoadBuildingParam {
 	private Edge edgeOne;
 	private Edge edgeTwo;
 	
-	public PlayRoadBuildingParam(){}
+	public PlayRoadBuildingParam(int playerIndex, Edge edgeOne, Edge edgeTwo) {
+		super();
+		this.playerIndex = playerIndex;
+		this.edgeOne = edgeOne;
+		this.edgeTwo = edgeTwo;
+	}
 
 	public int getPlayerIndex() {
 		return playerIndex;

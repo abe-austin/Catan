@@ -3,11 +3,15 @@ package shared.communication;
 import shared.definitions.CatanColor;
 
 public class JoinGameParam {
-
+	
 	private int gameID;
 	private CatanColor color;
 	
-	public JoinGameParam(){}
+	public JoinGameParam(int gameID, CatanColor color) {
+		super();
+		this.gameID = gameID;
+		this.color = color;
+	}
 	
 	public int getGameID() {
 		return gameID;

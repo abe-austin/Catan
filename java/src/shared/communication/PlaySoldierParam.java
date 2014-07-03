@@ -8,7 +8,13 @@ public class PlaySoldierParam {
 	private int victimIndex;
 	private HexLocation newRobberLocation;
 	
-	public PlaySoldierParam(){}
+	public PlaySoldierParam(int playerIndex, int victimIndex,
+			HexLocation newRobberLocation) {
+		super();
+		this.playerIndex = playerIndex;
+		this.victimIndex = victimIndex;
+		this.newRobberLocation = newRobberLocation;
+	}
 
 	public int getPlayerIndex() {
 		return playerIndex;

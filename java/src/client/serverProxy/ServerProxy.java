@@ -1,7 +1,5 @@
 package client.serverProxy;
 
-import javax.xml.ws.Response;
-
 /**
  * Communicates with the server through http
  * 
@@ -27,7 +25,7 @@ public class ServerProxy implements Server{
 	 * @return		the <code>Response</code> received from the server
 	 */
 	@Override
-	public Response doPost(String url, String json) {
+	public String doPost(String url, String json) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -40,7 +38,7 @@ public class ServerProxy implements Server{
 	 * @return		the <code>Response</code> received from the server
 	 */
 	@Override
-	public Response doGet(String url) {
+	public String doGet(String url) {
 		// TODO Auto-generated method stub
 		return null;
 	}

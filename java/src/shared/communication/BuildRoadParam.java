@@ -7,7 +7,11 @@ public class BuildRoadParam {
 	private int playerIndex;
 	private Edge e;
 	
-	public BuildRoadParam(){}
+	public BuildRoadParam(int playerIndex, Edge e) {
+		super();
+		this.playerIndex = playerIndex;
+		this.e = e;
+	}
 
 	public int getPlayerIndex() {
 		return playerIndex;

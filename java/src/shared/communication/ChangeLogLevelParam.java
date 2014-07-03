@@ -6,7 +6,10 @@ public class ChangeLogLevelParam {
 	
 	private LogLevel logLevel;
 	
-	public ChangeLogLevelParam(){}
+	public ChangeLogLevelParam(LogLevel logLevel) {
+		super();
+		this.logLevel = logLevel;
+	}
 
 	public LogLevel getLogLevel() {
 		return logLevel;

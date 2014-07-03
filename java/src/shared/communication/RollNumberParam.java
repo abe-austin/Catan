@@ -5,7 +5,11 @@ public class RollNumberParam {
 	private int playerIndex;
 	private int numberRolled;
 	
-	public RollNumberParam(){}
+	public RollNumberParam(int playerIndex, int numberRolled) {
+		super();
+		this.playerIndex = playerIndex;
+		this.numberRolled = numberRolled;
+	}
 
 	public int getPlayerIndex() {
 		return playerIndex;

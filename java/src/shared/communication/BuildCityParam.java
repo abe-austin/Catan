@@ -7,8 +7,13 @@ public class BuildCityParam {
 	private int playerIndex;
 	private Corner c;
 	private boolean free;
-	
-	public BuildCityParam(){}
+		
+	public BuildCityParam(int playerIndex, Corner c, boolean free) {
+		super();
+		this.playerIndex = playerIndex;
+		this.c = c;
+		this.free = free;
+	}
 	
 	public int getPlayerIndex() {
 		return playerIndex;

@@ -5,7 +5,11 @@ public class SendChatParam {
 	private int playerIndex;
 	private String message;
 	
-	public SendChatParam(){}
+	public SendChatParam(int playerIndex, String message) {
+		super();
+		this.playerIndex = playerIndex;
+		this.message = message;
+	}
 
 	public int getPlayerIndex() {
 		return playerIndex;

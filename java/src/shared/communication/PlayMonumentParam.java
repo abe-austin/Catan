@@ -4,7 +4,10 @@ public class PlayMonumentParam {
 
 	private int playerIndex;
 	
-	public PlayMonumentParam(){}
+	public PlayMonumentParam(int playerIndex) {
+		super();
+		this.playerIndex = playerIndex;
+	}
 
 	public int getPlayerIndex() {
 		return playerIndex;

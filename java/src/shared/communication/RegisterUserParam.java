@@ -4,8 +4,12 @@ public class RegisterUserParam {
 	
 	private String username;
 	private String password;
-	
-	public RegisterUserParam(){}
+		
+	public RegisterUserParam(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
 	
 	public String getUsername() {
 		return username;

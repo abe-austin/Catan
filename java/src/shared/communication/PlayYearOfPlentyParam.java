@@ -8,7 +8,13 @@ public class PlayYearOfPlentyParam {
 	private ResourceType resourceOne;
 	private ResourceType resourceTwo;
 	
-	public PlayYearOfPlentyParam(){}
+	public PlayYearOfPlentyParam(int playerIndex, ResourceType resourceOne,
+			ResourceType resourceTwo) {
+		super();
+		this.playerIndex = playerIndex;
+		this.resourceOne = resourceOne;
+		this.resourceTwo = resourceTwo;
+	}
 
 	public int getPlayerIndex() {
 		return playerIndex;

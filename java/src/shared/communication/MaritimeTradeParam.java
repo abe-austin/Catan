@@ -9,7 +9,14 @@ public class MaritimeTradeParam {
 	private ResourceType input;
 	private ResourceType output;
 	
-	public MaritimeTradeParam(){}
+	public MaritimeTradeParam(int playerIndex, int ratio, ResourceType input,
+			ResourceType output) {
+		super();
+		this.playerIndex = playerIndex;
+		this.ratio = ratio;
+		this.input = input;
+		this.output = output;
+	}
 
 	public int getPlayerIndex() {
 		return playerIndex;

@@ -4,7 +4,10 @@ public class AddAIParam {
 	
 	private String ai;
 	
-	public AddAIParam(){}
+	public AddAIParam(String ai) {
+		super();
+		this.ai = ai;
+	}
 
 	public String getAi() {
 		return ai;

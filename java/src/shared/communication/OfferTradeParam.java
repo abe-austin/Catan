@@ -9,7 +9,13 @@ public class OfferTradeParam {
 	private List<ResourceCard> offering;
 	private int recieverIndex;
 	
-	public OfferTradeParam(){}
+	public OfferTradeParam(int playerIndex, List<ResourceCard> offering,
+			int recieverIndex) {
+		super();
+		this.playerIndex = playerIndex;
+		this.offering = offering;
+		this.recieverIndex = recieverIndex;
+	}
 
 	public int getPlayerIndex() {
 		return playerIndex;

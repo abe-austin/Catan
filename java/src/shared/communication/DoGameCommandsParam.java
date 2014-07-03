@@ -6,8 +6,11 @@ import shared.definitions.Command;
 public class DoGameCommandsParam {
 	
 	private List<Command> commands;
-	
-	public DoGameCommandsParam(){}
+		
+	public DoGameCommandsParam(List<Command> commands) {
+		super();
+		this.commands = commands;
+	}
 
 	public List<Command> getCommands() {
 		return commands;

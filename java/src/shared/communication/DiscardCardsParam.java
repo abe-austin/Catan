@@ -8,7 +8,11 @@ public class DiscardCardsParam {
 	private int playerIndex;
 	private List<ResourceCard> cards;
 	
-	public DiscardCardsParam(){}
+	public DiscardCardsParam(int playerIndex, List<ResourceCard> cards) {
+		super();
+		this.playerIndex = playerIndex;
+		this.cards = cards;
+	}
 
 	public int getPlayerIndex() {
 		return playerIndex;

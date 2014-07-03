@@ -4,7 +4,10 @@ public class CreateGameParam {
 	
 	private String gameName;
 
-	public CreateGameParam(){}
+	public CreateGameParam(String gameName) {
+		super();
+		this.gameName = gameName;
+	}
 
 	public String getGameName() {
 		return gameName;

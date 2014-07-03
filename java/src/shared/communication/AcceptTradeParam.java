@@ -4,8 +4,12 @@ public class AcceptTradeParam {
 
 	private int playerIndex;
 	private boolean doesAccept;
-	
-	public AcceptTradeParam(){}
+		
+	public AcceptTradeParam(int playerIndex, boolean doesAccept) {
+		super();
+		this.playerIndex = playerIndex;
+		this.doesAccept = doesAccept;
+	}
 	
 	public int getPlayerIndex() {
 		return playerIndex;

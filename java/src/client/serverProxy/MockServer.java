@@ -1,9 +1,7 @@
 package client.serverProxy;
 
-import javax.xml.ws.Response;
-
 /**
- * acts as a mock server, takes requests and sends static responses
+ * acts as a mock server, takes requests and sends static Strings
  * 
  * @author Brent
  *
@@ -16,65 +14,65 @@ public class MockServer implements Server{
 	public MockServer(){}
 	
 	@Override
-	public Response doPost(String url, String json) { return null; }
+	public String doPost(String url, String json) { return null; }
 
 	@Override
-	public Response doGet(String url) { return null; }
+	public String doGet(String url) { return null; }
 	
-	private Response loginUser(String json){ return null; }
+	private String loginUser(String json){ return null; }
 	
-	private Response registerUser(String json){ return null; }
+	private String registerUser(String json){ return null; }
 	
-	private Response getAllGames(){ return null; }
+	private String getAllGames(){ return null; }
 	
-	private Response createGame(String json){ return null; }
+	private String createGame(String json){ return null; }
 
-	private Response joinGame(String json){ return null; }
+	private String joinGame(String json){ return null; }
 
-	private Response getGameModel(){ return null; }
+	private String getGameModel(){ return null; }
 
-	private Response resetGame(){ return null; }
+	private String resetGame(){ return null; }
 
-	private Response getGameCommands(){ return null; }
+	private String getGameCommands(){ return null; }
 
-	private Response doGameCommands(String json){ return null; }
+	private String doGameCommands(String json){ return null; }
 
-	private Response getAIList(){ return null; }
+	private String getAIList(){ return null; }
 
-	private Response addAI(String json){ return null; }
+	private String addAI(String json){ return null; }
 	
-	private Response changeLogLevel(String json){ return null; }
+	private String changeLogLevel(String json){ return null; }
 
-	private Response sendChat(String json){ return null; }
+	private String sendChat(String json){ return null; }
 
-	private Response acceptTrade(String json){ return null; }
+	private String acceptTrade(String json){ return null; }
 
-	private Response discardCards(String json){ return null; }
+	private String discardCards(String json){ return null; }
 
-	private Response rollNumber(String json){ return null; }
+	private String rollNumber(String json){ return null; }
 
-	private Response buildRoad(String json){ return null; }
+	private String buildRoad(String json){ return null; }
 
-	private Response buildSettlement(String json){ return null; }
+	private String buildSettlement(String json){ return null; }
 
-	private Response buildCity(String json){ return null; }
+	private String buildCity(String json){ return null; }
 
-	private Response offerTrade(String json){ return null; }
+	private String offerTrade(String json){ return null; }
 
-	private Response maritimeTrade(String json){ return null; }
+	private String maritimeTrade(String json){ return null; }
 
-	private Response finishTurn(){ return null; }
+	private String finishTurn(){ return null; }
 
-	private Response buyDevCard(String json){ return null; }
+	private String buyDevCard(String json){ return null; }
 	
-	private Response playYearOfPlenty(String json){ return null; }
+	private String playYearOfPlenty(String json){ return null; }
 
-	private Response playRoadBuilding(String json){ return null; }
+	private String playRoadBuilding(String json){ return null; }
 
-	private Response playSoldier(String json){ return null; }
+	private String playSoldier(String json){ return null; }
 
-	private Response playMonopoly(String json){ return null; }
+	private String playMonopoly(String json){ return null; }
 
-	private Response playMonument(String json){ return null; }
+	private String playMonument(String json){ return null; }
 
 }

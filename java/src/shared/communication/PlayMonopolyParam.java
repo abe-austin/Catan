@@ -7,7 +7,11 @@ public class PlayMonopolyParam {
 	private int playerIndex;
 	private ResourceType resource;
 	
-	public PlayMonopolyParam(){}
+	public PlayMonopolyParam(int playerIndex, ResourceType resource) {
+		super();
+		this.playerIndex = playerIndex;
+		this.resource = resource;
+	}
 
 	public int getPlayerIndex() {
 		return playerIndex;

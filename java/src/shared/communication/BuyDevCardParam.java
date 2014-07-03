@@ -4,7 +4,10 @@ public class BuyDevCardParam {
 
 	private int playerIndex;
 	
-	public BuyDevCardParam(){}
+	public BuyDevCardParam(int playerIndex) {
+		super();
+		this.playerIndex = playerIndex;
+	}
 
 	public int getPlayerIndex() {
 		return playerIndex;

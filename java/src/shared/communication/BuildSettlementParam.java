@@ -8,7 +8,12 @@ public class BuildSettlementParam {
 	private Corner c;
 	private boolean free;
 	
-	public BuildSettlementParam(){}
+	public BuildSettlementParam(int playerIndex, Corner c, boolean free) {
+		super();
+		this.playerIndex = playerIndex;
+		this.c = c;
+		this.free = free;
+	}
 
 	public int getPlayerIndex() {
 		return playerIndex;
