@@ -17,7 +17,7 @@ public class DesertTile extends HexTile {
         }
 
         /**
-         * @param hasRobber the hasRobber to set
+         * @param hasRobber sets whether the tile has robber
          */
         public void setHasRobber(boolean hasRobber) {
             this.hasRobber = hasRobber;

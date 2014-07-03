@@ -20,6 +20,7 @@ public class Robber {
 	
 	/**
 	 * @param loc new location for the Robber (which tile the player has moved it to)
+	 * @post robber has now been moved to a different hex location
 	 */
 	public void updateLocation(HexLocation loc) {
 		location = loc;

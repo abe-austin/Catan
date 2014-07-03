@@ -15,6 +15,8 @@ import shared.definitions.DevCardType;
 import shared.definitions.PieceType;
 import shared.definitions.SpecialCardType;
 
+
+
 public class Player extends CardOwner {
 	private CatanColor color;
         private Set<BoardPiece> boardPieces;
@@ -60,6 +62,7 @@ public class Player extends CardOwner {
         /**
          * In addition to Card Owner functionality
          *   this keeps track of soldier cards played
+         *   @post The number of soldiers played has now been incremented by one
          */
         @Override
         public DevelopmentCard giveDevelopmentCard(DevCardType devCardType) {
@@ -75,6 +78,7 @@ public class Player extends CardOwner {
          * In addition to Card Owner functionality
          *   this keeps track of points that come from
          *   special cards
+         *   @post The players points have now been decremented by the special card's specified value
          */
         @Override
         public SpecialCard giveSpecialCard(SpecialCardType specialCardType){
@@ -92,6 +96,7 @@ public class Player extends CardOwner {
          * In addition to Card Owner functionality
          *   this keeps track of points that come from
          *   special cards
+         *   @post The players points have now been incremented by the the special card's specified value
          */
         @Override
         public void addSpecialCard(SpecialCard specialCard){

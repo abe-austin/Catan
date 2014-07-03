@@ -16,7 +16,7 @@ public abstract class HexTile {
          * @return true if Player p can build a road on Edge e
          *          false otherwise
          */
-	public boolean canBuildRoad(Edge e, Player p) {
+	public boolean canBuildRoad(Edge edge, Player player) {
 		return false;
 	}//Edge,Player
 
