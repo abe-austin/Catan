@@ -41,8 +41,6 @@ public class Player extends CardOwner {
 
             for(int i = 0; i < 15; i++)
                 boardPieces.add(new Road(this));
-
-            // TO DO add more here
         }
 
         /**
@@ -57,6 +55,20 @@ public class Player extends CardOwner {
             }
             
             return null;
+        }
+
+        /**
+         *
+         * @param type of board piece
+         * @return true if player has avaliable piece of type
+         */
+        public boolean hasAvaiableBoardPiece(PieceType type) {
+            for(BoardPiece piece : boardPieces) {
+                if(piece.getPieceType().equals(type) && !piece.isActive())
+                    return true;
+            }
+
+            return false;
         }
 
         /**
@@ -115,8 +127,16 @@ public class Player extends CardOwner {
         /**
          * @return the points
          */
-        public Points getPoints() {
-            return points;
+        public int getPoints() {
+            return points.getPoints();
+        }
+
+        /**
+         * @return true if 10 or more points
+         *          false otherwise
+         */
+        public boolean isVictory() {
+            return points.isVictory();
         }
 
         /**

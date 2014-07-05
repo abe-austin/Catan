@@ -112,6 +112,13 @@ public class CardOwner {
         }
 
         /**
+         * same as above with one resource
+         */
+        public boolean hasResource(ResourceType resourceType) {
+            return hasResource(resourceType, 1);
+        }
+
+        /**
          * @param devCardType the type of development card being sought after
          * @return true if the owner has at least one, false otherwise
          */
