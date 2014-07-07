@@ -8,7 +8,7 @@ public class PortTile extends HexTile {
 	
 	public PortTile(PortType type) {
             this.type = type;
-            myType = HexType.PORT;
+            myType = HexType.WATER;
 	}
 
         /**
