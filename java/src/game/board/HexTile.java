@@ -19,8 +19,10 @@ public abstract class HexTile {
 	public boolean canBuildRoad(Edge edge, Player player) {
 		if(edge.hasStructure())
 			return false;
-		else
+		else {
+			//Check for if we have a friendly neighboring road/settlement/city
 			return true;
+		}
 	}//Edge,Player
 
         /**
@@ -32,8 +34,11 @@ public abstract class HexTile {
 	public boolean canBuildSettlement(Corner corner, Player player) {
 		if(corner.hasStructure())
 			return false;
-		else
+		else {
+			//check for if we have a neighboring road coming into here
+			//check for if we have a settlement too close
 			return true;
+		}
 	}//vertex,Player (building type?)
 
         /**
@@ -45,8 +50,10 @@ public abstract class HexTile {
 	public boolean canBuildCity(Corner corner, Player player) {
 		if(corner.hasStructure())
 			return false;
-		else
+		else {
+			//Check for if there is already a settlement built here for that player
 			return true;
+		}
 	}//vertex,Player (building type?)
 
         /**
