@@ -11,7 +11,7 @@ public class Settlement extends BoardPiece {
             super(owner);
             cost = Cost.SETTLEMENT;
 	}
-
+        
         @Override
         public PieceType getPieceType() {
             return PieceType.SETTLEMENT;
