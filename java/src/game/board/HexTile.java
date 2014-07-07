@@ -66,5 +66,6 @@ public abstract class HexTile {
 	public void buildCity(Corner corner,  Player player) {
 
 	}
-	
+
+        abstract HexType getType();
 }

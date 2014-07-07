@@ -14,7 +14,12 @@ public class PortTile extends HexTile {
         /**
          * @return the type of port
          */
-        public PortType getType() {
+        public PortType getPortType() {
             return type;
+        }
+
+        @Override
+        public HexType getType() {
+            return HexType.WATER;
         }
 }

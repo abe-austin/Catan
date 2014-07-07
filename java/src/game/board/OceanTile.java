@@ -4,7 +4,8 @@ import shared.definitions.HexType;
 
 public class OceanTile extends HexTile {
 	
-	public OceanTile() {
-            myType = HexType.WATER;
-	}
+	@Override
+        public HexType getType() {
+            return HexType.WATER;
+        }
 }

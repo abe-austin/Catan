@@ -5,9 +5,10 @@ import shared.definitions.HexType;
 public class DesertTile extends HexTile {
         private boolean hasRobber;
 
-	public DesertTile(){
-            myType = HexType.DESERT;
-	}
+        @Override
+        public HexType getType() {
+            return HexType.DESERT;
+        }
 
         /**
          * @return the hasRobber

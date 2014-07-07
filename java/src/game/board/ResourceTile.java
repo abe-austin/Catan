@@ -1,5 +1,6 @@
 package game.board;
 
+import shared.definitions.HexType;
 import shared.definitions.ResourceType;
 
 public class ResourceTile extends HexTile {
@@ -10,6 +11,22 @@ public class ResourceTile extends HexTile {
             this.type = type;
             this.token = token;
 	}
+
+        @Override
+        public HexType getType() {
+            if(type.equals(ResourceType.BRICK))
+                return HexType.BRICK;
+            else if(type.equals(ResourceType.ORE))
+                return HexType.ORE;
+            else if(type.equals(ResourceType.SHEEP))
+                return HexType.SHEEP;
+            else if(type.equals(ResourceType.WHEAT))
+                return HexType.WHEAT;
+            else if(type.equals(ResourceType.WOOD))
+                return HexType.WOOD;
+            else
+                return null;
+        }
 
         /**
          * @return the type
