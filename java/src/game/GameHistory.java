@@ -5,12 +5,13 @@ import java.util.List;
 
 import shared.definitions.Command;
 
-public class GameHistory{
-	
+public class GameHistory{	
 	private List<Command> gameCommands;
+        private ChatLog chatlog;
 	
 	public GameHistory(){
 		gameCommands = new ArrayList<Command>();
+                chatlog = new ChatLog();
 	}
 	
 	/**
@@ -26,4 +27,11 @@ public class GameHistory{
 	public List<Command> getCommands() {
 		return gameCommands;
 	}
+
+    /**
+     * @return the chatlog
+     */
+    public ChatLog getChatlog() {
+        return chatlog;
+    }
 }
