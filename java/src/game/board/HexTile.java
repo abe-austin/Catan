@@ -17,7 +17,10 @@ public abstract class HexTile {
          *          false otherwise
          */
 	public boolean canBuildRoad(Edge edge, Player player) {
-		return false;
+		if(edge.hasStructure())
+			return false;
+		else
+			return true;
 	}//Edge,Player
 
         /**
@@ -27,7 +30,10 @@ public abstract class HexTile {
          * @return
          */
 	public boolean canBuildSettlement(Corner corner, Player player) {
-		return false;
+		if(corner.hasStructure())
+			return false;
+		else
+			return true;
 	}//vertex,Player (building type?)
 
         /**
@@ -37,7 +43,10 @@ public abstract class HexTile {
          * @return
          */
 	public boolean canBuildCity(Corner corner, Player player) {
-		return false;
+		if(corner.hasStructure())
+			return false;
+		else
+			return true;
 	}//vertex,Player (building type?)
 
         /**
