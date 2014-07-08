@@ -37,13 +37,31 @@ public class ServerProxyFacade {
      * check <code>mockServer</code> boolean to either create a mock server or to connect
      * to the real server through <code>ServerProxy</code>
      */
-	private ServerProxyFacade() {
+	public ServerProxyFacade() {
 		gson = new Gson();
 		if(mockServer) {
 			server = new MockServer();
 		}
 		else {
 			server = new ServerProxy();
+		}
+	}
+	
+	private boolean checkResponseStatus(String response) {
+		if(response == "success") {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	private GameModel jsonToGameModel(String json) {
+		if(json.equals("fail")) {
+			return null;
+		}
+		else {
+			return gson.fromJson(json, GameModel.class);
 		}
 	}
 
@@ -65,10 +83,8 @@ public class ServerProxyFacade {
 		//make post to proper url using json as the body of the request
 		String url = "/user/login";
 		String response = server.doPost(url, jsonParam);
-		
-		//TODO parse the response from the server
-		
-		return false; 
+				
+		return checkResponseStatus(response); 
 	}
 
     /**
@@ -90,9 +106,7 @@ public class ServerProxyFacade {
 		String url = "/user/register";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-
-		return false;
+		return checkResponseStatus(response); 
 	}
 
     /**
@@ -126,9 +140,7 @@ public class ServerProxyFacade {
 		String url = "/game/create";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-
-		return null; 
+		return jsonToGameModel(response); 
 	}
 
     /**
@@ -153,9 +165,7 @@ public class ServerProxyFacade {
 		String url = "/games/join";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-
-		return false; 
+		return checkResponseStatus(response);  
 	}
 	
 	public boolean saveGame(int gameID, String gameName) {
@@ -166,9 +176,7 @@ public class ServerProxyFacade {
 		String url = "/games/save";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response
-		
-		return false;
+		return checkResponseStatus(response); 
 	}
 	
 	public GameModel loadGame(String gameName) {
@@ -188,9 +196,7 @@ public class ServerProxyFacade {
 		String url = "/game/model" + version;
 		String response = server.doGet(url);
 		
-		//TODO parse the response from the server
-		
-		return null; 
+		return jsonToGameModel(response);  
 	}
 
     /**
@@ -205,9 +211,7 @@ public class ServerProxyFacade {
 		String url = "/game/reset";
 		String response = server.doPost(url, null);
 		
-		//TODO parse the response from the server
-		
-    	return null; 
+		return jsonToGameModel(response); 
     }
     
     /**
@@ -228,8 +232,7 @@ public class ServerProxyFacade {
 		String url = "/game/commands";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		return null;
+		return jsonToGameModel(response); 
 	}
 
     /**
@@ -270,9 +273,7 @@ public class ServerProxyFacade {
 		String url = "/game/commands";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return false; 
+		return checkResponseStatus(response);  
 	}
 
     /**
@@ -310,9 +311,7 @@ public class ServerProxyFacade {
 		String url = "/moves/sendChat";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null;
+		return jsonToGameModel(response); 
 	}
 	
     /**
@@ -336,9 +335,7 @@ public class ServerProxyFacade {
 		String url = "/moves/rollNumber";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null;
+		return jsonToGameModel(response);
 	}
 	
 	public GameModel robPlayer(int playerIndex, int victimIndex, Corner location) {
@@ -351,9 +348,7 @@ public class ServerProxyFacade {
 		String url = "/moves/robPlayer";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from server
-		
-		return null;
+		return jsonToGameModel(response); 
 	}
 	
     /**
@@ -376,9 +371,7 @@ public class ServerProxyFacade {
 		String url = "/moves/finishTurn";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null; 
+		return jsonToGameModel(response);  
 	}
 	
     /**
@@ -402,9 +395,7 @@ public class ServerProxyFacade {
 		String url = "/moves/buyDevCard";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null;
+		return jsonToGameModel(response); 
 	}
 	
     /**
@@ -430,9 +421,7 @@ public class ServerProxyFacade {
 		String url = "/moves/Year_Of_Plenty";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null; 
+		return jsonToGameModel(response);  
 	}
 	
     /**
@@ -463,9 +452,7 @@ public class ServerProxyFacade {
 		String url = "/moves/Road_Building";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null; 
+		return jsonToGameModel(response);  
 	}
 	
     /**
@@ -493,9 +480,7 @@ public class ServerProxyFacade {
 		String url = "/moves/Soldier";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null;
+		return jsonToGameModel(response); 
 	}
 	
     /**
@@ -520,9 +505,7 @@ public class ServerProxyFacade {
 		String url = "/moves/Monopoly";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null; 
+		return jsonToGameModel(response);  
 	}
 	
     /**
@@ -545,10 +528,8 @@ public class ServerProxyFacade {
 		//make post to proper url using json as the body of the request
 		String url = "/moves/Monument";
 		String response = server.doPost(url, jsonParam);
-						
-		//TODO parse the response from the server
 		
-		return null;
+		return jsonToGameModel(response); 
 	}
 	
     /**
@@ -577,9 +558,7 @@ public class ServerProxyFacade {
 		String url = "/moves/buildRoad";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null;
+		return jsonToGameModel(response); 
 	}
 	
     /**
@@ -609,9 +588,7 @@ public class ServerProxyFacade {
 		String url = "/moves/buildSettlement";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null;
+		return jsonToGameModel(response); 
 	}
 	
     /**
@@ -640,9 +617,7 @@ public class ServerProxyFacade {
 		String url = "/moves/buildCity";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null;
+		return jsonToGameModel(response); 
 	}
 	
     /**
@@ -669,9 +644,7 @@ public class ServerProxyFacade {
 		String url = "/moves/offerTrade";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null; 
+		return jsonToGameModel(response); 
 	}
 	
     /**
@@ -696,9 +669,7 @@ public class ServerProxyFacade {
 		String url = "/moves/acceptTrade";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null;
+		return jsonToGameModel(response); 
 	}
 	
     /**
@@ -724,9 +695,7 @@ public class ServerProxyFacade {
 		String url = "/moves/maritimeTrade";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null;
+		return jsonToGameModel(response); 
 	}
 	
     /**
@@ -752,9 +721,7 @@ public class ServerProxyFacade {
 		String url = "/moves/discardCards";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return null;
+		return jsonToGameModel(response); 
 	}
 	
     /**
@@ -776,8 +743,6 @@ public class ServerProxyFacade {
 		String url = "/util/changeLogLevel";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
-		
-		return false; 
+		return checkResponseStatus(response);  
 	}
 }
