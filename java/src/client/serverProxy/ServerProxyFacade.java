@@ -104,7 +104,7 @@ public class ServerProxyFacade {
 		
 		//make post to proper url using json as the body of the request
 		String url = "/games/list";
-		String response = server.doPost(url, null);
+		String response = server.doGet(url);
 		
 		//TODO parse the response from the server
 
@@ -143,7 +143,7 @@ public class ServerProxyFacade {
      * @param color		the <code>CatanColor</code> of the color for player to use
      * @return 			<code>GameModel</code> of the joined game
      */
-	public GameModel joinGame(int gameID, CatanColor color) {
+	public boolean joinGame(int gameID, CatanColor color) {
 		
 		//create param object and convert to json
 		JoinGameParam param = new JoinGameParam(gameID, color);
@@ -155,7 +155,25 @@ public class ServerProxyFacade {
 		
 		//TODO parse the response from the server
 
-		return null; 
+		return false; 
+	}
+	
+	public boolean saveGame(int gameID, String gameName) {
+		
+		SaveGameParam param = new SaveGameParam(gameID, gameName);
+		String jsonParam = gson.toJson(param);
+		
+		String url = "/games/save";
+		String response = server.doPost(url, jsonParam);
+		
+		//TODO parse the response
+		
+		return false;
+	}
+	
+	public GameModel loadGame(String gameName) {
+		//TODO load game stuff
+		return null;
 	}
 
     /**
@@ -167,8 +185,8 @@ public class ServerProxyFacade {
 	public GameModel getGameModel(int version) {
 		
 		//make post to proper url using json as the body of the request
-		String url = "/game/model?version=" + version;
-		String response = server.doPost(url, null);
+		String url = "/game/model" + version;
+		String response = server.doGet(url);
 		
 		//TODO parse the response from the server
 		
@@ -191,6 +209,28 @@ public class ServerProxyFacade {
 		
     	return null; 
     }
+    
+    /**
+     * applies a list of <code>Command</code>'s to the current game
+     * 
+     * @pre   			player has valid catan.user and catan.game id
+     * @param commands	List<Command> containing all the command's to be applied
+     * @return			<code>true</code> if login was successful, 
+     * 					<code>false</code> if it was not successful
+     */
+	public GameModel doGameCommands(List<Command> commands) {
+		
+		//create param object and convert to json
+		DoGameCommandsParam param = new DoGameCommandsParam(commands);
+		String jsonParam = gson.toJson(param);
+		
+		//make post to proper url using json as the body of the request
+		String url = "/game/commands";
+		String response = server.doPost(url, jsonParam);
+		
+		//TODO parse the response from the server
+		return null;
+	}
 
     /**
      * get a list of all the <code>Command</code>'s played on a game
@@ -203,44 +243,6 @@ public class ServerProxyFacade {
 		//make get to proper url
 		String url = "/game/commands";
 		String response = server.doGet(url);
-		
-		//TODO parse the response from the server
-		
-		return null; 
-	}
-
-    /**
-     * applies a list of <code>Command</code>'s to the current game
-     * 
-     * @pre   			player has valid catan.user and catan.game id
-     * @param commands	List<Command> containing all the command's to be applied
-     * @return			<code>true</code> if login was successful, 
-     * 					<code>false</code> if it was not successful
-     */
-	public boolean doGameCommands(List<Command> commands) {
-		
-		//create param object and convert to json
-		DoGameCommandsParam param = new DoGameCommandsParam(commands);
-		String jsonParam = gson.toJson(param);
-		
-		//make post to proper url using json as the body of the request
-		String url = "/game/commands";
-		String response = server.doPost(url, jsonParam);
-		
-		//TODO parse the response from the server
-		return false;
-	}
-
-    /**
-     * gets a <code>Set<String></code> of the available AI types that may be added to the game
-     * 
-     * @return Set<String> containing the AI names that may be added to the game
-     */
-	public Set<String> getAIList() {
-
-		//make post to proper url using json as the body of the request
-		String url = "/game/listAI";
-		String response = server.doPost(url, null);
 		
 		//TODO parse the response from the server
 		
@@ -272,29 +274,21 @@ public class ServerProxyFacade {
 		
 		return false; 
 	}
-	
+
     /**
-     * sets the servers logging level
+     * gets a <code>Set<String></code> of the available AI types that may be added to the game
      * 
-     * @pre   			a valid <code>LogLevel</code> is given
-     * @post  			server uses the given <code>LogLevel</code>
-     * @param logLevel	the <code>LogLevel</code> to be applied
-     * @return			<code>true</code> if login was successful, 
-     * 					<code>false</code> if it was not successful
+     * @return Set<String> containing the AI names that may be added to the game
      */
-	public boolean changeLogLevel(LogLevel logLevel) {
-		
-		//create param object and convert to json
-		ChangeLogLevelParam param = new ChangeLogLevelParam(logLevel);
-		String jsonParam = gson.toJson(param);
-		
+	public Set<String> getAIList() {
+
 		//make post to proper url using json as the body of the request
-		String url = "/util/changeLogLevel";
-		String response = server.doPost(url, jsonParam);
+		String url = "/game/listAI";
+		String response = server.doGet(url);
 		
 		//TODO parse the response from the server
 		
-		return false; 
+		return null; 
 	}
 	
     /**
@@ -306,74 +300,19 @@ public class ServerProxyFacade {
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful     
      */
-	public boolean sendChat(int playerIndex, String message) {
+	public GameModel sendChat(int playerIndex, String message) {
 		
 		//create param object and convert to json
 		SendChatParam param = new SendChatParam(playerIndex, message);
 		String jsonParam = gson.toJson(param);
 		
 		//make post to proper url using json as the body of the request
-		String url = "/games/sendChat";
+		String url = "/moves/sendChat";
 		String response = server.doPost(url, jsonParam);
 		
 		//TODO parse the response from the server
 		
-		return false;
-	}
-	
-    /**
-     * either accept or decline a trade
-     * 
-     * @pre					a domestic trade has been offered to player
-     * @pre					if accepting then the player must have the required resources
-     * @post				if accepting then traders swap resources
-     * @post				trade offer is removed
-     * @param playerIndex	the integer index of the player to trade 
-     * @param willAccept	the <code>boolean</code> whether trade is accepted or not
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful     
-     */
-	public boolean acceptTrade(int playerIndex, boolean willAccept) {
-		
-		//create param object and convert to json
-		AcceptTradeParam param = new AcceptTradeParam(playerIndex, willAccept);
-		String jsonParam = gson.toJson(param);
-		
-		//make post to proper url using json as the body of the request
-		String url = "/moves/acceptTrade";
-		String response = server.doPost(url, jsonParam);
-		
-		//TODO parse the response from the server
-		
-		return false;
-	}
-	
-    /**
-     * discard any number of cards from hand
-     * 
-     * @pre 				client model is in the state 'Discarding'
-     * @pre 				player has over 7 cards
-     * @pre 				player has the cards they choose to discard
-     * @post 				if player is the last to discard the client model status changes to 'Robbing'
-     * @post 				player gives up specified cards
-     * @param playerIndex 	the integer of the players index
-     * @param cards 		the <code>List<Card></code> of the cards to discard
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful     
-     */
-	public boolean discardCards(int playerIndex, List<ResourceCard> cards) {
-		
-		//create param object and convert to json
-		DiscardCardsParam param = new DiscardCardsParam(playerIndex, cards);
-		String jsonParam = gson.toJson(param);
-		
-		//make post to proper url using json as the body of the request
-		String url = "/moves/discardCards";
-		String response = server.doPost(url, jsonParam);
-		
-		//TODO parse the response from the server
-		
-		return false;
+		return null;
 	}
 	
     /**
@@ -387,7 +326,7 @@ public class ServerProxyFacade {
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful     
      */
-	public boolean rollNumber(int playerIndex, int rollNumber) {
+	public GameModel rollNumber(int playerIndex, int rollNumber) {
 		
 		//create param object and convert to json
 		RollNumberParam param = new RollNumberParam(playerIndex, rollNumber);
@@ -399,158 +338,22 @@ public class ServerProxyFacade {
 		
 		//TODO parse the response from the server
 		
-		return false;
+		return null;
 	}
 	
-    /**
-     * player builds a road
-     * 
-     * @pre 				road location is open
-     * @pre					road location is connected to another of players roads
-     * @pre 				road location is not on water
-     * @pre					player has necessary resources
-     * @pre					it is players turn
-     * @pre					the client model is in state 'Playing'
-     * @post 				players spends necessary resources
-     * @post 				map lists the new road
-     * @param playerIndex 	the integer of the players index
-     * @param e				the <code>Edge</code> to build the road on
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful 
-     */
-	public boolean buildRoad(int playerIndex, Edge e) {
+	public GameModel robPlayer(int playerIndex, int victimIndex, Corner location) {
 		
 		//create param object and convert to json
-		BuildRoadParam param = new BuildRoadParam(playerIndex, e);
+		RobPlayerParam param = new RobPlayerParam(playerIndex, victimIndex, location);
 		String jsonParam = gson.toJson(param);
 		
-		//make post to proper url using json as the body of the request
-		String url = "/moves/buildRoad";
+		//make post to proper url using the json as the body of the request
+		String url = "/moves/robPlayer";
 		String response = server.doPost(url, jsonParam);
 		
-		//TODO parse the response from the server
+		//TODO parse the response from server
 		
-		return false;
-	}
-	
-    /**
-     * player builds a settlement
-     * 
-     * @pre 				settlement location is open
-     * @pre	    			settlement location is connected to at least one of players roads
-     * @pre					settlement location is not on water
-     * @pre					player has necessary resources
-     * @pre     			it is players turn
-     * @pre					the client model is in state 'Playing'
-     * @post  				players spends necessary resources
-     * @post		  		map lists the new settlement
-     * @param playerIndex 	the integer of the players index
-     * @param c				<code>Corner</code> the Corner to build settlement on
-     * @param free			<code>boolean</code> whether the <code>Corner</code> is free or not
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful 
-     */
-	public boolean buildSettlement(int playerIndex, Corner c, boolean free) {
-		
-		//create param object and convert to json
-		BuildSettlementParam param = new BuildSettlementParam(playerIndex, c, free);
-		String jsonParam = gson.toJson(param);
-		
-		//make post to proper url using json as the body of the request
-		String url = "/moves/buildSettlement";
-		String response = server.doPost(url, jsonParam);
-		
-		//TODO parse the response from the server
-		
-		return false;
-	}
-	
-    /**
-     * player builds a city
-     * 
-     * @pre					city location is where player currently has settlement
-     * @pre					player has necessary resources
-     * @pre					it is players turn
-     * @pre					the client model is in state 'Playing'
-     * @post  				players spends necessary resources
-     * @post				player gets settlement back
-     * @post				map lists the new city
-     * @param playerIndex 	the integer of the players index
-     * @param c				<code>Corner</code> the Corner to build city on
-     * @param free			<code>boolean</code> whether the <code>Corner</code> is free or not
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful 
-     */
-	public boolean buildCity(int playerIndex, Corner c, boolean free) {
-		
-		//create param object and convert to json
-		BuildCityParam param = new BuildCityParam(playerIndex, c, free);
-		String jsonParam = gson.toJson(param);
-		
-		//make post to proper url using json as the body of the request
-		String url = "/moves/buildCity";
-		String response = server.doPost(url, jsonParam);
-		
-		//TODO parse the response from the server
-		
-		return false;
-	}
-	
-    /**
-     * offer a trade to another player
-     * 
-     * @pre					player has offered resources
-     * @pre					it is players turn
-     * @pre					the client model is in state 'Playing'
-     * @post 				trade is offered to another player
-     * @param playerIndex 	the integer of the players index
-     * @param offer 		<code>List<Card></code> cards to trade
-     * @param recieveIndex	the integer index of player to trade with
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful 
-     */
-
-	public boolean offerTrade(int playerIndex, List<ResourceCard> offer, int recieveIndex) {
-		
-		//create param object and convert to json
-		OfferTradeParam param = new OfferTradeParam(playerIndex, offer, recieveIndex);
-		String jsonParam = gson.toJson(param);
-		
-		//make post to proper url using json as the body of the request
-		String url = "/moves/offerTrade";
-		String response = server.doPost(url, jsonParam);
-		
-		//TODO parse the response from the server
-		
-		return false; 
-	}
-	
-    /**
-     * make a trade at a port
-     * 
-     * @pre 				player has offered resources
-     * @pre 				it is players turn
-     * @pre 				the client model is in state 'Playing'
-     * @param playerIndex 	the integer of the players index
-     * @param ratio			the integer of the trade ratio
-     * @param input			the <code>ResourceType</code> of resources given
-     * @param output		the <code>ResourceType</code> of the resource received
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful 
-     */
-	public boolean maritimetrade(int playerIndex, int ratio, ResourceType input, ResourceType output) {
-		
-		//create param object and convert to json
-		MaritimeTradeParam param = new MaritimeTradeParam(playerIndex, ratio, input, output);
-		String jsonParam = gson.toJson(param);
-		
-		//make post to proper url using json as the body of the request
-		String url = "/moves/maritimeTrade";
-		String response = server.doPost(url, jsonParam);
-		
-		//TODO parse the response from the server
-		
-		return false;
+		return null;
 	}
 	
     /**
@@ -563,15 +366,19 @@ public class ServerProxyFacade {
      * @return	<code>true</code> if login was successful, 
      * 			<code>false</code> if it was not successful
      */
-	public boolean finishTurn() {
+	public GameModel finishTurn(int playerIndex) {
+		
+		//create param object and convert to json
+		FinishTurnParam param = new FinishTurnParam(playerIndex);
+		String jsonParam = gson.toJson(param);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/finishTurn";
-		String response = server.doPost(url, null);
+		String response = server.doPost(url, jsonParam);
 		
 		//TODO parse the response from the server
 		
-		return false; 
+		return null; 
 	}
 	
     /**
@@ -585,7 +392,7 @@ public class ServerProxyFacade {
      * @param playerIndex	the integer of the players index
      * @return 				<code>Card</code> the bought development card
      */
-	public Card buyDevCard(int playerIndex) {
+	public GameModel buyDevCard(int playerIndex) {
 		
 		//create param object and convert to json
 		BuyDevCardParam param = new BuyDevCardParam(playerIndex);
@@ -613,7 +420,7 @@ public class ServerProxyFacade {
      * @param resourceTwo	the <code>ResourceType</code> of second resource to receive
      * @return 				<code>Card[]</code> an array of two cards of the specified <code>ResourceType</code>'s
      */
-	public Card[] playYearOfPlenty(int playerIndex, ResourceType resourceOne, ResourceType resourceTwo) {
+	public GameModel playYearOfPlenty(int playerIndex, ResourceType resourceOne, ResourceType resourceTwo) {
 		
 		//create param object and convert to json
 		PlayYearOfPlentyParam param = new PlayYearOfPlentyParam(playerIndex, resourceOne, resourceTwo);
@@ -646,7 +453,7 @@ public class ServerProxyFacade {
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful    
      */
-	public boolean playRoadBuilding(int playerIndex, Edge edgeOne, Edge edgeTwo) {
+	public GameModel playRoadBuilding(int playerIndex, Edge edgeOne, Edge edgeTwo) {
 		
 		//create param object and convert to json
 		PlayRoadBuildingParam param = new PlayRoadBuildingParam(playerIndex, edgeOne, edgeTwo);
@@ -658,7 +465,7 @@ public class ServerProxyFacade {
 		
 		//TODO parse the response from the server
 		
-		return false; 
+		return null; 
 	}
 	
     /**
@@ -676,7 +483,7 @@ public class ServerProxyFacade {
      * @param newRobberLocation	the <code>HexLocation</code> to place the robber on
      * @return 					<code>Card</code> the card stolen by the player from victim
      */
-	public Card playSoldier(int playerIndex, int victimIndex, HexLocation newRobberLocation) {
+	public GameModel playSoldier(int playerIndex, int victimIndex, HexLocation newRobberLocation) {
 		
 		//create param object and convert to json
 		PlaySoldierParam param = new PlaySoldierParam(playerIndex, victimIndex, newRobberLocation);
@@ -703,7 +510,7 @@ public class ServerProxyFacade {
      * @param resource		the <code>ResourceType</code> of the resource to get
      * @return				<code>List<Card></code> containing all the cards gained by player of monopoly card
      */
-	public List<Card> playMonopoly(int playerIndex, ResourceType resource) {
+	public GameModel playMonopoly(int playerIndex, ResourceType resource) {
 		
 		//create param object and convert to json
 		PlayMonopolyParam param = new PlayMonopolyParam(playerIndex, resource);
@@ -729,7 +536,7 @@ public class ServerProxyFacade {
      * @param playerIndex	the integer of the players index
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful      */
-	public boolean playMonument(int playerIndex) { 
+	public GameModel playMonument(int playerIndex) { 
 		
 		//create param object and convert to json
 		PlayMonumentParam param = new PlayMonumentParam(playerIndex);
@@ -738,10 +545,239 @@ public class ServerProxyFacade {
 		//make post to proper url using json as the body of the request
 		String url = "/moves/Monument";
 		String response = server.doPost(url, jsonParam);
+						
+		//TODO parse the response from the server
+		
+		return null;
+	}
+	
+    /**
+     * player builds a road
+     * 
+     * @pre 				road location is open
+     * @pre					road location is connected to another of players roads
+     * @pre 				road location is not on water
+     * @pre					player has necessary resources
+     * @pre					it is players turn
+     * @pre					the client model is in state 'Playing'
+     * @post 				players spends necessary resources
+     * @post 				map lists the new road
+     * @param playerIndex 	the integer of the players index
+     * @param e				the <code>Edge</code> to build the road on
+     * @return				<code>true</code> if login was successful, 
+     * 						<code>false</code> if it was not successful 
+     */
+	public GameModel buildRoad(int playerIndex, Edge e) {
+		
+		//create param object and convert to json
+		BuildRoadParam param = new BuildRoadParam(playerIndex, e);
+		String jsonParam = gson.toJson(param);
+		
+		//make post to proper url using json as the body of the request
+		String url = "/moves/buildRoad";
+		String response = server.doPost(url, jsonParam);
 		
 		//TODO parse the response from the server
 		
-		return false;
+		return null;
 	}
 	
+    /**
+     * player builds a settlement
+     * 
+     * @pre 				settlement location is open
+     * @pre	    			settlement location is connected to at least one of players roads
+     * @pre					settlement location is not on water
+     * @pre					player has necessary resources
+     * @pre     			it is players turn
+     * @pre					the client model is in state 'Playing'
+     * @post  				players spends necessary resources
+     * @post		  		map lists the new settlement
+     * @param playerIndex 	the integer of the players index
+     * @param c				<code>Corner</code> the Corner to build settlement on
+     * @param free			<code>boolean</code> whether the <code>Corner</code> is free or not
+     * @return				<code>true</code> if login was successful, 
+     * 						<code>false</code> if it was not successful 
+     */
+	public GameModel buildSettlement(int playerIndex, Corner c, boolean free) {
+		
+		//create param object and convert to json
+		BuildSettlementParam param = new BuildSettlementParam(playerIndex, c, free);
+		String jsonParam = gson.toJson(param);
+		
+		//make post to proper url using json as the body of the request
+		String url = "/moves/buildSettlement";
+		String response = server.doPost(url, jsonParam);
+		
+		//TODO parse the response from the server
+		
+		return null;
+	}
+	
+    /**
+     * player builds a city
+     * 
+     * @pre					city location is where player currently has settlement
+     * @pre					player has necessary resources
+     * @pre					it is players turn
+     * @pre					the client model is in state 'Playing'
+     * @post  				players spends necessary resources
+     * @post				player gets settlement back
+     * @post				map lists the new city
+     * @param playerIndex 	the integer of the players index
+     * @param c				<code>Corner</code> the Corner to build city on
+     * @param free			<code>boolean</code> whether the <code>Corner</code> is free or not
+     * @return				<code>true</code> if login was successful, 
+     * 						<code>false</code> if it was not successful 
+     */
+	public GameModel buildCity(int playerIndex, Corner c, boolean free) {
+		
+		//create param object and convert to json
+		BuildCityParam param = new BuildCityParam(playerIndex, c, free);
+		String jsonParam = gson.toJson(param);
+		
+		//make post to proper url using json as the body of the request
+		String url = "/moves/buildCity";
+		String response = server.doPost(url, jsonParam);
+		
+		//TODO parse the response from the server
+		
+		return null;
+	}
+	
+    /**
+     * offer a trade to another player
+     * 
+     * @pre					player has offered resources
+     * @pre					it is players turn
+     * @pre					the client model is in state 'Playing'
+     * @post 				trade is offered to another player
+     * @param playerIndex 	the integer of the players index
+     * @param offer 		<code>List<Card></code> cards to trade
+     * @param recieveIndex	the integer index of player to trade with
+     * @return				<code>true</code> if login was successful, 
+     * 						<code>false</code> if it was not successful 
+     */
+
+	public GameModel offerTrade(int playerIndex, List<ResourceCard> offer, int recieveIndex) {
+		
+		//create param object and convert to json
+		OfferTradeParam param = new OfferTradeParam(playerIndex, offer, recieveIndex);
+		String jsonParam = gson.toJson(param);
+		
+		//make post to proper url using json as the body of the request
+		String url = "/moves/offerTrade";
+		String response = server.doPost(url, jsonParam);
+		
+		//TODO parse the response from the server
+		
+		return null; 
+	}
+	
+    /**
+     * either accept or decline a trade
+     * 
+     * @pre					a domestic trade has been offered to player
+     * @pre					if accepting then the player must have the required resources
+     * @post				if accepting then traders swap resources
+     * @post				trade offer is removed
+     * @param playerIndex	the integer index of the player to trade 
+     * @param willAccept	the <code>boolean</code> whether trade is accepted or not
+     * @return				<code>true</code> if login was successful, 
+     * 						<code>false</code> if it was not successful     
+     */
+	public GameModel acceptTrade(int playerIndex, boolean willAccept) {
+		
+		//create param object and convert to json
+		AcceptTradeParam param = new AcceptTradeParam(playerIndex, willAccept);
+		String jsonParam = gson.toJson(param);
+		
+		//make post to proper url using json as the body of the request
+		String url = "/moves/acceptTrade";
+		String response = server.doPost(url, jsonParam);
+		
+		//TODO parse the response from the server
+		
+		return null;
+	}
+	
+    /**
+     * make a trade at a port
+     * 
+     * @pre 				player has offered resources
+     * @pre 				it is players turn
+     * @pre 				the client model is in state 'Playing'
+     * @param playerIndex 	the integer of the players index
+     * @param ratio			the integer of the trade ratio
+     * @param input			the <code>ResourceType</code> of resources given
+     * @param output		the <code>ResourceType</code> of the resource received
+     * @return				<code>true</code> if login was successful, 
+     * 						<code>false</code> if it was not successful 
+     */
+	public GameModel maritimetrade(int playerIndex, int ratio, ResourceType input, ResourceType output) {
+		
+		//create param object and convert to json
+		MaritimeTradeParam param = new MaritimeTradeParam(playerIndex, ratio, input, output);
+		String jsonParam = gson.toJson(param);
+		
+		//make post to proper url using json as the body of the request
+		String url = "/moves/maritimeTrade";
+		String response = server.doPost(url, jsonParam);
+		
+		//TODO parse the response from the server
+		
+		return null;
+	}
+	
+    /**
+     * discard any number of cards from hand
+     * 
+     * @pre 				client model is in the state 'Discarding'
+     * @pre 				player has over 7 cards
+     * @pre 				player has the cards they choose to discard
+     * @post 				if player is the last to discard the client model status changes to 'Robbing'
+     * @post 				player gives up specified cards
+     * @param playerIndex 	the integer of the players index
+     * @param cards 		the <code>List<Card></code> of the cards to discard
+     * @return				<code>true</code> if login was successful, 
+     * 						<code>false</code> if it was not successful     
+     */
+	public GameModel discardCards(int playerIndex, List<ResourceCard> cards) {
+		
+		//create param object and convert to json
+		DiscardCardsParam param = new DiscardCardsParam(playerIndex, cards);
+		String jsonParam = gson.toJson(param);
+		
+		//make post to proper url using json as the body of the request
+		String url = "/moves/discardCards";
+		String response = server.doPost(url, jsonParam);
+		
+		//TODO parse the response from the server
+		
+		return null;
+	}
+	
+    /**
+     * sets the servers logging level
+     * 
+     * @pre   			a valid <code>LogLevel</code> is given
+     * @post  			server uses the given <code>LogLevel</code>
+     * @param logLevel	the <code>LogLevel</code> to be applied
+     * @return			<code>true</code> if login was successful, 
+     * 					<code>false</code> if it was not successful
+     */
+	public boolean changeLogLevel(LogLevel logLevel) {
+		
+		//create param object and convert to json
+		ChangeLogLevelParam param = new ChangeLogLevelParam(logLevel);
+		String jsonParam = gson.toJson(param);
+		
+		//make post to proper url using json as the body of the request
+		String url = "/util/changeLogLevel";
+		String response = server.doPost(url, jsonParam);
+		
+		//TODO parse the response from the server
+		
+		return false; 
+	}
 }
