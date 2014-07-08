@@ -1,5 +1,11 @@
 package game.board;
 
+import java.util.List;
+
+import player.Player;
+import shared.definitions.PieceType;
+import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
 import game.pieces.BoardPiece;
 import game.pieces.Robber;
 
@@ -17,6 +23,7 @@ public class BoardModel {
         tiles = new HexTile[10][10];
 
         // Create Hex Tiles here
+        //Each HexTile will need to be initialized or updated with six edge and six corner objects
     }
 
     /**
@@ -46,4 +53,225 @@ public class BoardModel {
     public Robber getRobber() {
         return rob;
     }
+    
+    
+    /**
+     * @param edge, which edge we need to check
+     * @param player, which player the edge is being checked if belonged to
+     * @return boolean result
+     */
+    public Boolean checkEdgeOwned(Edge edge, Player player) {
+    	if(edge.hasStructure()) {
+			if(edge.getStructure().getOwner().equals(player))
+				return true;
+    	}
+    	return false;
+    }
+    
+    /**
+     * @param corner, which corner we need to check
+     * @param player, which player the corner is being checked if belonged to
+     * @return boolean result
+     */
+    public Boolean checkCornerOwned(Corner corner, Player player) {
+    	if(corner.hasStructure()) {
+			if(corner.getStructure().getOwner().equals(player))
+				return true;
+    	}
+    	return false;
+    }
+
+    /**
+     * 
+     * @param hTile the tile we are checking for neighboring edges and corners of
+     * @param edgeLoc the current edge on the hex we are checking for neighbors of
+     * @param player the player that we want to find a neighboring edge of
+     * @return whether this given edge has a neighboring edge or corner owned by the given player
+     */
+    public boolean hasNeighborsEdge(HexTile hTile, EdgeLocation edgeLoc, Player player) {
+    	switch(edgeLoc.getDir()){
+		case NorthWest: 
+			if(checkEdgeOwned(hTile.northEdge, player) || checkEdgeOwned(hTile.southWestEdge, player) ||
+					checkCornerOwned(hTile.westCorner, player) || checkCornerOwned(hTile.northWestCorner, player))
+				return true;
+			break;
+		case North:
+			if(checkEdgeOwned(hTile.northEastEdge, player) || checkEdgeOwned(hTile.northWestEdge, player) ||
+					checkCornerOwned(hTile.northEastCorner, player) || checkCornerOwned(hTile.northWestCorner, player))
+				return true;
+			break;
+		case NorthEast:
+			if(checkEdgeOwned(hTile.northEdge, player) || checkEdgeOwned(hTile.southEastEdge, player) ||
+					checkCornerOwned(hTile.northEastCorner, player) || checkCornerOwned(hTile.eastCorner, player))
+				return true;
+			break;
+		case SouthEast:
+			if(checkEdgeOwned(hTile.northEastEdge, player) || checkEdgeOwned(hTile.southEdge, player) ||
+					checkCornerOwned(hTile.eastCorner, player) || checkCornerOwned(hTile.southEastCorner, player))
+				return true;
+			break;
+		case South:
+			if(checkEdgeOwned(hTile.southEastEdge, player) || checkEdgeOwned(hTile.southWestEdge, player) ||
+					checkCornerOwned(hTile.southEastCorner, player) || checkCornerOwned(hTile.southWestCorner, player))
+				return true;
+			break;
+		case SouthWest:
+			if(checkEdgeOwned(hTile.southEdge, player) || checkEdgeOwned(hTile.northWestEdge, player) ||
+					checkCornerOwned(hTile.southWestCorner, player) || checkCornerOwned(hTile.westCorner, player))
+				return true;
+			break;
+    	}
+    	return false;
+    }
+    
+    
+    /**
+     * 
+     * @param hTile the tile we are checking for neighboring corners along
+     * @param vertexLoc the current corner on the hex we are checking for neighbors of
+     * @param player the player that we want to find a neighboring corner of
+     * @return whether this given corner has a neighboring corner owned by the given player
+     */
+    public boolean hasNeighborsVertex(HexTile hTile, VertexLocation vertexLoc, Player player) {
+    	switch(vertexLoc.getDir()){
+    		case West: 
+    			if(hTile.southWestCorner.hasStructure() || hTile.northWestCorner.hasStructure())
+    				return true;
+    			break;
+    		case NorthWest:
+    			if(hTile.westCorner.hasStructure() || hTile.northEastCorner.hasStructure())
+    				return true;
+    			break;
+    		case NorthEast: 
+    			if(hTile.northWestCorner.hasStructure() || hTile.eastCorner.hasStructure())
+    				return true;
+    			break;
+    		case East: 
+    			if(hTile.northEastCorner.hasStructure() || hTile.southEastCorner.hasStructure())
+    				return true;
+    			break;
+    		case SouthEast: 
+    			if(hTile.eastCorner.hasStructure() || hTile.southWestCorner.hasStructure())
+    				return true;
+    			break;
+    		case SouthWest: 
+    			if(hTile.southEastCorner.hasStructure() || hTile.westCorner.hasStructure())
+    				return true;
+    			break;
+    	}
+    	return false;	
+    }
+    
+    
+    /**
+     * 
+     * @param hTile the tile we are checking for neighboring edges along
+     * @param vertexLoc vertexLoc the current corner on the hex we are checking for neighbors of
+     * @param player the player that we want to find a neighboring edge of
+     * @return whether this given corner has a neighboring edge owned by the given player
+     */
+    public boolean vertexHasEdgeConnecting(HexTile hTile, VertexLocation vertexLoc, Player player) {
+    	switch(vertexLoc.getDir()){
+    	case West: 
+			if(checkEdgeOwned(hTile.northWestEdge, player) || checkEdgeOwned(hTile.southWestEdge, player))
+				return true;
+			break;
+		case NorthWest:
+			if(checkEdgeOwned(hTile.northWestEdge, player) || checkEdgeOwned(hTile.northEdge, player))
+				return true;
+			break;
+		case NorthEast: 
+			if(checkEdgeOwned(hTile.northEdge, player) || checkEdgeOwned(hTile.northEastEdge, player))
+				return true;
+			break;
+		case East: 
+			if(checkEdgeOwned(hTile.northEastEdge, player) || checkEdgeOwned(hTile.southEastEdge, player))
+				return true;
+			break;
+		case SouthEast: 
+			if(checkEdgeOwned(hTile.southEastEdge, player) || checkEdgeOwned(hTile.southEdge, player))
+				return true;
+			break;
+		case SouthWest: 
+			if(checkEdgeOwned(hTile.southEdge, player) || checkEdgeOwned(hTile.southWestEdge, player))
+				return true;
+			break;    	
+    	}
+    	return false;
+    }
+    
+    
+    /**
+    *
+    * @param e Edge to build on
+    * @param p player to check
+    * @return true if Player p can build a road on Edge e
+    *          false otherwise
+    */
+    public boolean canBuildRoad(Edge edge, Player player) {
+    	if(!player.hasAvaiableBoardPiece(PieceType.ROAD))//First check if player has available road pieces
+    		return false;
+    	if(edge.hasStructure())
+    		return false;
+    	else {
+			List<EdgeLocation> places = edge.getLocations();
+			for(EdgeLocation edgeLoc : places) {
+				HexTile hTile = getHexTileAt(edgeLoc.getHexLoc().getX(), edgeLoc.getHexLoc().getY());
+				if(hasNeighborsEdge(hTile, edgeLoc, player))
+					return true;					
+				}
+			}
+			return false;		
+    }//Edge,Player
+
+   /**
+    *
+    * @param c Corner to build on
+    * @param p player to check
+    * @return
+    */
+    public boolean canBuildSettlement(Corner corner, Player player) {
+    	if(!player.hasAvaiableBoardPiece(PieceType.SETTLEMENT))//First check if player has available settlement pieces
+    		return false;
+    	if(corner.hasStructure())
+    		return false;
+    	else {
+    		List<VertexLocation> places = corner.getLocations();
+    		for(VertexLocation vertexLoc : places) {//Check for any neighbors that prevent building
+				HexTile hTile = getHexTileAt(vertexLoc.getHexLoc().getX(), vertexLoc.getHexLoc().getY());
+				if(hasNeighborsVertex(hTile, vertexLoc, player))
+					return false;					
+				}
+    		for(VertexLocation vertexLoc : places) {//Check for a road connecting to this corner
+    			HexTile hTile = getHexTileAt(vertexLoc.getHexLoc().getX(), vertexLoc.getHexLoc().getY());
+    			if(hasNeighborsVertex(hTile, vertexLoc, player))
+    				return true;					
+			}
+			return false;
+    	}
+    }//vertex,Player (building type?)
+    
+
+   /**
+    *
+    * @param c Corner to build on
+    * @param p player to check
+    * @return
+    */
+    public boolean canBuildCity(Corner corner, Player player) {
+    	if(!player.hasAvaiableBoardPiece(PieceType.CITY))//First check if player has available city pieces
+    		return false;
+    	if(!corner.hasStructure())
+    		return false;
+    	else {
+    		if(corner.getStructure().getPieceType() != PieceType.SETTLEMENT)
+    			return false;
+    		else {
+    			if(corner.getStructure().getOwner() != player)
+    				return false;
+    			else
+    				return true;
+    		}
+    	}
+    }//vertex,Player (building type?)
 }

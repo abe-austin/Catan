@@ -1,68 +1,47 @@
 package game.board;
 
+import game.pieces.BoardPiece;
+
+import java.util.List;
+
 import shared.definitions.HexType;
+import shared.definitions.PieceType;
 import player.Player;
+import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
 import shared.locations.HexLocation;
 
 public abstract class HexTile {
 	
 	protected HexType myType;
 	protected HexLocation location;
+	
+//	/These all need to be initialized in the board-creation phase, or from the json
+	protected Edge northWestEdge;
+	protected Edge northEdge;
+	protected Edge northEastEdge;
+	protected Edge southEastEdge;
+	protected Edge southEdge;
+	protected Edge southWestEdge;
+	
+	protected Corner westCorner;
+	protected Corner northWestCorner;
+	protected Corner northEastCorner;
+	protected Corner eastCorner;
+	protected Corner southEastCorner;
+	protected Corner southWestCorner;
+	
 
-        /**
-         *
-         * @param e Edge to build on
-         * @param p player to check
-         * @return true if Player p can build a road on Edge e
-         *          false otherwise
-         */
-	public boolean canBuildRoad(Edge edge, Player player) {
-		if(edge.hasStructure())
-			return false;
-		else {
-			//Check for if we have a friendly neighboring road/settlement/city
-			return true;
-		}
-	}//Edge,Player
-
-        /**
-         *
-         * @param c Corner to build on
-         * @param p player to check
-         * @return
-         */
-	public boolean canBuildSettlement(Corner corner, Player player) {
-		if(corner.hasStructure())
-			return false;
-		else {
-			//check for if we have a neighboring road coming into here
-			//check for if we have a settlement too close
-			return true;
-		}
-	}//vertex,Player (building type?)
-
-        /**
-         *
-         * @param c Corner to build on
-         * @param p player to check
-         * @return
-         */
-	public boolean canBuildCity(Corner corner, Player player) {
-		if(corner.hasStructure())
-			return false;
-		else {
-			//Check for if there is already a settlement built here for that player
-			return true;
-		}
-	}//vertex,Player (building type?)
-
+      
         /**
          *
          * @param e Edge to build on
          * @param p players road to build
          */
 	public void buildRoad(Edge edge, Player player) {
-		
+		BoardPiece theRoad = player.getAvaliableBoardPiece(PieceType.ROAD);
+		edge.buildStructure(theRoad);
+		theRoad.setActive(true);
 	}//Build the requested object
 
         /**
@@ -71,7 +50,9 @@ public abstract class HexTile {
          * @param p players settlement/city to build
          */
 	public void buildSettlement(Corner corner,  Player player) {
-		
+		BoardPiece theSettlement = player.getAvaliableBoardPiece(PieceType.SETTLEMENT);
+		corner.buildStructure(theSettlement);
+		theSettlement.setActive(true);
 	}
 
         /**
@@ -80,7 +61,11 @@ public abstract class HexTile {
          * @param p players settlement/city to build
          */
 	public void buildCity(Corner corner,  Player player) {
-
+		BoardPiece theCity = player.getAvaliableBoardPiece(PieceType.CITY);
+		BoardPiece theSettlement = corner.getStructure();
+		theSettlement.setActive(false);
+		corner.buildStructure(theCity);
+		theCity.setActive(true);
 	}
 
         abstract HexType getType();

@@ -7,28 +7,32 @@ import game.pieces.BoardPiece;
 
 public class Edge {
 	
-	private EdgeLocation location;
-	private List<HexTile> tilesBelongedTo;
+	private List<EdgeLocation> location;
 	BoardPiece builtStructure;
 	
 	/**
 	 * @param loc where on the map the edge is located, comprised of the hex coordinates, and which edge on that hex this comprises
-	 * @param tilesBelongedTo, the list of tile(s) that share this particular edge
-	 * @pre initialization of this assumes that the world's hexes have been created by the game already, so that they can be included 
+	 * @pre initialization of this assumes that the world's hexes have been created by the game already, so that their location can be included
 	 * in the list for this object's initialization.
 	 */
-	public Edge(EdgeLocation loc, List<HexTile> tilesBelongedTo) {
+	public Edge(List<EdgeLocation> loc) {
 		this.location = loc;
-		this.tilesBelongedTo = tilesBelongedTo;
 		builtStructure = null;		
 	}
 	
 	/**
 	 * @return whether there has been an object built here already
 	 */
-	public boolean hasStructure()
-	{
+	public boolean hasStructure() {
 		return(builtStructure != null);
+	}
+	
+	/**
+	 * @return what structure is already built here (for determining
+         * whether there is a settlement that a city can be built on)
+	 */
+	public BoardPiece getStructure() {
+		return builtStructure;
 	}
 	
 	/**
@@ -39,10 +43,10 @@ public class Edge {
 	}
 	
 	/**
-	 * @return the tiles that share this Edge
+	 * @return the list of locations that this edge is associated with
 	 */
-	public List<HexTile> getConnectedHexes(){
-		return tilesBelongedTo;
+	public List<EdgeLocation> getLocations() {
+		return location;
 	}
 	
 }

@@ -53,7 +53,6 @@ public class Player extends CardOwner {
                 if(piece.getPieceType().equals(type) && !piece.isActive())
                     return piece;
             }
-            
             return null;
         }
 
@@ -158,5 +157,16 @@ public class Player extends CardOwner {
          */
         public int getHandSize() {
             return resourceCards.size();
+        }
+        
+        public boolean equals(Object other) {
+            if (other == this) 
+            	return true;
+            if (other == null) 
+            	return false;
+            if (getClass() != other.getClass()) 
+            	return false;
+            Player p = (Player)other;
+            return color.equals(p.getColor());
         }
 }
