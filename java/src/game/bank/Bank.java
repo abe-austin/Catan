@@ -40,5 +40,32 @@ public class Bank extends CardOwner {
             addDevelopmentCard(new DevelopmentCard(DevCardType.SOLDIER));
         }
     }
+    //!!!!!!!!!!!!!!!!!!!!!!!!NEEDS TO BE DONE !!!!!!!!!!!!!!!!!!!!!!!!!
+    //public Bank(info){}  need constructor to take in info from json
+    //either empty constructor and add cards individually one level up 
+    // or pass in the info of which cards the bank has
     
+    /**
+     * gives a random development card from the bank
+     * @pre   owner has at least one development card
+     * @post  the owner has one less development card
+     * @param devCardType
+     * @return a development card from the bank
+     */
+    @Override
+    public DevelopmentCard giveDevelopmentCard(DevCardType devCardType){
+        //index of random development card
+         int index = (int)(Math.random()*developmentCards.size());
+         
+         int i=0;
+            for(DevelopmentCard card : developmentCards) {
+                if(i<developmentCards.size() && i==index) {
+                    developmentCards.remove(card);
+                    return card;
+                }
+                i++;
+            }
+
+            return null;
+        }
 }

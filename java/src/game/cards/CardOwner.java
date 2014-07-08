@@ -156,4 +156,15 @@ public class CardOwner {
 
             return false;
         }
+        public Set<ResourceCard> getResourceCards() {
+            return resourceCards;
+        }
+
+        public Set<DevelopmentCard> getDevelopmentCards() {
+            return developmentCards;
+        }
+        
+        public Set<SpecialCard> getSpecialCards() {
+            return specialCards;
+        }
 }
