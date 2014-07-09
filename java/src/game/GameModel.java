@@ -5,6 +5,7 @@ import game.board.BoardModel;
 import java.util.HashSet;
 import java.util.Set;
 import player.Player;
+import system.User;
 
 /**
  *
@@ -19,6 +20,15 @@ public class GameModel {
         board = new BoardModel();
         bank = new Bank();
         players = new HashSet<Player>();
+    }
+
+    /**
+     *
+     * @param user to check for
+     * @return true if user is in game
+     */
+    public boolean hasUser(User user) {
+        return false;
     }
 
     /**
