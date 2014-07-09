@@ -1,5 +1,18 @@
 package client.serverProxy;
 
+import java.io.UnsupportedEncodingException;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpResponseFactory;
+import org.apache.http.HttpStatus;
+import org.apache.http.HttpVersion;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.DefaultHttpResponseFactory;
+import org.apache.http.message.BasicStatusLine;
+import org.apache.http.HttpEntity;
+
 import shared.communication.GameModelParam;
 
 import com.google.gson.Gson;
@@ -128,19 +141,35 @@ public class MockServer implements Server{
 		return null; 
 	}
 		
-	private String staticGameModel() {
-		
-		Gson gson = new Gson();
-		GameModelParam gameModel = new GameModelParam();
-		String gameModelString = gson.toJson(gameModel);
-		return gameModelString;
+	private HttpResponse staticGameModel() {
+		HttpResponseFactory factory = new DefaultHttpResponseFactory();
+		HttpResponse response;
+		if(success) {
+			Gson gson = new Gson();
+			GameModelParam gameModel = new GameModelParam();
+			String gameModelString = gson.toJson(gameModel);
+			response = factory.newHttpResponse(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, null), null);
+			try {
+				StringEntity entity = new StringEntity(gameModelString);
+				response.setEntity(entity);
+
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			response = factory.newHttpResponse(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_BAD_REQUEST, null), null);
+		}
+		return response;
 	}
 	
 	private String successOrFail() {
 		if(success) {
 			return "success";
 		}
-		return "fail";
+		else {
+			return "fail";
+		}
 		
 	}
 

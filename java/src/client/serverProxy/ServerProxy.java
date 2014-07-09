@@ -66,9 +66,29 @@ public class ServerProxy implements Server{
 	 * @return		the <code>Response</code> received from the server
 	 */
 	@Override
-	public String doGet(String url) {
-		// TODO Auto-generated method stub
-		return null;
+	public String doGet(String urlString) {
+
+        try{
+   		 	// verify our client code
+        	URL url = new URL(urlString);
+    	    URLConnection conn = url.openConnection();
+            conn.setDoOutput(true);
+            
+	        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+	        wr.flush();
+
+	        //get response
+		    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		    StringBuilder sb = new StringBuilder();
+		    String resultAsString = null;
+		    while((resultAsString = in.readLine()) != null){
+		    	sb.append(resultAsString);
+		    }
+		    return sb.toString();
+        }
+        catch(IOException e){
+        	return null;
+        }
 	}
 
 }

@@ -48,7 +48,7 @@ public class ServerProxyFacade {
 	}
 	
 	private boolean checkResponseStatus(String response) {
-		if(response == "success") {
+		if(response.equals("success")) {
 			return true;
 		}
 		else {
@@ -180,8 +180,16 @@ public class ServerProxyFacade {
 	}
 	
 	public GameModel loadGame(String gameName) {
-		//TODO load game stuff
-		return null;
+		
+		//create param object and convert to json
+		LoadGameParam param = new LoadGameParam(gameName);
+		String jsonParam = gson.toJson(param);
+		
+		//make post to proper url using json as the body of the request
+		String url = "/games/load";
+		String response = server.doPost(url, jsonParam);
+		
+		return jsonToGameModel(response); 
 	}
 
     /**
@@ -193,7 +201,7 @@ public class ServerProxyFacade {
 	public GameModel getGameModel(int version) {
 		
 		//make post to proper url using json as the body of the request
-		String url = "/game/model" + version;
+		String url = "/game/model/?" + version;
 		String response = server.doGet(url);
 		
 		return jsonToGameModel(response);  
@@ -276,21 +284,21 @@ public class ServerProxyFacade {
 		return checkResponseStatus(response);  
 	}
 
-    /**
-     * gets a <code>Set<String></code> of the available AI types that may be added to the game
-     * 
-     * @return Set<String> containing the AI names that may be added to the game
-     */
-	public Set<String> getAIList() {
-
-		//make post to proper url using json as the body of the request
-		String url = "/game/listAI";
-		String response = server.doGet(url);
-		
-		//TODO parse the response from the server
-		
-		return null; 
-	}
+//    /**
+//     * gets a <code>Set<String></code> of the available AI types that may be added to the game
+//     * 
+//     * @return Set<String> containing the AI names that may be added to the game
+//     */
+//	public Set<String> getAIList() {
+//
+//		//make post to proper url using json as the body of the request
+//		String url = "/game/listAI";
+//		String response = server.doGet(url);
+//		
+//		//TODO parse the response from the server
+//		
+//		return null; 
+//	}
 	
     /**
      * sends a chat message to other players
