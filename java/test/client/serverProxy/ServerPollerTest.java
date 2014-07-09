@@ -7,7 +7,11 @@
 package client.serverProxy;
 
 import game.GameModel;
+
 import org.junit.Test;
+
+import client.serverProxy.ServerPoller;
+import client.serverProxy.ServerProxyFacade;
 import static org.junit.Assert.*;
 
 /**

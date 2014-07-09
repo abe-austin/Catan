@@ -216,7 +216,7 @@ public class ServerProxyFacade {
 	public GameModel getGameModel(int version) {
 		
 		//make post to proper url using json as the body of the request
-		String url = "/game/model/?" + version;
+		String url = "/game/model";
 		HttpResponse response = server.doGet(url);
 		
 		return jsonToGameModel(response);  
