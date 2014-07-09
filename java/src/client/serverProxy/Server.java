@@ -1,5 +1,7 @@
 package client.serverProxy;
 
+import org.apache.http.HttpResponse;
+
 /**
  * Connects to the server through HTTP and rends requests/receive response
  * 
@@ -7,6 +9,6 @@ package client.serverProxy;
  * 
  */
 public interface Server {	
-	public String doPost(String url, String json);
-	public String doGet(String url);
+	public HttpResponse doPost(String url, String json);
+	public HttpResponse doGet(String url);
 }

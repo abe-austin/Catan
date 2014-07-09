@@ -33,7 +33,7 @@ public class MockServer implements Server{
 	public MockServer(){}
 	
 	@Override
-	public String doPost(String url, String json) {
+	public HttpResponse doPost(String url, String json) {
 		
 		switch(url) {
 			
@@ -122,7 +122,7 @@ public class MockServer implements Server{
 	}
 
 	@Override
-	public String doGet(String url) {
+	public HttpResponse doGet(String url) {
 		
 		switch(url){
 			
@@ -142,6 +142,7 @@ public class MockServer implements Server{
 	}
 		
 	private HttpResponse staticGameModel() {
+		
 		HttpResponseFactory factory = new DefaultHttpResponseFactory();
 		HttpResponse response;
 		if(success) {
@@ -163,12 +164,17 @@ public class MockServer implements Server{
 		return response;
 	}
 	
-	private String successOrFail() {
+	private HttpResponse successOrFail() {
+		
+		HttpResponseFactory factory = new DefaultHttpResponseFactory();
+		HttpResponse response;
 		if(success) {
-			return "success";
+			response = factory.newHttpResponse(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, null), null);
+			return response;
 		}
 		else {
-			return "fail";
+			response = factory.newHttpResponse(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_BAD_REQUEST, null), null);
+			return response;
 		}
 		
 	}

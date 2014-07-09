@@ -1,11 +1,11 @@
 package client.serverProxy;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
 
 /**
  * Communicates with the server through http
@@ -32,30 +32,28 @@ public class ServerProxy implements Server{
 	 * @return		the <code>Response</code> received from the server
 	 */
 	@Override
-	public String doPost(String urlString, String json) {
-
-        try{
-   		 	// verify our client code
-        	URL url = new URL(urlString);
-    	    URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            
-	        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-	        wr.write(json);
-	        wr.flush();
-
-	        //get response
-		    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		    StringBuilder sb = new StringBuilder();
-		    String resultAsString = null;
-		    while((resultAsString = in.readLine()) != null){
-		    	sb.append(resultAsString);
-		    }
-		    return sb.toString();
-        }
-        catch(IOException e){
-        	return null;
-        }		
+	public HttpResponse doPost(String urlString, String json) {
+		
+		HttpResponse response = null;
+		try {
+			HttpClient httpclient = HttpClients.createDefault();
+			HttpPost httppost = new HttpPost("http://localhost:8081/game/listAI");
+	
+			httppost.setEntity(new StringEntity(json, "utf-8"));
+	
+			//Execute and get the response.
+			response = httpclient.execute(httppost);
+//			HttpEntity entity = response.getEntity();
+	
+//			if (entity != null) {
+//				System.out.println(EntityUtils.toString(entity));
+//				System.out.println(response.getStatusLine().getStatusCode());
+//			}
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+		return response;
 	}
 
 	/**
@@ -66,29 +64,26 @@ public class ServerProxy implements Server{
 	 * @return		the <code>Response</code> received from the server
 	 */
 	@Override
-	public String doGet(String urlString) {
-
-        try{
-   		 	// verify our client code
-        	URL url = new URL(urlString);
-    	    URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            
-	        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-	        wr.flush();
-
-	        //get response
-		    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		    StringBuilder sb = new StringBuilder();
-		    String resultAsString = null;
-		    while((resultAsString = in.readLine()) != null){
-		    	sb.append(resultAsString);
-		    }
-		    return sb.toString();
-        }
-        catch(IOException e){
-        	return null;
-        }
+	public HttpResponse doGet(String urlString) {
+		
+		HttpResponse response = null;
+		try {
+			HttpClient httpclient = HttpClients.createDefault();
+			HttpGet httpget = new HttpGet("http://localhost:8081/game/listAI");
+	
+			//Execute and get the response.
+			response = httpclient.execute(httpget);
+//			HttpEntity entity = response.getEntity();
+	
+//			if (entity != null) {
+//				System.out.println(EntityUtils.toString(entity));
+//				System.out.println(response.getStatusLine().getStatusCode());
+//			}
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+		return response;
 	}
 
 }
