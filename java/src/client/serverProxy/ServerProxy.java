@@ -37,7 +37,7 @@ public class ServerProxy implements Server{
 		HttpResponse response = null;
 		try {
 			HttpClient httpclient = HttpClients.createDefault();
-			HttpPost httppost = new HttpPost("http://localhost:8081/game/listAI");
+			HttpPost httppost = new HttpPost("http://localhost:8081" + urlString);
 	
 			httppost.setEntity(new StringEntity(json, "utf-8"));
 	
@@ -69,7 +69,7 @@ public class ServerProxy implements Server{
 		HttpResponse response = null;
 		try {
 			HttpClient httpclient = HttpClients.createDefault();
-			HttpGet httpget = new HttpGet("http://localhost:8081/game/listAI");
+			HttpGet httpget = new HttpGet("http://localhost:8081" + urlString);
 	
 			//Execute and get the response.
 			response = httpclient.execute(httpget);
