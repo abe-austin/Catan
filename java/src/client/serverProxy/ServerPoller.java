@@ -17,22 +17,31 @@ public class ServerPoller {
     /**
      * empty constructor
      */
-    public ServerPoller(){}
+    public ServerPoller(){
+        serverProxy=null;
+        gameModel=null;
+    }
     /**
      * @pre the server proxy being pass in is valid
      * sets the server proxy that it will connect to
      * @param serverProxy  the serverProxy
      */
-    public void setServerProxy( ServerProxyFacade serverProxy){}
+    public void setServerProxy( ServerProxyFacade serverProxy){
+        this.serverProxy = serverProxy;
+    }
     /**
      * sends the current game model to the model
      */
-    public void sendGameModel(){}
+    public GameModel sendGameModel(){
+        return gameModel;
+    }
     /**
      * @pre the server poller has a valid server proxy already set
      * polls the server to see if there have been changes in the game model and 
      * gets the game model if there were changes
      */
-    public void poll(){}
+    public void poll(){
+        gameModel=serverProxy.getGameModel(0);
+    }
 
 }

@@ -18,6 +18,6 @@ public class BankTest{
         int startSize=bank.getDevelopmentCards().size();
         DevelopmentCard devCard = bank.giveDevelopmentCard(DevCardType.MONUMENT);
         System.out.println(devCard.getCardType());
-        assertFalse(startSize,bank.getDevelopmentCards().size());
+        assertEquals(startSize-1,bank.getDevelopmentCards().size());
     }
 }

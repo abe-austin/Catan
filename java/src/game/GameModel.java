@@ -15,7 +15,7 @@ public class GameModel {
     private BoardModel board;
     private Set<Player> players;
     private Bank bank;
-    private ChatLog chatLog;
+    //private ChatLog chatLog; ---gameHistory has a chatLog
     private GameHistory gameHistory;
     private TurnTracker turnTracker;
     private TradeOffer tradeOffer;
@@ -26,6 +26,11 @@ public class GameModel {
         board = new BoardModel();
         bank = new Bank();
         players = new HashSet<Player>();
+        gameHistory = new GameHistory();
+        turnTracker = new TurnTracker();
+        tradeOffer = new TradeOffer();
+        version = 0;
+        winner = -1;
     }
 
     /**
@@ -59,10 +64,10 @@ public class GameModel {
     }
 
     /**
-     * @param players the players to set
+     * @param player the players to set
      */
-    public void addPlayers(Player aPlayer) {
-        this.players.add(aPlayer);
+    public void addPlayers(Player player) {
+        this.players.add(player);
     }
 
     /**
@@ -72,13 +77,13 @@ public class GameModel {
         return bank;
     }
 
-	public ChatLog getChatLog() {
-		return chatLog;
-	}
-
-	public void setChatLog(ChatLog chatLog) {
-		this.chatLog = chatLog;
-	}
+//	public ChatLog getChatLog() {
+//		return chatLog;
+//	}
+//
+//	public void setChatLog(ChatLog chatLog) {
+//		this.chatLog = chatLog;
+//	}
 
 	public GameHistory getGameHistory() {
 		return gameHistory;

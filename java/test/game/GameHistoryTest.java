@@ -1,6 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package game;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -8,9 +13,25 @@ import shared.definitions.Command;
 
 /**
  *
- * @author Kevin MacMaster
+ * @author Cory
  */
 public class GameHistoryTest {
+    
+    public GameHistoryTest() {
+    }
+
+    /**
+     * Test of addCommand method, of class GameHistory.
+     */
+    @Test
+    public void testAddCommand() {
+        System.out.println("addCommand");
+        Command command = null;
+        GameHistory instance = new GameHistory();
+        instance.addCommand(command);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 
     /**
      * Test of getCommands method, of class GameHistory.
@@ -19,16 +40,25 @@ public class GameHistoryTest {
     public void testGetCommands() {
         System.out.println("getCommands");
         GameHistory instance = new GameHistory();
-        List expResult = new ArrayList<Command>();
-
-        expResult.add(new Command("Command One"));
-        instance.addCommand(new Command("Command One"));
-
-        expResult.add(new Command("Command Two"));
-        instance.addCommand(new Command("Command Two"));
-
-        List result = instance.getCommands();
-        assertEquals(expResult.get(1), result.get(1));
+        List<Command> expResult = null;
+        List<Command> result = instance.getCommands();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
+    /**
+     * Test of getChatlog method, of class GameHistory.
+     */
+    @Test
+    public void testGetChatlog() {
+        System.out.println("getChatlog");
+        GameHistory instance = new GameHistory();
+        ChatLog expResult = null;
+        ChatLog result = instance.getChatlog();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+    
 }
