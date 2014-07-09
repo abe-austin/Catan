@@ -6,6 +6,7 @@
 
 package client.serverProxy;
 
+import game.GameModel;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -27,20 +28,12 @@ public class ServerPollerTest {
         ServerProxyFacade serverProxy = null;
         ServerPoller instance = new ServerPoller();
         instance.setServerProxy(serverProxy);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of sendGameModel method, of class ServerPoller.
-     */
-    @Test
-    public void testSendGameModel() {
-        System.out.println("sendGameModel");
-        ServerPoller instance = new ServerPoller();
-        instance.sendGameModel();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNull(instance.getServerProxy());
+        
+        serverProxy= new ServerProxyFacade();
+        instance.setServerProxy(serverProxy);
+        assertEquals(serverProxy,instance.getServerProxy());
+        
     }
 
     /**
@@ -51,8 +44,13 @@ public class ServerPollerTest {
         System.out.println("poll");
         ServerPoller instance = new ServerPoller();
         instance.poll();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNull(instance.getGameModel());
+        
+        ServerProxyFacade mockServer = new ServerProxyFacade();
+        instance.setServerProxy(mockServer);
+        instance.poll();
+        GameModel expectedGameModel= new GameModel();
+        assertEquals(expectedGameModel,instance.getGameModel());
     }
     
 }

@@ -27,11 +27,11 @@ public class ResourceCardTest {
      * Test of getResource method, of class ResourceCard.
      */
     @Test
-    public void testGetResource() {
+    public void testGetResourceType() {
         System.out.println("getResource");
         ResourceType expResult = ResourceType.BRICK;
         ResourceCard instance = new ResourceCard(expResult);
-        ResourceType result = instance.getResource();
+        ResourceType result = instance.getResourceType();
         assertEquals(expResult, result);
     }
 

@@ -32,12 +32,12 @@ public class ServerProxy implements Server{
 	 * @return		the <code>Response</code> received from the server
 	 */
 	@Override
-	public HttpResponse doPost(String urlString, String json) {
+	public HttpResponse doPost(String url, String json) {
 		
 		HttpResponse response = null;
 		try {
 			HttpClient httpclient = HttpClients.createDefault();
-			HttpPost httppost = new HttpPost("http://localhost:8081" + urlString);
+			HttpPost httppost = new HttpPost("http://localhost:8081" + url);
 	
 			httppost.setEntity(new StringEntity(json, "utf-8"));
 	
@@ -64,12 +64,12 @@ public class ServerProxy implements Server{
 	 * @return		the <code>Response</code> received from the server
 	 */
 	@Override
-	public HttpResponse doGet(String urlString) {
+	public HttpResponse doGet(String url) {
 		
 		HttpResponse response = null;
 		try {
 			HttpClient httpclient = HttpClients.createDefault();
-			HttpGet httpget = new HttpGet("http://localhost:8081" + urlString);
+			HttpGet httpget = new HttpGet("http://localhost:8081" + url);
 	
 			//Execute and get the response.
 			response = httpclient.execute(httpget);

@@ -8,10 +8,10 @@ import shared.definitions.DevCardType;
  * @author Kevin MacMaster
  */
 public class DevelopmentCard extends Card {
-    private DevCardType development;
+    private DevCardType developmentType;
 
     public DevelopmentCard(DevCardType development) {
-        this.development = development;
+        this.developmentType = development;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class DevelopmentCard extends Card {
     /**
      * @return the development
      */
-    public DevCardType getDevelopment() {
-        return development;
+    public DevCardType getDevelopmentType() {
+        return developmentType;
     }
 }

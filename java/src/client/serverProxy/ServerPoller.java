@@ -30,9 +30,16 @@ public class ServerPoller {
         this.serverProxy = serverProxy;
     }
     /**
+     * 
+     * @return the serverProxyFacade currently assigned, null if none
+     */
+    public ServerProxyFacade getServerProxy(){
+        return serverProxy;
+    }
+    /**
      * sends the current game model to the model
      */
-    public GameModel sendGameModel(){
+    public GameModel getGameModel(){
         return gameModel;
     }
     /**
@@ -41,7 +48,9 @@ public class ServerPoller {
      * gets the game model if there were changes
      */
     public void poll(){
-        gameModel=serverProxy.getGameModel(0);
+        if(serverProxy!=null){
+            gameModel=serverProxy.getGameModel(0);
+        }
     }
 
 }
