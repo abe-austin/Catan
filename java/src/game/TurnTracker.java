@@ -10,6 +10,11 @@ public class TurnTracker {
     private GameState status;
     private int currentTurn;
 
+    public TurnTracker() {
+        status = GameState.Creating;
+        currentTurn = 0;
+    }
+
     /**
      * @return the status
      */
@@ -36,6 +41,16 @@ public class TurnTracker {
      */
     public void setCurrentTurn(int currentTurn) {
         this.currentTurn = currentTurn;
+    }
+
+    /**
+     * Goes to next turn position
+     */
+    public void nextTurn() {
+        currentTurn++;
+
+        if(currentTurn > 3)
+            currentTurn = 0;
     }
 
 }

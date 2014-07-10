@@ -28,8 +28,7 @@ public class ChatLogTest {
         String line = "";
         ChatLog instance = new ChatLog();
         instance.addChatLine(line);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(instance.getChatLines().size(), 1);
     }
 
     /**
@@ -39,11 +38,9 @@ public class ChatLogTest {
     public void testGetChatLines() {
         System.out.println("getChatLines");
         ChatLog instance = new ChatLog();
-        ArrayList<String> expResult = null;
+        ArrayList<String> expResult = new ArrayList<String>();
         ArrayList<String> result = instance.getChatLines();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

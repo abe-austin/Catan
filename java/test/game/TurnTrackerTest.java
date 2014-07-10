@@ -20,44 +20,16 @@ public class TurnTrackerTest {
     }
 
     /**
-     * Test of getStatus method, of class TurnTracker.
-     */
-    @Test
-    public void testGetStatus() {
-        System.out.println("getStatus");
-        TurnTracker instance = new TurnTracker();
-        GameState expResult = null;
-        GameState result = instance.getStatus();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of setStatus method, of class TurnTracker.
      */
     @Test
     public void testSetStatus() {
         System.out.println("setStatus");
-        GameState status = null;
-        TurnTracker instance = new TurnTracker();
-        instance.setStatus(status);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getCurrentTurn method, of class TurnTracker.
-     */
-    @Test
-    public void testGetCurrentTurn() {
-        System.out.println("getCurrentTurn");
-        TurnTracker instance = new TurnTracker();
-        int expResult = 0;
-        int result = instance.getCurrentTurn();
+        GameState expResult = GameState.FirstRound;
+        TurnTracker instance = new TurnTracker();        
+        instance.setStatus(expResult);
+        GameState result = instance.getStatus();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -66,11 +38,30 @@ public class TurnTrackerTest {
     @Test
     public void testSetCurrentTurn() {
         System.out.println("setCurrentTurn");
-        int currentTurn = 0;
+        int expResult = 3;
         TurnTracker instance = new TurnTracker();
-        instance.setCurrentTurn(currentTurn);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.setCurrentTurn(expResult);
+        int result = instance.getCurrentTurn();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of next turn incrementation
+     */
+    @Test
+    public void testNextTurn() {
+        System.out.println("nextTurn");
+        int expResult = 1;
+        TurnTracker instance = new TurnTracker();
+        instance.nextTurn();
+        int result = instance.getCurrentTurn();
+        assertEquals(expResult, result);
+
+        instance.setCurrentTurn(3);
+        expResult = 0;
+        instance.nextTurn();
+        result = instance.getCurrentTurn();
+        assertEquals(expResult, result);
     }
     
 }
