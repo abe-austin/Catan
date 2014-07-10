@@ -5,6 +5,9 @@
  */
 
 package client.serverProxy;
+import com.google.gson.Gson;
+
+import shared.communication.ServerResponse;
 import game.GameModel;
 
 /**
@@ -49,7 +52,12 @@ public class ServerPoller {
      */
     public void poll(){
         if(serverProxy!=null){
-            gameModel=serverProxy.getGameModel(0);
+        	ServerResponse response = serverProxy.getGameModel(0);
+        	if(response.getCode() == 200) {
+        		//gameModel = (GameModel)response.getBody();
+        		Gson gson = new Gson();
+        		gameModel = gson.fromJson((String)response.getBody(), GameModel.class);
+        	}
         }
     }
 

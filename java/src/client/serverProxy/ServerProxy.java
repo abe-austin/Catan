@@ -1,5 +1,7 @@
 package client.serverProxy;
 
+import game.GameModel;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -8,6 +10,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+
+import shared.communication.ServerResponse;
 
 import com.google.gson.Gson;
 
@@ -36,13 +40,13 @@ public class ServerProxy implements Server{
 	 * @return		the <code>Response</code> received from the server
 	 */
 	@Override
-	public Object doPost(String url, Object requestOb) {
+	public ServerResponse doPost(String url, Object requestOb) {
 		
 		Gson gson = new Gson();
 		String json = gson.toJson(requestOb);
 		
 		Object responseOb = null;
-		
+		ServerResponse serverResponse = null;
 		try {
 			HttpClient httpclient = HttpClients.createDefault();
 			HttpPost httppost = new HttpPost("http://localhost:8081" + url);
@@ -52,12 +56,21 @@ public class ServerProxy implements Server{
 			//Execute and get the response.
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
-			responseOb = (Object)EntityUtils.toString(entity);
+			
+			responseOb = EntityUtils.toString(entity);
+			//responseOb = gson.fromJson(EntityUtils.toString(entity), Object.class);
+			//GameModel game = new GameModel();
+			//String gamejson = gson.toJson(game);
+			//responseOb = game;
+			//response.setStatusCode(200);
+			
+			serverResponse = new ServerResponse(response.getStatusLine().getStatusCode(),
+					responseOb);
 		}
 		catch(Exception e) {
 			System.out.println(e);
 		}
-		return responseOb;
+		return serverResponse;
 	}
 
 	/**
@@ -68,10 +81,11 @@ public class ServerProxy implements Server{
 	 * @return		the <code>Response</code> received from the server
 	 */
 	@Override
-	public Object doGet(String url) {
+	public ServerResponse doGet(String url) {
 		
 		Object responseOb = null;
-		
+		ServerResponse serverResponse = null;
+
 		try {
 			HttpClient httpclient = HttpClients.createDefault();
 			HttpGet httpget = new HttpGet("http://localhost:8081" + url);
@@ -79,13 +93,17 @@ public class ServerProxy implements Server{
 			//Execute and get the response.
 			HttpResponse response = httpclient.execute(httpget);
 			HttpEntity entity = response.getEntity();
+			
 			responseOb = (Object)EntityUtils.toString(entity);
+			
+			serverResponse = new ServerResponse(response.getStatusLine().getStatusCode(),
+					responseOb);
 	
 		}
 		catch(Exception e) {
 			System.out.println(e);
 		}
-		return responseOb;
+		return serverResponse;
 	}
 
 }
