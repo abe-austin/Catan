@@ -4,13 +4,23 @@ import game.board.Edge;
 
 public class BuildRoadParam {
 
+	private String type;
 	private int playerIndex;
-	private Edge e;
+	private Edge roadLocation;
 	
-	public BuildRoadParam(int playerIndex, Edge e) {
+	public BuildRoadParam(String type, int playerIndex, Edge roadLocation) {
 		super();
+		this.type = type;
 		this.playerIndex = playerIndex;
-		this.e = e;
+		this.roadLocation = roadLocation;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public int getPlayerIndex() {
@@ -21,12 +31,12 @@ public class BuildRoadParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public Edge getEdge() {
-		return e;
+	public Edge getRoadLocation() {
+		return roadLocation;
 	}
 
-	public void setEdge(Edge e) {
-		this.e = e;
+	public void setRoadLocation(Edge roadLocation) {
+		this.roadLocation = roadLocation;
 	}
 	
 	

@@ -4,15 +4,25 @@ import game.board.Corner;
 
 public class BuildSettlementParam {
 
+	private String type;
 	private int playerIndex;
-	private Corner c;
+	private Corner vertexLocation;
 	private boolean free;
 	
-	public BuildSettlementParam(int playerIndex, Corner c, boolean free) {
+	public BuildSettlementParam(String type, int playerIndex, Corner vertexLocation, boolean free) {
 		super();
+		this.type = type;
 		this.playerIndex = playerIndex;
-		this.c = c;
+		this.vertexLocation = vertexLocation;
 		this.free = free;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public int getPlayerIndex() {
@@ -23,12 +33,12 @@ public class BuildSettlementParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public Corner getCorner() {
-		return c;
+	public Corner getVertexLocation() {
+		return vertexLocation;
 	}
 
-	public void setCorner(Corner c) {
-		this.c = c;
+	public void setVertexLocation(Corner vertexLocation) {
+		this.vertexLocation = vertexLocation;
 	}
 
 	public boolean isFree() {

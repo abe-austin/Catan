@@ -2,15 +2,25 @@ package shared.communication;
 
 public class SendChatParam {
 	
+	private String type;
 	private int playerIndex;
-	private String message;
+	private String content;
 	
-	public SendChatParam(int playerIndex, String message) {
+	public SendChatParam(String type, int playerIndex, String content) {
 		super();
+		this.type = type;
 		this.playerIndex = playerIndex;
-		this.message = message;
+		this.content = content;
 	}
 
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 	public int getPlayerIndex() {
 		return playerIndex;
 	}
@@ -19,11 +29,11 @@ public class SendChatParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getContent() {
+		return content;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setContent(String content) {
+		this.content = content;
 	}
 }

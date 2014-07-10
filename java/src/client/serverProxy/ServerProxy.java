@@ -1,11 +1,15 @@
 package client.serverProxy;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import com.google.gson.Gson;
 
 /**
  * Communicates with the server through http
@@ -32,9 +36,13 @@ public class ServerProxy implements Server{
 	 * @return		the <code>Response</code> received from the server
 	 */
 	@Override
-	public HttpResponse doPost(String url, String json) {
+	public Object doPost(String url, Object requestOb) {
 		
-		HttpResponse response = null;
+		Gson gson = new Gson();
+		String json = gson.toJson(requestOb);
+		
+		Object responseOb = null;
+		
 		try {
 			HttpClient httpclient = HttpClients.createDefault();
 			HttpPost httppost = new HttpPost("http://localhost:8081" + url);
@@ -42,18 +50,14 @@ public class ServerProxy implements Server{
 			httppost.setEntity(new StringEntity(json, "utf-8"));
 	
 			//Execute and get the response.
-			response = httpclient.execute(httppost);
-//			HttpEntity entity = response.getEntity();
-	
-//			if (entity != null) {
-//				System.out.println(EntityUtils.toString(entity));
-//				System.out.println(response.getStatusLine().getStatusCode());
-//			}
+			HttpResponse response = httpclient.execute(httppost);
+			HttpEntity entity = response.getEntity();
+			responseOb = (Object)EntityUtils.toString(entity);
 		}
 		catch(Exception e) {
 			System.out.println(e);
 		}
-		return response;
+		return responseOb;
 	}
 
 	/**
@@ -64,26 +68,24 @@ public class ServerProxy implements Server{
 	 * @return		the <code>Response</code> received from the server
 	 */
 	@Override
-	public HttpResponse doGet(String url) {
+	public Object doGet(String url) {
 		
-		HttpResponse response = null;
+		Object responseOb = null;
+		
 		try {
 			HttpClient httpclient = HttpClients.createDefault();
 			HttpGet httpget = new HttpGet("http://localhost:8081" + url);
 	
 			//Execute and get the response.
-			response = httpclient.execute(httpget);
-//			HttpEntity entity = response.getEntity();
+			HttpResponse response = httpclient.execute(httpget);
+			HttpEntity entity = response.getEntity();
+			responseOb = (Object)EntityUtils.toString(entity);
 	
-//			if (entity != null) {
-//				System.out.println(EntityUtils.toString(entity));
-//				System.out.println(response.getStatusLine().getStatusCode());
-//			}
 		}
 		catch(Exception e) {
 			System.out.println(e);
 		}
-		return response;
+		return responseOb;
 	}
 
 }

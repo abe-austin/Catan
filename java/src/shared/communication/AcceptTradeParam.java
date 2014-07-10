@@ -2,26 +2,39 @@ package shared.communication;
 
 public class AcceptTradeParam {
 
+	private String type;
 	private int playerIndex;
-	private boolean doesAccept;
+	private boolean willAccept;
 		
-	public AcceptTradeParam(int playerIndex, boolean doesAccept) {
+	public AcceptTradeParam(String type, int playerIndex, boolean willAccept) {
 		super();
+		this.type = type;
 		this.playerIndex = playerIndex;
-		this.doesAccept = doesAccept;
+		this.willAccept = willAccept;
 	}
 	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public int getPlayerIndex() {
 		return playerIndex;
 	}
+	
 	public void setPlayerIndex(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
-	public boolean isDoesAccept() {
-		return doesAccept;
+	
+	public boolean isWillAccept() {
+		return willAccept;
 	}
-	public void setDoesAccept(boolean doesAccept) {
-		this.doesAccept = doesAccept;
+	
+	public void setWillAccept(boolean willAccept) {
+		this.willAccept = willAccept;
 	}
 	
 }

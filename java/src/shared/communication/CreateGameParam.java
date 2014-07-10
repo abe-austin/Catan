@@ -2,19 +2,19 @@ package shared.communication;
 
 public class CreateGameParam {
 	
-	private String gameName;
+	private String name;
 
-	public CreateGameParam(String gameName) {
+	public CreateGameParam(String name) {
 		super();
-		this.gameName = gameName;
+		this.name = name;
 	}
 
-	public String getGameName() {
-		return gameName;
+	public String getName() {
+		return name;
 	}
 
-	public void setGameName(String gameName) {
-		this.gameName = gameName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

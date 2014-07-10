@@ -2,29 +2,29 @@ package shared.communication;
 
 public class SaveGameParam {
 
-	int gameID;
-	String gameName;
+	int id;
+	String name;
 	
-	public SaveGameParam(int gameID, String gameName) {
+	public SaveGameParam(int id, String name) {
 		super();
-		this.gameID = gameID;
-		this.gameName = gameName;
+		this.id = id;
+		this.name = name;
 	}
 
-	public int getGameID() {
-		return gameID;
+	public int getID() {
+		return id;
 	}
 	
-	public void setGameID(int gameID) {
-		this.gameID = gameID;
+	public void setID(int gameID) {
+		this.id = gameID;
 	}
 	
-	public String getGameName() {
-		return gameName;
+	public String getName() {
+		return name;
 	}
 	
-	public void setGameName(String gameName) {
-		this.gameName = gameName;
+	public void setGameName(String name) {
+		this.name = name;
 	}
 	
 	
