@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package controller;
 
 import client.data.RobPlayerInfo;
 import game.GameModel;
 import game.cards.CardOwner;
 import game.pieces.BoardPiece;
+import java.util.ArrayList;
 import player.Player;
 import shared.definitions.DevCardType;
 import shared.definitions.PieceType;
@@ -26,9 +21,12 @@ import shared.locations.VertexLocation;
  */
 class GamePlayController {
     private GameModel gameModel;
+    private Player player;
+    private HexTileController hexTileController;
 
     public GamePlayController() {
         gameModel = new GameModel();
+        hexTileController = new HexTileController(gameModel.getBoard());
     }
 
     /**
@@ -43,7 +41,7 @@ class GamePlayController {
      * @param gameModel
      */
     public void switchGameModel(GameModel gameModel){
-//        this.gameModel.update(gameModel);
+        this.gameModel = gameModel;
     }
 
     /**
@@ -61,12 +59,12 @@ class GamePlayController {
      * @pre player has enough resources to buy dev card, bank still has a development card
      * @post player had a development card, bank has one less
      */
-    public void buyCard(Player player) {//DevCardController --goes in GamePlay
+    public void buyCard() {                                        // DevCardController 
         gameModel.getBank().addResourceCard(player.giveResourceCard(ResourceType.WHEAT));
         gameModel.getBank().addResourceCard(player.giveResourceCard(ResourceType.SHEEP));
         gameModel.getBank().addResourceCard(player.giveResourceCard(ResourceType.ORE));
 
-//        player.addDevelopmentCard(gameModel.getBank().giveDevelopmentCard());
+        player.addDevelopmentCard(gameModel.getBank().giveDevelopmentCard(null));
     }
 
     /**
@@ -87,7 +85,7 @@ class GamePlayController {
      * @post player has all resource cards of given type that previously
      *          belonged to other players
      */
-    public void playMonopolyCard(Player player, ResourceType resource) {//DevCardController --goes in GamePlay
+    public void playMonopolyCard(ResourceType resource) {        // DevCardController
         player.giveDevelopmentCard(DevCardType.MONOPOLY);
         for(Player person : gameModel.getPlayers()) {
             while(!person.equals(player) && person.hasResource(resource))
@@ -99,7 +97,7 @@ class GamePlayController {
      * This method is called when the user plays a monument development card.
      * @post player has one more point;
      */
-    public void playMonumentCard(Player player) {//DevCardController --goes in GamePlay
+    public void playMonumentCard() {                               // DevCardController
         player.giveDevelopmentCard(DevCardType.MONUMENT);
         player.addPoint();
     }
@@ -109,7 +107,7 @@ class GamePlayController {
      * @pre player has road builder development card and has at least two more available roads
      * @post player has two more roads on the board
      */
-    public void playRoadBuildCard(Player player) {//DevCardController --goes in GamePlay
+    public void playRoadBuildCard() {                              // DevCardController
         player.giveDevelopmentCard(DevCardType.ROAD_BUILD);
         // mapController.playRoadBuildCard(player);
     }
@@ -118,7 +116,7 @@ class GamePlayController {
      * This method is called when the user plays a soldier development card.
      * @pre player has soldier development card
      */
-    public void playSoldierCard(Player player) {//DevCardController --goes in GamePlay
+    public void playSoldierCard() {                                // DevCardController
         player.giveDevelopmentCard(DevCardType.SOLDIER);
         // mapController.moveRobber(player);
     }
@@ -128,8 +126,8 @@ class GamePlayController {
      *
      * @param resource1 The first resource to gain
      * @param resource2 The second resource to gain
-     */
-    public void playYearOfPlentyCard(Player player, ResourceType resource1, ResourceType resource2) {//DevCardController --goes in GamePlay
+     */                                                                         // DevCardController
+    public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {  
         player.addResourceCard(gameModel.getBank().giveResourceCard(resource1));
         player.addResourceCard(gameModel.getBank().giveResourceCard(resource2));
     }
@@ -138,7 +136,7 @@ class GamePlayController {
      *
      * @param resource The resource that was increased
      */
-    public void increaseAmount(ResourceType resource) {//DiscardController --goes in GamePlay
+    public void increaseAmount(ResourceType resource) {                         // DiscardController
 
     }
 
@@ -147,7 +145,7 @@ class GamePlayController {
      *
      * @param resource The resource that was decreased
      */
-    public void decreaseAmount(ResourceType resource) {//DiscardController --goes in GamePlay
+    public void decreaseAmount(ResourceType resource) {                         // DiscardController
 
     }
 
@@ -180,8 +178,9 @@ class GamePlayController {
     /**
      * This method is called when the user clicks the discard button.
      */
-    public void discard(Player player) {//DiscardController --goes in GamePlay
-        
+    public void discard(ArrayList<ResourceType> cardsToDiscard) {// DiscardController
+        for(ResourceType resource : cardsToDiscard)
+            gameModel.getBank().addResourceCard(player.giveResourceCard(resource));
     }
     
     /**
@@ -192,8 +191,8 @@ class GamePlayController {
      * @param edgeLoc The proposed road location
      * @return true if the road can be placed at edgeLoc, false otherwise
      */
-    public boolean canPlaceRoad(Player player, EdgeLocation edgeLoc) {//MapController --goes in GamePlay
-        return false;
+    public boolean canPlaceRoad(EdgeLocation edgeLoc) {          // MapController 
+        return hexTileController.canPlaceRoad(player, edgeLoc);
     }
 
     /**
@@ -204,8 +203,8 @@ class GamePlayController {
      * @param vertLoc The proposed settlement location
      * @return true if the settlement can be placed at vertLoc, false otherwise
      */
-    public boolean canPlaceSettlement(Player player, VertexLocation vertLoc) {//MapController --goes in GamePlay
-        return false;
+    public boolean canPlaceSettlement(VertexLocation vertLoc) {  // MapController 
+        return hexTileController.canPlaceSettlement(player, vertLoc);
     }
 
     /**
@@ -216,8 +215,8 @@ class GamePlayController {
      * @param vertLoc The proposed city location
      * @return true if the city can be placed at vertLoc, false otherwise
      */
-    public boolean canPlaceCity(Player player, VertexLocation vertLoc) {//MapController --goes in GamePlay
-        return false;
+    public boolean canPlaceCity(VertexLocation vertLoc) {        // MapController 
+        return hexTileController.canPlaceCity(player, vertLoc);
     }
 
     /**
@@ -228,8 +227,8 @@ class GamePlayController {
      * @param hexLoc The proposed robber location
      * @return true if the robber can be placed at hexLoc, false otherwise
      */
-    public boolean canPlaceRobber(HexLocation hexLoc) {//MapController --goes in GamePlay
-        return false;
+    public boolean canPlaceRobber(HexLocation hexLoc) {                         // MapController 
+        return hexTileController.canPlaceRobber(hexLoc);
     }
 
     /**
@@ -237,10 +236,10 @@ class GamePlayController {
      *
      * @param edgeLoc The road location
      */
-    public void placeRoad(Player player, EdgeLocation edgeLoc) {//MapController --goes in GamePlay
+    public void placeRoad(EdgeLocation edgeLoc) {                // MapController 
         BoardPiece piece = player.getAvaliableBoardPiece(PieceType.ROAD);
         piece.setActive(true);
-        
+        hexTileController.placeRoad(player, piece, edgeLoc);
     }
 
     /**
@@ -248,9 +247,10 @@ class GamePlayController {
      *
      * @param vertLoc The settlement location
      */
-    public void placeSettlement(Player player, VertexLocation vertLoc) {//MapController --goes in GamePlay
+    public void placeSettlement(VertexLocation vertLoc) {        // MapController 
         BoardPiece piece = player.getAvaliableBoardPiece(PieceType.SETTLEMENT);
         piece.setActive(true);
+        hexTileController.placeSettlement(player, piece, vertLoc);
     }
 
     /**
@@ -258,9 +258,10 @@ class GamePlayController {
      *
      * @param vertLoc The city location
      */
-    public void placeCity(Player player, VertexLocation vertLoc) {//MapController --goes in GamePlay
+    public void placeCity(VertexLocation vertLoc) {              // MapController 
         BoardPiece piece = player.getAvaliableBoardPiece(PieceType.CITY);
         piece.setActive(true);
+        hexTileController.placeCity(player, piece, vertLoc);
     }
 
     /**
@@ -268,8 +269,8 @@ class GamePlayController {
      *
      * @param hexLoc The robber location
      */
-    public void placeRobber(HexLocation hexLoc) {//MapController --goes in GamePlay
-        
+    public void placeRobber(HexLocation hexLoc) {                               // MapController
+        hexTileController.placeRobber(hexLoc);
     }
 
     /**
@@ -280,15 +281,15 @@ class GamePlayController {
      * 				Set to true during initial setup and when a road building card is played.
      * @param allowDisconnected true if the piece can be disconnected, false otherwise.
      * 				Set to true only during initial setup.
-     */
-    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {//MapController --goes in GamePlay
+     */                                                                         // MapController 
+    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) { 
         
     }
 
     /**
      * This method is called from the modal map overlay when the cancel button is pressed.
      */
-    public void cancelMove() {//MapController --goes in GamePlay
+    public void cancelMove() {                                                  // MapController
         
     }
 
@@ -296,7 +297,7 @@ class GamePlayController {
      * This method is called when the user plays a "road building" progress development card.
      * It should initiate the process of allowing the player to place two roads.
      */
-    public void playRoadBuildingCard() {//MapController --goes in GamePlay
+    public void playRoadBuildingCard() {                                        // MapController
         
     }
 
@@ -305,42 +306,42 @@ class GamePlayController {
      *
      * @param victim The player to be robbed
      */
-    public void robPlayer(RobPlayerInfo victim) {//MapController --goes in GamePlay
+    public void robPlayer(RobPlayerInfo victim) {                               // MapController
         
     }
 
     /**
      * Called by the view then the user requests to build a road
      */
-    public void buildRoad() {//ResourceBarController --goes in GamePlay
+    public void buildRoad() {                                                   // ResourceBarController
 
     }
 
     /**
      * Called by the view then the user requests to build a settlement
      */
-    public void buildSettlement() {//ResourceBarController --goes in GamePlay
+    public void buildSettlement() {                                             // ResourceBarController
 
     }
 
     /**
      * Called by the view then the user requests to build a city
      */
-    void buildCity() {//ResourceBarController --goes in GamePlay
+    void buildCity() {                                                          // ResourceBarController
 
     }
 
     /**
      * Called by the view then the user requests to play a card
      */
-    public void playCard() {//ResourceBarController --goes in GamePlay
+    public void playCard() {                                                    // ResourceBarController
         
     }
 
     /**
      * Called when the user clicks the "Roll!" button in the roll view
      */
-    public void rollDice() {//RollController --goes in GamePlay or GameInfo not sure where I want it
+    public void rollDice() {                                                    // RollController
         
     }
 }

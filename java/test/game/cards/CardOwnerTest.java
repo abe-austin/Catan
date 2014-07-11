@@ -49,7 +49,7 @@ public class CardOwnerTest {
         SpecialCardType specialCardType = SpecialCardType.LARGEST_ARMY;
         CardOwner instance = new CardOwner();
         SpecialCard expResult = new SpecialCard(specialCardType);
-        instance.giveSpecialCard(specialCardType);
+        instance.addSpecialCard(expResult);
         SpecialCard result = instance.giveSpecialCard(specialCardType);
         assertEquals(expResult, result);
     }
@@ -89,6 +89,7 @@ public class CardOwnerTest {
 
         instance.addResourceCard(new ResourceCard(resourceType));
         expResult = true;
+        result = instance.hasResource(resourceType, 2);
         assertEquals(expResult, result);
     }
 
