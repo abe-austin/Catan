@@ -7,6 +7,10 @@ package system;
 public class Username {
     private String username;
 
+    public Username(String username) {
+        this.username = username;
+    }
+
     /**
      * @return the username
      */

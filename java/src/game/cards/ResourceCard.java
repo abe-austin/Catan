@@ -8,10 +8,10 @@ import shared.definitions.ResourceType;
  * @author Kevin MacMaster
  */
 public class ResourceCard extends Card {
-    private ResourceType resource;
+    private ResourceType resourceType;
 
     public ResourceCard(ResourceType type) {
-        this.resource = type;
+        this.resourceType = type;
     }
 
 
@@ -22,7 +22,7 @@ public class ResourceCard extends Card {
     /**
      * @return the resource
      */
-    public ResourceType getResource() {
-        return resource;
+    public ResourceType getResourceType() {
+        return resourceType;
     }
 }

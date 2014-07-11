@@ -2,13 +2,23 @@ package shared.communication;
 
 public class RollNumberParam {
 
+	private String type;
 	private int playerIndex;
-	private int numberRolled;
+	private int number;
 	
-	public RollNumberParam(int playerIndex, int numberRolled) {
+	public RollNumberParam(String type, int playerIndex, int number) {
 		super();
+		this.type = type;
 		this.playerIndex = playerIndex;
-		this.numberRolled = numberRolled;
+		this.number = number;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public int getPlayerIndex() {
@@ -19,12 +29,12 @@ public class RollNumberParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public int getNumberRolled() {
-		return numberRolled;
+	public int getNumber() {
+		return number;
 	}
 
-	public void setNumberRolled(int numberRolled) {
-		this.numberRolled = numberRolled;
+	public void setNumber(int number) {
+		this.number = number;
 	}
 	
 	

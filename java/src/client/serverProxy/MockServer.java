@@ -1,8 +1,9 @@
 package client.serverProxy;
 
-import shared.communication.GameModelParam;
-
 import com.google.gson.Gson;
+
+import game.GameModel;
+import shared.communication.ServerResponse;
 
 /**
  * acts as a mock server, takes requests and sends static Strings
@@ -20,7 +21,7 @@ public class MockServer implements Server{
 	public MockServer(){}
 	
 	@Override
-	public String doPost(String url, String json) {
+	public ServerResponse doPost(String url, Object json) {
 		
 		switch(url) {
 			
@@ -109,7 +110,7 @@ public class MockServer implements Server{
 	}
 
 	@Override
-	public String doGet(String url) {
+	public ServerResponse doGet(String url) {
 		
 		switch(url){
 			
@@ -128,20 +129,16 @@ public class MockServer implements Server{
 		return null; 
 	}
 		
-	private String staticGameModel() {
-		
+	private ServerResponse staticGameModel() {
 		Gson gson = new Gson();
-		GameModelParam gameModel = new GameModelParam();
-		String gameModelString = gson.toJson(gameModel);
-		return gameModelString;
+		GameModel model = new GameModel();
+		String jsonBody = gson.toJson(model);
+		ServerResponse response = new ServerResponse(200, jsonBody);
+		return response;
 	}
 	
-	private String successOrFail() {
-		if(success) {
-			return "success";
-		}
-		return "fail";
-		
+	private ServerResponse successOrFail() {
+		return null;
 	}
 
 }

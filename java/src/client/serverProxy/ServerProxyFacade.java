@@ -1,14 +1,7 @@
 package client.serverProxy;
 
-import game.GameModel;
-import game.cards.Card;
 import game.cards.ResourceCard;
-
 import java.util.List;
-import java.util.Set;
-
-import com.google.gson.Gson;
-
 import game.board.Edge;
 import game.board.Corner;
 import shared.locations.HexLocation;
@@ -30,38 +23,20 @@ import shared.definitions.ResourceType;
  */
 public class ServerProxyFacade {
 	private Server server;
-	private boolean mockServer = true;
-	private Gson gson;
+	private boolean mockServer;
 	
 	/**
      * check <code>mockServer</code> boolean to either create a mock server or to connect
      * to the real server through <code>ServerProxy</code>
      */
-	public ServerProxyFacade() {
-		gson = new Gson();
+	public ServerProxyFacade(boolean mock) {
+	
+		mockServer = mock;
 		if(mockServer) {
 			server = new MockServer();
 		}
 		else {
 			server = new ServerProxy();
-		}
-	}
-	
-	private boolean checkResponseStatus(String response) {
-		if(response == "success") {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
-	private GameModel jsonToGameModel(String json) {
-		if(json.equals("fail")) {
-			return null;
-		}
-		else {
-			return gson.fromJson(json, GameModel.class);
 		}
 	}
 
@@ -74,17 +49,17 @@ public class ServerProxyFacade {
      * @return			<code>true</code> if login was successful, 
      *                  <code>false</code> if it was not successful
      */
-	public boolean loginUser(String username, String password) {
+	public ServerResponse loginUser(String username, String password) {
 		
 		//create param object and convert to json
 		LoginUserParam param = new LoginUserParam(username, password);
-		String jsonParam = gson.toJson(param);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/user/login";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse response = server.doPost(url, param);
 				
-		return checkResponseStatus(response); 
+		//return checkResponseStatus(response); 
+		return response;
 	}
 
     /**
@@ -96,17 +71,17 @@ public class ServerProxyFacade {
      * @return			<code>true</code> if login was successful, 
      * 					<code>false</code> if it was not successful
      */
-	public boolean registerUser(String username, String password) {
+	public ServerResponse registerUser(String username, String password) {
 		
 		//create param object and convert to json
 		RegisterUserParam param = new RegisterUserParam(username, password);
-		String jsonParam = gson.toJson(param);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/user/register";
-		String response = server.doPost(url, jsonParam);
+		 ServerResponse  response = server.doPost(url, param);
 		
-		return checkResponseStatus(response); 
+		//return checkResponseStatus(response); 
+		return response;
 	}
 
     /**
@@ -114,33 +89,31 @@ public class ServerProxyFacade {
      * 
      * @return <code>Set<GameModel></code> that contains all current games
      */
-	public Set<GameModel> getAllGames() {
+	public ServerResponse getAllGames() {
 		
 		//make post to proper url using json as the body of the request
 		String url = "/games/list";
-		String response = server.doGet(url);
+		ServerResponse  response = server.doGet(url);
 		
-		//TODO parse the response from the server
-
-		return null; 
-	};
+		return response; 
+	}
 
     /**
      * creates an empty game of the server
      * 
      * @return <code>GameModel</code> of the created game
      */
-	public GameModel createGame(String gameName) {
+	public ServerResponse createGame(String name) {
 		
 		//create param object and convert to json
-		CreateGameParam param = new CreateGameParam(gameName);
-		String jsonParam = gson.toJson(param);
+		CreateGameParam param = new CreateGameParam(name);
 		
 		//make post to proper url using json as the body of the request
-		String url = "/game/create";
-		String response = server.doPost(url, jsonParam);
+		String url = "/games/create";
+		 ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//CreateGameRes res = gson.fromJson((String)response, CreateGameRes.class);
+		return response; 
 	}
 
     /**
@@ -155,33 +128,42 @@ public class ServerProxyFacade {
      * @param color		the <code>CatanColor</code> of the color for player to use
      * @return 			<code>GameModel</code> of the joined game
      */
-	public boolean joinGame(int gameID, CatanColor color) {
+	public ServerResponse joinGame(int id, CatanColor color) {
 		
 		//create param object and convert to json
-		JoinGameParam param = new JoinGameParam(gameID, color);
-		String jsonParam = gson.toJson(param);
+		JoinGameParam param = new JoinGameParam(id, color.toString().toLowerCase());
 		
 		//make post to proper url using json as the body of the request
 		String url = "/games/join";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return checkResponseStatus(response);  
+		//return checkResponseStatus(response); 
+		return response; 
+
 	}
 	
-	public boolean saveGame(int gameID, String gameName) {
+	public ServerResponse saveGame(int id, String name) {
 		
-		SaveGameParam param = new SaveGameParam(gameID, gameName);
-		String jsonParam = gson.toJson(param);
+		SaveGameParam param = new SaveGameParam(id, name);
 		
 		String url = "/games/save";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse response = server.doPost(url, param);
 		
-		return checkResponseStatus(response); 
+		//return checkResponseStatus(response); 
+		return response; 
 	}
 	
-	public GameModel loadGame(String gameName) {
-		//TODO load game stuff
-		return null;
+	public ServerResponse loadGame(String name) {
+		
+		//create param object and convert to json
+		LoadGameParam param = new LoadGameParam(name);
+		
+		//make post to proper url using json as the body of the request
+		String url = "/games/load";
+		ServerResponse response = server.doPost(url, param);
+		
+		//return jsonToGameModel(response); 
+		return response;
 	}
 
     /**
@@ -190,13 +172,14 @@ public class ServerProxyFacade {
      * @pre		player has valid catan.user and catan.game id
      * @return	<code>GameModel</code> of the current game
      */
-	public GameModel getGameModel(int version) {
+	public ServerResponse getGameModel(int version) {
 		
 		//make post to proper url using json as the body of the request
-		String url = "/game/model" + version;
-		String response = server.doGet(url);
+		String url = "/game/model";
+		 ServerResponse  response = server.doGet(url);
 		
-		return jsonToGameModel(response);  
+		//return jsonToGameModel(response);
+		 return response;
 	}
 
     /**
@@ -205,13 +188,14 @@ public class ServerProxyFacade {
      * @pre		the player has valid catan.user and catan.game id
      * @return	<code>GameModel</code> of the reset game
      */
-    public GameModel resetGame() { 
+    public ServerResponse resetGame() { 
 		
 		//make post to proper url using json as the body of the request
 		String url = "/game/reset";
-		String response = server.doPost(url, null);
+		ServerResponse response = server.doPost(url, null);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response); 
+		return response;
     }
     
     /**
@@ -222,17 +206,17 @@ public class ServerProxyFacade {
      * @return			<code>true</code> if login was successful, 
      * 					<code>false</code> if it was not successful
      */
-	public GameModel doGameCommands(List<Command> commands) {
+	public ServerResponse doGameCommands(List<Command> commands) {
 		
 		//create param object and convert to json
 		DoGameCommandsParam param = new DoGameCommandsParam(commands);
-		String jsonParam = gson.toJson(param);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/game/commands";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response); 
+		return response;
 	}
 
     /**
@@ -241,15 +225,13 @@ public class ServerProxyFacade {
      * @pre		player has valid catan.user and catan.game id
      * @return	<code>List<Command></code> containing all the command's played on the game
      */
-	public List<Command> getGameCommands() {
+	public ServerResponse getGameCommands() {
 		
 		//make get to proper url
 		String url = "/game/commands";
-		String response = server.doGet(url);
-		
-		//TODO parse the response from the server
-		
-		return null; 
+		ServerResponse  response = server.doGet(url);
+				
+		return response; 
 	}
 	
     /**
@@ -263,17 +245,18 @@ public class ServerProxyFacade {
      * @return		<code>true</code> if login was successful, 
      * 				<code>false</code> if it was not successful     
      */
-	public boolean addAI(String ai) {
+	public ServerResponse addAI(String AIType) {
 		
 		//create param object and convert to json
-		AddAIParam param = new AddAIParam(ai);
-		String jsonParam = gson.toJson(param);
+		AddAIParam param = new AddAIParam(AIType);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/game/commands";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return checkResponseStatus(response);  
+		//return checkResponseStatus(response);
+		return response;
+
 	}
 
     /**
@@ -281,15 +264,13 @@ public class ServerProxyFacade {
      * 
      * @return Set<String> containing the AI names that may be added to the game
      */
-	public Set<String> getAIList() {
+	public ServerResponse getAIList() {
 
 		//make post to proper url using json as the body of the request
 		String url = "/game/listAI";
-		String response = server.doGet(url);
-		
-		//TODO parse the response from the server
-		
-		return null; 
+		ServerResponse response = server.doGet(url);
+				
+		return response; 
 	}
 	
     /**
@@ -301,17 +282,18 @@ public class ServerProxyFacade {
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful     
      */
-	public GameModel sendChat(int playerIndex, String message) {
+	public ServerResponse sendChat(int playerIndex, String content) {
 		
 		//create param object and convert to json
-		SendChatParam param = new SendChatParam(playerIndex, message);
-		String jsonParam = gson.toJson(param);
+		SendChatParam param = new SendChatParam("sendChat", playerIndex, content);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/sendChat";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response);
+		return response;
+
 	}
 	
     /**
@@ -325,30 +307,31 @@ public class ServerProxyFacade {
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful     
      */
-	public GameModel rollNumber(int playerIndex, int rollNumber) {
+	public ServerResponse rollNumber(int playerIndex, int rollNumber) {
 		
 		//create param object and convert to json
-		RollNumberParam param = new RollNumberParam(playerIndex, rollNumber);
-		String jsonParam = gson.toJson(param);
+		RollNumberParam param = new RollNumberParam("rollNumber", playerIndex, rollNumber);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/rollNumber";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response);
+		//return jsonToGameModel(response);
+		return response;
+
 	}
 	
-	public GameModel robPlayer(int playerIndex, int victimIndex, Corner location) {
+	public ServerResponse robPlayer(int playerIndex, int victimIndex, Corner location) {
 		
 		//create param object and convert to json
-		RobPlayerParam param = new RobPlayerParam(playerIndex, victimIndex, location);
-		String jsonParam = gson.toJson(param);
+		RobPlayerParam param = new RobPlayerParam("robPlayer", playerIndex, victimIndex, location);
 		
 		//make post to proper url using the json as the body of the request
 		String url = "/moves/robPlayer";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response);
+		return response;
 	}
 	
     /**
@@ -361,17 +344,17 @@ public class ServerProxyFacade {
      * @return	<code>true</code> if login was successful, 
      * 			<code>false</code> if it was not successful
      */
-	public GameModel finishTurn(int playerIndex) {
+	public ServerResponse finishTurn(int playerIndex) {
 		
 		//create param object and convert to json
-		FinishTurnParam param = new FinishTurnParam(playerIndex);
-		String jsonParam = gson.toJson(param);
+		FinishTurnParam param = new FinishTurnParam("finishTurn", playerIndex);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/finishTurn";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response);  
+		//return jsonToGameModel(response); 
+		return response;
 	}
 	
     /**
@@ -385,17 +368,17 @@ public class ServerProxyFacade {
      * @param playerIndex	the integer of the players index
      * @return 				<code>Card</code> the bought development card
      */
-	public GameModel buyDevCard(int playerIndex) {
+	public ServerResponse buyDevCard(int playerIndex) {
 		
 		//create param object and convert to json
-		BuyDevCardParam param = new BuyDevCardParam(playerIndex);
-		String jsonParam = gson.toJson(param);
+		BuyDevCardParam param = new BuyDevCardParam("buyDevCard", playerIndex);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/buyDevCard";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response);
+		return response;
 	}
 	
     /**
@@ -411,17 +394,17 @@ public class ServerProxyFacade {
      * @param resourceTwo	the <code>ResourceType</code> of second resource to receive
      * @return 				<code>Card[]</code> an array of two cards of the specified <code>ResourceType</code>'s
      */
-	public GameModel playYearOfPlenty(int playerIndex, ResourceType resourceOne, ResourceType resourceTwo) {
+	public ServerResponse playYearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2) {
 		
 		//create param object and convert to json
-		PlayYearOfPlentyParam param = new PlayYearOfPlentyParam(playerIndex, resourceOne, resourceTwo);
-		String jsonParam = gson.toJson(param);
+		PlayYearOfPlentyParam param = new PlayYearOfPlentyParam("Year_of_Plenty", playerIndex, resource1, resource2);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/Year_Of_Plenty";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response);  
+		//return jsonToGameModel(response); 
+		return response;
 	}
 	
     /**
@@ -442,17 +425,17 @@ public class ServerProxyFacade {
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful    
      */
-	public GameModel playRoadBuilding(int playerIndex, Edge edgeOne, Edge edgeTwo) {
+	public ServerResponse playRoadBuilding(int playerIndex, Edge edgeOne, Edge edgeTwo) {
 		
 		//create param object and convert to json
-		PlayRoadBuildingParam param = new PlayRoadBuildingParam(playerIndex, edgeOne, edgeTwo);
-		String jsonParam = gson.toJson(param);
+		PlayRoadBuildingParam param = new PlayRoadBuildingParam("Road_Building", playerIndex, edgeOne, edgeTwo);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/Road_Building";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response);  
+		//return jsonToGameModel(response);  
+		return response;
 	}
 	
     /**
@@ -470,17 +453,17 @@ public class ServerProxyFacade {
      * @param newRobberLocation	the <code>HexLocation</code> to place the robber on
      * @return 					<code>Card</code> the card stolen by the player from victim
      */
-	public GameModel playSoldier(int playerIndex, int victimIndex, HexLocation newRobberLocation) {
+	public ServerResponse playSoldier(int playerIndex, int victimIndex, HexLocation location) {
 		
 		//create param object and convert to json
-		PlaySoldierParam param = new PlaySoldierParam(playerIndex, victimIndex, newRobberLocation);
-		String jsonParam = gson.toJson(param);
+		PlaySoldierParam param = new PlaySoldierParam("Soldier", playerIndex, victimIndex, location);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/Soldier";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response
+		return response;
 	}
 	
     /**
@@ -495,17 +478,17 @@ public class ServerProxyFacade {
      * @param resource		the <code>ResourceType</code> of the resource to get
      * @return				<code>List<Card></code> containing all the cards gained by player of monopoly card
      */
-	public GameModel playMonopoly(int playerIndex, ResourceType resource) {
+	public ServerResponse playMonopoly(int playerIndex, ResourceType resource) {
 		
 		//create param object and convert to json
-		PlayMonopolyParam param = new PlayMonopolyParam(playerIndex, resource);
-		String jsonParam = gson.toJson(param);
+		PlayMonopolyParam param = new PlayMonopolyParam("Monopoly", playerIndex, resource);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/Monopoly";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response);  
+		//return jsonToGameModel(response);
+		return response;
 	}
 	
     /**
@@ -519,17 +502,17 @@ public class ServerProxyFacade {
      * @param playerIndex	the integer of the players index
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful      */
-	public GameModel playMonument(int playerIndex) { 
+	public ServerResponse playMonument(int playerIndex) { 
 		
 		//create param object and convert to json
-		PlayMonumentParam param = new PlayMonumentParam(playerIndex);
-		String jsonParam = gson.toJson(param);
+		PlayMonumentParam param = new PlayMonumentParam("Monument", playerIndex);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/Monument";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response); 
+		return response;
 	}
 	
     /**
@@ -548,17 +531,17 @@ public class ServerProxyFacade {
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful 
      */
-	public GameModel buildRoad(int playerIndex, Edge e) {
+	public ServerResponse buildRoad(int playerIndex, Edge roadLocation) {
 		
 		//create param object and convert to json
-		BuildRoadParam param = new BuildRoadParam(playerIndex, e);
-		String jsonParam = gson.toJson(param);
+		BuildRoadParam param = new BuildRoadParam("buildRoad", playerIndex, roadLocation);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/buildRoad";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response);
+		return response;
 	}
 	
     /**
@@ -578,17 +561,17 @@ public class ServerProxyFacade {
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful 
      */
-	public GameModel buildSettlement(int playerIndex, Corner c, boolean free) {
+	public ServerResponse buildSettlement(int playerIndex, Corner vertexLocation, boolean free) {
 		
 		//create param object and convert to json
-		BuildSettlementParam param = new BuildSettlementParam(playerIndex, c, free);
-		String jsonParam = gson.toJson(param);
+		BuildSettlementParam param = new BuildSettlementParam("buildSettlement", playerIndex, vertexLocation, free);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/buildSettlement";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response); 
+		return response;
 	}
 	
     /**
@@ -607,17 +590,17 @@ public class ServerProxyFacade {
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful 
      */
-	public GameModel buildCity(int playerIndex, Corner c, boolean free) {
+	public ServerResponse buildCity(int playerIndex, Corner vertexLocation, boolean free) {
 		
 		//create param object and convert to json
-		BuildCityParam param = new BuildCityParam(playerIndex, c, free);
-		String jsonParam = gson.toJson(param);
+		BuildCityParam param = new BuildCityParam("buildCity", playerIndex, vertexLocation, free);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/buildCity";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response); 
+		return response;
 	}
 	
     /**
@@ -634,17 +617,17 @@ public class ServerProxyFacade {
      * 						<code>false</code> if it was not successful 
      */
 
-	public GameModel offerTrade(int playerIndex, List<ResourceCard> offer, int recieveIndex) {
+	public ServerResponse offerTrade(int playerIndex, List<ResourceType> offer, int receiver) {
 		
 		//create param object and convert to json
-		OfferTradeParam param = new OfferTradeParam(playerIndex, offer, recieveIndex);
-		String jsonParam = gson.toJson(param);
+		OfferTradeParam param = new OfferTradeParam("offerTrade", playerIndex, offer, receiver);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/offerTrade";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response); 
+		return response;
 	}
 	
     /**
@@ -659,17 +642,17 @@ public class ServerProxyFacade {
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful     
      */
-	public GameModel acceptTrade(int playerIndex, boolean willAccept) {
+	public ServerResponse acceptTrade(int playerIndex, boolean willAccept) {
 		
 		//create param object and convert to json
-		AcceptTradeParam param = new AcceptTradeParam(playerIndex, willAccept);
-		String jsonParam = gson.toJson(param);
+		AcceptTradeParam param = new AcceptTradeParam("acceptTrade", playerIndex, willAccept);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/acceptTrade";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response); 
+		return response;
 	}
 	
     /**
@@ -685,17 +668,17 @@ public class ServerProxyFacade {
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful 
      */
-	public GameModel maritimetrade(int playerIndex, int ratio, ResourceType input, ResourceType output) {
+	public ServerResponse maritimeTrade(int playerIndex, int ratio, ResourceType input, ResourceType output) {
 		
 		//create param object and convert to json
-		MaritimeTradeParam param = new MaritimeTradeParam(playerIndex, ratio, input, output);
-		String jsonParam = gson.toJson(param);
+		MaritimeTradeParam param = new MaritimeTradeParam("maritimeTrade", playerIndex, ratio, input, output);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/maritimeTrade";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response); 
+		return response;
 	}
 	
     /**
@@ -711,17 +694,17 @@ public class ServerProxyFacade {
      * @return				<code>true</code> if login was successful, 
      * 						<code>false</code> if it was not successful     
      */
-	public GameModel discardCards(int playerIndex, List<ResourceCard> cards) {
+	public ServerResponse discardCards(int playerIndex, List<ResourceCard> discardedCards) {
 		
 		//create param object and convert to json
-		DiscardCardsParam param = new DiscardCardsParam(playerIndex, cards);
-		String jsonParam = gson.toJson(param);
+		DiscardCardsParam param = new DiscardCardsParam("discardCards", playerIndex, discardedCards);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/discardCards";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return jsonToGameModel(response); 
+		//return jsonToGameModel(response); 
+		return response;
 	}
 	
     /**
@@ -733,16 +716,16 @@ public class ServerProxyFacade {
      * @return			<code>true</code> if login was successful, 
      * 					<code>false</code> if it was not successful
      */
-	public boolean changeLogLevel(LogLevel logLevel) {
+	public ServerResponse changeLogLevel(LogLevel logLevel) {
 		
 		//create param object and convert to json
 		ChangeLogLevelParam param = new ChangeLogLevelParam(logLevel);
-		String jsonParam = gson.toJson(param);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/util/changeLogLevel";
-		String response = server.doPost(url, jsonParam);
+		ServerResponse  response = server.doPost(url, param);
 		
-		return checkResponseStatus(response);  
+		//return checkResponseStatus(response);
+		return response;
 	}
 }

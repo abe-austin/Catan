@@ -4,16 +4,26 @@ import shared.definitions.ResourceType;
 
 public class PlayYearOfPlentyParam {
 
+	private String type;
 	private int playerIndex;
-	private ResourceType resourceOne;
-	private ResourceType resourceTwo;
+	private ResourceType resource1;
+	private ResourceType resource2;
 	
-	public PlayYearOfPlentyParam(int playerIndex, ResourceType resourceOne,
-			ResourceType resourceTwo) {
+	public PlayYearOfPlentyParam(String type, int playerIndex, ResourceType resource1,
+			ResourceType resource2) {
 		super();
+		this.type = type;
 		this.playerIndex = playerIndex;
-		this.resourceOne = resourceOne;
-		this.resourceTwo = resourceTwo;
+		this.resource1 = resource1;
+		this.resource2 = resource2;
+	}	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public int getPlayerIndex() {
@@ -24,20 +34,20 @@ public class PlayYearOfPlentyParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public ResourceType getResourceOne() {
-		return resourceOne;
+	public ResourceType getResource1() {
+		return resource1;
 	}
 
-	public void setResourceOne(ResourceType resourceOne) {
-		this.resourceOne = resourceOne;
+	public void setResource1(ResourceType resource1) {
+		this.resource1 = resource1;
 	}
 
-	public ResourceType getResourceTwo() {
-		return resourceTwo;
+	public ResourceType getResource2() {
+		return resource2;
 	}
 
-	public void setResourceTwo(ResourceType resourceTwo) {
-		this.resourceTwo = resourceTwo;
+	public void setResource2(ResourceType resource2) {
+		this.resource2 = resource2;
 	}
 	
 	

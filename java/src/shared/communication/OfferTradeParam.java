@@ -1,20 +1,32 @@
 package shared.communication;
 
 import java.util.List;
+
+import shared.definitions.ResourceType;
 import game.cards.ResourceCard;
 
 public class OfferTradeParam {
 
+	String type;
 	private int playerIndex;
-	private List<ResourceCard> offering;
-	private int recieverIndex;
+	private List<ResourceType> offer;
+	private int receiver;
 	
-	public OfferTradeParam(int playerIndex, List<ResourceCard> offering,
-			int recieverIndex) {
+	public OfferTradeParam(String type, int playerIndex, List<ResourceType> offer,
+			int receiver) {
 		super();
+		this.type = type;
 		this.playerIndex = playerIndex;
-		this.offering = offering;
-		this.recieverIndex = recieverIndex;
+		this.offer = offer;
+		this.receiver = receiver;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public int getPlayerIndex() {
@@ -25,19 +37,19 @@ public class OfferTradeParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public List<ResourceCard> getOffering() {
-		return offering;
+	public List<ResourceType> getOffer() {
+		return offer;
 	}
 
-	public void setOffering(List<ResourceCard> offering) {
-		this.offering = offering;
+	public void setOffer(List<ResourceType> offer) {
+		this.offer = offer;
 	}
 
-	public int getRecieverIndex() {
-		return recieverIndex;
+	public int getReceiver() {
+		return receiver;
 	}
 
-	public void setRecieverIndex(int recieverIndex) {
-		this.recieverIndex = recieverIndex;
+	public void setReceiverr(int receiver) {
+		this.receiver = receiver;
 	}
 }

@@ -5,13 +5,23 @@ import game.cards.ResourceCard;
 
 public class DiscardCardsParam {
 	
+	private String type;
 	private int playerIndex;
-	private List<ResourceCard> cards;
+	private List<ResourceCard> discardedCards;
 	
-	public DiscardCardsParam(int playerIndex, List<ResourceCard> cards) {
+	public DiscardCardsParam(String type, int playerIndex, List<ResourceCard> discardedCards) {
 		super();
+		this.type = type;
 		this.playerIndex = playerIndex;
-		this.cards = cards;
+		this.discardedCards = discardedCards;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public int getPlayerIndex() {
@@ -22,11 +32,11 @@ public class DiscardCardsParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public List<ResourceCard> getCards() {
-		return cards;
+	public List<ResourceCard> getDiscardedCards() {
+		return discardedCards;
 	}
 
-	public void setCards(List<ResourceCard> cards) {
-		this.cards = cards;
+	public void setDiscardedCards(List<ResourceCard> discardedCards) {
+		this.discardedCards = discardedCards;
 	}
 }

@@ -4,15 +4,25 @@ import game.board.Corner;
 
 public class RobPlayerParam {
 
+	String type;
 	int playerIndex;
 	int victimIndex;
 	Corner location;
 	
-	public RobPlayerParam(int playerIndex, int victimIndex, Corner location) {
+	public RobPlayerParam(String type, int playerIndex, int victimIndex, Corner location) {
 		super();
+		this.type = type;
 		this.playerIndex = playerIndex;
 		this.victimIndex = victimIndex;
 		this.location = location;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public int getPlayerIndex() {

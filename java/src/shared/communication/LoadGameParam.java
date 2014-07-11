@@ -1,10 +1,10 @@
 package shared.communication;
 
-public class CreateGameParam {
-	
-	private String name;
+public class LoadGameParam {
 
-	public CreateGameParam(String name) {
+	String name;
+
+	public LoadGameParam(String name) {
 		super();
 		this.name = name;
 	}
@@ -16,5 +16,6 @@ public class CreateGameParam {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	
 }

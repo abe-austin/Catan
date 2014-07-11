@@ -4,16 +4,26 @@ import shared.locations.HexLocation;
 
 public class PlaySoldierParam {
 
+	private String type;
 	private int playerIndex;
 	private int victimIndex;
-	private HexLocation newRobberLocation;
+	private HexLocation location;
 	
-	public PlaySoldierParam(int playerIndex, int victimIndex,
-			HexLocation newRobberLocation) {
+	public PlaySoldierParam(String type, int playerIndex, int victimIndex,
+			HexLocation location) {
 		super();
+		this.type = type;
 		this.playerIndex = playerIndex;
 		this.victimIndex = victimIndex;
-		this.newRobberLocation = newRobberLocation;
+		this.location = location;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public int getPlayerIndex() {
@@ -32,12 +42,12 @@ public class PlaySoldierParam {
 		this.victimIndex = victimIndex;
 	}
 
-	public HexLocation getNewRobberLocation() {
-		return newRobberLocation;
+	public HexLocation getLocation() {
+		return location;
 	}
 
-	public void setNewRobberLocation(HexLocation newRobberLocation) {
-		this.newRobberLocation = newRobberLocation;
+	public void setLocation(HexLocation location) {
+		this.location = location;
 	}
 	
 	

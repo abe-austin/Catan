@@ -104,4 +104,3 @@ public class PlayerTest {
 		assertFalse(player.equals(otherPlayer));
 	}
 }
-

@@ -5,6 +5,9 @@
  */
 
 package client.serverProxy;
+import com.google.gson.Gson;
+
+import shared.communication.ServerResponse;
 import game.GameModel;
 
 /**
@@ -17,22 +20,45 @@ public class ServerPoller {
     /**
      * empty constructor
      */
-    public ServerPoller(){}
+    public ServerPoller(){
+        serverProxy=null;
+        gameModel=null;
+    }
     /**
      * @pre the server proxy being pass in is valid
      * sets the server proxy that it will connect to
      * @param serverProxy  the serverProxy
      */
-    public void setServerProxy( ServerProxyFacade serverProxy){}
+    public void setServerProxy( ServerProxyFacade serverProxy){
+        this.serverProxy = serverProxy;
+    }
+    /**
+     * 
+     * @return the serverProxyFacade currently assigned, null if none
+     */
+    public ServerProxyFacade getServerProxy(){
+        return serverProxy;
+    }
     /**
      * sends the current game model to the model
      */
-    public void sendGameModel(){}
+    public GameModel getGameModel(){
+        return gameModel;
+    }
     /**
      * @pre the server poller has a valid server proxy already set
      * polls the server to see if there have been changes in the game model and 
      * gets the game model if there were changes
      */
-    public void poll(){}
+    public void poll(){
+        if(serverProxy!=null){
+        	ServerResponse response = serverProxy.getGameModel(0);
+        	if(response.getCode() == 200) {
+        		//gameModel = (GameModel)response.getBody();
+        		Gson gson = new Gson();
+        		gameModel = gson.fromJson((String)response.getBody(), GameModel.class);
+        	}
+        }
+    }
 
 }

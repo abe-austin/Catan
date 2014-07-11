@@ -1,28 +1,27 @@
 package shared.communication;
 
-import shared.definitions.CatanColor;
 
 public class JoinGameParam {
 	
-	private int gameID;
-	private CatanColor color;
+	private int id;
+	private String color;
 	
-	public JoinGameParam(int gameID, CatanColor color) {
+	public JoinGameParam(int id, String color) {
 		super();
-		this.gameID = gameID;
+		this.id = id;
 		this.color = color;
 	}
 	
-	public int getGameID() {
-		return gameID;
+	public int getID() {
+		return id;
 	}
-	public void setGameID(int gameID) {
-		this.gameID = gameID;
+	public void setID(int id) {
+		this.id = id;
 	}
-	public CatanColor getColor() {
+	public String getColor() {
 		return color;
 	}
-	public void setColor(CatanColor color) {
+	public void setColor(String color) {
 		this.color = color;
 	}
 }

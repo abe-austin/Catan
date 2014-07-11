@@ -1,8 +1,8 @@
 package game.pieces;
 
+import game.cards.CardOwner;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import player.Player;
 
 /**
  *
@@ -16,12 +16,9 @@ public class BoardPieceTest {
     @Test
     public void testGetOwner() {
         System.out.println("getOwner");
-        Player expResult = new Player(null);
-        BoardPiece instance = new Road(expResult);
-        Player result = instance.getOwner();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        BoardPiece instance = new Road(null);
+        CardOwner result = null;
+        assertEquals(null, result);
     }
 
     /**

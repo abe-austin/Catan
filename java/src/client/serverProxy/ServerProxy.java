@@ -1,11 +1,19 @@
 package client.serverProxy;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
+import game.GameModel;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import shared.communication.ServerResponse;
+
+import com.google.gson.Gson;
 
 /**
  * Communicates with the server through http
@@ -32,30 +40,37 @@ public class ServerProxy implements Server{
 	 * @return		the <code>Response</code> received from the server
 	 */
 	@Override
-	public String doPost(String urlString, String json) {
-
-        try{
-   		 	// verify our client code
-        	URL url = new URL(urlString);
-    	    URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            
-	        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-	        wr.write(json);
-	        wr.flush();
-
-	        //get response
-		    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		    StringBuilder sb = new StringBuilder();
-		    String resultAsString = null;
-		    while((resultAsString = in.readLine()) != null){
-		    	sb.append(resultAsString);
-		    }
-		    return sb.toString();
-        }
-        catch(IOException e){
-        	return null;
-        }		
+	public ServerResponse doPost(String url, Object requestOb) {
+		
+		Gson gson = new Gson();
+		String json = gson.toJson(requestOb);
+		
+		Object responseOb = null;
+		ServerResponse serverResponse = null;
+		try {
+			HttpClient httpclient = HttpClients.createDefault();
+			HttpPost httppost = new HttpPost("http://localhost:8081" + url);
+	
+			httppost.setEntity(new StringEntity(json, "utf-8"));
+	
+			//Execute and get the response.
+			HttpResponse response = httpclient.execute(httppost);
+			HttpEntity entity = response.getEntity();
+			
+			responseOb = EntityUtils.toString(entity);
+			//responseOb = gson.fromJson(EntityUtils.toString(entity), Object.class);
+			//GameModel game = new GameModel();
+			//String gamejson = gson.toJson(game);
+			//responseOb = game;
+			//response.setStatusCode(200);
+			
+			serverResponse = new ServerResponse(response.getStatusLine().getStatusCode(),
+					responseOb);
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+		return serverResponse;
 	}
 
 	/**
@@ -66,9 +81,29 @@ public class ServerProxy implements Server{
 	 * @return		the <code>Response</code> received from the server
 	 */
 	@Override
-	public String doGet(String url) {
-		// TODO Auto-generated method stub
-		return null;
+	public ServerResponse doGet(String url) {
+		
+		Object responseOb = null;
+		ServerResponse serverResponse = null;
+
+		try {
+			HttpClient httpclient = HttpClients.createDefault();
+			HttpGet httpget = new HttpGet("http://localhost:8081" + url);
+	
+			//Execute and get the response.
+			HttpResponse response = httpclient.execute(httpget);
+			HttpEntity entity = response.getEntity();
+			
+			responseOb = (Object)EntityUtils.toString(entity);
+			
+			serverResponse = new ServerResponse(response.getStatusLine().getStatusCode(),
+					responseOb);
+	
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+		return serverResponse;
 	}
 
 }

@@ -31,7 +31,7 @@ public class DevelopmentCardTest {
         System.out.println("getDevelopment");
         DevCardType expResult = DevCardType.MONOPOLY;
         DevelopmentCard instance = new DevelopmentCard(expResult);
-        DevCardType result = instance.getDevelopment();
+        DevCardType result = instance.getDevelopmentType();
         assertEquals(expResult, result);
     }
 

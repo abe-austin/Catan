@@ -4,18 +4,28 @@ import shared.definitions.ResourceType;
 
 public class MaritimeTradeParam {
 
+	private String type;
 	private int playerIndex;
 	private int ratio;
-	private ResourceType input;
-	private ResourceType output;
+	private ResourceType inputResource;
+	private ResourceType outputResource;
 	
-	public MaritimeTradeParam(int playerIndex, int ratio, ResourceType input,
-			ResourceType output) {
+	public MaritimeTradeParam(String type, int playerIndex, int ratio, ResourceType inputResource,
+			ResourceType outputResource) {
 		super();
+		this.type = type;
 		this.playerIndex = playerIndex;
 		this.ratio = ratio;
-		this.input = input;
-		this.output = output;
+		this.inputResource = inputResource;
+		this.outputResource = outputResource;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public int getPlayerIndex() {
@@ -34,20 +44,20 @@ public class MaritimeTradeParam {
 		this.ratio = ratio;
 	}
 
-	public ResourceType getInput() {
-		return input;
+	public ResourceType getInputResource() {
+		return inputResource;
 	}
 
-	public void setInput(ResourceType input) {
-		this.input = input;
+	public void setInputResource(ResourceType inputResource) {
+		this.inputResource = inputResource;
 	}
 
-	public ResourceType getOutput() {
-		return output;
+	public ResourceType getOutputResource() {
+		return outputResource;
 	}
 
-	public void setOutput(ResourceType output) {
-		this.output = output;
+	public void setOutputResource(ResourceType outputResource) {
+		this.outputResource = outputResource;
 	}
 	
 	

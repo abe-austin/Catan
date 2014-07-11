@@ -40,10 +40,6 @@ public class Bank extends CardOwner {
             addDevelopmentCard(new DevelopmentCard(DevCardType.SOLDIER));
         }
     }
-    //!!!!!!!!!!!!!!!!!!!!!!!!NEEDS TO BE DONE !!!!!!!!!!!!!!!!!!!!!!!!!
-    //public Bank(info){}  need constructor to take in info from json
-    //either empty constructor and add cards individually one level up 
-    // or pass in the info of which cards the bank has
     
     /**
      * gives a random development card from the bank

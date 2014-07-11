@@ -37,7 +37,7 @@ public class CardOwner {
          */
         public ResourceCard giveResourceCard(ResourceType resourceType){
             for(ResourceCard card : resourceCards) {
-                if(card.getResource().equals(resourceType)) {
+                if(card.getResourceType().equals(resourceType)) {
                     resourceCards.remove(card);
                     return card;
                 }
@@ -62,7 +62,7 @@ public class CardOwner {
          */
         public DevelopmentCard giveDevelopmentCard(DevCardType devCardType){
             for(DevelopmentCard card : developmentCards) {
-                if(card.getDevelopment().equals(devCardType)) {
+                if(card.getDevelopmentType().equals(devCardType)) {
                     developmentCards.remove(card);
                     return card;
                 }
@@ -104,7 +104,7 @@ public class CardOwner {
          */
         public boolean hasResource(ResourceType resourceType, int number){
             for(ResourceCard card : resourceCards) {
-                if(card.getResource().equals(resourceType))
+                if(card.getResourceType().equals(resourceType))
                     number--;
             }
 
@@ -124,7 +124,7 @@ public class CardOwner {
          */
         public boolean hasDevelopmentCard(DevCardType devCardType){
             for(DevelopmentCard card : developmentCards) {
-                if(card.getDevelopment().equals(devCardType))
+                if(card.getDevelopmentType().equals(devCardType))
                     return true;
             }
 

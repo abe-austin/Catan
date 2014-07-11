@@ -15,11 +15,22 @@ public class GameModel {
     private BoardModel board;
     private Set<Player> players;
     private Bank bank;
+    //private ChatLog chatLog; ---gameHistory has a chatLog
+    private GameHistory gameHistory;
+    private TurnTracker turnTracker;
+    private TradeOffer tradeOffer;
+    private int version;
+    private int winner;
 
     public GameModel() {
         board = new BoardModel();
         bank = new Bank();
         players = new HashSet<Player>();
+        gameHistory = new GameHistory();
+        turnTracker = new TurnTracker();
+        tradeOffer = new TradeOffer();
+        version = 0;
+        winner = -1;
     }
 
     /**
@@ -53,10 +64,10 @@ public class GameModel {
     }
 
     /**
-     * @param players the players to set
+     * @param player the players to set
      */
-    public void addPlayers(Player aPlayer) {
-        this.players.add(aPlayer);
+    public void addPlayers(Player player) {
+        this.players.add(player);
     }
 
     /**
@@ -65,5 +76,62 @@ public class GameModel {
     public Bank getBank() {
         return bank;
     }
+
+//	public ChatLog getChatLog() {
+//		return chatLog;
+//	}
+//
+//	public void setChatLog(ChatLog chatLog) {
+//		this.chatLog = chatLog;
+//	}
+
+	public GameHistory getGameHistory() {
+		return gameHistory;
+	}
+
+	public void setGameHistory(GameHistory gameHistory) {
+		this.gameHistory = gameHistory;
+	}
+
+	public TurnTracker getTurnTracker() {
+		return turnTracker;
+	}
+
+	public void setTurnTracker(TurnTracker turnTracker) {
+		this.turnTracker = turnTracker;
+	}
+
+	public TradeOffer getTradeOffer() {
+		return tradeOffer;
+	}
+
+	public void setTradeOffer(TradeOffer tradeOffer) {
+		this.tradeOffer = tradeOffer;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	public int getWinner() {
+		return winner;
+	}
+
+	public void setWinner(int winner) {
+		this.winner = winner;
+	}
+
+	public void setPlayers(Set<Player> players) {
+		this.players = players;
+	}
+
+	public void setBank(Bank bank) {
+		this.bank = bank;
+	}
+    
     
 }
