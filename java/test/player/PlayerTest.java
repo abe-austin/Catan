@@ -57,11 +57,11 @@ public class PlayerTest {
 	public void testAddPoint() {
 		Player player = new Player(Red.color, User new User());
 		player.addPoint();
-		assertEqauls(1, player.getPoints());
+		assertEquals(1, player.getPoints());
 	}
 
 	@Test
-	public void testGetSoldiersPlayed() {
+	public void testGetSoldiersPlayed() { //fix me!
 		Player player = new Player(Red.color, User new User());
 		
 		//no soldiers
