@@ -5,7 +5,13 @@
  */
 
 package client.serverProxy;
+<<<<<<< HEAD
 import controller.ControllerFacade;
+=======
+import com.google.gson.Gson;
+
+import shared.communication.ServerResponse;
+>>>>>>> f1dcd9d80d7fef0c93f7d36cd3b43c3c04e32a0b
 import game.GameModel;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -55,7 +61,10 @@ public class ServerPoller {
      */
     public void poll(){
         if(serverProxy!=null){
-            gameModel=serverProxy.getGameModel(0);
+        	ServerResponse response = serverProxy.getGameModel(0);
+        	if(response.getCode() == 200) {
+        		gameModel = (GameModel)response.getBody();
+        	}
         }
     }
    

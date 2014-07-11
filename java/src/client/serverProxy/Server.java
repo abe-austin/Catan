@@ -1,5 +1,7 @@
 package client.serverProxy;
 
+import shared.communication.ServerResponse;
+
 /**
  * Connects to the server through HTTP and rends requests/receive response
  * 
@@ -7,6 +9,6 @@ package client.serverProxy;
  * 
  */
 public interface Server {	
-	public Object doPost(String url, Object payLoad);
-	public Object doGet(String url);
+	public ServerResponse doPost(String url, Object payLoad);
+	public ServerResponse doGet(String url);
 }

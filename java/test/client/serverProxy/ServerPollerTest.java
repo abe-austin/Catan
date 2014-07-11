@@ -34,7 +34,7 @@ public class ServerPollerTest {
         instance.setServerProxy(serverProxy);
         assertNull(instance.getServerProxy());
         
-        serverProxy= new ServerProxyFacade();
+        serverProxy= new ServerProxyFacade(true);
         instance.setServerProxy(serverProxy);
         assertEquals(serverProxy,instance.getServerProxy());
         
@@ -50,7 +50,7 @@ public class ServerPollerTest {
         instance.poll();
         assertNull(instance.getGameModel());
         
-        ServerProxyFacade mockServer = new ServerProxyFacade();
+        ServerProxyFacade mockServer = new ServerProxyFacade(true);
         instance.setServerProxy(mockServer);
         instance.poll();
         GameModel expectedGameModel= new GameModel();
