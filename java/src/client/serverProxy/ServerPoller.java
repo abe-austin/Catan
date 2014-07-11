@@ -5,7 +5,10 @@
  */
 
 package client.serverProxy;
+import controller.ControllerFacade;
 import game.GameModel;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
@@ -14,12 +17,15 @@ import game.GameModel;
 public class ServerPoller {
     private ServerProxyFacade serverProxy;  
     private GameModel gameModel;
+    private Timer timer;
+    private ControllerFacade controllerFacade;
     /**
      * empty constructor
      */
-    public ServerPoller(){
+    public ServerPoller(ControllerFacade controller){
         serverProxy=null;
         gameModel=null;
+        controllerFacade=controller;
     }
     /**
      * @pre the server proxy being pass in is valid
@@ -52,5 +58,5 @@ public class ServerPoller {
             gameModel=serverProxy.getGameModel(0);
         }
     }
-
+   
 }
