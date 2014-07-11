@@ -68,7 +68,8 @@ public class ServerProxy implements Server{
 					responseOb);
 		}
 		catch(Exception e) {
-			System.out.println(e);
+			//System.out.println(e);
+			serverResponse = new ServerResponse(521, "Server connection failed");
 		}
 		return serverResponse;
 	}
@@ -101,7 +102,8 @@ public class ServerProxy implements Server{
 	
 		}
 		catch(Exception e) {
-			System.out.println(e);
+			//System.out.println(e);
+			serverResponse = new ServerResponse(521, "Server connection failed");
 		}
 		return serverResponse;
 	}

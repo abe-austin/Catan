@@ -15,6 +15,7 @@ public class ServerResponseConverter {
 	public void convert(ServerResponse response, Class<?> type) {
 		if(response.getCode() == 200) {
 			response.setBody(gson.fromJson((String)response.getBody(), type));
+			return;
 		}
 	}
 } 
