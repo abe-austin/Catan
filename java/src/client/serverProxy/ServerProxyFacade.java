@@ -3,6 +3,7 @@ package client.serverProxy;
 import game.GameModel;
 import game.cards.ResourceCard;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import game.board.Edge;
@@ -101,7 +102,7 @@ public class ServerProxyFacade {
 		ServerResponse  response = server.doGet(url);
 		
 		//TODO what data structure to use??
-		//converter.convert(response, String.class);
+		converter.convert(response, ArrayList.class);
 		return response; 
 	}
 
@@ -280,7 +281,7 @@ public class ServerProxyFacade {
 		ServerResponse response = server.doGet(url);
 		
 		//TODO need data structure
-		//converter.convert(response, GameModel.class);
+		converter.convert(response, ArrayList.class);
 		return response; 
 	}
 	

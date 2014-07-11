@@ -6,7 +6,6 @@
 
 package client.serverProxy;
 
-import com.google.gson.Gson;
 import shared.communication.ServerResponse;
 import game.GameModel;
 
