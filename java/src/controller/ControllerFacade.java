@@ -14,7 +14,6 @@ import game.GameModel;
 import java.util.Timer;
 import java.util.TimerTask;
 import shared.definitions.CatanColor;
-import shared.definitions.DevCardType;
 import shared.definitions.PieceType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -36,30 +35,39 @@ public class ControllerFacade {
     private Timer timer;
     
     public ControllerFacade(){
-        
+        setupController= new SetupController();
+        gamePlayController = new GamePlayController();
+        tradeController= new TradeController();
+        gameInfoController= new GameInfoController();
+        currentGameModel= new GameModel();
+        serverPoller= new ServerPoller();
+        serverProxyFacade = new ServerProxyFacade(true);
+        reassignControllers();
+        startPolling();
     }
     
     
      /**
      * 
      */
-    public void startTimer(){
+    public void startPolling(){
         timer= new Timer();
         timer.scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run() {
                 serverPoller.poll();
-                //ServerPoller.this.sendGameModel();
-                
+                switchGameModel(serverPoller.getGameModel());
+                reassignControllers();
+                //updateGui();
             }
-        }, 1000, 1000);//timer to execute every second
+        }, 1000, 1000);//timer to execute poll every second
     }
     /**
      * replaces the current gameModel with the new GameModel
      * @param gameModel 
      */
     void switchGameModel(GameModel gameModel){
-        
+        currentGameModel=gameModel;
     }
     /**
      * reassigns the controllers after the gameModel is replaced

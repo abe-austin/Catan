@@ -6,7 +6,6 @@
 
 package client.serverProxy;
 
-import controller.ControllerFacade;
 import com.google.gson.Gson;
 import shared.communication.ServerResponse;
 import game.GameModel;
@@ -18,14 +17,12 @@ import game.GameModel;
 public class ServerPoller {
     private ServerProxyFacade serverProxy;  
     private GameModel gameModel;
-    private ControllerFacade controllerFacade;
     /**
      * empty constructor
      */
-    public ServerPoller(ControllerFacade controller){
+    public ServerPoller(){
         serverProxy=null;
         gameModel=null;
-        controllerFacade=controller;
     }
     /**
      * @pre the server proxy being pass in is valid
