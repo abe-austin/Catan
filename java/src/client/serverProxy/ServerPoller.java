@@ -5,16 +5,11 @@
  */
 
 package client.serverProxy;
-<<<<<<< HEAD
-import controller.ControllerFacade;
-=======
-import com.google.gson.Gson;
 
+import controller.ControllerFacade;
+import com.google.gson.Gson;
 import shared.communication.ServerResponse;
->>>>>>> f1dcd9d80d7fef0c93f7d36cd3b43c3c04e32a0b
 import game.GameModel;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  *
@@ -23,7 +18,6 @@ import java.util.TimerTask;
 public class ServerPoller {
     private ServerProxyFacade serverProxy;  
     private GameModel gameModel;
-    private Timer timer;
     private ControllerFacade controllerFacade;
     /**
      * empty constructor
@@ -61,11 +55,14 @@ public class ServerPoller {
      */
     public void poll(){
         if(serverProxy!=null){
-        	ServerResponse response = serverProxy.getGameModel(0);
-        	if(response.getCode() == 200) {
-        		gameModel = (GameModel)response.getBody();
-        	}
-        }
+          	ServerResponse response = serverProxy.getGameModel(0);
+          	if(response.getCode() == 200) {
+        		//gameModel = (GameModel)response.getBody();
+         		Gson gson = new Gson();
+         		gameModel = gson.fromJson((String)response.getBody(), GameModel.class);
+         		gameModel = (GameModel)response.getBody();
+          	}
+          }
     }
    
 }
