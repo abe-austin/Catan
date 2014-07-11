@@ -33,6 +33,9 @@ public class BuildWorld {
 	}
 	
 	public void defaultSetup() {
+		tiles = new ArrayList<HexTile>();
+		edges = new ArrayList<Edge>();
+		corners = new ArrayList<Corner>();
 		createTiles();
 		addEdges();
 		addVertices();
