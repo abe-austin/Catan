@@ -13,7 +13,7 @@ import system.User;
  */
 public class GameModel {
     private BoardModel board;
-    private Set<Player> players;
+    private Player[] players;
     private Bank bank;
     //private ChatLog chatLog; ---gameHistory has a chatLog
     private GameHistory gameHistory;
@@ -25,7 +25,7 @@ public class GameModel {
     public GameModel() {
         board = new BoardModel();
         bank = new Bank();
-        players = new HashSet<Player>();
+        players = new Player[4];
         gameHistory = new GameHistory();
         turnTracker = new TurnTracker();
         tradeOffer = new TradeOffer();
