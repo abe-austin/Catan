@@ -1,22 +1,38 @@
+package player;
+
 import static org.junit.Assert.*;
-
 import org.junit.Test;
-
-import player.Player;
 
 
 public class PointsTest {
 
+	/**
+	 * test addPoint and subtractPoint of class Points
+	 */
 	@Test
 	  public void testPoints() {
-		Player player = new Player(Red.color, User new User());
+		Points points = new Points();
 		
-		//test addPoint
-		player.getPoints().addPoint();
-		assertEquals(1, player.getPoints());
+		//addPoint
+		points.addPoint();
+		assertEquals(1, points.getPoints());
 		
-		//test subTractPoint
-		player.getPoints().subtractPoint();
-		assertEquals(0, player.getPoints());
+		//subtractPoint
+		points.subtractPoint();
+		assertEquals(0, points.getPoints());
       }
+	
+	/**
+	 * tests isVictory of class Points
+	 */
+	@Test
+	public void TestisVictory() {
+		Points points = new Points();
+		
+		for(int i = 0; i < 10; i++) {
+			points.addPoint();
+		}
+		
+		assertTrue(points.isVictory());
+	}
 }
