@@ -19,15 +19,4 @@ public class PointsTest {
 		player.getPoints().subtractPoint();
 		assertEquals(0, player.getPoints());
       }
-	
-	@Test
-      public boolean testIsVictory() {
-		Player player = new Player(Red.color, User new User());
-		
-		//not victorious 
-		
-		//victorious
-		
-      }
-
 }
