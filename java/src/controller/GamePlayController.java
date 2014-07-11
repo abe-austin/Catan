@@ -320,7 +320,7 @@ class GamePlayController {
      * @param victim The player to be robbed
      */
     public void robPlayer(RobPlayerInfo victim) {                               // MapController
-        Player stolen = (Player)gameModel.getPlayers().toArray()[victim.getPlayerIndex()];
+        Player stolen = gameModel.getPlayers()[victim.getPlayerIndex()];
 
         if(stolen.getHandSize() == 0)
             return;

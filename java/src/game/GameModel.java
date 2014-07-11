@@ -59,15 +59,15 @@ public class GameModel {
     /**
      * @return the players
      */
-    public Set<Player> getPlayers() {
+    public Player[] getPlayers() {
         return players;
     }
 
     /**
      * @param player the players to set
      */
-    public void addPlayers(Player player) {
-        this.players.add(player);
+    public void addPlayers(Player player, int location) {
+        this.players[location] = player;
     }
 
     /**
@@ -125,7 +125,7 @@ public class GameModel {
 		this.winner = winner;
 	}
 
-	public void setPlayers(Set<Player> players) {
+	public void setPlayers(Player[] players) {
 		this.players = players;
 	}
 
