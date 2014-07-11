@@ -1,7 +1,7 @@
-package test;
+package mainTest;
 
 import static org.junit.Assert.*;
-import org.junit.*
+import org.junit.*;
 
 public class UnitTests {
 	
@@ -39,6 +39,6 @@ public class UnitTests {
 			"player.PointsTest"
 		};	
 		
-		org.junit.runner.JUnitCore.(testClasses);
+		org.junit.runner.JUnitCore.main(testClasses);
 	}
 }

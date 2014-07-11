@@ -125,7 +125,7 @@
 		
 		<jar jarfile="${java.dist}/catan-server.jar" basedir="${java.build}">
 			<manifest>
-				<attribute name="Main-Class" value="PUT NAME OF MAIN TEST CLASS HERE"/>
+				<attribute name="Main-Class" value="mainTest.UnitTests"/>
 				<attribute name="Class-Path" 
 					value="lib/${gson.file}" />
 			</manifest>
