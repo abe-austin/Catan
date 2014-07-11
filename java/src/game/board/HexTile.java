@@ -7,22 +7,16 @@ import java.util.List;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import player.Player;
-import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
-import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.locations.HexLocation;
 
 public abstract class HexTile {
 	
-	private int x;
-	private int y;
-	
 	protected HexType myType;
 	protected HexLocation location;
 	
 //	/These all need to be initialized in the board-creation phase, or from the json
-	
 	protected Edge northWestEdge;
 	protected Edge northEdge;
 	protected Edge northEastEdge;
@@ -37,43 +31,6 @@ public abstract class HexTile {
 	protected Corner southEastCorner;
 	protected Corner southWestCorner;
 	
-	public void setCoordinates(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-	
-	public int getX() {
-		return x;
-	}
-	
-	public int getY() {
-		return y;
-	}
-	
-	
-	public void addEdge(Edge edgeToAdd, EdgeDirection edgeDirection) {
-		switch(edgeDirection) {
-			case NorthWest: northWestEdge = edgeToAdd; break;
-			case North: northEdge = edgeToAdd; break;
-			case NorthEast: northEastEdge = edgeToAdd; break;
-			case SouthEast: southEastEdge = edgeToAdd; break;
-			case South: southEdge = edgeToAdd; break;
-			case SouthWest: southWestEdge = edgeToAdd; break;
-			default: break;
-		}
-	}
-	
-	public void addCorner(Corner cornerToAdd, VertexDirection vertexDirection) {
-		switch(vertexDirection) {
-		case West: westCorner= cornerToAdd; break;
-		case NorthWest: northWestCorner = cornerToAdd; break;
-		case NorthEast: northEastCorner = cornerToAdd; break;
-		case East: eastCorner = cornerToAdd; break;
-		case SouthEast: southEastCorner = cornerToAdd; break;
-		case SouthWest: southWestCorner = cornerToAdd; break;
-		default: break;
-	}
-	}
 
       
         /**
