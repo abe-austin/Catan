@@ -99,7 +99,7 @@ public class ControllerFacade {
 	/**
 	 * This method is called when the user buys a development card.
 	 */
-	void buyCard(){//DevCardController --goes in GamePlay
+	void buyCard(){//DevCardController and resourecBarController --goes in GamePlay
             
         }
 	
@@ -139,7 +139,7 @@ public class ControllerFacade {
 	/**
 	 * This method is called when the user plays a soldier development card.
 	 */
-	void playSoldierCard(){//DevCardController --goes in GamePlay
+	void playSoldierCard(){//DevCardController and MapController --goes in GamePlay
             
         }
 	
@@ -179,7 +179,7 @@ public class ControllerFacade {
         /**
 	 * Called by the domestic trade view when the user clicks the domestic trade button.
 	 */
-	void startTrade(){//DomesticTradeController --goes in Trade
+	void domesticStartTrade(){//DomesticTradeController --goes in Trade
             
         }
 	
@@ -247,7 +247,7 @@ public class ControllerFacade {
 	/**
 	 * Called by the domestic trade overlay when the user cancels a trade.
 	 */
-	void cancelTrade(){//DomesticTradeController --goes in Trade
+	void domesticCancelTrade(){//DomesticTradeController --goes in Trade
             
         }
 
@@ -262,7 +262,7 @@ public class ControllerFacade {
         /**
 	 * Called by the maritime trade view when the user clicks the maritime trade button.
 	 */
-	void startTrade(){//MaritimeTradeController --goes in Trade
+	void maritimeStartTrade(){//MaritimeTradeController --goes in Trade
             
         }
 	
@@ -276,7 +276,7 @@ public class ControllerFacade {
 	/**
 	 * Called by the maritime trade overlay when the user cancels a trade.
 	 */
-	void cancelTrade(){//MaritimeTradeController --goes in Trade
+	void maritimeCancelTrade(){//MaritimeTradeController --goes in Trade
             
         }
 	
@@ -314,7 +314,7 @@ public class ControllerFacade {
     /**
 	 * Displays the join game view
 	 */
-	void start(){//JoinGameController --goes in Setup !!Not sure if needed
+	void joinGameStart(){//JoinGameController --goes in Setup !!Not sure if needed
             
         }
 	
@@ -368,7 +368,7 @@ public class ControllerFacade {
         /**
 	 * Displays the player waiting view
 	 */
-	void start(){//PlayerWaitingController --goes in Setup !!Not sure if needed
+	void playerWaitingStart(){//PlayerWaitingController --goes in Setup !!Not sure if needed
             
         }
 	
@@ -381,7 +381,7 @@ public class ControllerFacade {
         /**
 	 * Displays the login view
 	 */
-	void start(){//LoginController --goes in Setup !!Not sure if needed
+	void loginStart(){//LoginController --goes in Setup !!Not sure if needed
             
         }
 	
@@ -407,7 +407,7 @@ public class ControllerFacade {
 	 * @return true if the road can be placed at edgeLoc, false otherwise
 	 */
 	boolean canPlaceRoad(EdgeLocation edgeLoc){//MapController --goes in GamePlay
-            
+            return false;
         }
 	
 	/**
@@ -419,7 +419,7 @@ public class ControllerFacade {
 	 * @return true if the settlement can be placed at vertLoc, false otherwise
 	 */
 	boolean canPlaceSettlement(VertexLocation vertLoc){//MapController --goes in GamePlay
-            
+            return false;
         }
 	
 	/**
@@ -431,7 +431,7 @@ public class ControllerFacade {
 	 * @return true if the city can be placed at vertLoc, false otherwise
 	 */
 	boolean canPlaceCity(VertexLocation vertLoc){//MapController --goes in GamePlay
-            
+            return false;
         }
 	
 	/**
@@ -443,7 +443,7 @@ public class ControllerFacade {
 	 * @return true if the robber can be placed at hexLoc, false otherwise
 	 */
 	boolean canPlaceRobber(HexLocation hexLoc){//MapController --goes in GamePlay
-            
+            return false;
         }
 	
 	/**
@@ -503,14 +503,6 @@ public class ControllerFacade {
         }
 	
 	/**
-	 * This method is called when the user plays a "soldier" development card.
-	 * It should initiate robber placement. 
-	 */
-	void playSoldierCard(){//MapController --goes in GamePlay
-            
-        }
-	
-	/**
 	 * This method is called when the user plays a "road building" progress development card.
 	 * It should initiate the process of allowing the player to place two roads.
 	 */
@@ -547,13 +539,6 @@ public class ControllerFacade {
 	 * Called by the view then the user requests to build a city
 	 */
 	void buildCity(){//ResourceBarController --goes in GamePlay
-            
-        }
-	
-	/**
-	 * Called by the view then the user requests to buy a card
-	 */
-	void buyCard(){//ResourceBarController --goes in GamePlay
             
         }
 	
