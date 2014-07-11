@@ -1,7 +1,7 @@
 package controller;
 
 import client.data.RobPlayerInfo;
-import game.board.BoardModel;
+import game.GameModel;
 import game.pieces.BoardPiece;
 import player.Player;
 import shared.definitions.PieceType;
@@ -14,10 +14,10 @@ import shared.locations.VertexLocation;
  * @author Kevin MacMaster
  */
 public class HexTileController {
-    private BoardModel boardModel;
+    private GameModel gameModel;
 
-    public HexTileController(BoardModel model) {
-        boardModel = model;
+    public void update(GameModel model) {
+        gameModel = model;
     }
 
     /**

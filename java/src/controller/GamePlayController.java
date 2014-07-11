@@ -26,8 +26,7 @@ class GamePlayController {
     private HexTileController hexTileController;
 
     public GamePlayController() {
-        gameModel = new GameModel();
-        hexTileController = new HexTileController(gameModel.getBoard());
+        hexTileController = new HexTileController();
     }
 
     /**
@@ -40,9 +39,11 @@ class GamePlayController {
     /**
      * replaces the current gameModel with the new GameModel
      * @param gameModel
+     * @post new GameModel pointer has been set
      */
     public void switchGameModel(GameModel gameModel){
         this.gameModel = gameModel;
+        hexTileController.update(gameModel);
     }
 
     /**
@@ -60,7 +61,7 @@ class GamePlayController {
      * @pre player has enough resources to buy dev card, bank still has a development card
      * @post player had a development card, bank has one less
      */
-    public void buyCard() {                                        // DevCardController 
+    public void buyCard() {                                                     // DevCardController
         gameModel.getBank().addResourceCard(player.giveResourceCard(ResourceType.WHEAT));
         gameModel.getBank().addResourceCard(player.giveResourceCard(ResourceType.SHEEP));
         gameModel.getBank().addResourceCard(player.giveResourceCard(ResourceType.ORE));
@@ -86,7 +87,7 @@ class GamePlayController {
      * @post player has all resource cards of given type that previously
      *          belonged to other players
      */
-    public void playMonopolyCard(ResourceType resource) {        // DevCardController
+    public void playMonopolyCard(ResourceType resource) {                       // DevCardController
         player.giveDevelopmentCard(DevCardType.MONOPOLY);
         for(Player person : gameModel.getPlayers()) {
             while(!person.equals(player) && person.hasResource(resource))
@@ -98,7 +99,7 @@ class GamePlayController {
      * This method is called when the user plays a monument development card.
      * @post player has one more point;
      */
-    public void playMonumentCard() {                               // DevCardController
+    public void playMonumentCard() {                                            // DevCardController
         player.giveDevelopmentCard(DevCardType.MONUMENT);
         player.addPoint();
     }
@@ -108,7 +109,7 @@ class GamePlayController {
      * @pre player has road builder development card and has at least two more available roads
      * @post player has two more roads on the board
      */
-    public void playRoadBuildCard() {                              // DevCardController
+    public void playRoadBuildCard() {                                           // DevCardController
         player.giveDevelopmentCard(DevCardType.ROAD_BUILD);
         // mapController.playRoadBuildCard(player);
     }
@@ -117,7 +118,7 @@ class GamePlayController {
      * This method is called when the user plays a soldier development card.
      * @pre player has soldier development card
      */
-    public void playSoldierCard() {                                // DevCardController
+    public void playSoldierCard() {                                             // DevCardController
         player.giveDevelopmentCard(DevCardType.SOLDIER);
         // mapController.moveRobber(player);
     }
@@ -125,8 +126,10 @@ class GamePlayController {
     /**
      * This method is called when the user plays a year of plenty development card.
      *
+     * @pre bank has at least one of each given resource type
      * @param resource1 The first resource to gain
      * @param resource2 The second resource to gain
+     * @post player has one more resource card of each given resource type
      */                                                                         // DevCardController
     public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {  
         player.addResourceCard(gameModel.getBank().giveResourceCard(resource1));
@@ -179,7 +182,7 @@ class GamePlayController {
     /**
      * This method is called when the user clicks the discard button.
      */
-    public void discard(ArrayList<ResourceType> cardsToDiscard) {// DiscardController
+    public void discard(ArrayList<ResourceType> cardsToDiscard) {               // DiscardController
         for(ResourceType resource : cardsToDiscard)
             gameModel.getBank().addResourceCard(player.giveResourceCard(resource));
     }
@@ -192,7 +195,7 @@ class GamePlayController {
      * @param edgeLoc The proposed road location
      * @return true if the road can be placed at edgeLoc, false otherwise
      */
-    public boolean canPlaceRoad(EdgeLocation edgeLoc) {          // MapController 
+    public boolean canPlaceRoad(EdgeLocation edgeLoc) {                         // MapController
         return hexTileController.canPlaceRoad(player, edgeLoc);
     }
 
@@ -204,7 +207,7 @@ class GamePlayController {
      * @param vertLoc The proposed settlement location
      * @return true if the settlement can be placed at vertLoc, false otherwise
      */
-    public boolean canPlaceSettlement(VertexLocation vertLoc) {  // MapController 
+    public boolean canPlaceSettlement(VertexLocation vertLoc) {                 // MapController
         return hexTileController.canPlaceSettlement(player, vertLoc);
     }
 
@@ -216,7 +219,7 @@ class GamePlayController {
      * @param vertLoc The proposed city location
      * @return true if the city can be placed at vertLoc, false otherwise
      */
-    public boolean canPlaceCity(VertexLocation vertLoc) {        // MapController 
+    public boolean canPlaceCity(VertexLocation vertLoc) {                       // MapController
         return hexTileController.canPlaceCity(player, vertLoc);
     }
 
@@ -235,9 +238,11 @@ class GamePlayController {
     /**
      * This method is called when the user clicks the mouse to place a road.
      *
+     * @pre player has at least one inactive road and has met cost
      * @param edgeLoc The road location
+     * @post player has one more road that is active
      */
-    public void placeRoad(EdgeLocation edgeLoc) {                // MapController 
+    public void placeRoad(EdgeLocation edgeLoc) {                               // MapController
         BoardPiece piece = player.getAvailableBoardPiece(PieceType.ROAD);
         piece.setActive(true);
         hexTileController.placeRoad(player, piece, edgeLoc);
@@ -246,9 +251,11 @@ class GamePlayController {
     /**
      * This method is called when the user clicks the mouse to place a settlement.
      *
+     * @pre player has at least one inactive settlement and has met cost
      * @param vertLoc The settlement location
+     * @post player has one more victory point and has one more active settlement
      */
-    public void placeSettlement(VertexLocation vertLoc) {        // MapController 
+    public void placeSettlement(VertexLocation vertLoc) {                       // MapController
         BoardPiece piece = player.getAvailableBoardPiece(PieceType.SETTLEMENT);
         piece.setActive(true);
         hexTileController.placeSettlement(player, piece, vertLoc);
@@ -257,9 +264,13 @@ class GamePlayController {
     /**
      * This method is called when the user clicks the mouse to place a city.
      *
+     * @pre settlement exists in given VertexLocation, player has met cost and
+     *      has at least one inactive city
      * @param vertLoc The city location
+     * @post player has one more victory point, one more active city, and one less
+     *       active settlement
      */
-    public void placeCity(VertexLocation vertLoc) {              // MapController 
+    public void placeCity(VertexLocation vertLoc) {                             // MapController
         BoardPiece piece = player.getAvailableBoardPiece(PieceType.CITY);
         piece.setActive(true);
         hexTileController.placeCity(player, piece, vertLoc);
@@ -269,6 +280,7 @@ class GamePlayController {
      * This method is called when the user clicks the mouse to place the robber.
      *
      * @param hexLoc The robber location
+     * @post robber is not in original location
      */
     public void placeRobber(HexLocation hexLoc) {                               // MapController
         hexTileController.placeRobber(hexLoc);
@@ -309,6 +321,9 @@ class GamePlayController {
      */
     public void robPlayer(RobPlayerInfo victim) {                               // MapController
         Player stolen = (Player)gameModel.getPlayers().toArray()[victim.getPlayerIndex()];
+
+        if(stolen.getHandSize() == 0)
+            return;
 
         int index = (int)(Math.random()*stolen.getHandSize());
 
