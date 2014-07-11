@@ -58,10 +58,10 @@ public class ServerProxy implements Server{
 			HttpEntity entity = response.getEntity();
 			
 			responseOb = EntityUtils.toString(entity);
-			//responseOb = gson.fromJson(EntityUtils.toString(entity), Object.class);
+			
 			//GameModel game = new GameModel();
 			//String gamejson = gson.toJson(game);
-			//responseOb = game;
+			//responseOb = gamejson;
 			//response.setStatusCode(200);
 			
 			serverResponse = new ServerResponse(response.getStatusLine().getStatusCode(),

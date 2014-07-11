@@ -54,9 +54,7 @@ public class ServerPoller {
         if(serverProxy!=null){
         	ServerResponse response = serverProxy.getGameModel(0);
         	if(response.getCode() == 200) {
-        		//gameModel = (GameModel)response.getBody();
-        		Gson gson = new Gson();
-        		gameModel = gson.fromJson((String)response.getBody(), GameModel.class);
+        		gameModel = (GameModel)response.getBody();
         	}
         }
     }

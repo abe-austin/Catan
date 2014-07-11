@@ -2,10 +2,14 @@ package client.serverProxy;
 
 
 import java.util.ArrayList;
+
+import game.GameModel;
 import game.board.Corner;
 import game.board.Edge;
 import game.cards.ResourceCard;
+
 import org.junit.Test;
+
 import shared.communication.ServerResponse;
 import shared.definitions.CatanColor;
 import shared.definitions.Command;

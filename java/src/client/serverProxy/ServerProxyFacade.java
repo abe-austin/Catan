@@ -1,7 +1,10 @@
 package client.serverProxy;
 
+import game.GameModel;
 import game.cards.ResourceCard;
+
 import java.util.List;
+
 import game.board.Edge;
 import game.board.Corner;
 import shared.locations.HexLocation;
@@ -24,6 +27,7 @@ import shared.definitions.ResourceType;
 public class ServerProxyFacade {
 	private Server server;
 	private boolean mockServer;
+	private ServerResponseConverter converter;
 	
 	/**
      * check <code>mockServer</code> boolean to either create a mock server or to connect
@@ -32,6 +36,7 @@ public class ServerProxyFacade {
 	public ServerProxyFacade(boolean mock) {
 	
 		mockServer = mock;
+		converter = new ServerResponseConverter();
 		if(mockServer) {
 			server = new MockServer();
 		}
@@ -58,7 +63,7 @@ public class ServerProxyFacade {
 		String url = "/user/login";
 		ServerResponse response = server.doPost(url, param);
 				
-		//return checkResponseStatus(response); 
+		converter.convert(response, String.class);
 		return response;
 	}
 
@@ -78,9 +83,9 @@ public class ServerProxyFacade {
 		
 		//make post to proper url using json as the body of the request
 		String url = "/user/register";
-		 ServerResponse  response = server.doPost(url, param);
+		ServerResponse  response = server.doPost(url, param);
 		
-		//return checkResponseStatus(response); 
+		converter.convert(response, String.class);
 		return response;
 	}
 
@@ -95,6 +100,8 @@ public class ServerProxyFacade {
 		String url = "/games/list";
 		ServerResponse  response = server.doGet(url);
 		
+		//TODO what data structure to use??
+		//converter.convert(response, String.class);
 		return response; 
 	}
 
@@ -112,7 +119,8 @@ public class ServerProxyFacade {
 		String url = "/games/create";
 		 ServerResponse  response = server.doPost(url, param);
 		
-		//CreateGameRes res = gson.fromJson((String)response, CreateGameRes.class);
+		//TODO data structure?
+		converter.convert(response, CreateGameRes.class);
 		return response; 
 	}
 
@@ -137,7 +145,7 @@ public class ServerProxyFacade {
 		String url = "/games/join";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return checkResponseStatus(response); 
+		converter.convert(response, String.class);
 		return response; 
 
 	}
@@ -149,7 +157,7 @@ public class ServerProxyFacade {
 		String url = "/games/save";
 		ServerResponse response = server.doPost(url, param);
 		
-		//return checkResponseStatus(response); 
+		converter.convert(response, String.class);
 		return response; 
 	}
 	
@@ -162,7 +170,7 @@ public class ServerProxyFacade {
 		String url = "/games/load";
 		ServerResponse response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response); 
+		converter.convert(response, String.class);
 		return response;
 	}
 
@@ -176,9 +184,9 @@ public class ServerProxyFacade {
 		
 		//make post to proper url using json as the body of the request
 		String url = "/game/model";
-		 ServerResponse  response = server.doGet(url);
+		ServerResponse  response = server.doGet(url);
 		
-		//return jsonToGameModel(response);
+		 converter.convert(response, GameModel.class);
 		 return response;
 	}
 
@@ -194,7 +202,7 @@ public class ServerProxyFacade {
 		String url = "/game/reset";
 		ServerResponse response = server.doPost(url, null);
 		
-		//return jsonToGameModel(response); 
+		converter.convert(response, GameModel.class);
 		return response;
     }
     
@@ -215,7 +223,7 @@ public class ServerProxyFacade {
 		String url = "/game/commands";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response); 
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 
@@ -230,7 +238,8 @@ public class ServerProxyFacade {
 		//make get to proper url
 		String url = "/game/commands";
 		ServerResponse  response = server.doGet(url);
-				
+		
+		converter.convert(response, String.class);
 		return response; 
 	}
 	
@@ -254,7 +263,7 @@ public class ServerProxyFacade {
 		String url = "/game/commands";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return checkResponseStatus(response);
+		converter.convert(response, String.class);
 		return response;
 
 	}
@@ -269,7 +278,9 @@ public class ServerProxyFacade {
 		//make post to proper url using json as the body of the request
 		String url = "/game/listAI";
 		ServerResponse response = server.doGet(url);
-				
+		
+		//TODO need data structure
+		//converter.convert(response, GameModel.class);
 		return response; 
 	}
 	
@@ -291,7 +302,7 @@ public class ServerProxyFacade {
 		String url = "/moves/sendChat";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response);
+		converter.convert(response, GameModel.class);
 		return response;
 
 	}
@@ -316,7 +327,7 @@ public class ServerProxyFacade {
 		String url = "/moves/rollNumber";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response);
+		converter.convert(response, GameModel.class);
 		return response;
 
 	}
@@ -330,7 +341,7 @@ public class ServerProxyFacade {
 		String url = "/moves/robPlayer";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response);
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -353,7 +364,7 @@ public class ServerProxyFacade {
 		String url = "/moves/finishTurn";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response); 
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -377,7 +388,7 @@ public class ServerProxyFacade {
 		String url = "/moves/buyDevCard";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response);
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -403,7 +414,7 @@ public class ServerProxyFacade {
 		String url = "/moves/Year_Of_Plenty";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response); 
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -434,7 +445,7 @@ public class ServerProxyFacade {
 		String url = "/moves/Road_Building";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response);  
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -462,7 +473,7 @@ public class ServerProxyFacade {
 		String url = "/moves/Soldier";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -487,7 +498,7 @@ public class ServerProxyFacade {
 		String url = "/moves/Monopoly";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response);
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -511,7 +522,7 @@ public class ServerProxyFacade {
 		String url = "/moves/Monument";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response); 
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -540,7 +551,7 @@ public class ServerProxyFacade {
 		String url = "/moves/buildRoad";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response);
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -570,7 +581,7 @@ public class ServerProxyFacade {
 		String url = "/moves/buildSettlement";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response); 
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -599,7 +610,7 @@ public class ServerProxyFacade {
 		String url = "/moves/buildCity";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response); 
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -626,7 +637,7 @@ public class ServerProxyFacade {
 		String url = "/moves/offerTrade";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response); 
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -651,7 +662,7 @@ public class ServerProxyFacade {
 		String url = "/moves/acceptTrade";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response); 
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -677,7 +688,7 @@ public class ServerProxyFacade {
 		String url = "/moves/maritimeTrade";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response); 
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -703,7 +714,7 @@ public class ServerProxyFacade {
 		String url = "/moves/discardCards";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return jsonToGameModel(response); 
+		converter.convert(response, GameModel.class);
 		return response;
 	}
 	
@@ -725,7 +736,7 @@ public class ServerProxyFacade {
 		String url = "/util/changeLogLevel";
 		ServerResponse  response = server.doPost(url, param);
 		
-		//return checkResponseStatus(response);
+		converter.convert(response, String.class);
 		return response;
 	}
 }

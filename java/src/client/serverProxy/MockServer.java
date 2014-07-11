@@ -132,7 +132,7 @@ public class MockServer implements Server{
 	private ServerResponse staticGameModel() {
 		Gson gson = new Gson();
 		GameModel model = new GameModel();
-		String jsonBody = gson.toJson(model);
+		Object jsonBody = gson.toJson(model, GameModel.class);
 		ServerResponse response = new ServerResponse(200, jsonBody);
 		return response;
 	}
