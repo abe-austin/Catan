@@ -14,16 +14,14 @@ import game.pieces.Robber;
  * @author Kevin MacMaster
  */
 public class BoardModel {
-    private HexTile[][] tiles;
+	private List<HexTile> tiles;
     private BoardPiece[][] pieces;
     private Robber rob;
 
     public BoardModel() {
         pieces = new BoardPiece[10][10];
-        tiles = new HexTile[10][10];
-
-        // Create Hex Tiles here
-        //Each HexTile will need to be initialized or updated with six edge and six corner objects
+        BuildWorld worldBuilder = new BuildWorld();
+        tiles = worldBuilder.getTiles();
     }
 
     /**
@@ -43,7 +41,12 @@ public class BoardModel {
      * @return HexTile at given position
      */
     public HexTile getHexTileAt(int x, int y) {
-        return tiles[x][y];
+        for(HexTile theTile : tiles)
+        {
+        	if(theTile.getX() == x && theTile.getY() == y)
+        		return theTile;
+        }
+        return null;
     }
 
     /**
@@ -60,10 +63,30 @@ public class BoardModel {
      * @param player, which player the edge is being checked if belonged to
      * @return boolean result
      */
-    public Boolean checkEdgeOwned(Edge edge, Player player) {
-    	if(edge.hasStructure()) {
-			if(edge.getStructure().getOwner().equals(player))
-				return true;
+    public Boolean checkEdgeOwned(Edge edge, Corner inBetween, Player player) {
+    	if(inBetween != null)
+    		if(!inBetween.getStructure().getOwner().equals(player))
+    			return false;
+    	if(edge != null) {
+    		if(edge.hasStructure()) {
+    			if(edge.getStructure().getOwner().equals(player))
+    				return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    /**
+     * @param edge, which edge we need to check
+     * @param player, which player the edge is being checked if belonged to
+     * @return boolean result
+     */
+    public Boolean checkEdgeOwned2(Edge edge, Player player) {
+    	if(edge != null) {
+    		if(edge.hasStructure()) {
+    			if(edge.getStructure().getOwner().equals(player))
+    				return true;
+    		}
     	}
     	return false;
     }
@@ -74,9 +97,11 @@ public class BoardModel {
      * @return boolean result
      */
     public Boolean checkCornerOwned(Corner corner, Player player) {
-    	if(corner.hasStructure()) {
-			if(corner.getStructure().getOwner().equals(player))
-				return true;
+    	if(corner != null) {
+    		if(corner.hasStructure()) {
+    			if(corner.getStructure().getOwner().equals(player))
+    				return true;
+    		}
     	}
     	return false;
     }
@@ -91,32 +116,32 @@ public class BoardModel {
     public boolean hasNeighborsEdge(HexTile hTile, EdgeLocation edgeLoc, Player player) {
     	switch(edgeLoc.getDir()){
 		case NorthWest: 
-			if(checkEdgeOwned(hTile.northEdge, player) || checkEdgeOwned(hTile.southWestEdge, player) ||
+			if(checkEdgeOwned(hTile.northEdge, hTile.northWestCorner, player) || checkEdgeOwned(hTile.southWestEdge, hTile.westCorner, player) ||
 					checkCornerOwned(hTile.westCorner, player) || checkCornerOwned(hTile.northWestCorner, player))
 				return true;
 			break;
 		case North:
-			if(checkEdgeOwned(hTile.northEastEdge, player) || checkEdgeOwned(hTile.northWestEdge, player) ||
+			if(checkEdgeOwned(hTile.northEastEdge, hTile.northEastCorner, player) || checkEdgeOwned(hTile.northWestEdge, hTile.northEastCorner, player) ||
 					checkCornerOwned(hTile.northEastCorner, player) || checkCornerOwned(hTile.northWestCorner, player))
 				return true;
 			break;
 		case NorthEast:
-			if(checkEdgeOwned(hTile.northEdge, player) || checkEdgeOwned(hTile.southEastEdge, player) ||
+			if(checkEdgeOwned(hTile.northEdge, hTile.northEastCorner, player) || checkEdgeOwned(hTile.southEastEdge, hTile.eastCorner, player) ||
 					checkCornerOwned(hTile.northEastCorner, player) || checkCornerOwned(hTile.eastCorner, player))
 				return true;
 			break;
 		case SouthEast:
-			if(checkEdgeOwned(hTile.northEastEdge, player) || checkEdgeOwned(hTile.southEdge, player) ||
+			if(checkEdgeOwned(hTile.northEastEdge, hTile.eastCorner, player) || checkEdgeOwned(hTile.southEdge, hTile.southEastCorner, player) ||
 					checkCornerOwned(hTile.eastCorner, player) || checkCornerOwned(hTile.southEastCorner, player))
 				return true;
 			break;
 		case South:
-			if(checkEdgeOwned(hTile.southEastEdge, player) || checkEdgeOwned(hTile.southWestEdge, player) ||
+			if(checkEdgeOwned(hTile.southEastEdge, hTile.southEastCorner, player) || checkEdgeOwned(hTile.southWestEdge, hTile.southWestCorner, player) ||
 					checkCornerOwned(hTile.southEastCorner, player) || checkCornerOwned(hTile.southWestCorner, player))
 				return true;
 			break;
 		case SouthWest:
-			if(checkEdgeOwned(hTile.southEdge, player) || checkEdgeOwned(hTile.northWestEdge, player) ||
+			if(checkEdgeOwned(hTile.southEdge, hTile.southWestCorner, player) || checkEdgeOwned(hTile.northWestEdge, hTile.westCorner, player) ||
 					checkCornerOwned(hTile.southWestCorner, player) || checkCornerOwned(hTile.westCorner, player))
 				return true;
 			break;
@@ -135,28 +160,52 @@ public class BoardModel {
     public boolean hasNeighborsVertex(HexTile hTile, VertexLocation vertexLoc, Player player) {
     	switch(vertexLoc.getDir()){
     		case West: 
-    			if(hTile.southWestCorner.hasStructure() || hTile.northWestCorner.hasStructure())
-    				return true;
+    			if(hTile.southWestCorner != null)
+    				if(hTile.southWestCorner.hasStructure())
+    					return true;
+    			if(hTile.northWestCorner != null)
+    				if(hTile.northWestCorner.hasStructure())
+    					return true;
     			break;
     		case NorthWest:
-    			if(hTile.westCorner.hasStructure() || hTile.northEastCorner.hasStructure())
-    				return true;
+    			if(hTile.westCorner != null)
+    				if(hTile.westCorner.hasStructure())
+    					return true;
+    			if(hTile.northEastCorner != null)
+    				if(hTile.northEastCorner.hasStructure())
+    					return true;
     			break;
     		case NorthEast: 
-    			if(hTile.northWestCorner.hasStructure() || hTile.eastCorner.hasStructure())
-    				return true;
+    			if(hTile.northWestCorner != null)
+    				if(hTile.northWestCorner.hasStructure())
+    					return true;
+    			if(hTile.eastCorner != null)
+    				if(hTile.eastCorner.hasStructure())
+    					return true;
     			break;
     		case East: 
-    			if(hTile.northEastCorner.hasStructure() || hTile.southEastCorner.hasStructure())
-    				return true;
+    			if(hTile.northEastCorner != null)
+    				if(hTile.northEastCorner.hasStructure())
+    					return true;
+    			if(hTile.southEastCorner != null)
+    				if(hTile.southEastCorner.hasStructure())
+    					return true;
     			break;
     		case SouthEast: 
-    			if(hTile.eastCorner.hasStructure() || hTile.southWestCorner.hasStructure())
-    				return true;
+    			if(hTile.eastCorner != null)
+    				if(hTile.eastCorner.hasStructure())
+    					return true;
+    			if(hTile.southWestCorner != null)
+    				if(hTile.southWestCorner.hasStructure())
+    					return true;
     			break;
     		case SouthWest: 
-    			if(hTile.southEastCorner.hasStructure() || hTile.westCorner.hasStructure())
-    				return true;
+    			if(hTile.southEastCorner != null)
+    				if(hTile.southEastCorner.hasStructure())
+    					return true;
+    			if(hTile.westCorner != null)
+    				if(hTile.westCorner.hasStructure())
+    					return true;
     			break;
     	}
     	return false;	
@@ -172,41 +221,66 @@ public class BoardModel {
      */
     public boolean vertexHasEdgeConnecting(HexTile hTile, VertexLocation vertexLoc, Player player) {
     	switch(vertexLoc.getDir()){
-    	case West: 
-			if(checkEdgeOwned(hTile.northWestEdge, player) || checkEdgeOwned(hTile.southWestEdge, player))
-				return true;
+    	case West:
+			if(hTile.northWestEdge!= null)
+				if(checkEdgeOwned2(hTile.northWestEdge, player))
+					return true;
+			if(hTile.southWestEdge!= null)
+				if(checkEdgeOwned2(hTile.southWestEdge, player))
+					return true;
 			break;
 		case NorthWest:
-			if(checkEdgeOwned(hTile.northWestEdge, player) || checkEdgeOwned(hTile.northEdge, player))
-				return true;
+			if(hTile.northWestEdge!= null)
+				if(checkEdgeOwned2(hTile.northWestEdge, player))
+					return true;
+			if(hTile.northEdge!= null)
+				if(checkEdgeOwned2(hTile.northEdge, player))
+					return true;
 			break;
-		case NorthEast: 
-			if(checkEdgeOwned(hTile.northEdge, player) || checkEdgeOwned(hTile.northEastEdge, player))
-				return true;
+		case NorthEast:
+			if(hTile.northEdge!= null)
+				if(checkEdgeOwned2(hTile.northEdge, player))
+					return true;
+			if(hTile.northEastEdge!= null)
+				if(checkEdgeOwned2(hTile.northEastEdge, player))
+					return true;
 			break;
-		case East: 
-			if(checkEdgeOwned(hTile.northEastEdge, player) || checkEdgeOwned(hTile.southEastEdge, player))
-				return true;
+		case East:
+			if(hTile.northEastEdge!= null)
+				if(checkEdgeOwned2(hTile.northEastEdge, player))
+					return true;
+			if(hTile.southEastEdge!= null)
+				if(checkEdgeOwned2(hTile.southEastEdge, player))
+					return true;
 			break;
-		case SouthEast: 
-			if(checkEdgeOwned(hTile.southEastEdge, player) || checkEdgeOwned(hTile.southEdge, player))
-				return true;
+		case SouthEast:
+			if(hTile.southEastEdge!= null)
+				if(checkEdgeOwned2(hTile.southEastEdge, player))
+					return true;
+			if(hTile.southEdge!= null)
+				if(checkEdgeOwned2(hTile.southEdge, player))
+					return true;
 			break;
-		case SouthWest: 
-			if(checkEdgeOwned(hTile.southEdge, player) || checkEdgeOwned(hTile.southWestEdge, player))
-				return true;
+		case SouthWest:
+			if(hTile.southEdge!= null)
+				if(checkEdgeOwned2(hTile.southEdge, player))
+					return true;
+			if(hTile.southWestEdge!= null)
+				if(checkEdgeOwned2(hTile.southWestEdge, player))
+					return true;
 			break;    	
     	}
     	return false;
     }
     
-    
+  //Do we need special test-functions for if this is the start of the game (placing settlement shouldn't be based on friendly neighbor)
     /**
     *
     * @param e Edge to build on
     * @param p player to check
     * @return true if Player p can build a road on Edge e
     *          false otherwise
+    * @pre assumes that edge is a valid (non-null) edge (i.e. not one between ocean tiles)
     */
     public boolean canBuildRoad(Edge edge, Player player) {
     	if(!player.hasAvaiableBoardPiece(PieceType.ROAD))//First check if player has available road pieces
@@ -229,6 +303,7 @@ public class BoardModel {
     * @param c Corner to build on
     * @param p player to check
     * @return
+    * @pre assumes that corner is a valid (non-null) corner (i.e. not one between only ocean tiles)
     */
     public boolean canBuildSettlement(Corner corner, Player player) {
     	if(!player.hasAvaiableBoardPiece(PieceType.SETTLEMENT))//First check if player has available settlement pieces
@@ -244,7 +319,7 @@ public class BoardModel {
 				}
     		for(VertexLocation vertexLoc : places) {//Check for a road connecting to this corner
     			HexTile hTile = getHexTileAt(vertexLoc.getHexLoc().getX(), vertexLoc.getHexLoc().getY());
-    			if(hasNeighborsVertex(hTile, vertexLoc, player))
+    			if(vertexHasEdgeConnecting(hTile, vertexLoc, player))
     				return true;					
 			}
 			return false;
@@ -257,6 +332,7 @@ public class BoardModel {
     * @param c Corner to build on
     * @param p player to check
     * @return
+    * @pre assumes that corner is a valid (non-null) corner (i.e. not one between only ocean tiles)
     */
     public boolean canBuildCity(Corner corner, Player player) {
     	if(!player.hasAvaiableBoardPiece(PieceType.CITY))//First check if player has available city pieces
