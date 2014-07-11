@@ -283,7 +283,7 @@ public class BoardModel {
     * @pre assumes that edge is a valid (non-null) edge (i.e. not one between ocean tiles)
     */
     public boolean canBuildRoad(Edge edge, Player player) {
-    	if(!player.hasAvaiableBoardPiece(PieceType.ROAD))//First check if player has available road pieces
+    	if(!player.hasAvailableBoardPiece(PieceType.ROAD))//First check if player has available road pieces
     		return false;
     	if(edge.hasStructure())
     		return false;
@@ -306,7 +306,7 @@ public class BoardModel {
     * @pre assumes that corner is a valid (non-null) corner (i.e. not one between only ocean tiles)
     */
     public boolean canBuildSettlement(Corner corner, Player player) {
-    	if(!player.hasAvaiableBoardPiece(PieceType.SETTLEMENT))//First check if player has available settlement pieces
+    	if(!player.hasAvailableBoardPiece(PieceType.SETTLEMENT))//First check if player has available settlement pieces
     		return false;
     	if(corner.hasStructure())
     		return false;
@@ -335,7 +335,7 @@ public class BoardModel {
     * @pre assumes that corner is a valid (non-null) corner (i.e. not one between only ocean tiles)
     */
     public boolean canBuildCity(Corner corner, Player player) {
-    	if(!player.hasAvaiableBoardPiece(PieceType.CITY))//First check if player has available city pieces
+    	if(!player.hasAvailableBoardPiece(PieceType.CITY))//First check if player has available city pieces
     		return false;
     	if(!corner.hasStructure())
     		return false;

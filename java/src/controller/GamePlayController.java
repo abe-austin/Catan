@@ -3,6 +3,7 @@ package controller;
 import client.data.RobPlayerInfo;
 import game.GameModel;
 import game.cards.CardOwner;
+import game.cards.ResourceCard;
 import game.pieces.BoardPiece;
 import java.util.ArrayList;
 import player.Player;
@@ -237,7 +238,7 @@ class GamePlayController {
      * @param edgeLoc The road location
      */
     public void placeRoad(EdgeLocation edgeLoc) {                // MapController 
-        BoardPiece piece = player.getAvaliableBoardPiece(PieceType.ROAD);
+        BoardPiece piece = player.getAvailableBoardPiece(PieceType.ROAD);
         piece.setActive(true);
         hexTileController.placeRoad(player, piece, edgeLoc);
     }
@@ -248,7 +249,7 @@ class GamePlayController {
      * @param vertLoc The settlement location
      */
     public void placeSettlement(VertexLocation vertLoc) {        // MapController 
-        BoardPiece piece = player.getAvaliableBoardPiece(PieceType.SETTLEMENT);
+        BoardPiece piece = player.getAvailableBoardPiece(PieceType.SETTLEMENT);
         piece.setActive(true);
         hexTileController.placeSettlement(player, piece, vertLoc);
     }
@@ -259,7 +260,7 @@ class GamePlayController {
      * @param vertLoc The city location
      */
     public void placeCity(VertexLocation vertLoc) {              // MapController 
-        BoardPiece piece = player.getAvaliableBoardPiece(PieceType.CITY);
+        BoardPiece piece = player.getAvailableBoardPiece(PieceType.CITY);
         piece.setActive(true);
         hexTileController.placeCity(player, piece, vertLoc);
     }
@@ -307,14 +308,20 @@ class GamePlayController {
      * @param victim The player to be robbed
      */
     public void robPlayer(RobPlayerInfo victim) {                               // MapController
+        Player stolen = (Player)gameModel.getPlayers().toArray()[victim.getPlayerIndex()];
+
+        int index = (int)(Math.random()*stolen.getHandSize());
+
+        ResourceCard card = (ResourceCard)stolen.getResourceCards().toArray()[index];
         
+        this.changeOwnerResource(player, stolen, card.getResourceType());
     }
 
     /**
      * Called by the view then the user requests to build a road
      */
     public void buildRoad() {                                                   // ResourceBarController
-
+        
     }
 
     /**
@@ -328,7 +335,7 @@ class GamePlayController {
      * Called by the view then the user requests to build a city
      */
     void buildCity() {                                                          // ResourceBarController
-
+        
     }
 
     /**

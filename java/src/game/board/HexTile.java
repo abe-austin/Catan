@@ -82,7 +82,7 @@ public abstract class HexTile {
          * @param p players road to build
          */
 	public void buildRoad(Edge edge, Player player) {
-		BoardPiece theRoad = player.getAvaliableBoardPiece(PieceType.ROAD);
+		BoardPiece theRoad = player.getAvailableBoardPiece(PieceType.ROAD);
 		edge.buildStructure(theRoad);
 		theRoad.setActive(true);
 	}//Build the requested object
@@ -93,7 +93,7 @@ public abstract class HexTile {
          * @param p players settlement/city to build
          */
 	public void buildSettlement(Corner corner,  Player player) {
-		BoardPiece theSettlement = player.getAvaliableBoardPiece(PieceType.SETTLEMENT);
+		BoardPiece theSettlement = player.getAvailableBoardPiece(PieceType.SETTLEMENT);
 		corner.buildStructure(theSettlement);
 		theSettlement.setActive(true);
 	}
@@ -104,7 +104,7 @@ public abstract class HexTile {
          * @param p players settlement/city to build
          */
 	public void buildCity(Corner corner,  Player player) {
-		BoardPiece theCity = player.getAvaliableBoardPiece(PieceType.CITY);
+		BoardPiece theCity = player.getAvailableBoardPiece(PieceType.CITY);
 		BoardPiece theSettlement = corner.getStructure();
 		theSettlement.setActive(false);
 		corner.buildStructure(theCity);
