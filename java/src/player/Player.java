@@ -47,11 +47,11 @@ public class Player extends CardOwner {
 	}
 
 	/**
-	 * Returns an avaliable board piece of a given type
+	 * Returns an available board piece of a given type
 	 * @param type of BoardPiece
 	 * @return BoardPiece that is not active
 	 */
-	public BoardPiece getAvaliableBoardPiece(PieceType type) {
+	public BoardPiece getAvailableBoardPiece(PieceType type) {
 		for (BoardPiece piece : boardPieces) {
 			if (piece.getPieceType().equals(type) && !piece.isActive())
 				return piece;
@@ -61,9 +61,9 @@ public class Player extends CardOwner {
 
 	/**
 	 * @param type of board piece
-	 * @return true if player has avaliable piece of type
+	 * @return true if player has available piece of type
 	 */
-	public boolean hasAvaiableBoardPiece(PieceType type) {
+	public boolean hasAvailableBoardPiece(PieceType type) {
 		for (BoardPiece piece : boardPieces) {
 			if (piece.getPieceType().equals(type) && !piece.isActive())
 				return true;

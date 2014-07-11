@@ -1,6 +1,5 @@
 /client
+/controller
 /game
 /player
-/system
-/players
-/controller
+/shared
