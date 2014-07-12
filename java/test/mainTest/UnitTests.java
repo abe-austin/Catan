@@ -23,7 +23,22 @@ public class UnitTests {
 	public static void main(String[] args) {
 		
 		String[] testClasses = new String[] {
-			"client.ServerAccessTest",
+			"client.serverProxy.ServerAccessTest",
+			"client.serverProxy.ServerPollerTest",
+			"game.bank.BankTest",
+			"game.cards.CardOwnerTest",
+			"game.cards.DevelopmentCardTest",
+			"game.cards.ResourceCardTest",
+			"game.cards.SpecialCardTest",
+			"game.ChatLogTest",
+			"game.GameHistoryTest",
+			"game.GameModelTest",
+			"game.TurnTrackerTest",
+			"player.PlayerTest",
+			"player.PointsTest"
+			
+			/*
+			 * "client.ServerAccessTest",
 			"client.ServerPollerTest",
 			"game.bank.BankTest",
 			"game.cards.CardOwnerTest",
@@ -37,6 +52,7 @@ public class UnitTests {
 			"game.pieces.TurnTrackerTest",
 			"player.PlayerTest",
 			"player.PointsTest"
+			*/
 		};	
 		
 		org.junit.runner.JUnitCore.main(testClasses);
