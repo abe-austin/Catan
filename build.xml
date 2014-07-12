@@ -71,6 +71,7 @@
     -->
 
   	<property name="java.dir" location="java"/>
+	<property name="java.test" location="${java.dir}/test"/>	
 	<property name="java.src" location="${java.dir}/src"/>
 	<property name="java.images" location="${java.dir}/images"/>
 	<property name="java.build" location="${java.dir}/build"/>
@@ -91,6 +92,9 @@
     
 	<target name="compile" depends="init" description="compile the source " >
 		<javac srcdir="${java.src}" destdir="${java.build}" debug="true" includeantruntime="true">
+			<classpath refid="java.lib.classpath" />
+		</javac>
+<javac srcdir="${java.test}" destdir="${java.build}" debug="true" includeantruntime="true">
 			<classpath refid="java.lib.classpath" />
 		</javac>
 	</target>
@@ -123,7 +127,7 @@
 			</manifest>
 		</jar>
 		
-		<jar jarfile="${java.dir}/client-tests.jar" basedir="${java.build}">
+		<jar jarfile="${java.dist}/client-tests.jar" basedir="${java.build}">
 			<manifest>
 				<attribute name="Main-Class" value="mainTest.UnitTests"/>
 				<attribute name="Class-Path" 
