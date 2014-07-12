@@ -1,14 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package game;
 
 import game.bank.Bank;
 import game.board.BoardModel;
-import java.util.Set;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import player.Player;
@@ -16,7 +13,7 @@ import system.User;
 
 /**
  *
- * @author Cory
+ * @author cjkirk09
  */
 public class GameModelTest {
     
@@ -72,9 +69,9 @@ public class GameModelTest {
     public void testGetPlayers() {
         System.out.println("getPlayers");
         GameModel instance = new GameModel();
-        Set<Player> expResult = null;
-        Set<Player> result = instance.getPlayers();
-        assertEquals(expResult, result);
+        Player[] expResult = null;
+        Player[] result = instance.getPlayers();
+        assertArrayEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -85,9 +82,10 @@ public class GameModelTest {
     @Test
     public void testAddPlayers() {
         System.out.println("addPlayers");
-        Player aPlayer = null;
+        Player player = null;
+        int location = 0;
         GameModel instance = new GameModel();
-        instance.addPlayers(aPlayer);
+        instance.addPlayers(player, location);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -102,33 +100,6 @@ public class GameModelTest {
         Bank expResult = null;
         Bank result = instance.getBank();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getChatLog method, of class GameModel.
-     */
-    @Test
-    public void testGetChatLog() {
-        System.out.println("getChatLog");
-        GameModel instance = new GameModel();
-        ChatLog expResult = null;
-        ChatLog result = instance.getChatLog();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setChatLog method, of class GameModel.
-     */
-    @Test
-    public void testSetChatLog() {
-        System.out.println("setChatLog");
-        ChatLog chatLog = null;
-        GameModel instance = new GameModel();
-        instance.setChatLog(chatLog);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -274,7 +245,7 @@ public class GameModelTest {
     @Test
     public void testSetPlayers() {
         System.out.println("setPlayers");
-        Set<Player> players = null;
+        Player[] players = null;
         GameModel instance = new GameModel();
         instance.setPlayers(players);
         // TODO review the generated test code and remove the default call to fail.
@@ -293,5 +264,4 @@ public class GameModelTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
 }

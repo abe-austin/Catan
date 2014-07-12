@@ -6,6 +6,7 @@
 
 package game;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -28,9 +29,10 @@ public class GameHistoryTest {
         System.out.println("addCommand");
         Command command = null;
         GameHistory instance = new GameHistory();
-        instance.addCommand(command);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ArrayList<Command> list = new ArrayList<>();
+        instance.addCommand(new Command("first command"));
+        instance.addCommand(new Command("second command"));
+        assertEquals(2,instance.getCommands().size());
     }
 
     /**
@@ -40,11 +42,9 @@ public class GameHistoryTest {
     public void testGetCommands() {
         System.out.println("getCommands");
         GameHistory instance = new GameHistory();
-        List<Command> expResult = null;
-        List<Command> result = instance.getCommands();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.addCommand(new Command("first command"));
+        instance.addCommand(new Command("second command"));
+        assertEquals(2,instance.getCommands().size());
     }
 
     /**
@@ -56,9 +56,11 @@ public class GameHistoryTest {
         GameHistory instance = new GameHistory();
         ChatLog expResult = null;
         ChatLog result = instance.getChatlog();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //assertEquals(expResult, result);
+        instance.getChatlog().addChatLine("chatter");
+        assertEquals(1,instance.getChatlog().getChatLines().size());
+        assertTrue("chatter".equals(instance.getChatlog().getChatLines().get(0)));
+        
     }
     
 }
