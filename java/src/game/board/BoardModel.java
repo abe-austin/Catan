@@ -296,6 +296,8 @@ public class BoardModel {
     public boolean canBuildRoad(Edge edge, Player player) {
     	if(!player.hasAvailableBoardPiece(PieceType.ROAD))//First check if player has available road pieces
     		return false;
+    	if(edge == null)
+    		return false;
     	if(edge.hasStructure())
     		return false;
     	else {
@@ -319,10 +321,10 @@ public class BoardModel {
     public boolean canBuildSettlement(Corner corner, Player player) {
     	if(!player.hasAvailableBoardPiece(PieceType.SETTLEMENT))//First check if player has available settlement pieces
     		return false;
-    	if(corner != null) {
-    		if(corner.hasStructure())
-    			return false;
-    		}
+    	if(corner == null)
+    		return false;
+    	if(corner.hasStructure())
+    		return false;
     	else {
     		List<VertexLocation> places = corner.getLocations();
     		for(VertexLocation vertexLoc : places) {//Check for any neighbors that prevent building
