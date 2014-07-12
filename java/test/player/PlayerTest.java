@@ -98,6 +98,7 @@ public class PlayerTest {
 		//soldiers
 		DevelopmentCard developmentCard = new DevelopmentCard(DevCardType.SOLDIER);
 		player.addDevelopmentCard(developmentCard);
+		player.giveDevelopmentCard(DevCardType.SOLDIER);
 		assertEquals(1, player.getSoldiersPlayed());
 	}
 

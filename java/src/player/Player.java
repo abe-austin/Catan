@@ -30,7 +30,8 @@ public class Player extends CardOwner {
 		this.user = user;
 		soldiersPlayed = 0;
 		points = new Points();
-
+		
+		boardPieces = new HashSet<BoardPiece>();
 		resourceCards = new HashSet<ResourceCard>();
 		developmentCards = new HashSet<DevelopmentCard>();
 		specialCards = new HashSet<SpecialCard>();

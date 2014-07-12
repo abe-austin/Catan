@@ -7,7 +7,6 @@
 package controller;
 
 import shared.definitions.CatanColor;
-import client.base.IAction;
 import client.data.GameInfo;
 
 /**
@@ -22,7 +21,7 @@ class SetupController {
     /**
 	 * Displays the join game view
 	 */
-	void start(){//JoinGameController --goes in Setup !!Not sure if needed
+	void startJoinGame(){//JoinGameController --goes in Setup !!Not sure if needed
             
         }
 	
@@ -76,7 +75,7 @@ class SetupController {
         /**
 	 * Displays the player waiting view
 	 */
-	void start(){//PlayerWaitingController --goes in Setup !!Not sure if needed
+	void startPlayerWaiting(){//PlayerWaitingController --goes in Setup !!Not sure if needed
             
         }
 	
@@ -89,7 +88,7 @@ class SetupController {
         /**
 	 * Displays the login view
 	 */
-	void start(){//LoginController --goes in Setup !!Not sure if needed
+	void startLogin(){//LoginController --goes in Setup !!Not sure if needed
             
         }
 	
