@@ -9,12 +9,13 @@ import system.User;
 
 /**
  *
- * @author Kevin MacMaster
+ * @author Kevin and Cory :)
  */
 public class GameModel {
     private BoardModel board;
     private Player[] players;
     private Bank bank;
+    private User user;
     //private ChatLog chatLog; ---gameHistory has a chatLog
     private GameHistory gameHistory;
     private TurnTracker turnTracker;

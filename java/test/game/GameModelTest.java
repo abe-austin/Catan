@@ -31,8 +31,6 @@ public class GameModelTest {
         boolean expResult = false;
         boolean result = instance.hasUser(user);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -44,9 +42,7 @@ public class GameModelTest {
         GameModel instance = new GameModel();
         BoardModel expResult = null;
         BoardModel result = instance.getBoard();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result!=null);
     }
 
     /**
@@ -58,8 +54,6 @@ public class GameModelTest {
         BoardModel board = null;
         GameModel instance = new GameModel();
         instance.setBoard(board);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -69,11 +63,9 @@ public class GameModelTest {
     public void testGetPlayers() {
         System.out.println("getPlayers");
         GameModel instance = new GameModel();
-        Player[] expResult = null;
+        Player[] expResult = new Player[4];
         Player[] result = instance.getPlayers();
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -86,8 +78,6 @@ public class GameModelTest {
         int location = 0;
         GameModel instance = new GameModel();
         instance.addPlayers(player, location);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -97,11 +87,8 @@ public class GameModelTest {
     public void testGetBank() {
         System.out.println("getBank");
         GameModel instance = new GameModel();
-        Bank expResult = null;
         Bank result = instance.getBank();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result!=null);
     }
 
     /**
@@ -113,9 +100,7 @@ public class GameModelTest {
         GameModel instance = new GameModel();
         GameHistory expResult = null;
         GameHistory result = instance.getGameHistory();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result!=null);
     }
 
     /**
@@ -127,8 +112,6 @@ public class GameModelTest {
         GameHistory gameHistory = null;
         GameModel instance = new GameModel();
         instance.setGameHistory(gameHistory);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -138,11 +121,9 @@ public class GameModelTest {
     public void testGetTurnTracker() {
         System.out.println("getTurnTracker");
         GameModel instance = new GameModel();
-        TurnTracker expResult = null;
+        TurnTracker expResult = new TurnTracker();
         TurnTracker result = instance.getTurnTracker();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result!=null);
     }
 
     /**
@@ -154,8 +135,6 @@ public class GameModelTest {
         TurnTracker turnTracker = null;
         GameModel instance = new GameModel();
         instance.setTurnTracker(turnTracker);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -165,11 +144,9 @@ public class GameModelTest {
     public void testGetTradeOffer() {
         System.out.println("getTradeOffer");
         GameModel instance = new GameModel();
-        TradeOffer expResult = null;
+        TradeOffer expResult = new TradeOffer();
         TradeOffer result = instance.getTradeOffer();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(result!=null);
     }
 
     /**
@@ -181,8 +158,6 @@ public class GameModelTest {
         TradeOffer tradeOffer = null;
         GameModel instance = new GameModel();
         instance.setTradeOffer(tradeOffer);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -195,8 +170,6 @@ public class GameModelTest {
         int expResult = 0;
         int result = instance.getVersion();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -208,8 +181,6 @@ public class GameModelTest {
         int version = 0;
         GameModel instance = new GameModel();
         instance.setVersion(version);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -219,11 +190,9 @@ public class GameModelTest {
     public void testGetWinner() {
         System.out.println("getWinner");
         GameModel instance = new GameModel();
-        int expResult = 0;
+        int expResult = -1;
         int result = instance.getWinner();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -235,8 +204,6 @@ public class GameModelTest {
         int winner = 0;
         GameModel instance = new GameModel();
         instance.setWinner(winner);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -248,8 +215,6 @@ public class GameModelTest {
         Player[] players = null;
         GameModel instance = new GameModel();
         instance.setPlayers(players);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -261,7 +226,5 @@ public class GameModelTest {
         Bank bank = null;
         GameModel instance = new GameModel();
         instance.setBank(bank);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 }
