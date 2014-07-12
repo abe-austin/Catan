@@ -26,11 +26,11 @@ public class BuildWorld {
 		defaultSetup();
 	}
 	
-	public BuildWorld(List<HexTile> tiles, List<Edge> edges, List<Corner> corners) {
-		this.tiles = tiles;
-		this.edges = edges;
-		this.corners = corners;
-	}
+	//public BuildWorld(List<HexTile> tiles, List<Edge> edges, List<Corner> corners) {
+	//	this.tiles = tiles;
+	//	this.edges = edges;
+	//	this.corners = corners;
+	//}
 	
 	public void defaultSetup() {
 		tiles = new ArrayList<HexTile>();
@@ -55,7 +55,7 @@ public class BuildWorld {
 		// 4 = ore
 		// 5 = desert
 		ArrayList<Integer> places = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5));
-
+		
 		//Key
 		// 0 = threePort
 		// 1 = woodPort
@@ -205,16 +205,16 @@ public class BuildWorld {
 	
 	public HexTile getLandType(int number, ArrayList<Integer> numberTokens, int index) {
 		int theToken = 0;
-		if(seenDesert)
+		if(seenDesert || index == 18)
 			theToken = numberTokens.get(index-1);
 		else
 			theToken = numberTokens.get(index);
 		switch(number) {
 			case 0: return new ResourceTile(ResourceType.WOOD, new NumberToken(theToken));
-			case 1: return new ResourceTile(ResourceType.BRICK, new NumberToken(theToken));//BRICK
-			case 2: return new ResourceTile(ResourceType.SHEEP, new NumberToken(theToken));//SHEEP
-			case 3: return new ResourceTile(ResourceType.WHEAT, new NumberToken(theToken));//WHEAT
-			case 4: return new ResourceTile(ResourceType.ORE, new NumberToken(theToken));//ORE
+			case 1: return new ResourceTile(ResourceType.BRICK, new NumberToken(theToken));
+			case 2: return new ResourceTile(ResourceType.SHEEP, new NumberToken(theToken));
+			case 3: return new ResourceTile(ResourceType.WHEAT, new NumberToken(theToken));
+			case 4: return new ResourceTile(ResourceType.ORE, new NumberToken(theToken));
 			case 5: seenDesert = true; return new DesertTile();//DESERT
 			default: return null;
 		}

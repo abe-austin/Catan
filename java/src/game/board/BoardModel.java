@@ -23,6 +23,13 @@ public class BoardModel {
         BuildWorld worldBuilder = new BuildWorld();
         tiles = worldBuilder.getTiles();
     }
+    
+    /**
+     * @return the list of HexTiles on the board
+     */
+    public List<HexTile> getHexes(){
+    	return tiles;
+    }
 
     /**
      * 
@@ -65,7 +72,11 @@ public class BoardModel {
      */
     public Boolean checkEdgeOwned(Edge edge, Corner inBetween, Player player) {
     	if(inBetween != null)
-    		if(!inBetween.getStructure().getOwner().equals(player))
+    		if(inBetween.hasStructure()) {
+    			if(!inBetween.getStructure().getOwner().equals(player))
+    				return false;
+    		}
+    		else
     			return false;
     	if(edge != null) {
     		if(edge.hasStructure()) {
@@ -308,8 +319,10 @@ public class BoardModel {
     public boolean canBuildSettlement(Corner corner, Player player) {
     	if(!player.hasAvailableBoardPiece(PieceType.SETTLEMENT))//First check if player has available settlement pieces
     		return false;
-    	if(corner.hasStructure())
-    		return false;
+    	if(corner != null) {
+    		if(corner.hasStructure())
+    			return false;
+    		}
     	else {
     		List<VertexLocation> places = corner.getLocations();
     		for(VertexLocation vertexLoc : places) {//Check for any neighbors that prevent building
