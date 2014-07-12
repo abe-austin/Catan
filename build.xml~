@@ -124,7 +124,7 @@
 			</manifest>
 		</jar>
 		
-		<jar jarfile="${java.dir}/client-tests.jar" basedir="${java.build}">
+		<jar jarfile="${java.dir}/client-tests.jar" basedir="${java.test}">
 			<manifest>
 				<attribute name="Main-Class" value="mainTest.UnitTests"/>
 				<attribute name="Class-Path" 
@@ -153,7 +153,7 @@
 	</target>
 	
 	<target name="test" depends="package" description="tests stuff">
-		<java jar="${java.dir}/client-tests.jar" dir="${java.test}" fork="yes">
+		<java jar="${java.dir}/client-tests.jar" dir="${java.dist}" fork="yes">
 			<sysproperty key="com.sun.management.jmxremote" value=""/>
 			<assertions>
 				<enable/>

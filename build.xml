@@ -71,7 +71,6 @@
     -->
 
   	<property name="java.dir" location="java"/>
-	<property name="java.test" location="${java.dir}/test"/>
 	<property name="java.src" location="${java.dir}/src"/>
 	<property name="java.images" location="${java.dir}/images"/>
 	<property name="java.build" location="${java.dir}/build"/>
@@ -124,7 +123,7 @@
 			</manifest>
 		</jar>
 		
-		<jar jarfile="${java.dir}/client-tests.jar" basedir="${java.test}">
+		<jar jarfile="${java.dir}/client-tests.jar" basedir="${java.build}">
 			<manifest>
 				<attribute name="Main-Class" value="mainTest.UnitTests"/>
 				<attribute name="Class-Path" 
@@ -153,7 +152,7 @@
 	</target>
 	
 	<target name="test" depends="package" description="tests stuff">
-		<java jar="${java.dir}/client-tests.jar" dir="${java.dist}" fork="yes">
+		<java jar="${java.dist}/client-tests.jar" dir="${java.dist}" fork="yes">
 			<sysproperty key="com.sun.management.jmxremote" value=""/>
 			<assertions>
 				<enable/>
