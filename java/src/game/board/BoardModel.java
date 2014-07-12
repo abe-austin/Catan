@@ -335,8 +335,8 @@ public class BoardModel {
     			if(vertexHasEdgeConnecting(hTile, vertexLoc, player))
     				return true;					
 			}
-			return false;
     	}
+		return false;
     }//vertex,Player (building type?)
     
 
