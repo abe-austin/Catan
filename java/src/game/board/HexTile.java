@@ -13,16 +13,14 @@ import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.locations.HexLocation;
 
-public class HexTile {
+public abstract class HexTile {
 	
 	private int x;
 	private int y;
 	
 	protected HexType myType;
 	protected HexLocation location;
-	
-//	/These all need to be initialized in the board-creation phase, or from the json
-	
+		
 	protected Edge northWestEdge;
 	protected Edge northEdge;
 	protected Edge northEastEdge;
@@ -111,5 +109,5 @@ public class HexTile {
 		theCity.setActive(true);
 	}
 
-        public HexType getType(){return null;};
+        abstract HexType getType();
 }
