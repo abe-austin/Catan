@@ -13,7 +13,7 @@ import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.locations.HexLocation;
 
-public abstract class HexTile {
+public class HexTile {
 	
 	private int x;
 	private int y;
@@ -109,5 +109,5 @@ public abstract class HexTile {
 		theCity.setActive(true);
 	}
 
-        abstract HexType getType();
+        public HexType getType(){return null;};
 }
