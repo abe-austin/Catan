@@ -134,7 +134,7 @@
 	</target>
 	
 	<target name="client" depends="package" description="compiles, packages, and runs the student client">
-		<java jar="${java.dist}/catan-tests.jar" dir="${java.dist}" fork="yes">
+		<java jar="${java.dist}/catan-client.jar" dir="${java.dist}" fork="yes">
 			<sysproperty key="com.sun.management.jmxremote" value=""/>
 			<assertions>
 				<enable/>

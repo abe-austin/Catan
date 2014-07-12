@@ -1,6 +1,5 @@
 package client.serverProxy;
 
-import game.GameModel;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
