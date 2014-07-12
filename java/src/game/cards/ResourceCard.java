@@ -7,7 +7,7 @@ import shared.definitions.ResourceType;
  *
  * @author Kevin MacMaster
  */
-public class ResourceCard extends Card {
+public class ResourceCard {
     private ResourceType resourceType;
 
     public ResourceCard(ResourceType type) {

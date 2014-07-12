@@ -7,14 +7,13 @@ import shared.definitions.SpecialCardType;
  *
  * @author Kevin MacMaster
  */
-public class SpecialCard extends Card {
+public class SpecialCard {
     private SpecialCardType special;
 
     public SpecialCard(SpecialCardType type) {
         special = type;
     }
 
-    @Override
     public CardType getCardType() {
         return CardType.SPECIAL;
     }
