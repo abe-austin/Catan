@@ -3,6 +3,7 @@ package controller;
 import client.data.RobPlayerInfo;
 import game.GameModel;
 import game.cards.CardOwner;
+import game.cards.DevelopmentCard;
 import game.cards.ResourceCard;
 import game.pieces.BoardPiece;
 import java.util.ArrayList;
@@ -43,18 +44,21 @@ class GamePlayController {
      */
     public void switchGameModel(GameModel gameModel){
         this.gameModel = gameModel;
-        hexTileController.update(gameModel);
+        hexTileController.updateGameModel(gameModel);
     }
 
     /**
-     * This method displays the "buy dev card" view.
+     * This method checks to see if player has enough
+     *   resources to buy a dev card.
      */
-    public void startBuyCard() {}//DevCardController --goes in GamePlay !!Not sure it is needed
-
-    /**
-     * This method is called when the user cancels out of buying a development card.
-     */
-    public void cancelBuyCard() {}//DevCardController --goes in GamePlay !!Not sure it is needed
+    public boolean startBuyCard() {
+        if(player.hasResource(ResourceType.WHEAT) && 
+           player.hasResource(ResourceType.SHEEP) && 
+           player.hasResource(ResourceType.ORE))
+            return true;
+        else
+            return false;
+    }
 
     /**
      * This method is called when the user buys a development card.
@@ -72,13 +76,14 @@ class GamePlayController {
     /**
      * This method displays the "play dev card" view.
      */
-    public void startPlayCard(){}//DevCardController --goes in GamePlay !!Not sure it is needed
-
-    /**
-     * This method is called when the user cancels out of playing a development card.
-     */
-    public void cancelPlayCard(){}//DevCardController --goes in GamePlay !!Not sure it is needed
-
+    public void startPlayCard() {
+        ArrayList<DevelopmentCard> cards = new ArrayList<DevelopmentCard>();
+        
+        for(DevelopmentCard card : player.getDevelopmentCards())
+            cards.add(card);
+        
+//        return cards;
+    }
     /**
      * This method is called when the user plays a monopoly development card.
      *
@@ -141,7 +146,7 @@ class GamePlayController {
      * @param resource The resource that was increased
      */
     public void increaseAmount(ResourceType resource) {                         // DiscardController
-
+        
     }
 
     /**
@@ -296,14 +301,7 @@ class GamePlayController {
      * 				Set to true only during initial setup.
      */                                                                         // MapController 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) { 
-        
-    }
-
-    /**
-     * This method is called from the modal map overlay when the cancel button is pressed.
-     */
-    public void cancelMove() {                                                  // MapController
-        
+        hexTileController.startMove(pieceType, isFree, allowDisconnected);
     }
 
     /**

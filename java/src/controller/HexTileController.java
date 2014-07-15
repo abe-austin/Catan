@@ -16,7 +16,7 @@ import shared.locations.VertexLocation;
 public class HexTileController {
     private GameModel gameModel;
 
-    public void update(GameModel model) {
+    public void updateGameModel(GameModel model) {
         gameModel = model;
     }
 
