@@ -2,6 +2,7 @@ package client.devcards;
 
 import shared.definitions.ResourceType;
 import client.base.*;
+import controller.ControllerFacade;
 
 
 /**
@@ -41,7 +42,7 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void startBuyCard() {
-		
+		ControllerFacade.getSingleton().startBuyCard(); // Use boolean from this to stop/allow user to buy dev card
 		getBuyCardView().showModal();
 	}
 
@@ -53,13 +54,13 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void buyCard() {
-		
+		ControllerFacade.getSingleton().buyCard();
 		getBuyCardView().closeModal();
 	}
 
 	@Override
 	public void startPlayCard() {
-		
+		// GET dev cards here?
 		getPlayCardView().showModal();
 	}
 
@@ -71,29 +72,29 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void playMonopolyCard(ResourceType resource) {
-		
+		ControllerFacade.getSingleton().playMonopolyCard(resource);
 	}
 
 	@Override
 	public void playMonumentCard() {
-		
+		ControllerFacade.getSingleton().playMonumentCard();
 	}
 
 	@Override
 	public void playRoadBuildCard() {
-		
+		ControllerFacade.getSingleton().playRoadBuildCard();
 		roadAction.execute();
 	}
 
 	@Override
 	public void playSoldierCard() {
-		
+		ControllerFacade.getSingleton().playSoldierCard();
 		soldierAction.execute();
 	}
 
 	@Override
 	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
-		
+		ControllerFacade.getSingleton().playYearOfPlentyCard(resource1, resource2);
 	}
 
 }
