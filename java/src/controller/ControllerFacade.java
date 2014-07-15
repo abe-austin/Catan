@@ -311,7 +311,7 @@ public class ControllerFacade {
 	void unsetGiveValue(){//MaritimeTradeController --goes in Trade
             
         }
-    /**
+        /**
 	 * Displays the join game view
 	 */
 	void joinGameStart(){//JoinGameController --goes in Setup !!Not sure if needed
@@ -551,7 +551,7 @@ public class ControllerFacade {
         /**
 	 * Called when the user clicks the "Roll!" button in the roll view
 	 */
-	void rollDice(){//RollController --goes in GamePlay or GameInfo not sure where I want it
+	void rollDice(){//RollController --goes in GamePlay
             
         }
         /**
