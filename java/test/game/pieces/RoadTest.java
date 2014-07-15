@@ -30,7 +30,7 @@ public class RoadTest {
     public void testGetCost() {
         System.out.println("getCost");
         Road instance = new Road(null);
-        Cost expResult = null;
+        Cost expResult = Cost.ROAD;
         Cost result = instance.getCost();
         assertEquals(expResult, result);
     }
