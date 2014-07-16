@@ -6,6 +6,7 @@
 
 package controller;
 
+import game.GameModel;
 import shared.definitions.ResourceType;
 
 /**
@@ -13,6 +14,15 @@ import shared.definitions.ResourceType;
  * @author Cory
  */
 class TradeController {
+    private GameModel gameModel;
+    
+    public TradeController(){
+        
+    }
+    
+     public void switchGameModel(GameModel gameModel){
+        this.gameModel = gameModel;
+    }
     /**
 	 * Called by the domestic trade view when the user clicks the domestic trade button.
 	 */

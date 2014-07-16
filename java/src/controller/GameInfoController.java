@@ -6,11 +6,18 @@
 
 package controller;
 
+import game.GameModel;
+
 /**
  *
  * @author Cory
  */
 class GameInfoController {
+    private GameModel gameModel;
+    
+    public void switchGameModel(GameModel gameModel){
+        this.gameModel = gameModel;
+    }
     void sendMessage(String message){//chat controller-- goes in gameInfo
         
     }

@@ -25,7 +25,7 @@ public class TurnTrackerTest {
     @Test
     public void testSetStatus() {
         System.out.println("setStatus");
-        GameState expResult = GameState.FirstRound;
+        GameState expResult = GameState.Setup;
         TurnTracker instance = new TurnTracker();        
         instance.setStatus(expResult);
         GameState result = instance.getStatus();

@@ -14,6 +14,7 @@ import game.GameModel;
 import java.util.Timer;
 import java.util.TimerTask;
 import shared.definitions.CatanColor;
+import shared.definitions.GameState;
 import shared.definitions.PieceType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
@@ -39,6 +40,8 @@ public class ControllerFacade {
     private ServerPoller serverPoller;
     private ServerProxyFacade serverProxyFacade;
     private Timer timer;   
+    private GameState gameState;
+    
     
     public ControllerFacade(){
         setupController= new SetupController();
@@ -48,6 +51,7 @@ public class ControllerFacade {
         currentGameModel= new GameModel();
         serverPoller= new ServerPoller();
         serverProxyFacade = new ServerProxyFacade(true);
+        gameState= GameState.Login;
         reassignControllers();
         startPolling();
     }
@@ -79,7 +83,10 @@ public class ControllerFacade {
      * reassigns the controllers after the gameModel is replaced
      */
     public void reassignControllers(){
-        
+        gamePlayController.switchGameModel(currentGameModel);
+        tradeController.switchGameModel(currentGameModel);
+        setupController.switchGameModel(currentGameModel);
+        gameInfoController.switchGameModel(currentGameModel);
     }
     
     public void sendMessage(String message){//chat controller-- goes in gameInfo
@@ -94,30 +101,94 @@ public class ControllerFacade {
 	 * This method displays the "buy dev card" view.
 	 */
 	public boolean startBuyCard(){//DevCardController --goes in GamePlay !!Not sure it is needed
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
+            
+            
             return gamePlayController.startBuyCard();
         }
 	
 	/**
 	 * This method is called when the user cancels out of buying a development card.
 	 */
-	public void cancelBuyCard(){}//DevCardController --goes in GamePlay !!Not sure it is needed
+	public void cancelBuyCard(){
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
+        }//DevCardController --goes in GamePlay !!Not sure it is needed
 	
 	/**
 	 * This method is called when the user buys a development card.
 	 */
 	public void buyCard(){//DevCardController and resourecBarController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * This method displays the "play dev card" view.
 	 */
-	public void startPlayCard(){}//DevCardController --goes in GamePlay !!Not sure it is needed
+	public void startPlayCard(){
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
+        }//DevCardController --goes in GamePlay !!Not sure it is needed
 	
 	/**
 	 * This method is called when the user cancels out of playing a development card.
 	 */
-	public void cancelPlayCard(){}//DevCardController --goes in GamePlay !!Not sure it is needed
+	public void cancelPlayCard(){
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
+        }//DevCardController --goes in GamePlay !!Not sure it is needed
 	
 	/**
 	 * This method is called when the user plays a monopoly development card.
@@ -125,28 +196,72 @@ public class ControllerFacade {
 	 * @param resource The resource to take from other players
 	 */
 	public void playMonopolyCard(ResourceType resource){//DevCardController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * This method is called when the user plays a monument development card.
 	 */
 	public void playMonumentCard(){//DevCardController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * This method is called when the user plays a road build development card.
 	 */
 	public void playRoadBuildCard(){//DevCardController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * This method is called when the user plays a soldier development card.
 	 */
 	public void playSoldierCard(){//DevCardController and MapController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -156,7 +271,18 @@ public class ControllerFacade {
 	 * @param resource2 The second resource to gain
 	 */
 	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2){//DevCardController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
         /**
 	 * This method is called when the user increases the amount of the specified resource.
@@ -164,7 +290,18 @@ public class ControllerFacade {
 	 * @param resource The resource that was increased
 	 */
 	public void increaseAmount(ResourceType resource){//DiscardController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 
 	/**
@@ -173,20 +310,53 @@ public class ControllerFacade {
 	 * @param resource The resource that was decreased
 	 */
 	public void decreaseAmount(ResourceType resource){//DiscardController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * This method is called when the user clicks the discard button.
 	 */
 	public void discard(){//DiscardController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
         /**
 	 * Called by the domestic trade view when the user clicks the domestic trade button.
 	 */
 	public void domesticStartTrade(){//DomesticTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -195,7 +365,18 @@ public class ControllerFacade {
 	 * @param resource The resource whose amount is being decreased
 	 */
 	public void decreaseResourceAmount(ResourceType resource){//DomesticTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -204,14 +385,36 @@ public class ControllerFacade {
 	 * @param resource The resource whose amount is being increased
 	 */
 	public void increaseResourceAmount(ResourceType resource){//DomesticTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Called by the domestic trade overlay when the user clicks the trade button.
 	 */
 	public void sendTradeOffer(){//DomesticTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -220,7 +423,18 @@ public class ControllerFacade {
 	 * @param playerIndex The index [0, 3] of the selected trading partner, or -1 if "None" was selected
 	 */
 	public void setPlayerToTradeWith(int playerIndex){//DomesticTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -229,7 +443,18 @@ public class ControllerFacade {
 	 * @param resource The resource to be received
 	 */
 	public void setResourceToReceive(ResourceType resource){//DomesticTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -238,7 +463,18 @@ public class ControllerFacade {
 	 * @param resource The resource to be sent
 	 */
 	public void setResourceToSend(ResourceType resource){//DomesticTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -247,14 +483,36 @@ public class ControllerFacade {
 	 * @param resource The resource for which "none" was selected
 	 */
 	public void unsetResource(ResourceType resource){//DomesticTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Called by the domestic trade overlay when the user cancels a trade.
 	 */
 	public void domesticCancelTrade(){//DomesticTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 
 	/**
@@ -263,27 +521,71 @@ public class ControllerFacade {
 	 * @param willAccept Whether or not the user accepted the trade
 	 */
 	public void acceptTrade(boolean willAccept){//DomesticTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
         /**
 	 * Called by the maritime trade view when the user clicks the maritime trade button.
 	 */
 	public void maritimeStartTrade(){//MaritimeTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Make the specified trade with the bank.
 	 */
 	public void makeTrade(){//MaritimeTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Called by the maritime trade overlay when the user cancels a trade.
 	 */
 	public void maritimeCancelTrade(){//MaritimeTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -292,7 +594,18 @@ public class ControllerFacade {
 	 * @param resource The selected "get" resource
 	 */
 	public void setGetResource(ResourceType resource){//MaritimeTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -301,27 +614,71 @@ public class ControllerFacade {
 	 * @param resource The selected "give" resource
 	 */
 	public void setGiveResource(ResourceType resource){//MaritimeTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Called when the player "undoes" their get selection.
 	 */
 	public void unsetGetValue(){//MaritimeTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Called when the player "undoes" their give selection.
 	 */
 	public void unsetGiveValue(){//MaritimeTradeController --goes in Trade
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
         /**
 	 * Displays the join game view
 	 */
 	public void joinGameStart(){//JoinGameController --goes in Setup !!Not sure if needed
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -329,21 +686,54 @@ public class ControllerFacade {
 	 * Displays the new game view.
 	 */
 	public void startCreateNewGame(){//JoinGameController --goes in Setup !!Not sure if needed
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Called by the new game view when the user clicks the "Cancel" button
 	 */
 	public void cancelCreateNewGame(){//JoinGameController --goes in Setup !!Not sure if needed
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Called by the new game view when the user clicks the "Create Game" button
 	 */
 	public void createNewGame(){//JoinGameController --goes in Setup !!Not sure if needed
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -353,14 +743,36 @@ public class ControllerFacade {
 	 * @param game The game that the user is joining
 	 */
 	public void startJoinGame(GameInfo game){//JoinGameController --goes in Setup !!Not sure if needed
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Called by the select color view when the user clicks the "Cancel" button
 	 */
 	public void cancelJoinGame(){//JoinGameController --goes in Setup !!Not sure if needed
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -369,40 +781,106 @@ public class ControllerFacade {
 	 * @param color The color selected by the user
 	 */
 	public void joinGame(CatanColor color){//JoinGameController --goes in Setup
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
         /**
 	 * Displays the player waiting view
 	 */
 	public void playerWaitingStart(){//PlayerWaitingController --goes in Setup !!Not sure if needed
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Called when the "Add AI" button is clicked in the player waiting view
 	 */
 	public void addAI(){//PlayerWaitingController --goes in Setup
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
         /**
 	 * Displays the login view
 	 */
 	public void loginStart(){//LoginController --goes in Setup !!Not sure if needed
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Called when the user clicks the "Sign in" button in the login view
 	 */
 	public void signIn(){//LoginController --goes in Setup
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Called when the user clicks the "Register" button in the login view
 	 */
 	public void register(){//LoginController --goes in Setup
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	/**
 	 * This method is called whenever the user is trying to place a road on the map. 
@@ -413,6 +891,18 @@ public class ControllerFacade {
 	 * @return true if the road can be placed at edgeLoc, false otherwise
 	 */
 	public boolean canPlaceRoad(EdgeLocation edgeLoc){//MapController --goes in GamePlay
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
             return false;
         }
 	
@@ -425,6 +915,18 @@ public class ControllerFacade {
 	 * @return true if the settlement can be placed at vertLoc, false otherwise
 	 */
 	public boolean canPlaceSettlement(VertexLocation vertLoc){//MapController --goes in GamePlay
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
             return false;
         }
 	
@@ -437,6 +939,18 @@ public class ControllerFacade {
 	 * @return true if the city can be placed at vertLoc, false otherwise
 	 */
 	public boolean canPlaceCity(VertexLocation vertLoc){//MapController --goes in GamePlay
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
             return false;
         }
 	
@@ -449,6 +963,18 @@ public class ControllerFacade {
 	 * @return true if the robber can be placed at hexLoc, false otherwise
 	 */
 	public boolean canPlaceRobber(HexLocation hexLoc){//MapController --goes in GamePlay
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
             return false;
         }
 	
@@ -458,7 +984,18 @@ public class ControllerFacade {
 	 * @param edgeLoc The road location
 	 */
 	public void placeRoad(EdgeLocation edgeLoc){//MapController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -467,7 +1004,18 @@ public class ControllerFacade {
 	 * @param vertLoc The settlement location
 	 */
 	public void placeSettlement(VertexLocation vertLoc){//MapController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -476,7 +1024,18 @@ public class ControllerFacade {
 	 * @param vertLoc The city location
 	 */
 	public void placeCity(VertexLocation vertLoc){//MapController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -485,7 +1044,18 @@ public class ControllerFacade {
 	 * @param hexLoc The robber location
 	 */
 	public void placeRobber(HexLocation hexLoc){//MapController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -498,14 +1068,36 @@ public class ControllerFacade {
 	 * 				Set to true only during initial setup.
 	 */
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected){//MapController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * This method is called from the modal map overlay when the cancel button is pressed.
 	 */
 	public void cancelMove(){//MapController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -513,7 +1105,18 @@ public class ControllerFacade {
 	 * It should initiate the process of allowing the player to place two roads.
 	 */
 	public void playRoadBuildingCard(){//MapController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
@@ -522,7 +1125,18 @@ public class ControllerFacade {
 	 * @param victim The player to be robbed
 	 */
 	public void robPlayer(RobPlayerInfo victim){//MapController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
         
         //PointsController is empty
@@ -531,40 +1145,106 @@ public class ControllerFacade {
 	 * Called by the view then the user requests to build a road
 	 */
 	public void buildRoad(){//ResourceBarController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Called by the view then the user requests to build a settlement
 	 */
 	public void buildSettlement(){//ResourceBarController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 
 	/**
 	 * Called by the view then the user requests to build a city
 	 */
 	public void buildCity(){//ResourceBarController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 	
 	/**
 	 * Called by the view then the user requests to play a card
 	 */
 	public void playCard(){//ResourceBarController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
         /**
 	 * Called when the user clicks the "Roll!" button in the roll view
 	 */
 
 	public void rollDice(){//RollController --goes in GamePlay
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
         /**
 	 * This is called when the local player ends their turn
 	 */
 	public void endTurn(){//TurnTrackerController --goes in GameInfo
-            
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    break;
+            }
         }
 }

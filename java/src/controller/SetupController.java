@@ -5,14 +5,21 @@ import shared.definitions.CatanColor;
 import system.User;
 import client.data.GameInfo;
 import client.serverProxy.ServerProxyFacade;
+import game.GameModel;
 
 /**
  * JoinGameController, PlayerWaitingController, LoginController
  */
 class SetupController {
+     private GameModel gameModel;
+    
+    public void switchGameModel(GameModel gameModel){
+        this.gameModel = gameModel;
+    }
 	
 	ServerProxyFacade serverProxyFacade;
-	
+	//this controller doesnt have access to the serverProxy, the controllerFacade does.
+        //any method that needs to send things to the server should return it to the controller Facade
 	public SetupController() {
 		serverProxyFacade = new ServerProxyFacade(true);
 	}

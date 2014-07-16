@@ -5,5 +5,5 @@ package shared.definitions;
  * @author Kevin MacMaster
  */
 public enum GameState {
-    FirstRound, InProgress, Unactive, Creating;
+    Login, JoinGame, PlayerWaiting, Setup, GamePlay;//FirstRound, InProgress, Unactive, Creating;
 }

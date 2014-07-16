@@ -11,7 +11,7 @@ public class TurnTracker {
     private int currentTurn;
 
     public TurnTracker() {
-        status = GameState.Creating;
+        status = GameState.Setup;
         currentTurn = 0;
     }
 
