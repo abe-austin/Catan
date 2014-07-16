@@ -77,7 +77,7 @@ class GamePlayController {
      * This method displays the "play dev card" view.
      */
     public void startPlayCard() {
-        ArrayList<DevelopmentCard> cards = new ArrayList<DevelopmentCard>();
+        ArrayList<DevelopmentCard> cards = new ArrayList<>();
         
         for(DevelopmentCard card : player.getDevelopmentCards())
             cards.add(card);
@@ -145,17 +145,11 @@ class GamePlayController {
      *
      * @param resource The resource that was increased
      */
-    public void increaseAmount(ResourceType resource) {                         // DiscardController
-        
-    }
-
-    /**
-     * This method is called when the user decreases the amount of the specified resource.
-     *
-     * @param resource The resource that was decreased
-     */
-    public void decreaseAmount(ResourceType resource) {                         // DiscardController
-
+    public boolean increaseAmount(ResourceType resource, int number) {                         // DiscardController
+        if(player.hasResource(resource, number++))
+            return true;
+        else
+            return false;
     }
 
     /**

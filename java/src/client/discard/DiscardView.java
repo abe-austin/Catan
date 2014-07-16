@@ -53,7 +53,7 @@ public class DiscardView extends OverlayView implements IDiscardView {
 
 	@Override
 	public void setResourceDiscardAmount(ResourceType resource, int amount) {
-
+                
 	}
 
 	@Override

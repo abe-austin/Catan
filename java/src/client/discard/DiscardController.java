@@ -3,6 +3,8 @@ package client.discard;
 import shared.definitions.*;
 import client.base.*;
 import client.misc.*;
+import controller.ControllerFacade;
+import java.util.ArrayList;
 
 
 /**
@@ -11,6 +13,8 @@ import client.misc.*;
 public class DiscardController extends Controller implements IDiscardController {
 
 	private IWaitView waitView;
+        private int numWheat = 0, numWood = 0, numOre = 0, numSheep = 0, numBrick = 0;
+        private ArrayList<ResourceType> toDiscard = new ArrayList<>();
 	
 	/**
 	 * DiscardController constructor
@@ -21,7 +25,7 @@ public class DiscardController extends Controller implements IDiscardController 
 	public DiscardController(IDiscardView view, IWaitView waitView) {
 		
 		super(view);
-		
+                
 		this.waitView = waitView;
 	}
 
@@ -35,7 +39,25 @@ public class DiscardController extends Controller implements IDiscardController 
 
 	@Override
 	public void increaseAmount(ResourceType resource) {
-		
+            	
+            switch(resource) {
+                    case BRICK:
+                        if(!ControllerFacade.getSingleton().increaseAmount(resource, numBrick))
+                            break;
+                        numBrick++;
+                    case ORE:
+                        if(!ControllerFacade.getSingleton().increaseAmount(resource, numBrick))
+                            break;
+                        numBrick++;
+                    case WHEAT:
+                        if(!ControllerFacade.getSingleton().increaseAmount(resource, numBrick))
+                            break;
+                        numBrick++;
+                    case WOOD:
+                        break;
+                    case SHEEP:
+                        break;
+                }
 	}
 
 	@Override
