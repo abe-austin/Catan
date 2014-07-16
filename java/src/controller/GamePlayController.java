@@ -151,6 +151,18 @@ class GamePlayController {
         else
             return false;
     }
+    
+    /**
+	 * This method is called when the user decreases the amount of the specified resource.
+	 * 
+	 * @param resource The resource that was decreased
+	 */
+	public boolean decreaseAmount(ResourceType resource, int number){//DiscardController --goes in GamePlay
+            if(number >= 1)
+                return true;
+            else 
+                return false;
+        }
 
     /**
      * This exchanges a Resource between two card owners
@@ -181,9 +193,15 @@ class GamePlayController {
     /**
      * This method is called when the user clicks the discard button.
      */
-    public void discard(ArrayList<ResourceType> cardsToDiscard) {               // DiscardController
-        for(ResourceType resource : cardsToDiscard)
-            gameModel.getBank().addResourceCard(player.giveResourceCard(resource));
+    public boolean discard(ArrayList<ResourceType> cardsToDiscard) {               // DiscardController
+        if(player.getHandSize()/2 > cardsToDiscard.size())
+                return false;
+        else {
+            for(ResourceType resource : cardsToDiscard)
+                gameModel.getBank().addResourceCard(player.giveResourceCard(resource));
+            
+            return true;
+        }
     }
     
     /**

@@ -15,6 +15,7 @@ public class DiscardController extends Controller implements IDiscardController 
 	private IWaitView waitView;
         private int numWheat = 0, numWood = 0, numOre = 0, numSheep = 0, numBrick = 0;
         private ArrayList<ResourceType> toDiscard = new ArrayList<>();
+        private ControllerFacade singleton = ControllerFacade.getSingleton();
 	
 	/**
 	 * DiscardController constructor
@@ -41,34 +42,79 @@ public class DiscardController extends Controller implements IDiscardController 
 	public void increaseAmount(ResourceType resource) {
             	
             switch(resource) {
-                    case BRICK:
-                        if(!ControllerFacade.getSingleton().increaseAmount(resource, numBrick))
-                            break;
-                        numBrick++;
-                    case ORE:
-                        if(!ControllerFacade.getSingleton().increaseAmount(resource, numBrick))
-                            break;
-                        numBrick++;
-                    case WHEAT:
-                        if(!ControllerFacade.getSingleton().increaseAmount(resource, numBrick))
-                            break;
-                        numBrick++;
-                    case WOOD:
+                case BRICK:
+                    if(!singleton.increaseAmount(resource, numBrick))
                         break;
-                    case SHEEP:
+                    numBrick++;
+                case ORE:
+                    if(!singleton.increaseAmount(resource, numOre))
                         break;
-                }
+                    numOre++;
+                case WHEAT:
+                    if(!singleton.increaseAmount(resource, numWheat))
+                        break;
+                    numWheat++;
+                case WOOD:
+                    if(!singleton.increaseAmount(resource, numWood))
+                        break;
+                    numWood++;
+                    break;
+                case SHEEP:
+                    if(!singleton.increaseAmount(resource, numSheep))
+                        break;
+                    numSheep++;
+                    break;
+            }
+            
+            
 	}
 
 	@Override
 	public void decreaseAmount(ResourceType resource) {
 		
+            switch(resource) {
+                case BRICK:
+                    if(!singleton.decreaseAmount(resource, numBrick))
+                        break;
+                    numBrick--;
+                case ORE:
+                    if(!singleton.decreaseAmount(resource, numOre))
+                        break;
+                    numOre--;
+                case WHEAT:
+                    if(!singleton.decreaseAmount(resource, numWheat))
+                        break;
+                    numWheat--;
+                case WOOD:
+                    if(!singleton.decreaseAmount(resource, numWood))
+                        break;
+                    numWood--;
+                    break;
+                case SHEEP:
+                    if(!singleton.decreaseAmount(resource, numSheep))
+                        break;
+                    numSheep--;
+                    break;
+            }
 	}
 
 	@Override
 	public void discard() {
-		
-		getDiscardView().closeModal();
+            toDiscard.clear();
+            
+            for(int i = 0; i < numBrick; i++)
+                toDiscard.add(ResourceType.BRICK);
+            for(int i = 0; i < numWheat; i++)
+                toDiscard.add(ResourceType.WHEAT);
+            for(int i = 0; i < numOre; i++)
+                toDiscard.add(ResourceType.ORE);
+            for(int i = 0; i < numWood; i++)
+                toDiscard.add(ResourceType.WOOD);
+            for(int i = 0; i < numSheep; i++)
+                toDiscard.add(ResourceType.SHEEP);
+            
+            if(singleton.discard(toDiscard))
+                getDiscardView().closeModal();
 	}
 
 }

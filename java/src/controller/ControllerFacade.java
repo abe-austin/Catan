@@ -11,6 +11,7 @@ import client.data.RobPlayerInfo;
 import client.serverProxy.ServerPoller;
 import client.serverProxy.ServerProxyFacade;
 import game.GameModel;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import shared.definitions.CatanColor;
@@ -102,20 +103,11 @@ public class ControllerFacade {
 	 */
 	public boolean startBuyCard(){//DevCardController --goes in GamePlay !!Not sure it is needed
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    return gamePlayController.startBuyCard();
+                default:
+                    return false;
             }
-            
-            
-            return gamePlayController.startBuyCard();
         }
 	
 	/**
@@ -123,16 +115,10 @@ public class ControllerFacade {
 	 */
 	public void cancelBuyCard(){
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    return;
+                default:
+                    return;
             }
         }//DevCardController --goes in GamePlay !!Not sure it is needed
 	
@@ -141,16 +127,10 @@ public class ControllerFacade {
 	 */
 	public void buyCard(){//DevCardController and resourecBarController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    gamePlayController.buyCard();
+                default:
+                    
             }
         }
 	
@@ -159,16 +139,10 @@ public class ControllerFacade {
 	 */
 	public void startPlayCard(){
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    gamePlayController.startPlayCard();
+                default:
+                    
             }
         }//DevCardController --goes in GamePlay !!Not sure it is needed
 	
@@ -176,18 +150,7 @@ public class ControllerFacade {
 	 * This method is called when the user cancels out of playing a development card.
 	 */
 	public void cancelPlayCard(){
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
+            
         }//DevCardController --goes in GamePlay !!Not sure it is needed
 	
 	/**
@@ -197,16 +160,10 @@ public class ControllerFacade {
 	 */
 	public void playMonopolyCard(ResourceType resource){//DevCardController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    gamePlayController.playMonopolyCard(resource);
+                default:
+                    
             }
         }
 	
@@ -215,16 +172,10 @@ public class ControllerFacade {
 	 */
 	public void playMonumentCard(){//DevCardController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    gamePlayController.playMonumentCard();
+                default:
+                    
             }
         }
 	
@@ -233,16 +184,10 @@ public class ControllerFacade {
 	 */
 	public void playRoadBuildCard(){//DevCardController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    gamePlayController.playRoadBuildCard();
+                default:
+                    
             }
         }
 	
@@ -251,16 +196,10 @@ public class ControllerFacade {
 	 */
 	public void playSoldierCard(){//DevCardController and MapController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    gamePlayController.playSoldierCard();
+                default:
+                    
             }
         }
 	
@@ -272,16 +211,10 @@ public class ControllerFacade {
 	 */
 	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2){//DevCardController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    gamePlayController.playYearOfPlentyCard(resource1, resource2);
+                default:
+                    
             }
         }
         /**
@@ -289,18 +222,12 @@ public class ControllerFacade {
 	 * 
 	 * @param resource The resource that was increased
 	 */
-	public void increaseAmount(ResourceType resource){//DiscardController --goes in GamePlay
+	public boolean increaseAmount(ResourceType resource, int number){//DiscardController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    return gamePlayController.increaseAmount(resource, number);
+                default:
+                    return false;
             }
         }
 
@@ -309,36 +236,19 @@ public class ControllerFacade {
 	 * 
 	 * @param resource The resource that was decreased
 	 */
-	public void decreaseAmount(ResourceType resource){//DiscardController --goes in GamePlay
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
+	public boolean decreaseAmount(ResourceType resource, int number){//DiscardController --goes in GamePlay
+            return gamePlayController.decreaseAmount(resource, number);
         }
 	
 	/**
 	 * This method is called when the user clicks the discard button.
 	 */
-	public void discard(){//DiscardController --goes in GamePlay
+	public boolean discard(ArrayList<ResourceType> toDiscard){//DiscardController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    return gamePlayController.discard(toDiscard);
+                default:
+                    return false;
             }
         }
         /**
