@@ -21,6 +21,7 @@ import java.util.TimerTask;
 import player.Player;
 
 import shared.definitions.CatanColor;
+import shared.definitions.DevCardType;
 import shared.definitions.GameState;
 import shared.definitions.PieceType;
 import shared.definitions.ResourceType;
@@ -148,20 +149,14 @@ public class ControllerFacade {
 	/**
 	 * This method displays the "play dev card" view.
 	 */
-	public void startPlayCard(){
+	public ArrayList<DevCardType> startPlayCard(){
             switch(gameState){
                 case GamePlay:
-                    gamePlayController.startPlayCard();
+                    return gamePlayController.startPlayCard();
                 default:
+                    return null;
                     
             }
-        }//DevCardController --goes in GamePlay !!Not sure it is needed
-	
-	/**
-	 * This method is called when the user cancels out of playing a development card.
-	 */
-	public void cancelPlayCard(){
-            
         }//DevCardController --goes in GamePlay !!Not sure it is needed
 	
 	/**
