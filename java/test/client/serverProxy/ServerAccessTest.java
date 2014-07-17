@@ -2,6 +2,7 @@ package client.serverProxy;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.Assert;
 import game.GameModel;
@@ -30,216 +31,221 @@ public class ServerAccessTest {
 	}
 	
 	@Test
-	public void registerUser() {
+	public void test() {
+		this.registerUser();
+		this.createGame();
+		this.getAllGames();
+		this.loginUser();
+		this.joinGame();
+		this.saveGame();
+		this.getGameModel();
+		this.resetGame();
+		this.getGameCommands();
+		this.doGameCommands();
+		this.addAI();
+		this.getAIList();
+		this.sendChat();
+		this.rollNumber();
+		this.robPlayer();
+		this.finishTurn();
+		this.buyDevCard();
+		this.playYearOfPlenty();
+		this.playRoadBuilding();
+		this.playSoldier();
+		this.playMonopoly();
+		this.playMonument();
+		this.playRoadBuilding();
+		this.buildRoad();
+		this.buildSettlement();
+		this.buildCity();
+		this.offerTrade();
+		this.acceptTrade();
+		this.maritimeTrade();
+		this.discardCards();
+		this.changeLogLevel();
+	}
+	
+	private void registerUser() {
 		
 		ServerResponse register = server.registerUser("usrname", "password");
 		assertResponseCorrect(register, String.class);
 	}
 	
-	@Test
-	public void loginUser() {
+	private void loginUser() {
 		
 		ServerResponse login = server.loginUser("usrname", "password");
 		assertResponseCorrect(login, String.class);
 	}
 	
-	@Test
-	public void getAllGames() {
+	private void getAllGames() {
 		
 		ServerResponse login = server.getAllGames();
 		assertResponseCorrect(login, ArrayList.class);
-	}	
-	@Test
-	public void createGame() {
+	}
+	
+	private void createGame() {
 		
 		ServerResponse game = server.createGame("New Game Name");
 		assertResponseCorrect(game, CreateGameRes.class);
 	}
 	
-	@Test
-	public void joinGame() {
+	private void joinGame() {
 		
-		ServerResponse join = server.joinGame(0, CatanColor.ORANGE);
+		ServerResponse join = server.joinGame(3, CatanColor.ORANGE);
 		assertResponseCorrect(join, String.class);
 	}
 	
-	@Test
-	public void saveGame() {
+	private void saveGame() {
 		
 		ServerResponse save = server.saveGame(5, "Game Name");
 		assertResponseCorrect(save, String.class);
 	}
 	
-//	@Test
-//	public void loadGame() {
+//	private void loadGame() {
 //
 //		ServerResponse load = server.loadGame("New Game Name");
 //	}
 	
-	@Test
-	public void getGameModel() {
+	private void getGameModel() {
 		
 		ServerResponse model = server.getGameModel(0);
 		assertResponseCorrect(model, GameModel.class);
 	}
 	
-	@Test
-	public void resetGame() {
+	private void resetGame() {
 		
 		ServerResponse reset = server.resetGame();
 		assertResponseCorrect(reset, GameModel.class);
 	}
 	
-	@Test
-	public void doGameCommands() {
+	private void doGameCommands() {
 		
 		ServerResponse commands = server.doGameCommands(new ArrayList<Command>());
 		assertResponseCorrect(commands, GameModel.class);
 	}
 	
-	@Test
-	public void getGameCommands() {
+	private void getGameCommands() {
 		
 		ServerResponse commands = server.getGameCommands();
-		assertResponseCorrect(commands, String.class);
+		assertResponseCorrect(commands, ArrayList.class);
 	}
 	
-	@Test
-	public void addAI() {
+	private void addAI() {
 		
 		ServerResponse ai = server.addAI("AI TYPE");
 		assertResponseCorrect(ai, String.class);
 	}
 	
-	@Test
-	public void getAIList() {
+	private void getAIList() {
 		
 		ServerResponse ai = server.getAIList();
 		assertResponseCorrect(ai, ArrayList.class);
 	}
 	
-	@Test
-	public void sendChat() {
+	private void sendChat() {
 		
 		ServerResponse chat = server.sendChat(0, "message");
 		assertResponseCorrect(chat, GameModel.class);
 	}
 	
-	@Test
-	public void rollNumber() {
+	private void rollNumber() {
 		
 		ServerResponse roll = server.rollNumber(0, 5);
 		assertResponseCorrect(roll, GameModel.class);
 	}
 	
-	@Test
-	public void robPlayer() {
+	private void robPlayer() {
 		
 		ServerResponse rob = server.robPlayer(0, 2, new Corner(new ArrayList<VertexLocation>()));
 		assertResponseCorrect(rob, GameModel.class);
 	}
 	
-	@Test
-	public void finishTurn() {
+	private void finishTurn() {
 		
 		ServerResponse finish = server.finishTurn(0);
 		assertResponseCorrect(finish, GameModel.class);
 	}
 	
-	@Test
-	public void buyDevCard() {
+	private void buyDevCard() {
 		
 		ServerResponse buy = server.buyDevCard(0);
 		assertResponseCorrect(buy, GameModel.class);
 	}
 	
-	@Test
-	public void playYearOfPlenty() {
+	private void playYearOfPlenty() {
 		
 		ServerResponse year = server.playYearOfPlenty(0, ResourceType.ORE, ResourceType.WHEAT);
 		assertResponseCorrect(year, GameModel.class);
 	}
 	
-	@Test
-	public void playRoadBuilding() {
+	private void playRoadBuilding() {
 		
 		ServerResponse road = server.playRoadBuilding(0, new Edge(new ArrayList<EdgeLocation>()),
 				new Edge(new ArrayList<EdgeLocation>()));
 		assertResponseCorrect(road, GameModel.class);
 	}
 	
-	@Test
-	public void playSoldier() {
+	private void playSoldier() {
 		
 		ServerResponse soldier = server.playSoldier(0, 1, new HexLocation(0,0));	
 		assertResponseCorrect(soldier, GameModel.class);
 	}
 	
-	@Test
-	public void playMonopoly() {
+	private void playMonopoly() {
 		
 		ServerResponse monopoly = server.playMonopoly(0, ResourceType.ORE);
 		assertResponseCorrect(monopoly, GameModel.class);
 	}
 	
-	@Test
-	public void playMonument() {
+	private void playMonument() {
 		
 		ServerResponse monument = server.playMonument(0);
 		assertResponseCorrect(monument, GameModel.class);
 	}
 	
-	@Test
-	public void buildRoad() {
+	private void buildRoad() {
 		
 		ServerResponse road = server.buildRoad(0, new Edge(new ArrayList<EdgeLocation>()));
 		assertResponseCorrect(road, GameModel.class);
 	}
 	
-	@Test
-	public void buildSettlement() {
+	private void buildSettlement() {
 		
 		ServerResponse settlemet = server.buildSettlement(0,  new Corner(new ArrayList<VertexLocation>()), true);
 		assertResponseCorrect(settlemet, GameModel.class);
 	}
 	
-	@Test
-	public void buildCity() {
+	private void buildCity() {
 		
 		ServerResponse city = server.buildCity(0,  new Corner(new ArrayList<VertexLocation>()), true);
 		assertResponseCorrect(city, GameModel.class);
 	}
 	
-	@Test
-	public void offerTrade() {
+	private void offerTrade() {
 		
 		ServerResponse trade = server.offerTrade(0, new ArrayList<ResourceType>(), 3);
 		assertResponseCorrect(trade, GameModel.class);
 	}
 	
-	@Test
-	public void acceptTrade() {
+	private void acceptTrade() {
 		
 		ServerResponse trade = server.acceptTrade(0, true);	
 		assertResponseCorrect(trade, GameModel.class);
 	}
 	
-	@Test
-	public void maritimeTrade() {
+	private void maritimeTrade() {
 		
 		ServerResponse trade = server.maritimeTrade(0, 3, ResourceType.ORE, ResourceType.SHEEP);
 		assertResponseCorrect(trade, GameModel.class);
 	}
 	
-	@Test
-	public void discardCards() {
+	private void discardCards() {
 		
 		ServerResponse discard = server.discardCards(0, new ArrayList<ResourceCard>());
 		assertResponseCorrect(discard, GameModel.class);
 	}
 	
-	@Test
-	public void changeLogLevel() {
+	private void changeLogLevel() {
 		
 		ServerResponse logLevel = server.changeLogLevel(LogLevel.FINE);
 		assertResponseCorrect(logLevel, String.class);
@@ -254,5 +260,7 @@ public class ServerAccessTest {
 		else if(response.getCode() == 521) {
 			Assert.assertEquals(response.getBody(), "Server connection failed");
 		}
+		System.out.println(response.getCode());
+		System.out.println(response.getBody());
 	}
 }

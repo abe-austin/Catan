@@ -240,7 +240,7 @@ public class ServerProxyFacade {
 		String url = "/game/commands";
 		ServerResponse  response = server.doGet(url);
 		
-		converter.convert(response, String.class);
+		converter.convert(response, List.class);
 		return response; 
 	}
 	

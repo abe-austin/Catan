@@ -1,6 +1,8 @@
 package client.serverProxy;
 
+import java.util.Map;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -22,10 +24,13 @@ import com.google.gson.Gson;
  */
 public class ServerProxy implements Server{
 
+	Cookies cookies;
 	/**
 	 * empty constructor
 	 */
-	public ServerProxy(){}
+	public ServerProxy() {
+		cookies = new Cookies();
+	}
 	
 	/**
 	 * sends an http post to the given url and passes the given JSON as the body
@@ -51,23 +56,21 @@ public class ServerProxy implements Server{
 			HttpPost httppost = new HttpPost("http://localhost:8081" + url);
 	
 			httppost.setEntity(new StringEntity(json, "utf-8"));
-	
+			this.sendCookies(httppost);
+			
 			//Execute and get the response.
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity entity = response.getEntity();
 			
+			//set cookie
+			this.setCookies(response.getAllHeaders());
+
 			responseOb = EntityUtils.toString(entity);
-			
-			//GameModel game = new GameModel();
-			//String gamejson = gson.toJson(game);
-			//responseOb = gamejson;
-			//response.setStatusCode(200);
-			
 			serverResponse = new ServerResponse(response.getStatusLine().getStatusCode(),
 					responseOb);
 		}
 		catch(Exception e) {
-			//System.out.println(e);
+			System.out.println(e);
 			serverResponse = new ServerResponse(521, "Server connection failed");
 		}
 		return serverResponse;
@@ -89,10 +92,13 @@ public class ServerProxy implements Server{
 		try {
 			HttpClient httpclient = HttpClients.createDefault();
 			HttpGet httpget = new HttpGet("http://localhost:8081" + url);
+			this.sendCookies(httpget);
 	
 			//Execute and get the response.
 			HttpResponse response = httpclient.execute(httpget);
 			HttpEntity entity = response.getEntity();
+			
+			this.setCookies(response.getAllHeaders());
 			
 			responseOb = (Object)EntityUtils.toString(entity);
 			
@@ -101,10 +107,52 @@ public class ServerProxy implements Server{
 	
 		}
 		catch(Exception e) {
-			//System.out.println(e);
+			System.out.println(e);
 			serverResponse = new ServerResponse(521, "Server connection failed");
 		}
 		return serverResponse;
 	}
-
+	
+	private void setCookies(Header[] headers) {
+		for(Header header : headers) {
+			if(header.getName().equals("Set-cookie")) {
+				String cookie = header.getValue().toString();
+				String key = cookie.substring(0, cookie.indexOf("="));
+				cookie = cookie.substring(cookie.indexOf("=")+1, cookie.length());
+				if(key.equals("catan.user")) {
+					StringBuffer sb = new StringBuffer();
+					cookie = cookie.substring(cookie.indexOf("name"), cookie.length());
+					cookie = sb.append("%7B%22").append(cookie).toString();
+				}
+				cookie = cookie.substring(0, cookie.indexOf(";"));
+				cookies.addCookie(key, cookie);
+			}
+		}
+	}
+	
+	private void sendCookies(HttpPost httppost) {
+		Map<String, String> cookieMap = cookies.getCookies();
+		String allCookies = "";
+		for(String key : cookieMap.keySet()) {
+			String cookie = cookieMap.get(key);
+			allCookies += key + "=" + cookie + "; ";
+		}
+		if(!allCookies.equals("")) {
+			allCookies = allCookies.substring(0, allCookies.length()-2);
+		}
+		httppost.setHeader("Cookie", allCookies);
+	}
+	
+	private void sendCookies(HttpGet httppost) {
+		Map<String, String> cookieMap = cookies.getCookies();
+		String allCookies = "";
+		for(String key : cookieMap.keySet()) {
+			String cookie = cookieMap.get(key);
+			allCookies += key + "=" + cookie + "; ";
+		}
+		if(!allCookies.equals("")) {
+			allCookies = allCookies.substring(0, allCookies.length()-2);
+		}		
+		httppost.setHeader("Cookie", allCookies);
+	}
 }
