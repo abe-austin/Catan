@@ -19,6 +19,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import player.Player;
 import shared.definitions.CatanColor;
+import shared.definitions.DevCardType;
 import shared.definitions.GameState;
 import shared.definitions.PieceType;
 import shared.definitions.ResourceType;
@@ -48,11 +49,11 @@ public class ControllerFacade {
     private Timer timer;   
     private GameState gameState;
     private User user;
-    private Player player;
+    private Player clientPlayer;
     
     private ControllerFacade(){
         setupController= new SetupController();
-        gamePlayController = new GamePlayController();
+        gamePlayController = new GamePlayController(clientPlayer);
         tradeController= new TradeController();
         gameInfoController= new GameInfoController();
         currentGameModel= new GameModel();
@@ -104,16 +105,12 @@ public class ControllerFacade {
         return user;
     }
     
-    public void setPlayer(Player player){
-        this.player=player;
-    }
-    
-    public Player getPlayer(){
-        return player;
-    }
-    
     public void sendMessage(String message){//chat controller-- goes in gameInfo
         
+    }
+    
+    public Player getClientPlayer() {
+        return clientPlayer;
     }
     
     //gamehistory is empty
@@ -159,20 +156,14 @@ public class ControllerFacade {
 	/**
 	 * This method displays the "play dev card" view.
 	 */
-	public void startPlayCard(){
+	public ArrayList<DevCardType> startPlayCard(){
             switch(gameState){
                 case GamePlay:
-                    gamePlayController.startPlayCard();
+                    return gamePlayController.startPlayCard();
                 default:
+                    return null;
                     
             }
-        }//DevCardController --goes in GamePlay !!Not sure it is needed
-	
-	/**
-	 * This method is called when the user cancels out of playing a development card.
-	 */
-	public void cancelPlayCard(){
-            
         }//DevCardController --goes in GamePlay !!Not sure it is needed
 	
 	/**

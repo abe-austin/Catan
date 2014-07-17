@@ -46,3 +46,4 @@ nbproject/project.xml
 # Java class files
 *.class
 *.properties
+/build/

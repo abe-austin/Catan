@@ -48,7 +48,7 @@ public class DiscardView extends OverlayView implements IDiscardView {
 
 	@Override
 	public void setDiscardButtonEnabled(boolean enabled) {
-
+                discardButton.setEnabled(enabled);
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class DiscardView extends OverlayView implements IDiscardView {
 
 	@Override
 	public void setResourceAmountChangeEnabled(ResourceType resource,
-												boolean increase, boolean decrease) {
+                                                    boolean increase, boolean decrease) {
 
 	}
 
