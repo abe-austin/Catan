@@ -14,11 +14,10 @@ import game.GameModel;
 import game.board.Corner;
 import game.board.Edge;
 import game.board.HexTile;
-
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import player.Player;
 import shared.definitions.CatanColor;
 import shared.definitions.GameState;
 import shared.definitions.PieceType;
@@ -26,6 +25,7 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import system.User;
 
 /**
  *
@@ -47,9 +47,10 @@ public class ControllerFacade {
     private ServerProxyFacade serverProxyFacade;
     private Timer timer;   
     private GameState gameState;
+    private User user;
+    private Player player;
     
-    
-    public ControllerFacade(){
+    private ControllerFacade(){
         setupController= new SetupController();
         gamePlayController = new GamePlayController();
         tradeController= new TradeController();
@@ -93,6 +94,22 @@ public class ControllerFacade {
         tradeController.switchGameModel(currentGameModel);
         setupController.switchGameModel(currentGameModel);
         gameInfoController.switchGameModel(currentGameModel);
+    }
+    
+    public void setUser(User user){
+        this.user=user;
+    }
+    
+    public User getUser(){
+        return user;
+    }
+    
+    public void setPlayer(Player player){
+        this.player=player;
+    }
+    
+    public Player getPlayer(){
+        return player;
     }
     
     public void sendMessage(String message){//chat controller-- goes in gameInfo

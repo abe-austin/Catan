@@ -112,7 +112,7 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 		public void actionPerformed(ActionEvent e) {
 			
 			if (e.getSource() == tradeButton) {
-				getController().makeTrade();
+				getController().startTrade();
 			}
 			else if (e.getSource() == cancelButton) {
 				getController().cancelTrade();

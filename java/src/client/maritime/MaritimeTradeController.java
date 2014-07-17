@@ -1,15 +1,18 @@
 package client.maritime;
 
-import shared.definitions.*;
 import client.base.*;
+import controller.ControllerFacade;
+import shared.definitions.*;
 
 
 /**
  * Implementation for the maritime trade controller
  */
 public class MaritimeTradeController extends Controller implements IMaritimeTradeController {
-
+        private ControllerFacade controllerFacade= ControllerFacade.getSingleton();
 	private IMaritimeTradeOverlay tradeOverlay;
+        private int getValue;
+        private int giveValue;
 	
 	public MaritimeTradeController(IMaritimeTradeView tradeView, IMaritimeTradeOverlay tradeOverlay) {
 		
