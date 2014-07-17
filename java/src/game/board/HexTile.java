@@ -21,19 +21,19 @@ public class HexTile {
 	protected HexType myType;
 	protected HexLocation location;
 		
-	protected Edge northWestEdge;
-	protected Edge northEdge;
-	protected Edge northEastEdge;
-	protected Edge southEastEdge;
-	protected Edge southEdge;
-	protected Edge southWestEdge;
+	public Edge northWestEdge;
+	public Edge northEdge;
+	public Edge northEastEdge;
+	public Edge southEastEdge;
+	public Edge southEdge;
+	public Edge southWestEdge;
 	
-	protected Corner westCorner;
-	protected Corner northWestCorner;
-	protected Corner northEastCorner;
-	protected Corner eastCorner;
-	protected Corner southEastCorner;
-	protected Corner southWestCorner;
+	public Corner westCorner;
+	public Corner northWestCorner;
+	public Corner northEastCorner;
+	public Corner eastCorner;
+	public Corner southEastCorner;
+	public Corner southWestCorner;
 	
 	public void setCoordinates(int x, int y) {
 		this.x = x;

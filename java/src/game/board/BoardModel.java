@@ -291,15 +291,16 @@ public class BoardModel {
     * @param p player to check
     * @return true if Player p can build a road on Edge e
     *          false otherwise
-    * @pre assumes that edge is a valid (non-null) edge (i.e. not one between ocean tiles)
     */
-    public boolean canBuildRoad(Edge edge, Player player) {
+    public boolean canBuildRoad(Edge edge, Player player, Boolean allowDisconnected) {
     	if(!player.hasAvailableBoardPiece(PieceType.ROAD))//First check if player has available road pieces
     		return false;
     	if(edge == null)
     		return false;
     	if(edge.hasStructure())
     		return false;
+    	if(allowDisconnected)
+    		return true;
     	else {
 			List<EdgeLocation> places = edge.getLocations();
 			for(EdgeLocation edgeLoc : places) {
@@ -316,9 +317,8 @@ public class BoardModel {
     * @param c Corner to build on
     * @param p player to check
     * @return
-    * @pre assumes that corner is a valid (non-null) corner (i.e. not one between only ocean tiles)
     */
-    public boolean canBuildSettlement(Corner corner, Player player) {
+    public boolean canBuildSettlement(Corner corner, Player player, Boolean allowDisconnected) {
     	if(!player.hasAvailableBoardPiece(PieceType.SETTLEMENT))//First check if player has available settlement pieces
     		return false;
     	if(corner == null)
@@ -332,11 +332,15 @@ public class BoardModel {
 				if(hasNeighborsVertex(hTile, vertexLoc, player))
 					return false;					
 				}
-    		for(VertexLocation vertexLoc : places) {//Check for a road connecting to this corner
-    			HexTile hTile = getHexTileAt(vertexLoc.getHexLoc().getX(), vertexLoc.getHexLoc().getY());
-    			if(vertexHasEdgeConnecting(hTile, vertexLoc, player))
-    				return true;					
-			}
+    		if(allowDisconnected)
+    			return true;
+    		else {
+    			for(VertexLocation vertexLoc : places) {//Check for a road connecting to this corner
+    				HexTile hTile = getHexTileAt(vertexLoc.getHexLoc().getX(), vertexLoc.getHexLoc().getY());
+    				if(vertexHasEdgeConnecting(hTile, vertexLoc, player))
+    					return true;					
+    			}
+    		}
     	}
 		return false;
     }//vertex,Player (building type?)

@@ -77,7 +77,7 @@ class GamePlayController {
      * This method displays the "play dev card" view.
      */
     public void startPlayCard() {
-        ArrayList<DevelopmentCard> cards = new ArrayList<DevelopmentCard>();
+        ArrayList<DevelopmentCard> cards = new ArrayList<>();
         
         for(DevelopmentCard card : player.getDevelopmentCards())
             cards.add(card);
@@ -145,18 +145,24 @@ class GamePlayController {
      *
      * @param resource The resource that was increased
      */
-    public void increaseAmount(ResourceType resource) {                         // DiscardController
-        
+    public boolean increaseAmount(ResourceType resource, int number) {                         // DiscardController
+        if(player.hasResource(resource, number++))
+            return true;
+        else
+            return false;
     }
-
+    
     /**
-     * This method is called when the user decreases the amount of the specified resource.
-     *
-     * @param resource The resource that was decreased
-     */
-    public void decreaseAmount(ResourceType resource) {                         // DiscardController
-
-    }
+	 * This method is called when the user decreases the amount of the specified resource.
+	 * 
+	 * @param resource The resource that was decreased
+	 */
+	public boolean decreaseAmount(ResourceType resource, int number){//DiscardController --goes in GamePlay
+            if(number >= 1)
+                return true;
+            else 
+                return false;
+        }
 
     /**
      * This exchanges a Resource between two card owners
@@ -187,9 +193,19 @@ class GamePlayController {
     /**
      * This method is called when the user clicks the discard button.
      */
-    public void discard(ArrayList<ResourceType> cardsToDiscard) {               // DiscardController
-        for(ResourceType resource : cardsToDiscard)
-            gameModel.getBank().addResourceCard(player.giveResourceCard(resource));
+    public boolean discard(ArrayList<ResourceType> cardsToDiscard) {               // DiscardController
+        if(player.getHandSize()/2 > cardsToDiscard.size())
+                return false;
+        else {
+            for(ResourceType resource : cardsToDiscard)
+                gameModel.getBank().addResourceCard(player.giveResourceCard(resource));
+            
+            return true;
+        }
+    }
+    
+    public Player getPlayer() {
+    	return player;
     }
     
     /**
@@ -302,6 +318,10 @@ class GamePlayController {
      */                                                                         // MapController 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) { 
         hexTileController.startMove(pieceType, isFree, allowDisconnected);
+    }
+    
+    public void cancelMove() {
+    	hexTileController.cancelMove();
     }
 
     /**
