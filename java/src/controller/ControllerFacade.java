@@ -18,6 +18,7 @@ import game.board.HexTile;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import player.Player;
 
 import shared.definitions.CatanColor;
 import shared.definitions.GameState;
@@ -47,11 +48,12 @@ public class ControllerFacade {
     private ServerProxyFacade serverProxyFacade;
     private Timer timer;   
     private GameState gameState;
+    private Player clientPlayer;
     
     
     public ControllerFacade(){
         setupController= new SetupController();
-        gamePlayController = new GamePlayController();
+        gamePlayController = new GamePlayController(clientPlayer);
         tradeController= new TradeController();
         gameInfoController= new GameInfoController();
         currentGameModel= new GameModel();
@@ -97,6 +99,10 @@ public class ControllerFacade {
     
     public void sendMessage(String message){//chat controller-- goes in gameInfo
         
+    }
+    
+    public Player getClientPlayer() {
+        return clientPlayer;
     }
     
     //gamehistory is empty

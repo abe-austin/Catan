@@ -26,8 +26,9 @@ class GamePlayController {
     private Player player;
     private HexTileController hexTileController;
 
-    public GamePlayController() {
+    public GamePlayController(Player player) {
         hexTileController = new HexTileController();
+        this.player = player;
     }
 
     /**
@@ -146,7 +147,7 @@ class GamePlayController {
      * @param resource The resource that was increased
      */
     public boolean increaseAmount(ResourceType resource, int number) {                         // DiscardController
-        if(player.hasResource(resource, number++))
+        if(player.hasResource(resource, number+1))
             return true;
         else
             return false;
@@ -158,7 +159,7 @@ class GamePlayController {
 	 * @param resource The resource that was decreased
 	 */
 	public boolean decreaseAmount(ResourceType resource, int number){//DiscardController --goes in GamePlay
-            if(number >= 1)
+            if(number > 0)
                 return true;
             else 
                 return false;

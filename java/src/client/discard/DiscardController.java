@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class DiscardController extends Controller implements IDiscardController {
 
 	private IWaitView waitView;
+        private IDiscardView view;
         private int numWheat = 0, numWood = 0, numOre = 0, numSheep = 0, numBrick = 0;
         private ArrayList<ResourceType> toDiscard = new ArrayList<>();
         private ControllerFacade singleton = ControllerFacade.getSingleton();
@@ -26,8 +27,10 @@ public class DiscardController extends Controller implements IDiscardController 
 	public DiscardController(IDiscardView view, IWaitView waitView) {
 		
 		super(view);
-                
+                this.view = view;
 		this.waitView = waitView;
+                
+                view.setDiscardButtonEnabled(true);
 	}
 
 	public IDiscardView getDiscardView() {
@@ -46,14 +49,17 @@ public class DiscardController extends Controller implements IDiscardController 
                     if(!singleton.increaseAmount(resource, numBrick))
                         break;
                     numBrick++;
+                    break;
                 case ORE:
                     if(!singleton.increaseAmount(resource, numOre))
                         break;
                     numOre++;
+                    break;
                 case WHEAT:
                     if(!singleton.increaseAmount(resource, numWheat))
                         break;
                     numWheat++;
+                    break;
                 case WOOD:
                     if(!singleton.increaseAmount(resource, numWood))
                         break;
@@ -66,7 +72,7 @@ public class DiscardController extends Controller implements IDiscardController 
                     break;
             }
             
-            
+            updateValues();
 	}
 
 	@Override
@@ -77,14 +83,17 @@ public class DiscardController extends Controller implements IDiscardController 
                     if(!singleton.decreaseAmount(resource, numBrick))
                         break;
                     numBrick--;
+                    break;
                 case ORE:
                     if(!singleton.decreaseAmount(resource, numOre))
                         break;
                     numOre--;
+                    break;
                 case WHEAT:
                     if(!singleton.decreaseAmount(resource, numWheat))
                         break;
                     numWheat--;
+                    break;
                 case WOOD:
                     if(!singleton.decreaseAmount(resource, numWood))
                         break;
@@ -96,12 +105,15 @@ public class DiscardController extends Controller implements IDiscardController 
                     numSheep--;
                     break;
             }
+            
+            updateValues();
 	}
 
 	@Override
 	public void discard() {
             toDiscard.clear();
             
+            // adds all cards to discard list
             for(int i = 0; i < numBrick; i++)
                 toDiscard.add(ResourceType.BRICK);
             for(int i = 0; i < numWheat; i++)
@@ -113,9 +125,22 @@ public class DiscardController extends Controller implements IDiscardController 
             for(int i = 0; i < numSheep; i++)
                 toDiscard.add(ResourceType.SHEEP);
             
-            if(singleton.discard(toDiscard))
+            if(singleton.discard(toDiscard)) // only closes if discard was successful
                 getDiscardView().closeModal();
 	}
+        
+        public void updateValues() {
+            view.setResourceDiscardAmount(ResourceType.WOOD, numWood);
+            view.setResourceDiscardAmount(ResourceType.WHEAT, numWheat);
+            view.setResourceDiscardAmount(ResourceType.ORE, numOre);
+            view.setResourceDiscardAmount(ResourceType.BRICK, numBrick);
+            view.setResourceDiscardAmount(ResourceType.SHEEP, numSheep);
+            
+            int total = numWood + numWheat + numOre + numBrick + numSheep;
+            
+            view.setStateMessage(String.valueOf(total) + " / " + String.valueOf(
+                    singleton.getClientPlayer().getHandSize()));
+        }
 
 }
 
