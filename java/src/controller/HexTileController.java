@@ -2,7 +2,11 @@ package controller;
 
 import client.data.RobPlayerInfo;
 import game.GameModel;
+import game.board.Corner;
+import game.board.Edge;
+import game.board.HexTile;
 import game.pieces.BoardPiece;
+import game.pieces.Robber;
 import player.Player;
 import shared.definitions.PieceType;
 import shared.locations.EdgeLocation;
@@ -15,9 +19,11 @@ import shared.locations.VertexLocation;
  */
 public class HexTileController {
     private GameModel gameModel;
+    private Boolean allowDisconnect;
 
     public void updateGameModel(GameModel model) {
         gameModel = model;
+        allowDisconnect = false;
     }
 
     /**
@@ -29,7 +35,19 @@ public class HexTileController {
      * @return true if the road can be placed at edgeLoc, false otherwise
      */
     public boolean canPlaceRoad(Player player, EdgeLocation edgeLoc) {//MapController --goes in GamePlay
-        return false;
+    	HexTile theHex = gameModel.getBoard().getHexTileAt(edgeLoc.getHexLoc().getX(), edgeLoc.getHexLoc().getY());
+    	Edge e = null;
+    	
+    	switch(edgeLoc.getDir()) {
+    		case North: e = theHex.northEdge; break;
+    		case NorthEast: e = theHex.northEastEdge; break;
+    		case SouthEast: e = theHex.southEastEdge; break;
+    		case South: e = theHex.southEdge; break;
+    		case SouthWest: e = theHex.southWestEdge; break;
+    		case NorthWest: e = theHex.northWestEdge; break;
+    	}
+    	
+        return gameModel.getBoard().canBuildRoad(e, player, allowDisconnect);
     }
 
     /**
@@ -41,7 +59,19 @@ public class HexTileController {
      * @return true if the settlement can be placed at vertLoc, false otherwise
      */
     public boolean canPlaceSettlement(Player player, VertexLocation vertLoc) {//MapController --goes in GamePlay
-        return false;
+    	HexTile theHex = gameModel.getBoard().getHexTileAt(vertLoc.getHexLoc().getX(), vertLoc.getHexLoc().getY());
+    	Corner c = null;
+    	
+    	switch(vertLoc.getDir()) {
+    		case East: c = theHex.eastCorner; break;
+    		case NorthEast: c = theHex.northEastCorner; break;
+    		case SouthEast: c = theHex.southEastCorner; break;
+    		case West: c = theHex.westCorner; break;
+    		case SouthWest: c = theHex.southWestCorner; break;
+    		case NorthWest: c = theHex.northWestCorner; break;
+    	}
+    	
+        return gameModel.getBoard().canBuildSettlement(c, player, allowDisconnect);
     }
 
     /**
@@ -53,7 +83,19 @@ public class HexTileController {
      * @return true if the city can be placed at vertLoc, false otherwise
      */
     public boolean canPlaceCity(Player player, VertexLocation vertLoc) {//MapController --goes in GamePlay
-        return false;
+    	HexTile theHex = gameModel.getBoard().getHexTileAt(vertLoc.getHexLoc().getX(), vertLoc.getHexLoc().getY());
+    	Corner c = null;
+    	
+    	switch(vertLoc.getDir()) {
+    		case East: c = theHex.eastCorner; break;
+    		case NorthEast: c = theHex.northEastCorner; break;
+    		case SouthEast: c = theHex.southEastCorner; break;
+    		case West: c = theHex.westCorner; break;
+    		case SouthWest: c = theHex.southWestCorner; break;
+    		case NorthWest: c = theHex.northWestCorner; break;
+    	}
+    	
+        return gameModel.getBoard().canBuildCity(c, player);
     }
 
     /**
@@ -65,7 +107,13 @@ public class HexTileController {
      * @return true if the robber can be placed at hexLoc, false otherwise
      */
     public boolean canPlaceRobber(HexLocation hexLoc) {//MapController --goes in GamePlay
-        return false;
+        Robber rob = gameModel.getBoard().getRobber();
+        if(hexLoc.getX() == -3 || hexLoc.getX() == 3 || hexLoc.getY() == 3 || hexLoc.getY() == -3 || 
+        	(hexLoc.getX() + hexLoc.getY()) == 3 || (hexLoc.getX() + hexLoc.getY()) == -3)//Checks for if ocean
+        	return false;
+        if(rob.getLocation().equals(hexLoc))//Checks for if same location
+        	return false;
+        return true;
     }
 
     /**
@@ -74,7 +122,7 @@ public class HexTileController {
      * @param edgeLoc The road location
      */
     public void placeRoad(Player player, BoardPiece piece, EdgeLocation edgeLoc) {//MapController --goes in GamePlay
-        
+    	allowDisconnect = false;
     }
 
     /**
@@ -83,7 +131,7 @@ public class HexTileController {
      * @param vertLoc The settlement location
      */
     public void placeSettlement(Player player, BoardPiece piece, VertexLocation vertLoc) {//MapController --goes in GamePlay
-        
+    	allowDisconnect = false;
     }
 
     /**
@@ -92,7 +140,7 @@ public class HexTileController {
      * @param vertLoc The city location
      */
     public void placeCity(Player player, BoardPiece piece, VertexLocation vertLoc) {//MapController --goes in GamePlay
-        
+    	allowDisconnect = false;
     }
 
     /**
@@ -114,14 +162,14 @@ public class HexTileController {
      * 				Set to true only during initial setup.
      */
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {//MapController --goes in GamePlay
-
+    	allowDisconnect = allowDisconnected;//Does this need to be set to false after every placement?
     }
 
     /**
      * This method is called from the modal map overlay when the cancel button is pressed.
      */
     public void cancelMove() {//MapController --goes in GamePlay
-
+    	allowDisconnect = false;
     }
 
     /**

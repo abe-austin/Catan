@@ -11,9 +11,14 @@ import client.data.RobPlayerInfo;
 import client.serverProxy.ServerPoller;
 import client.serverProxy.ServerProxyFacade;
 import game.GameModel;
+import game.board.Corner;
+import game.board.Edge;
+import game.board.HexTile;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import shared.definitions.CatanColor;
 import shared.definitions.GameState;
 import shared.definitions.PieceType;
@@ -803,15 +808,15 @@ public class ControllerFacade {
 	public boolean canPlaceRoad(EdgeLocation edgeLoc){//MapController --goes in GamePlay
             switch(gameState){
                 case Login:
-                    break;
+                	return false;
                 case JoinGame:
-                    break;
+                    return false;
                 case PlayerWaiting:
-                    break;
+                    return false;
                 case Setup:
-                    break;
+                    return false;
                 case GamePlay:
-                    break;
+                    return gamePlayController.canPlaceRoad(edgeLoc);
             }
             return false;
         }
@@ -827,15 +832,15 @@ public class ControllerFacade {
 	public boolean canPlaceSettlement(VertexLocation vertLoc){//MapController --goes in GamePlay
             switch(gameState){
                 case Login:
-                    break;
+                    return false;
                 case JoinGame:
-                    break;
+                    return false;
                 case PlayerWaiting:
-                    break;
+                    return false;
                 case Setup:
-                    break;
+                    return false;
                 case GamePlay:
-                    break;
+                    return gamePlayController.canPlaceSettlement(vertLoc);
             }
             return false;
         }
@@ -851,15 +856,15 @@ public class ControllerFacade {
 	public boolean canPlaceCity(VertexLocation vertLoc){//MapController --goes in GamePlay
             switch(gameState){
                 case Login:
-                    break;
+                    return false;
                 case JoinGame:
-                    break;
+                    return false;
                 case PlayerWaiting:
-                    break;
+                    return false;
                 case Setup:
-                    break;
+                    return false;
                 case GamePlay:
-                    break;
+                    return gamePlayController.canPlaceCity(vertLoc);
             }
             return false;
         }
@@ -875,15 +880,15 @@ public class ControllerFacade {
 	public boolean canPlaceRobber(HexLocation hexLoc){//MapController --goes in GamePlay
             switch(gameState){
                 case Login:
-                    break;
+                	return false;
                 case JoinGame:
-                    break;
+                    return false;
                 case PlayerWaiting:
-                    break;
+                    return false;
                 case Setup:
-                    break;
+                    return false;
                 case GamePlay:
-                    break;
+                    gamePlayController.canPlaceRobber(hexLoc);
             }
             return false;
         }
@@ -904,7 +909,20 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                	HexTile theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(edgeLoc.getHexLoc().getX(), edgeLoc.getHexLoc().getY());
+                	Edge e = null;
+                	
+                	switch(edgeLoc.getDir()) {
+                		case North: e = theHex.northEdge; break;
+                		case NorthEast: e = theHex.northEastEdge; break;
+                		case SouthEast: e = theHex.southEastEdge; break;
+                		case South: e = theHex.southEdge; break;
+                		case SouthWest: e = theHex.southWestEdge; break;
+                		case NorthWest: e = theHex.northWestEdge; break;
+                	}
+                	gamePlayController.placeRoad(edgeLoc);
+                	serverProxyFacade.buildRoad(0, e);
+                	break;
             }
         }
 	
@@ -924,7 +942,20 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                	HexTile theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(vertLoc.getHexLoc().getX(), vertLoc.getHexLoc().getY());
+                	Corner c = null;
+                	
+                	switch(vertLoc.getDir()) {
+                		case East: c = theHex.eastCorner; break;
+                		case NorthEast: c = theHex.northEastCorner; break;
+                		case SouthEast: c = theHex.southEastCorner; break;
+                		case West: c = theHex.westCorner; break;
+                		case SouthWest: c = theHex.southWestCorner; break;
+                		case NorthWest: c = theHex.northWestCorner; break;
+                	}
+                	gamePlayController.placeSettlement(vertLoc);
+                	serverProxyFacade.buildSettlement(0, c, true);//I say true because ensuring the corner is free is part of the canBuildSettlement() check
+                	break;
             }
         }
 	
@@ -944,7 +975,20 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                	HexTile theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(vertLoc.getHexLoc().getX(), vertLoc.getHexLoc().getY());
+                	Corner c = null;
+                	
+                	switch(vertLoc.getDir()) {
+                		case East: c = theHex.eastCorner; break;
+                		case NorthEast: c = theHex.northEastCorner; break;
+                		case SouthEast: c = theHex.southEastCorner; break;
+                		case West: c = theHex.westCorner; break;
+                		case SouthWest: c = theHex.southWestCorner; break;
+                		case NorthWest: c = theHex.northWestCorner; break;
+                	}
+                	gamePlayController.placeCity(vertLoc);
+                	serverProxyFacade.buildCity(0, c, true);//I say true because I assume this means from from another City, not settlement
+                	break;
             }
         }
 	
@@ -964,7 +1008,8 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                	//ServerProxy does not have a method to move the robber
+                	break;
             }
         }
 	
@@ -988,7 +1033,7 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                	gamePlayController.startMove(pieceType, isFree, allowDisconnected);
             }
         }
 	
@@ -1006,7 +1051,7 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                	gamePlayController.cancelMove();
             }
         }
 	

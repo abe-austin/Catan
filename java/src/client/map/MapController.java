@@ -2,6 +2,7 @@ package client.map;
 
 import java.util.*;
 
+import controller.ControllerFacade;
 import shared.definitions.*;
 import shared.locations.*;
 import client.base.*;
@@ -104,23 +105,19 @@ public class MapController extends Controller implements IMapController {
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-		
-		return true;
+		return ControllerFacade.getSingleton().canPlaceRoad(edgeLoc);
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
-		
-		return true;
+		return ControllerFacade.getSingleton().canPlaceSettlement(vertLoc);
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
-		
-		return true;
+		return ControllerFacade.getSingleton().canPlaceCity(vertLoc);
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
-		
-		return true;
+		return ControllerFacade.getSingleton().canPlaceRobber(hexLoc);
 	}
 
 	public void placeRoad(EdgeLocation edgeLoc) {

@@ -204,6 +204,10 @@ class GamePlayController {
         }
     }
     
+    public Player getPlayer() {
+    	return player;
+    }
+    
     /**
      * This method is called whenever the user is trying to place a road on the map.
      * It is called by the view for each "mouse move" event. The returned value tells
@@ -314,6 +318,10 @@ class GamePlayController {
      */                                                                         // MapController 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) { 
         hexTileController.startMove(pieceType, isFree, allowDisconnected);
+    }
+    
+    public void cancelMove() {
+    	hexTileController.cancelMove();
     }
 
     /**
