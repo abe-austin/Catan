@@ -12,7 +12,7 @@ import shared.definitions.*;
  */
 public class MaritimeTradeController extends Controller implements IMaritimeTradeController {
         private ControllerFacade controllerFacade= ControllerFacade.getSingleton();
-	private IMaritimeTradeOverlay tradeOverlay;
+        private IMaritimeTradeOverlay tradeOverlay;
         private int getValue;
         private int giveValue;
 	private ResourceType[] bankResources;

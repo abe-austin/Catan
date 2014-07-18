@@ -76,5 +76,7 @@ public interface IDomesticTradeOverlay extends IOverlayView {
 	 */
 	void setCancelEnabled(boolean enabled);
 	
+	
+	
 }
 

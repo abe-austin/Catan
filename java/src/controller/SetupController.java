@@ -1,6 +1,5 @@
 package controller;
 
-import player.Player;
 import shared.definitions.CatanColor;
 import system.User;
 import client.data.GameInfo;
@@ -19,7 +18,7 @@ class SetupController {
 	
 	ServerProxyFacade serverProxyFacade;
 	//this controller doesnt have access to the serverProxy, the controllerFacade does.
-        //any method that needs to send things to the server should return it to the controller Facade
+   //any method that needs to send things to the server should return it to the controller Facade
 	public SetupController() {
 		serverProxyFacade = new ServerProxyFacade(true);
 	}

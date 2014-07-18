@@ -14,14 +14,18 @@ import game.GameModel;
 import game.board.Corner;
 import game.board.Edge;
 import game.board.HexTile;
+import game.board.PortTile;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import player.Player;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.GameState;
 import shared.definitions.PieceType;
+import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -268,7 +272,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         /**
 	 * Called by the domestic trade view when the user clicks the domestic trade button.
 	 */
-	public void domesticStartTrade(){//DomesticTradeController --goes in Trade
+	public ArrayList<ResourceType> domesticStartTrade(){//DomesticTradeController --goes in Trade
             switch(gameState){
                 case Login:
                     break;
@@ -279,8 +283,10 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                    ArrayList<ResourceType> playerResourceTypes =tradeController.getPlayerResourceTypes();
+                    return playerResourceTypes;
             }
+            return null;
         }
 	
 	/**
@@ -356,7 +362,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
                     break;
                 case Setup:
                     break;
-                case GamePlay:
+                case GamePlay://Need to return that player or something...not sure how to get the player object from the index at this point though
                     break;
             }
         }
@@ -377,7 +383,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                	break;
             }
         }
 	
@@ -462,7 +468,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	 * Called by the maritime trade view when the user clicks the maritime trade button.
 	 */
 	public ArrayList<ArrayList<ResourceType>> maritimeStartTrade(){//MaritimeTradeController --goes in Trade
-gameState=GameState.GamePlay;//for testing purposes
+			gameState=GameState.GamePlay;//for testing purposes
             switch(gameState){
                 case Login:
                     break;
@@ -597,6 +603,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Login:
                     break;
                 case JoinGame:
+                	setupController.joingGameStart();
                     break;
                 case PlayerWaiting:
                     break;
@@ -616,6 +623,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Login:
                     break;
                 case JoinGame:
+                	setupController.startCreateNewGame();
                     break;
                 case PlayerWaiting:
                     break;
@@ -634,6 +642,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Login:
                     break;
                 case JoinGame:
+                	setupController.cancelCreateNewGame();
                     break;
                 case PlayerWaiting:
                     break;
@@ -652,6 +661,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Login:
                     break;
                 case JoinGame:
+                	setupController.createNewGame();
                     break;
                 case PlayerWaiting:
                     break;
@@ -673,6 +683,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Login:
                     break;
                 case JoinGame:
+                	setupController.startJoingGame(game);
                     break;
                 case PlayerWaiting:
                     break;
@@ -691,6 +702,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Login:
                     break;
                 case JoinGame:
+                	setupController.cancelJoinGame();
                     break;
                 case PlayerWaiting:
                     break;
@@ -711,6 +723,8 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Login:
                     break;
                 case JoinGame:
+                	User user = new User();
+                	setupController.joinGame(color, user);
                     break;
                 case PlayerWaiting:
                     break;
@@ -730,6 +744,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 case JoinGame:
                     break;
                 case PlayerWaiting:
+                	setupController.playerWaitingStart();
                     break;
                 case Setup:
                     break;
@@ -748,6 +763,8 @@ gameState=GameState.GamePlay;//for testing purposes
                 case JoinGame:
                     break;
                 case PlayerWaiting:
+                	String AIType = null;
+                	setupController.addAI(AIType);
                     break;
                 case Setup:
                     break;
@@ -761,6 +778,7 @@ gameState=GameState.GamePlay;//for testing purposes
 	public void loginStart(){//LoginController --goes in Setup !!Not sure if needed
             switch(gameState){
                 case Login:
+                	setupController.loginStart();
                     break;
                 case JoinGame:
                     break;
@@ -779,6 +797,9 @@ gameState=GameState.GamePlay;//for testing purposes
 	public void signIn(){//LoginController --goes in Setup
             switch(gameState){
                 case Login:
+                	String username;
+                	String password;
+                	setupController.signIn(username, password);
                     break;
                 case JoinGame:
                     break;
@@ -797,6 +818,9 @@ gameState=GameState.GamePlay;//for testing purposes
 	public void register(){//LoginController --goes in Setup
             switch(gameState){
                 case Login:
+                	String username;
+                	String password;
+                	setupController.register(username, password);
                     break;
                 case JoinGame:
                     break;
@@ -808,6 +832,20 @@ gameState=GameState.GamePlay;//for testing purposes
                     break;
             }
         }
+	
+	public int getPortType(int x, int y) {
+		PortTile hTile = (PortTile) gamePlayController.getGameModel().getBoard().getHexTileAt(x, y);
+		switch (hTile.getPortType()) {
+			case BRICK: return 1;
+			case WHEAT: return 2;
+			case ORE: return 3;
+			case SHEEP: return 4;
+			case WOOD: return 5;
+			case THREE: return 6;
+		}
+		return 0;
+	}
+	
 	/**
 	 * This method is called whenever the user is trying to place a road on the map. 
 	 * It is called by the view for each "mouse move" event. The returned value tells 
@@ -910,7 +948,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 		case NorthWest: e = theHex.northWestEdge; break;
                 	}
                 	gamePlayController.placeRoad(edgeLoc);
-                	serverProxyFacade.buildRoad(0, e);
+                	serverProxyFacade.buildRoad(0, e);//There is a clientPlayer now, but it doesn't have an index, not sure where that comes from yet
                 	break;
                 default:
             }

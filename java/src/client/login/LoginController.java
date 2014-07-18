@@ -1,5 +1,6 @@
 package client.login;
 
+import controller.ControllerFacade;
 import client.base.*;
 import client.misc.*;
 
@@ -21,56 +22,47 @@ public class LoginController extends Controller implements ILoginController {
 	
 	/**
 	 * LoginController constructor
-	 * 
 	 * @param view Login view
 	 * @param messageView Message view (used to display error messages that occur during the login process)
 	 */
 	public LoginController(ILoginView view, IMessageView messageView) {
-
 		super(view);
-		
 		this.messageView = messageView;
 	}
 	
 	public ILoginView getLoginView() {
-		
 		return (ILoginView)super.getView();
 	}
 	
 	public IMessageView getMessageView() {
-		
 		return messageView;
 	}
 	
 	/**
 	 * Sets the action to be executed when the user logs in
-	 * 
 	 * @param value The action to be executed when the user logs in
 	 */
 	public void setLoginAction(IAction value) {
-		
 		loginAction = value;
 	}
 	
 	/**
 	 * Returns the action to be executed when the user logs in
-	 * 
 	 * @return The action to be executed when the user logs in
 	 */
 	public IAction getLoginAction() {
-		
 		return loginAction;
 	}
 
 	@Override
 	public void start() {
-		
+		ControllerFacade.getSingleton().loginStart();
 		getLoginView().showModal();
 	}
 
 	@Override
 	public void signIn() {
-		
+		ControllerFacade.getSingleton().signIn();
 		// TODO: log in user
 		
 
@@ -81,7 +73,7 @@ public class LoginController extends Controller implements ILoginController {
 
 	@Override
 	public void register() {
-		
+		ControllerFacade.getSingleton().register();
 		// TODO: register new user (which, if successful, also logs them in)
 		
 		// If register succeeded

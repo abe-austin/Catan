@@ -121,18 +121,111 @@ public class MapController extends Controller implements IMapController {
 	}
 
 	public void placeRoad(EdgeLocation edgeLoc) {
-		
-		getView().placeRoad(edgeLoc, CatanColor.ORANGE);
+		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor(); //Assume this is proper method to determine the color
+		getView().placeRoad(edgeLoc, playerColor);
 	}
 
 	public void placeSettlement(VertexLocation vertLoc) {
+		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor();
+		getView().placeSettlement(vertLoc, playerColor);
+		int portType = isPort(vertLoc);
+		if(portType != 0)
+			switch(portType) {
+				case 1: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.BRICK); break;
+				case 2: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.WHEAT); break;
+				case 3: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.ORE); break;
+				case 4: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.SHEEP); break;
+				case 5: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.WOOD); break;
+				case 6: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.THREE); break;
+			}		
+	}
+	
+	public int isPort(VertexLocation vertLoc) {
+		HexLocation hexL = vertLoc.getHexLoc();
+		VertexDirection corner = vertLoc.getDir();
 		
-		getView().placeSettlement(vertLoc, CatanColor.ORANGE);
+		if(hexL.getX() == 1 && hexL.getY() == -3 && corner == VertexDirection.SouthEast ||
+			hexL.getX() == 1 && hexL.getY() == -3 && corner == VertexDirection.SouthWest ||	
+			hexL.getX() == 1 && hexL.getY() == -2 && corner == VertexDirection.NorthEast ||
+			hexL.getX() == 1 && hexL.getY() == -2 && corner == VertexDirection.NorthWest ||
+			hexL.getX() == 2 && hexL.getY() == -3 && corner == VertexDirection.West ||
+			hexL.getX() == 0 && hexL.getY() == -2 && corner == VertexDirection.East)
+			return getPortType(1, -3);
+		
+		if(hexL.getX() == 3 && hexL.getY() == -3 && corner == VertexDirection.West ||
+			hexL.getX() == 3 && hexL.getY() == -3 && corner == VertexDirection.SouthWest ||	
+			hexL.getX() == 2 && hexL.getY() == -2 && corner == VertexDirection.NorthEast ||
+			hexL.getX() == 2 && hexL.getY() == -2 && corner == VertexDirection.East ||
+			hexL.getX() == 3 && hexL.getY() == -2 && corner == VertexDirection.NorthWest ||
+			hexL.getX() == 2 && hexL.getY() == -3 && corner == VertexDirection.SouthEast)
+			return getPortType(3, -3);
+		
+		if(hexL.getX() == 2 && hexL.getY() == -2 && corner == VertexDirection.SouthWest ||
+			hexL.getX() == 3 && hexL.getY() == -1 && corner == VertexDirection.West ||	
+			hexL.getX() == 3 && hexL.getY() == -1 && corner == VertexDirection.NorthWest ||
+			hexL.getX() == 2 && hexL.getY() == -1 && corner == VertexDirection.SouthEast ||
+			hexL.getX() == 2 && hexL.getY() == -1 && corner == VertexDirection.East ||
+			hexL.getX() == 2 && hexL.getY() == 0 && corner == VertexDirection.NorthEast)
+			return getPortType(3, -1);
+		
+		if(hexL.getX() == 2 && hexL.getY() == 1 && corner == VertexDirection.West ||
+			hexL.getX() == 2 && hexL.getY() == 1 && corner == VertexDirection.NorthWest ||	
+			hexL.getX() == 1 && hexL.getY() == 1 && corner == VertexDirection.SouthEast ||
+			hexL.getX() == 1 && hexL.getY() == 1 && corner == VertexDirection.East ||
+			hexL.getX() == 1 && hexL.getY() == 2 && corner == VertexDirection.NorthEast ||
+			hexL.getX() == 2 && hexL.getY() == 0 && corner == VertexDirection.SouthWest)
+			return getPortType(2, 1);
+		
+		if(hexL.getX() == 0 && hexL.getY() == 3 && corner == VertexDirection.NorthWest ||
+			hexL.getX() == 0 && hexL.getY() == 3 && corner == VertexDirection.NorthEast ||	
+			hexL.getX() == 0 && hexL.getY() == 2 && corner == VertexDirection.SouthEast ||
+			hexL.getX() == 0 && hexL.getY() == 2 && corner == VertexDirection.SouthWest ||
+			hexL.getX() == 1 && hexL.getY() == 2 && corner == VertexDirection.West ||
+			hexL.getX() == -1 && hexL.getY() == 3 && corner == VertexDirection.East)
+			return getPortType(0, 3);
+		
+		if(hexL.getX() == -2 && hexL.getY() == 3 && corner == VertexDirection.East ||
+			hexL.getX() == -2 && hexL.getY() == 3 && corner == VertexDirection.NorthEast ||	
+			hexL.getX() == -1 && hexL.getY() == 2 && corner == VertexDirection.SouthWest ||
+			hexL.getX() == -1 && hexL.getY() == 2 && corner == VertexDirection.West ||
+			hexL.getX() == -1 && hexL.getY() == 3 && corner == VertexDirection.NorthWest ||
+			hexL.getX() == -2 && hexL.getY() == 2 && corner == VertexDirection.SouthEast)
+			return getPortType(-2, 3);
+		
+		if(hexL.getX() == -3 && hexL.getY() == 2 && corner == VertexDirection.East ||
+			hexL.getX() == -3 && hexL.getY() == 2 && corner == VertexDirection.NorthEast ||	
+			hexL.getX() == -2 && hexL.getY() == 1 && corner == VertexDirection.SouthWest ||
+			hexL.getX() == -2 && hexL.getY() == 1 && corner == VertexDirection.West ||
+			hexL.getX() == -2 && hexL.getY() == 2 && corner == VertexDirection.NorthWest ||
+			hexL.getX() == -3 && hexL.getY() == 1 && corner == VertexDirection.SouthEast)
+			return getPortType(-3, 2);
+		
+		if(hexL.getX() == -3 && hexL.getY() == 0 && corner == VertexDirection.East ||
+			hexL.getX() == -3 && hexL.getY() == 0 && corner == VertexDirection.SouthEast||	
+			hexL.getX() == -2 && hexL.getY() == 0 && corner == VertexDirection.NorthWest ||
+			hexL.getX() == -2 && hexL.getY() == 0 && corner == VertexDirection.West ||
+			hexL.getX() == -2 && hexL.getY() == 1 && corner == VertexDirection.SouthWest ||
+			hexL.getX() == -3 && hexL.getY() == 1 && corner == VertexDirection.NorthEast)
+			return getPortType(-3, 0);
+		
+		if(hexL.getX() == -1 && hexL.getY() == -2 && corner == VertexDirection.SouthEast ||
+			hexL.getX() == -1 && hexL.getY() == -2 && corner == VertexDirection.SouthWest ||	
+			hexL.getX() == -1 && hexL.getY() == -1 && corner == VertexDirection.NorthEast ||
+			hexL.getX() == -1 && hexL.getY() == -1 && corner == VertexDirection.NorthWest ||
+			hexL.getX() == 0 && hexL.getY() == -2 && corner == VertexDirection.West ||
+			hexL.getX() == -2 && hexL.getY() == -1 && corner == VertexDirection.East)
+			return getPortType(3, -3);
+			
+		return 0;
+	}
+	
+	public int getPortType(int x, int y) {
+		return ControllerFacade.getSingleton().getPortType(x, y);
 	}
 
 	public void placeCity(VertexLocation vertLoc) {
-		
-		getView().placeCity(vertLoc, CatanColor.ORANGE);
+		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor();
+		getView().placeCity(vertLoc, playerColor);
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
@@ -143,8 +236,8 @@ public class MapController extends Controller implements IMapController {
 	}
 	
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
-		
-		getView().startDrop(pieceType, CatanColor.ORANGE, true);
+		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor();
+		getView().startDrop(pieceType, playerColor, allowDisconnected);
 	}
 	
 	public void cancelMove() {
