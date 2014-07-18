@@ -915,7 +915,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 		case NorthWest: e = theHex.northWestEdge; break;
                 	}
                 	gamePlayController.placeRoad(edgeLoc);
-                	serverProxyFacade.buildRoad(0, e);
+                	serverProxyFacade.buildRoad(0, e);//There is a clientPlayer now, but it doesn't have an index, not sure where that comes from yet
                 	break;
                 default:
             }
