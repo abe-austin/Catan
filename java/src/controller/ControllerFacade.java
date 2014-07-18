@@ -132,6 +132,10 @@ public class ControllerFacade {
     public void changeOwnerResource(CardOwner receiver, CardOwner giver, ResourceType resource) {
         gamePlayController.changeOwnerResource(receiver, giver, resource);
     }
+    
+    public void changeOwnerResource(CardOwner receiver, CardOwner giver, ResourceType resource, int amount) {
+        gamePlayController.changeOwnerResource(receiver, giver, resource, amount);
+    }
 
     /**
      * This exchanges a Special Card between two card owners
