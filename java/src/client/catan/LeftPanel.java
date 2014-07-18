@@ -14,6 +14,7 @@ public class LeftPanel extends JPanel {
 	private GameHistoryView historyView;
 	private GameHistoryController historyController;
 	private ChatView chatView;
+        private ChatController chatController;
 	private TurnTrackerView turnView;
 	private TurnTrackerController turnController;
 	
@@ -31,10 +32,14 @@ public class LeftPanel extends JPanel {
 		historyView.setController(historyController);
 		
 		chatView = new ChatView();
+        chatController = new ChatController(chatView);
+        chatView.setController(chatController);
 		
 		turnView = new TurnTrackerView(titlePanel, gameStatePanel);
 		turnController = new TurnTrackerController(turnView);
 		turnView.setController(turnController);
+		
+//		gameStatePanel.setController(turnController);
 		
 		tabPane.add("Game History", historyView);
 		tabPane.add("Chat Messages", chatView);

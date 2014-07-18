@@ -835,8 +835,8 @@ gameState=GameState.GamePlay;//for testing purposes
 	public void signIn(){//LoginController --goes in Setup
             switch(gameState){
                 case Login:
-                	String username;
-                	String password;
+                	String username = "";
+                	String password = "";
                 	setupController.signIn(username, password);
                     break;
                 case JoinGame:
@@ -856,8 +856,8 @@ gameState=GameState.GamePlay;//for testing purposes
 	public void register(){//LoginController --goes in Setup
             switch(gameState){
                 case Login:
-                	String username;
-                	String password;
+                	String username = "";
+                	String password = "";
                 	setupController.register(username, password);
                     break;
                 case JoinGame:
@@ -1172,7 +1172,13 @@ gameState=GameState.GamePlay;//for testing purposes
 	public int rollDice(){//RollController --goes in GamePlay
             switch(gameState){
                 case GamePlay:
-                    return gamePlayController.rollDice();
+                    int roll = gamePlayController.rollDice();
+                    if(roll != 7)
+                        gamePlayController.rollResourceDistribution(roll);
+                    
+                    // IF seven roll, player moves robber and hand size checked
+                    
+                    return roll;
                 default:
                     return -1;
             }
