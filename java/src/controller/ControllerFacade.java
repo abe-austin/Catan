@@ -473,12 +473,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Setup:
                     break;
                 case GamePlay:
-                    ArrayList<ResourceType> playerResourceTypes =tradeController.getPlayerResourceTypes();
-                    ArrayList<ResourceType> bankResourceTypes=tradeController.getBankResourceTypes();
-                    ArrayList< ArrayList<ResourceType>> resources=new ArrayList<>();
-                    resources.add(playerResourceTypes);
-                    resources.add(bankResourceTypes);
-                    return resources;               
+                    return tradeController.maritimeStartTrade();               
             }
             return null;
         }

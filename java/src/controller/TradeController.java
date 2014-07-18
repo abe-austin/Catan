@@ -112,53 +112,19 @@ class TradeController {
         /**
 	 * Called by the maritime trade view when the user clicks the maritime trade button.
 	 */
-	void maritimeStartTrade(){//MaritimeTradeController --goes in Trade
-            
+	public ArrayList<ArrayList<ResourceType>> maritimeStartTrade(){//MaritimeTradeController --goes in Trade
+            ArrayList<ResourceType> playerResourceTypes =getPlayerResourceTypes();
+            ArrayList<ResourceType> bankResourceTypes=getBankResourceTypes();
+            ArrayList< ArrayList<ResourceType>> resources=new ArrayList<>();
+            resources.add(playerResourceTypes);
+            resources.add(bankResourceTypes);
+            return resources;      
         }
 	
 	/**
 	 * Make the specified trade with the bank.
 	 */
-	void makeTrade(){//MaritimeTradeController --goes in Trade
-            
-        }
-	
-	/**
-	 * Called by the maritime trade overlay when the user cancels a trade.
-	 */
-	void maritimeCancelTrade(){//MaritimeTradeController --goes in Trade
-            
-        }
-	
-	/**
-	 * Called when the user selects the resource to get.
-	 * 
-	 * @param resource The selected "get" resource
-	 */
-	void setGetResource(ResourceType resource){//MaritimeTradeController --goes in Trade
-            
-        }
-	
-	/**
-	 * Called when the user selects the resource to give.
-	 * 
-	 * @param resource The selected "give" resource
-	 */
-	void setGiveResource(ResourceType resource){//MaritimeTradeController --goes in Trade
-            
-        }
-	
-	/**
-	 * Called when the player "undoes" their get selection.
-	 */
-	void unsetGetValue(){//MaritimeTradeController --goes in Trade
-            
-        }
-	
-	/**
-	 * Called when the player "undoes" their give selection.
-	 */
-	void unsetGiveValue(){//MaritimeTradeController --goes in Trade
+	public void makeTrade(){//MaritimeTradeController --goes in Trade
             
         }
         
@@ -185,6 +151,9 @@ class TradeController {
         }
         
         public ArrayList<ResourceType> getPlayerResourceTypes(){
+            
+            //need to figure out if player has ports and what type first
+            
             ArrayList<ResourceType> resources = new ArrayList<>();
             if ( player.hasResource(ResourceType.WHEAT)){
                 resources.add(ResourceType.WHEAT);

@@ -15,7 +15,10 @@ import shared.definitions.*;
  */
 @SuppressWarnings("serial")
 public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeOverlay {
-
+    private ResourceType[] giveOptions= {ResourceType.BRICK,ResourceType.ORE,ResourceType.SHEEP,ResourceType.WHEAT,ResourceType.WOOD};
+    private ResourceType[] getOptions= {ResourceType.BRICK,ResourceType.ORE,ResourceType.SHEEP,ResourceType.WHEAT,ResourceType.WOOD};
+    // these arrays might actually have objects like buttons instead
+    
 	private final int LABEL_TEXT_SIZE = 40;
 	private final int BUTTON_TEXT_SIZE = 28;
 	private final int BORDER_WIDTH = 10;

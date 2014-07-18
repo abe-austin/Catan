@@ -15,7 +15,11 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	private IMaritimeTradeOverlay tradeOverlay;
         private int getValue;
         private int giveValue;
-	
+	private ResourceType[] bankResources;
+        private ResourceType[] playerResources;
+        private ResourceType selectedGetResource;
+        private ResourceType selectedGiveResource;
+        
 	public MaritimeTradeController(IMaritimeTradeView tradeView, IMaritimeTradeOverlay tradeOverlay) {
 		
 		super(tradeView);
@@ -80,21 +84,25 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void setGetResource(ResourceType resource) {
-
+           selectedGetResource = resource;
+           //set getValue based on whether the player has a port
 	}
 
 	@Override
 	public void setGiveResource(ResourceType resource) {
-
+            selectedGiveResource = resource;
 	}
 
 	@Override
 	public void unsetGetValue() {
-            getTradeOverlay().reset();
+            selectedGetResource=null;
+            //getTradeOverlay().reset(); only resets the get
 	}
 
 	@Override
 	public void unsetGiveValue() {
+            selectedGiveResource=null;
+            selectedGetResource=null;
             getTradeOverlay().reset();
 	}
 
