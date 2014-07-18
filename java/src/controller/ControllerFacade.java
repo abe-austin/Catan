@@ -14,14 +14,18 @@ import game.GameModel;
 import game.board.Corner;
 import game.board.Edge;
 import game.board.HexTile;
+import game.board.PortTile;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import player.Player;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.GameState;
 import shared.definitions.PieceType;
+import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -833,6 +837,20 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
                     break;
             }
         }
+	
+	public int getPortType(int x, int y) {
+		PortTile hTile = (PortTile) gamePlayController.getGameModel().getBoard().getHexTileAt(x, y);
+		switch (hTile.getPortType()) {
+			case BRICK: return 1;
+			case WHEAT: return 2;
+			case ORE: return 3;
+			case SHEEP: return 4;
+			case WOOD: return 5;
+			case THREE: return 6;
+		}
+		return 0;
+	}
+	
 	/**
 	 * This method is called whenever the user is trying to place a road on the map. 
 	 * It is called by the view for each "mouse move" event. The returned value tells 
