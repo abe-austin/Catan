@@ -9,6 +9,7 @@ package controller;
 import game.GameModel;
 import java.util.ArrayList;
 import player.Player;
+import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 
 /**
@@ -113,7 +114,7 @@ class TradeController {
 	 * Called by the maritime trade view when the user clicks the maritime trade button.
 	 */
 	public ArrayList<ArrayList<ResourceType>> maritimeStartTrade(){//MaritimeTradeController --goes in Trade
-            ArrayList<ResourceType> playerResourceTypes =getPlayerResourceTypes();
+            ArrayList<ResourceType> playerResourceTypes =maritimeGetPlayerResourceTypes();
             ArrayList<ResourceType> bankResourceTypes=getBankResourceTypes();
             ArrayList< ArrayList<ResourceType>> resources=new ArrayList<>();
             resources.add(playerResourceTypes);
@@ -126,6 +127,35 @@ class TradeController {
 	 */
 	public void makeTrade(){//MaritimeTradeController --goes in Trade
             
+        }
+        public int setGetResource(ResourceType resource){
+            int number= 4;
+            ArrayList<PortType> ports=player.getPorts();
+            if(ports.contains(PortType.THREE)){
+                number=3;
+            }
+
+            if( resource == ResourceType.BRICK){
+                if(ports.contains(PortType.BRICK))
+                    number=2;
+            }
+            else if( resource == ResourceType.ORE){
+                if(ports.contains(PortType.ORE))
+                    number=2;
+            }
+            else if( resource == ResourceType.SHEEP){
+                if(ports.contains(PortType.SHEEP))
+                    number=2;
+            }
+            else if( resource == ResourceType.WHEAT){
+                if(ports.contains(PortType.WHEAT))
+                    number=2;
+            }
+            else if( resource == ResourceType.WOOD){
+                if(ports.contains(PortType.WOOD))
+                    number=2;
+            }
+            return number;
         }
         
         public ArrayList<ResourceType> getBankResourceTypes(){
@@ -171,5 +201,85 @@ class TradeController {
                 resources.add(ResourceType.WOOD);
             }
             return resources;
+        }
+        
+        public ArrayList<ResourceType> maritimeGetPlayerResourceTypes(){
+            
+            ArrayList<PortType> ports=player.getPorts();
+            int wheatCount=player.hasResourceNumber(ResourceType.WHEAT);
+            int brickCount=player.hasResourceNumber(ResourceType.BRICK);
+            int oreCount=player.hasResourceNumber(ResourceType.ORE);
+            int sheepCount=player.hasResourceNumber(ResourceType.SHEEP);
+            int woodCount=player.hasResourceNumber(ResourceType.WOOD);
+            ArrayList<ResourceType> resources = new ArrayList<>();
+
+            for( PortType portType: ports){
+                switch(portType){
+                    case WHEAT:
+                        if ( wheatCount>=2){
+                             addResourceToList(resources,ResourceType.WHEAT);
+                        }
+                        break;
+                    case BRICK:
+                        if ( brickCount>=2){
+                             addResourceToList(resources,ResourceType.BRICK);
+                        }
+                        break;
+                    case ORE:
+                        if ( oreCount>=2){
+                             addResourceToList(resources,ResourceType.ORE);
+                        }
+                        break;
+                    case SHEEP:
+                        if ( sheepCount>=2){
+                             addResourceToList(resources,ResourceType.SHEEP);
+                        }
+                        break;
+                    case WOOD:
+                        if ( woodCount>=2){
+                             addResourceToList(resources,ResourceType.WOOD);
+                        }
+                        break;
+                    case THREE:
+                        if ( wheatCount>=3){
+                             addResourceToList(resources,ResourceType.WHEAT);
+                        }
+                        if ( brickCount>=3){
+                             addResourceToList(resources,ResourceType.BRICK);
+                        }
+                        if ( oreCount>=3){
+                             addResourceToList(resources,ResourceType.ORE);
+                        }
+                        if ( sheepCount>=3){
+                             addResourceToList(resources,ResourceType.SHEEP);
+                        }
+                        if ( woodCount>=3){
+                             addResourceToList(resources,ResourceType.WOOD);
+                        }
+                        break;
+                }
+            }
+            if ( wheatCount>=4){
+                 addResourceToList(resources,ResourceType.WHEAT);
+            }
+            if ( brickCount>=4){
+                 addResourceToList(resources,ResourceType.BRICK);
+            }
+            if ( oreCount>=4){
+                 addResourceToList(resources,ResourceType.ORE);
+            }
+            if ( sheepCount>=4){
+                 addResourceToList(resources,ResourceType.SHEEP);
+            }
+            if ( woodCount>=4){
+                 addResourceToList(resources,ResourceType.WOOD);
+            }
+            return resources;
+        }
+        
+        private void addResourceToList(ArrayList<ResourceType> resources, ResourceType type){
+            if(!resources.contains(type)){
+                resources.add(type);
+            }
         }
 }

@@ -56,8 +56,9 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
                 for(int i=0; i < bankResources.size();i++){
                     bankResourceTypes[i]=bankResources.get(i);
                 }
-                getTradeOverlay().showGiveOptions(playerResourceTypes);
+                
                 getTradeOverlay().showGetOptions(bankResourceTypes);
+                getTradeOverlay().showGiveOptions(playerResourceTypes);
                 
                 getValue=1;
                 giveValue=4;//default trade with bank
@@ -90,12 +91,17 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void setGiveResource(ResourceType resource) {
-            selectedGiveResource = resource;
+            int number = controllerFacade.setGiveResource(resource);
+            if (number !=-1){
+                selectedGiveResource = resource;
+                getValue=number;
+            }
 	}
 
 	@Override
 	public void unsetGetValue() {
             selectedGetResource=null;
+            
             //getTradeOverlay().reset(); only resets the get
 	}
 

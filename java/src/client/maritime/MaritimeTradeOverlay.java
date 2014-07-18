@@ -114,6 +114,10 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 
 	@Override
 	public void showGiveOptions(ResourceType[] enabledResources) {
+//            if(enabledResources.length==0){
+//                setStateMessage("You don't have enough resources to trade.");
+//                showGetOptions(new ResourceType[0]);
+//            }
 //		for (int i=0; i <enabledResources.length; i++){
 //                    //show which ones are enabled. the others are faded
 //                }	

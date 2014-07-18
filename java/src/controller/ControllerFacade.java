@@ -466,9 +466,10 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         }
         /**
 	 * Called by the maritime trade view when the user clicks the maritime trade button.
+         * @return 
 	 */
 	public ArrayList<ArrayList<ResourceType>> maritimeStartTrade(){//MaritimeTradeController --goes in Trade
-			gameState=GameState.GamePlay;//for testing purposes
+gameState=GameState.GamePlay;//for testing purposes
             switch(gameState){
                 case Login:
                     break;
@@ -545,7 +546,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	 * 
 	 * @param resource The selected "give" resource
 	 */
-	public void setGiveResource(ResourceType resource){//MaritimeTradeController --goes in Trade
+	public int setGiveResource(ResourceType resource){//MaritimeTradeController --goes in Trade
             switch(gameState){
                 case Login:
                     break;
@@ -556,8 +557,9 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                    return tradeController.setGetResource(resource);
             }
+            return -1;
         }
 	
 	/**

@@ -18,6 +18,7 @@ import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.PieceType;
 import shared.definitions.PortType;
+import shared.definitions.ResourceType;
 import shared.definitions.SpecialCardType;
 import system.User;
 
@@ -124,6 +125,16 @@ public class Player extends CardOwner {
 		points.addPoint();
 	}
 	
+        public int hasResourceNumber(ResourceType resourceType){
+            int number=0;
+            for(ResourceCard card : resourceCards) {
+                if(card.getResourceType().equals(resourceType))
+                    number++;
+            }
+
+            return number;
+        }
+        
 	public void addPort(PortType port) {
 		playerPorts.add(port);
 	}
