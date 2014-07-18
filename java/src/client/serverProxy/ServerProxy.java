@@ -155,4 +155,8 @@ public class ServerProxy implements Server{
 		}		
 		httppost.setHeader("Cookie", allCookies);
 	}
+	
+	public Cookies getCookies() {
+		return cookies;
+	}
 }

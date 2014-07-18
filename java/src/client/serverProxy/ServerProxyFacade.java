@@ -63,8 +63,9 @@ public class ServerProxyFacade {
 		//make post to proper url using json as the body of the request
 		String url = "/user/login";
 		ServerResponse response = server.doPost(url, param);
-				
-		converter.convert(response, String.class);
+		response.setUserId(server.getCookies().getUserId());
+
+		//converter.convert(response, String.class);
 		return response;
 	}
 
@@ -85,8 +86,9 @@ public class ServerProxyFacade {
 		//make post to proper url using json as the body of the request
 		String url = "/user/register";
 		ServerResponse  response = server.doPost(url, param);
+		response.setUserId(server.getCookies().getUserId());
 		
-		converter.convert(response, String.class);
+		//converter.convert(response, String.class);
 		return response;
 	}
 

@@ -24,7 +24,7 @@ public class PlayerTest {
 	@Test
 	public void testGetAvailableBoardPiece() {
 		User user = new User();
-		Player player = new Player(CatanColor.RED, user);
+		Player player = new Player(CatanColor.RED, user, 1);
 		BoardPiece results = player.getAvailableBoardPiece(PieceType.CITY);
 		assertEquals(results.getPieceType(), PieceType.CITY);
 	}
@@ -35,7 +35,7 @@ public class PlayerTest {
 	@Test
 	public void testHasAvailableBoardPiece() {
 		User user = new User();
-		Player player = new Player(CatanColor.RED, user);
+		Player player = new Player(CatanColor.RED, user, 1);
 		boolean results = player.hasAvailableBoardPiece(PieceType.CITY);
 		assertEquals(true, results);
 	}
@@ -46,7 +46,7 @@ public class PlayerTest {
 	@Test
 	public void testGiveDevelopmentCard() {
 		User user = new User();
-		Player player = new Player(CatanColor.RED, user);
+		Player player = new Player(CatanColor.RED, user, 1);
 		DevelopmentCard developmentCard = new DevelopmentCard(DevCardType.MONOPOLY);
 		
 		player.addDevelopmentCard(developmentCard);
@@ -60,7 +60,7 @@ public class PlayerTest {
 	@Test
 	public void testSpecialCard() {
 		User user = new User();
-		Player player = new Player(CatanColor.RED, user);
+		Player player = new Player(CatanColor.RED, user, 1);
 		SpecialCard specialCard = new SpecialCard(SpecialCardType.LONGEST_ROAD);
 		
 		//add special card
@@ -78,7 +78,7 @@ public class PlayerTest {
 	@Test
 	public void testAddPoint() {
 		User user = new User();
-		Player player = new Player(CatanColor.RED, user);
+		Player player = new Player(CatanColor.RED, user, 1);
 		
 		player.addPoint();
 		assertEquals(1, player.getPoints());
@@ -90,7 +90,7 @@ public class PlayerTest {
 	@Test
 	public void testGetSoldiersPlayed() { //fix me!
 		User user = new User();
-		Player player = new Player(CatanColor.RED, user);
+		Player player = new Player(CatanColor.RED, user, 1);
 		
 		//no soldiers
 		assertEquals(0, player.getSoldiersPlayed());
@@ -108,7 +108,7 @@ public class PlayerTest {
 	@Test
 	public void testGetHandSize() {
 		User user =  new User();
-		Player player = new Player(CatanColor.RED, user);
+		Player player = new Player(CatanColor.RED, user, 1);
 		
 		//no cards
 		assertEquals(0, player.getHandSize());
@@ -130,9 +130,9 @@ public class PlayerTest {
 	public void testEquals() {
 		User user = new User();
 		User otherUser = new User();
-		Player player = new Player(CatanColor.RED, user);
-		Player samePlayer = new Player(CatanColor.RED, user);
-		Player otherPlayer = new Player(CatanColor.RED, otherUser);
+		Player player = new Player(CatanColor.RED, user, 1);
+		Player samePlayer = new Player(CatanColor.RED, user, 1);
+		Player otherPlayer = new Player(CatanColor.RED, otherUser, 1);
 		
 		//same player
 		assertTrue(player.equals(samePlayer));

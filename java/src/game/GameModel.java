@@ -2,8 +2,6 @@ package game;
 
 import game.bank.Bank;
 import game.board.BoardModel;
-import java.util.HashSet;
-import java.util.Set;
 import player.Player;
 import system.User;
 
@@ -22,6 +20,9 @@ public class GameModel {
     private TradeOffer tradeOffer;
     private int version;
     private int winner;
+    private boolean randomHex;
+    private boolean randomNumbers;
+    private boolean randomPorts;
 
     public GameModel() {
         board = new BoardModel();
@@ -133,6 +134,36 @@ public class GameModel {
 	public void setBank(Bank bank) {
 		this.bank = bank;
 	}
-    
-    
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public boolean isRandomHex() {
+		return randomHex;
+	}
+
+	public void setRandomHex(boolean randomHex) {
+		this.randomHex = randomHex;
+	}
+
+	public boolean isRandomNumbers() {
+		return randomNumbers;
+	}
+
+	public void setRandomNumbers(boolean randomNumbers) {
+		this.randomNumbers = randomNumbers;
+	}
+
+	public boolean isRandomPorts() {
+		return randomPorts;
+	}
+
+	public void setRandomPorts(boolean randomPorts) {
+		this.randomPorts = randomPorts;
+	}
 }

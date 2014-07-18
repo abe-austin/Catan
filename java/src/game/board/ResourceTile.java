@@ -34,6 +34,10 @@ public class ResourceTile extends HexTile {
         public ResourceType getResourceType() {
             return type;
         }
+        
+        public NumberToken getToken() {
+        	return token;
+        }
 
         /**
          * 
