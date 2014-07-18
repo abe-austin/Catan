@@ -93,6 +93,7 @@ class GamePlayController {
      */
     public void playMonopolyCard(ResourceType resource) {                       // DevCardController
         player.giveDevelopmentCard(DevCardType.MONOPOLY);
+        
         for(Player person : gameModel.getPlayers()) {
             while(!person.equals(player) && person.hasResource(resource))
                 player.addResourceCard(person.giveResourceCard(resource));
@@ -115,7 +116,7 @@ class GamePlayController {
      */
     public void playRoadBuildCard() {                                           // DevCardController
         player.giveDevelopmentCard(DevCardType.ROAD_BUILD);
-        hexTileController.playRoadBuildingCard();
+        hexTileController.playRoadBuildingCard();  // May not be necessary 
     }
 
     /**
@@ -417,5 +418,17 @@ class GamePlayController {
                     number++;
             
             return number;
+        }
+        
+        /**
+         * Distributes to players resources for a given roll
+         * 
+         * @param roll 
+         * @post players may have more resource cards
+         */
+        public void rollResourceDistribution(int roll) {
+//            hexTileController.rollResourceDistribution(int roll, this);
+            // look through all hex tiles for a non-robber covered, matching number token,
+            // give resources to any players that own a vertex
         }
 }
