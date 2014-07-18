@@ -16,7 +16,6 @@ public class DevCardController extends Controller implements IDevCardController 
 	private IAction soldierAction;
 	private IAction roadAction;
         private ControllerFacade singleton = ControllerFacade.getSingleton();
-        private IPlayDevCardView playView;
 	
 	/**
 	 * DevCardController constructor
@@ -31,7 +30,6 @@ public class DevCardController extends Controller implements IDevCardController 
 
 		super(view);
 		
-                this.playView = view;
 		this.buyCardView = buyCardView;
 		this.soldierAction = soldierAction;
 		this.roadAction = roadAction;
@@ -73,30 +71,17 @@ public class DevCardController extends Controller implements IDevCardController 
                 if(cards.isEmpty())
                     return;
                 
-                if(cards.contains(DevCardType.MONOPOLY))
-                    playView.setCardEnabled(DevCardType.MONOPOLY, true);
-                else
-                    playView.setCardEnabled(DevCardType.MONOPOLY, false);
+                // Set which cards are useable and amounts
                 
-                if(cards.contains(DevCardType.YEAR_OF_PLENTY))
-                    playView.setCardEnabled(DevCardType.YEAR_OF_PLENTY, true);
-                else
-                    playView.setCardEnabled(DevCardType.YEAR_OF_PLENTY, false);
-                
-                if(cards.contains(DevCardType.ROAD_BUILD))
-                    playView.setCardEnabled(DevCardType.ROAD_BUILD, true);
-                else
-                    playView.setCardEnabled(DevCardType.ROAD_BUILD, false);
-                
-                if(cards.contains(DevCardType.SOLDIER))
-                    playView.setCardEnabled(DevCardType.SOLDIER, true);
-                else
-                    playView.setCardEnabled(DevCardType.SOLDIER, false);
-                
-                if(cards.contains(DevCardType.MONUMENT))
-                    playView.setCardEnabled(DevCardType.MONUMENT, true);
-                else
-                    playView.setCardEnabled(DevCardType.MONUMENT, false);
+                for(DevCardType type : DevCardType.values()) {
+                    if(cards.contains(type)) {
+                        getPlayCardView().setCardEnabled(type, true); 
+                        getPlayCardView().setCardAmount(type, singleton.getNumOfDevCards(type));
+                    } else {
+                        getPlayCardView().setCardEnabled(type, false);
+                        getPlayCardView().setCardAmount(type, 0);
+                    }
+                }
                 
 		getPlayCardView().showModal();
 	}
