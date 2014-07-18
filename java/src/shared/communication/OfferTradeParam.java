@@ -3,7 +3,6 @@ package shared.communication;
 import java.util.List;
 
 import shared.definitions.ResourceType;
-import game.cards.ResourceCard;
 
 public class OfferTradeParam {
 

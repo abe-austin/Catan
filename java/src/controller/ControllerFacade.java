@@ -8,6 +8,7 @@ package controller;
 
 import client.base.IAction;
 import client.data.RobPlayerInfo;
+import client.map.MapController;
 import client.serverProxy.ServerPoller;
 import client.serverProxy.ServerProxyFacade;
 import game.GameModel;
@@ -18,6 +19,7 @@ import game.board.PortTile;
 import game.cards.CardOwner;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -62,8 +64,8 @@ public class ControllerFacade {
     
     private ControllerFacade(){
         setupController = new SetupController();
-        gamePlayController = new GamePlayController(clientPlayer);
         clientPlayer = new Player(CatanColor.BLUE,null,1);//testing purposes
+        gamePlayController = new GamePlayController(clientPlayer);
         tradeController = new TradeController(clientPlayer);
         gameInfoController = new GameInfoController();
         currentGameModel = new GameModel();
@@ -656,12 +658,18 @@ gameState=GameState.GamePlay;//for testing purposes
 	/**
 	 * Called by the new game view when the user clicks the "Create Game" button
 	 */
-	public void createNewGame() { //JoinGameController --goes in Setup !!Not sure if needed
+	public void createNewGame(String title, boolean randomHexes, boolean randomNumbers, boolean randomPorts) { //JoinGameController --goes in Setup !!Not sure if needed
 		
 		switch (gameState) {
 		case Login:
 			break;
 		case JoinGame:
+			//create new game model
+			GameModel gameModel = new GameModel();
+			gameModel.setRandomHexes(randomHexes);
+			gameModel.setRandomNumbers(randomNumbers);
+			gameModel.setRandomPorts(randomPorts);
+			serverProxyFacade.createGame(title, randomHexes, randomNumbers, randomPorts);
 			setupController.createNewGame();
 			break;
 		case PlayerWaiting:
@@ -1166,5 +1174,9 @@ gameState=GameState.GamePlay;//for testing purposes
          */
         public void setRobberAction(IAction action) {
             gamePlayController.setRobberAction(action);
+        }
+        
+        public List<HexTile> updateMap(MapController mapControl) {
+        	return currentGameModel.getBoard().getHexes();
         }
 }

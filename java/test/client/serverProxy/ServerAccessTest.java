@@ -86,7 +86,7 @@ public class ServerAccessTest {
 	
 	private void createGame() {
 		
-		ServerResponse game = server.createGame("New Game Name");
+		ServerResponse game = server.createGame("New Game Name", true, true, true);
 		assertResponseCorrect(game, CreateGameRes.class);
 	}
 	
