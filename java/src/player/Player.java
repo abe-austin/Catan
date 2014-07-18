@@ -29,10 +29,12 @@ public class Player extends CardOwner {
 	private int soldiersPlayed;
 	private User user;
 	private ArrayList<PortType> playerPorts;
+	private int index;
 
-	public Player(CatanColor color, User user) {
+	public Player(CatanColor color, User user, int index) {
 		this.color = color;
 		this.user = user;
+		this.index = index;
 		soldiersPlayed = 0;
 		points = new Points();
 		playerPorts = new ArrayList<PortType>();
@@ -191,6 +193,14 @@ public class Player extends CardOwner {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public int getIndex() {
+		return index;
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
 	}
 
 	public boolean equals(Object other) {
