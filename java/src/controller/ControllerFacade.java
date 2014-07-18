@@ -114,8 +114,19 @@ public class ControllerFacade {
         return user;
     }
     
-    public void sendMessage(String message){//chat controller-- goes in gameInfo
-        
+    public void sendMessage(String message){
+	        switch(gameState){
+	        case Login:
+	            break;
+	        case JoinGame:
+	            break;
+	        case PlayerWaiting:
+	            break;
+	        case Setup:
+	        	serverProxyFacade.sendChat(clientPlayer.getIndex(), message);
+	        case GamePlay:
+	        	serverProxyFacade.sendChat(clientPlayer.getIndex(), message);
+	    }
     }
     
     public Player getClientPlayer() {

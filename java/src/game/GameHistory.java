@@ -7,7 +7,7 @@ import shared.definitions.Command;
 
 public class GameHistory{	
 	private List<Command> gameCommands;
-        private ChatLog chatlog;
+    private ChatLog chatlog;
 	
 	public GameHistory(){
 		gameCommands = new ArrayList<Command>();

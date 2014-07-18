@@ -104,7 +104,7 @@ public class ServerProxyFacade {
 		ServerResponse  response = server.doGet(url);
 		
 		//TODO what data structure to use??
-		converter.convert(response, ArrayList.class);
+		converter.convertGameInfo(response);
 		return response; 
 	}
 
