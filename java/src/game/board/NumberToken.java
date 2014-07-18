@@ -12,6 +12,10 @@ public class NumberToken {
             this.value = value;
             hasRobber = false;
         }
+        
+        public int getValue() {
+        	return value;
+        }
 
         /**
          *

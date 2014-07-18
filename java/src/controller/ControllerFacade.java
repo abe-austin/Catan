@@ -8,6 +8,7 @@ package controller;
 
 import client.base.IAction;
 import client.data.RobPlayerInfo;
+import client.map.MapController;
 import client.serverProxy.ServerPoller;
 import client.serverProxy.ServerProxyFacade;
 import game.GameModel;
@@ -18,6 +19,7 @@ import game.board.PortTile;
 import game.cards.CardOwner;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -1161,5 +1163,9 @@ gameState=GameState.GamePlay;//for testing purposes
          */
         public void setRobberAction(IAction action) {
             gamePlayController.setRobberAction(action);
+        }
+        
+        public List<HexTile> updateMap(MapController mapControl) {
+        	return currentGameModel.getBoard().getHexes();
         }
 }
