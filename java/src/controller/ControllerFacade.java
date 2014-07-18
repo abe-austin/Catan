@@ -9,6 +9,7 @@ package controller;
 import client.base.IAction;
 import client.data.GameInfo;
 import client.data.RobPlayerInfo;
+import client.map.MapController;
 import client.serverProxy.ServerPoller;
 import client.serverProxy.ServerProxyFacade;
 import game.GameModel;
@@ -19,6 +20,7 @@ import game.board.PortTile;
 import game.cards.CardOwner;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -63,8 +65,8 @@ public class ControllerFacade {
     
     private ControllerFacade(){
         setupController = new SetupController();
-        gamePlayController = new GamePlayController(clientPlayer);
         clientPlayer = new Player(CatanColor.BLUE,null,1);//testing purposes
+        gamePlayController = new GamePlayController(clientPlayer);
         tradeController = new TradeController(clientPlayer);
         gameInfoController = new GameInfoController();
         currentGameModel = new GameModel();
@@ -115,8 +117,19 @@ public class ControllerFacade {
         return user;
     }
     
-    public void sendMessage(String message){//chat controller-- goes in gameInfo
-        
+    public void sendMessage(String message){
+	        switch(gameState){
+	        case Login:
+	            break;
+	        case JoinGame:
+	            break;
+	        case PlayerWaiting:
+	            break;
+	        case Setup:
+	        	serverProxyFacade.sendChat(clientPlayer.getIndex(), message);
+	        case GamePlay:
+	        	serverProxyFacade.sendChat(clientPlayer.getIndex(), message);
+	    }
     }
     
     public Player getClientPlayer() {
@@ -1170,5 +1183,9 @@ gameState=GameState.GamePlay;//for testing purposes
          */
         public void setRobberAction(IAction action) {
             gamePlayController.setRobberAction(action);
+        }
+        
+        public List<HexTile> updateMap(MapController mapControl) {
+        	return currentGameModel.getBoard().getHexes();
         }
 }

@@ -172,6 +172,11 @@ class GamePlayController {
     public void changeOwnerResource(CardOwner receiver, CardOwner giver, ResourceType resource) {
         receiver.addResourceCard(giver.giveResourceCard(resource));
     }
+    
+    public void changeOwnerResource(CardOwner receiver, CardOwner giver, ResourceType resource, int amount) {
+    	for(int i = 0; i < amount; i++)
+    		receiver.addResourceCard(giver.giveResourceCard(resource));
+    }
 
     /**
      * This exchanges a Special Card between two card owners
@@ -185,11 +190,6 @@ class GamePlayController {
     public void changeOwnerSpecial(CardOwner receiver, CardOwner giver, SpecialCardType special) {
         receiver.addSpecialCard(giver.giveSpecialCard(special));
     }    
-    
-    public void changeOwnerResource(CardOwner receiver, CardOwner giver, ResourceType resource, int amount) {
-    	for(int i = 0; i < amount; i++)
-    		receiver.addResourceCard(giver.giveResourceCard(resource));
-    }
 
     /**
      * This method is called when the user clicks the discard button.
