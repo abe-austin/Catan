@@ -1,12 +1,12 @@
 package client.main;
 
-import javax.swing.*;
+import client.base.*;
 
 import client.catan.*;
-import client.login.*;
 import client.join.*;
+import client.login.*;
 import client.misc.*;
-import client.base.*;
+import javax.swing.*;
 
 
 /**
@@ -88,6 +88,7 @@ public class Catan extends JFrame {
                 	loginView.setController(loginController);
                 	
                 	loginController.start();
+
             	}
         	}
 		);

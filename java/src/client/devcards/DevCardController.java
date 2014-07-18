@@ -3,6 +3,8 @@ package client.devcards;
 import shared.definitions.ResourceType;
 import client.base.*;
 import controller.ControllerFacade;
+import java.util.ArrayList;
+import shared.definitions.DevCardType;
 
 
 /**
@@ -13,6 +15,8 @@ public class DevCardController extends Controller implements IDevCardController 
 	private IBuyDevCardView buyCardView;
 	private IAction soldierAction;
 	private IAction roadAction;
+        private ControllerFacade singleton = ControllerFacade.getSingleton();
+        private IPlayDevCardView playView;
 	
 	/**
 	 * DevCardController constructor
@@ -27,6 +31,7 @@ public class DevCardController extends Controller implements IDevCardController 
 
 		super(view);
 		
+                this.playView = view;
 		this.buyCardView = buyCardView;
 		this.soldierAction = soldierAction;
 		this.roadAction = roadAction;
@@ -42,8 +47,8 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void startBuyCard() {
-		ControllerFacade.getSingleton().startBuyCard(); // Use boolean from this to stop/allow user to buy dev card
-		getBuyCardView().showModal();
+		if(singleton.startBuyCard())
+                    getBuyCardView().showModal();
 	}
 
 	@Override
@@ -54,13 +59,45 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void buyCard() {
-		ControllerFacade.getSingleton().buyCard();
+		singleton.buyCard();
 		getBuyCardView().closeModal();
 	}
 
 	@Override
 	public void startPlayCard() {
-		// GET dev cards here?
+		ArrayList<DevCardType> cards = singleton.startPlayCard();
+                
+                if(cards == null)
+                    return;
+                
+                if(cards.isEmpty())
+                    return;
+                
+                if(cards.contains(DevCardType.MONOPOLY))
+                    playView.setCardEnabled(DevCardType.MONOPOLY, true);
+                else
+                    playView.setCardEnabled(DevCardType.MONOPOLY, false);
+                
+                if(cards.contains(DevCardType.YEAR_OF_PLENTY))
+                    playView.setCardEnabled(DevCardType.YEAR_OF_PLENTY, true);
+                else
+                    playView.setCardEnabled(DevCardType.YEAR_OF_PLENTY, false);
+                
+                if(cards.contains(DevCardType.ROAD_BUILD))
+                    playView.setCardEnabled(DevCardType.ROAD_BUILD, true);
+                else
+                    playView.setCardEnabled(DevCardType.ROAD_BUILD, false);
+                
+                if(cards.contains(DevCardType.SOLDIER))
+                    playView.setCardEnabled(DevCardType.SOLDIER, true);
+                else
+                    playView.setCardEnabled(DevCardType.SOLDIER, false);
+                
+                if(cards.contains(DevCardType.MONUMENT))
+                    playView.setCardEnabled(DevCardType.MONUMENT, true);
+                else
+                    playView.setCardEnabled(DevCardType.MONUMENT, false);
+                
 		getPlayCardView().showModal();
 	}
 
@@ -72,29 +109,29 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void playMonopolyCard(ResourceType resource) {
-		ControllerFacade.getSingleton().playMonopolyCard(resource);
+		singleton.playMonopolyCard(resource);
 	}
 
 	@Override
 	public void playMonumentCard() {
-		ControllerFacade.getSingleton().playMonumentCard();
+		singleton.playMonumentCard();
 	}
 
 	@Override
 	public void playRoadBuildCard() {
-		ControllerFacade.getSingleton().playRoadBuildCard();
+		singleton.playRoadBuildCard();
 		roadAction.execute();
 	}
 
 	@Override
 	public void playSoldierCard() {
-		ControllerFacade.getSingleton().playSoldierCard();
+		singleton.playSoldierCard();
 		soldierAction.execute();
 	}
 
 	@Override
 	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
-		ControllerFacade.getSingleton().playYearOfPlentyCard(resource1, resource2);
+		singleton.playYearOfPlentyCard(resource1, resource2);
 	}
 
 }

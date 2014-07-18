@@ -107,14 +107,14 @@
                    <manifest>
                            <attribute name="Main-Class" value="client.main.Catan"/>
                            <attribute name="Class-Path" 
-                                   value="lib/java-json.jar" />
+                                   value="lib/gson-2.2.4.jar" />
                    </manifest>
            </jar>
            <jar jarfile="${java.dist}/catan-server.jar" basedir="${java.build}">
                    <manifest>
                            <attribute name="Main-Class" value="server.main.CatanServer"/>
                            <attribute name="Class-Path" 
-                                   value="lib/java-json.jar" />
+                                   value="lib/gson-2.2.4.jar" />
                    </manifest>
            </jar>
    </target>

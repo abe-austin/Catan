@@ -3,6 +3,7 @@ package client.resources;
 import java.util.*;
 
 import client.base.*;
+import controller.ControllerFacade;
 
 
 /**
@@ -11,6 +12,7 @@ import client.base.*;
 public class ResourceBarController extends Controller implements IResourceBarController {
 
 	private Map<ResourceBarElement, IAction> elementActions;
+        private ControllerFacade singleton = ControllerFacade.getSingleton();
 	
 	public ResourceBarController(IResourceBarView view) {
 
@@ -37,26 +39,31 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 
 	@Override
 	public void buildRoad() {
-		executeElementAction(ResourceBarElement.ROAD);
+            if(singleton.buildRoad())
+                executeElementAction(ResourceBarElement.ROAD);
 	}
 
 	@Override
 	public void buildSettlement() {
+            if(singleton.buildSettlement())
 		executeElementAction(ResourceBarElement.SETTLEMENT);
 	}
 
 	@Override
 	public void buildCity() {
+            if(singleton.buildCity())
 		executeElementAction(ResourceBarElement.CITY);
 	}
 
 	@Override
 	public void buyCard() {
+            if(singleton.startBuyCard())
 		executeElementAction(ResourceBarElement.BUY_CARD);
 	}
 
 	@Override
 	public void playCard() {
+            if(singleton.playCard())
 		executeElementAction(ResourceBarElement.PLAY_CARD);
 	}
 	

@@ -82,13 +82,13 @@ public class BuildWorldTest{
     public void testUnitPlacement(){
     	
     	//Ensure cannot place a settlement where one already exists
-    	assertEquals(bModel.canBuildSettlement(bModel.getHexTileAt(0, 0).northWestCorner, p1), false);
+    	assertEquals(bModel.canBuildSettlement(bModel.getHexTileAt(0, 0).northWestCorner, p1, false), false);
     	
     	//Ensure cannot place a settlement where there is no connection to rest of player pieces
-    	assertEquals(bModel.canBuildSettlement(bModel.getHexTileAt(-1, 0).northWestCorner, p1), false);
+    	assertEquals(bModel.canBuildSettlement(bModel.getHexTileAt(-1, 0).northWestCorner, p1, false), false);
     	
     	//Ensure cannot place a road where there is no connection to rest of player pieces
-    	assertEquals(bModel.canBuildRoad(bModel.getHexTileAt(-1, 0).northEdge, p1), false);
+    	assertEquals(bModel.canBuildRoad(bModel.getHexTileAt(-1, 0).northEdge, p1, false), false);
     	
     	//Ensure cannot place a city where there is not a settlement
     	assertEquals(bModel.canBuildCity(bModel.getHexTileAt(-1, 0).northWestCorner, p1), false);
@@ -108,18 +108,18 @@ public class BuildWorldTest{
     	bModel.getHexTileAt(0, -2).buildRoad(bModel.getHexTileAt(0, -2).northWestEdge, p1);
     	
     	//Ensure cannot place a settlement adjacent to another one
-    	assertEquals(bModel.canBuildSettlement(bModel.getHexTileAt(0, 0).northEastCorner, p2), false);
+    	assertEquals(bModel.canBuildSettlement(bModel.getHexTileAt(0, 0).northEastCorner, p2, false), false);
     	
     	//Ensure cannot place a road that runs through another player's settlement
-    	assertEquals(bModel.canBuildRoad(bModel.getHexTileAt(0, 0).northWestEdge, p2), false);
+    	assertEquals(bModel.canBuildRoad(bModel.getHexTileAt(0, 0).northWestEdge, p2, false), false);
     	
     	//Ensure can build a settlement in a valid location, connected by a road and apart from other settlements
-    	assertEquals(bModel.canBuildSettlement(bModel.getHexTileAt(0, -1).northWestCorner, p1), true);
+    	assertEquals(bModel.canBuildSettlement(bModel.getHexTileAt(0, -1).northWestCorner, p1, false), true);
     	
     	//Ensure cannot build a road in the ocean
-    	assertEquals(bModel.canBuildRoad(bModel.getHexTileAt(0, -3).southWestEdge, p1), false);
+    	assertEquals(bModel.canBuildRoad(bModel.getHexTileAt(0, -3).southWestEdge, p1, false), false);
     	
     	//Ensure cannot build a settlement in the ocean
-    	assertEquals(bModel.canBuildSettlement(bModel.getHexTileAt(0, -3).northWestCorner, p1), false);
+    	assertEquals(bModel.canBuildSettlement(bModel.getHexTileAt(0, -3).northWestCorner, p1, false), false);
     }
 }

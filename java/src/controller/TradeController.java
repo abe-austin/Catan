@@ -7,6 +7,8 @@
 package controller;
 
 import game.GameModel;
+import java.util.ArrayList;
+import player.Player;
 import shared.definitions.ResourceType;
 
 /**
@@ -15,9 +17,10 @@ import shared.definitions.ResourceType;
  */
 class TradeController {
     private GameModel gameModel;
+    private Player player;
     
-    public TradeController(){
-        
+    public TradeController(Player player){
+        this.player=player;
     }
     
      public void switchGameModel(GameModel gameModel){
@@ -158,5 +161,46 @@ class TradeController {
 	void unsetGiveValue(){//MaritimeTradeController --goes in Trade
             
         }
-    
+        
+        public ArrayList<ResourceType> getBankResourceTypes(){
+            ArrayList<ResourceType> resources = new ArrayList<>();
+            if(gameModel==null)System.out.println("gameModel null");
+            else if ( gameModel.getBank()== null)System.out.println("bank null");
+            if ( gameModel.getBank().hasResource(ResourceType.WHEAT)){
+                resources.add(ResourceType.WHEAT);
+            }
+            if ( gameModel.getBank().hasResource(ResourceType.BRICK)){
+                resources.add(ResourceType.BRICK);
+            }
+            if ( gameModel.getBank().hasResource(ResourceType.ORE)){
+                resources.add(ResourceType.ORE);
+            }
+            if ( gameModel.getBank().hasResource(ResourceType.SHEEP)){
+                resources.add(ResourceType.SHEEP);
+            }
+            if ( gameModel.getBank().hasResource(ResourceType.WOOD)){
+                resources.add(ResourceType.WOOD);
+            }
+            return resources;
+        }
+        
+        public ArrayList<ResourceType> getPlayerResourceTypes(){
+            ArrayList<ResourceType> resources = new ArrayList<>();
+            if ( player.hasResource(ResourceType.WHEAT)){
+                resources.add(ResourceType.WHEAT);
+            }
+            if ( player.hasResource(ResourceType.BRICK)){
+                resources.add(ResourceType.BRICK);
+            }
+            if ( player.hasResource(ResourceType.ORE)){
+                resources.add(ResourceType.ORE);
+            }
+            if ( player.hasResource(ResourceType.SHEEP)){
+                resources.add(ResourceType.SHEEP);
+            }
+            if ( player.hasResource(ResourceType.WOOD)){
+                resources.add(ResourceType.WOOD);
+            }
+            return resources;
+        }
 }
