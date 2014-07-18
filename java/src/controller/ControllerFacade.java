@@ -18,8 +18,8 @@ import game.board.HexTile;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import player.Player;
 
+import player.Player;
 import shared.definitions.CatanColor;
 import shared.definitions.GameState;
 import shared.definitions.PieceType;
@@ -27,6 +27,7 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import system.User;
 
 /**
  *
@@ -592,6 +593,7 @@ public class ControllerFacade {
                 case Login:
                     break;
                 case JoinGame:
+                	setupController.joingGameStart();
                     break;
                 case PlayerWaiting:
                     break;
@@ -611,6 +613,7 @@ public class ControllerFacade {
                 case Login:
                     break;
                 case JoinGame:
+                	setupController.startCreateNewGame();
                     break;
                 case PlayerWaiting:
                     break;
@@ -629,6 +632,7 @@ public class ControllerFacade {
                 case Login:
                     break;
                 case JoinGame:
+                	setupController.cancelCreateNewGame();
                     break;
                 case PlayerWaiting:
                     break;
@@ -647,6 +651,7 @@ public class ControllerFacade {
                 case Login:
                     break;
                 case JoinGame:
+                	setupController.createNewGame();
                     break;
                 case PlayerWaiting:
                     break;
@@ -668,6 +673,7 @@ public class ControllerFacade {
                 case Login:
                     break;
                 case JoinGame:
+                	setupController.startJoingGame(game);
                     break;
                 case PlayerWaiting:
                     break;
@@ -686,6 +692,7 @@ public class ControllerFacade {
                 case Login:
                     break;
                 case JoinGame:
+                	setupController.cancelJoinGame();
                     break;
                 case PlayerWaiting:
                     break;
@@ -701,11 +708,12 @@ public class ControllerFacade {
 	 * 
 	 * @param color The color selected by the user
 	 */
-	public void joinGame(CatanColor color){//JoinGameController --goes in Setup
+	public void joinGame(CatanColor color, User user){//JoinGameController --goes in Setup
             switch(gameState){
                 case Login:
                     break;
                 case JoinGame:
+                	setupController.joinGame(color, user);
                     break;
                 case PlayerWaiting:
                     break;
@@ -725,6 +733,7 @@ public class ControllerFacade {
                 case JoinGame:
                     break;
                 case PlayerWaiting:
+                	setupController.playerWaitingStart();
                     break;
                 case Setup:
                     break;
@@ -736,13 +745,14 @@ public class ControllerFacade {
 	/**
 	 * Called when the "Add AI" button is clicked in the player waiting view
 	 */
-	public void addAI(){//PlayerWaitingController --goes in Setup
+	public void addAI(String AIType){//PlayerWaitingController --goes in Setup
             switch(gameState){
                 case Login:
                     break;
                 case JoinGame:
                     break;
                 case PlayerWaiting:
+                	setupController.addAI(AIType);
                     break;
                 case Setup:
                     break;
@@ -756,6 +766,7 @@ public class ControllerFacade {
 	public void loginStart(){//LoginController --goes in Setup !!Not sure if needed
             switch(gameState){
                 case Login:
+                	setupController.loginStart();
                     break;
                 case JoinGame:
                     break;
@@ -771,9 +782,10 @@ public class ControllerFacade {
 	/**
 	 * Called when the user clicks the "Sign in" button in the login view
 	 */
-	public void signIn(){//LoginController --goes in Setup
+	public void signIn(String username, String password){//LoginController --goes in Setup
             switch(gameState){
                 case Login:
+                	setupController.signIn(username, password);
                     break;
                 case JoinGame:
                     break;
@@ -789,9 +801,10 @@ public class ControllerFacade {
 	/**
 	 * Called when the user clicks the "Register" button in the login view
 	 */
-	public void register(){//LoginController --goes in Setup
+	public void register(String username, String password){//LoginController --goes in Setup
             switch(gameState){
                 case Login:
+                	setupController.register(username, password);
                     break;
                 case JoinGame:
                     break;
