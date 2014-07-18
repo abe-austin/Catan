@@ -89,22 +89,19 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void start() {
-		
-		ControllerFacade.getSingleton().joinGameStart();
+
 		getJoinGameView().showModal();
 	}
 
 	@Override
 	public void startCreateNewGame() {
 		
-		ControllerFacade.getSingleton().startCreateNewGame();
 		getNewGameView().showModal();
 	}
 
 	@Override
 	public void cancelCreateNewGame() {
 		
-		ControllerFacade.getSingleton().cancelCreateNewGame();
 		getNewGameView().closeModal();
 	}
 
@@ -117,15 +114,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
-		
-		ControllerFacade.getSingleton().startJoinGame(game);
+
 		getSelectColorView().showModal();
 	}
 
 	@Override
 	public void cancelJoinGame() {
-		
-		ControllerFacade.getSingleton().cancelJoinGame();
+	
 		getJoinGameView().closeModal();
 	}
 

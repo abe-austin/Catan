@@ -1,14 +1,21 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import client.data.RobPlayerInfo;
 import game.GameModel;
+import game.board.BoardModel;
 import game.board.Corner;
 import game.board.Edge;
 import game.board.HexTile;
+import game.board.ResourceTile;
 import game.pieces.BoardPiece;
 import game.pieces.Robber;
 import player.Player;
+import shared.definitions.HexType;
 import shared.definitions.PieceType;
+import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
@@ -187,5 +194,70 @@ public class HexTileController {
      */
     public void robPlayer(RobPlayerInfo victim) {//MapController --goes in GamePlay
 
+    }
+    
+    
+    /**
+     * Distributes to players resources for a given roll
+     * 
+     * @param roll 
+     * @post players may have more resource cards
+     */
+    public void rollResourceDistribution(int roll) {
+    	List<HexTile> hexes = gameModel.getBoard().getHexes();
+    	ArrayList<PlayerReceivingResources> resourceChanges = new ArrayList<PlayerReceivingResources>();
+    	for(int i = 0; i < hexes.size(); i++) {
+    		if(hexes.get(i).getType() != HexType.DESERT && hexes.get(i).getType() != HexType.WATER && !hexes.get(i).getHasRobber()) {
+    			ResourceTile resourceTile = (ResourceTile)hexes.get(i);
+    			
+    			if(resourceTile.northEastCorner.hasStructure()) {
+    				BoardPiece boardPiece = resourceTile.northEastCorner.getStructure();
+    				PlayerReceivingResources pRR = getPlayerResources(boardPiece, resourceTile);
+    				resourceChanges.add(pRR);
+    			}
+    			if(resourceTile.eastCorner.hasStructure()){
+    				BoardPiece boardPiece = resourceTile.northEastCorner.getStructure();
+    				PlayerReceivingResources pRR = getPlayerResources(boardPiece, resourceTile);
+    				resourceChanges.add(pRR);
+    			}	
+    			if(resourceTile.southEastCorner.hasStructure()) {
+    				BoardPiece boardPiece = resourceTile.northEastCorner.getStructure();
+    				PlayerReceivingResources pRR = getPlayerResources(boardPiece, resourceTile);
+    				resourceChanges.add(pRR);
+    			}
+    			if(resourceTile.southWestCorner.hasStructure()) {
+    				BoardPiece boardPiece = resourceTile.northEastCorner.getStructure();
+    				PlayerReceivingResources pRR = getPlayerResources(boardPiece, resourceTile);
+    				resourceChanges.add(pRR);
+    			}
+    			if(resourceTile.westCorner.hasStructure()) {
+    				BoardPiece boardPiece = resourceTile.northEastCorner.getStructure();
+    				PlayerReceivingResources pRR = getPlayerResources(boardPiece, resourceTile);
+    				resourceChanges.add(pRR);
+    			}
+    			if(resourceTile.northWestCorner.hasStructure()) {
+    				BoardPiece boardPiece = resourceTile.northEastCorner.getStructure();
+    				PlayerReceivingResources pRR = getPlayerResources(boardPiece, resourceTile);
+    				resourceChanges.add(pRR);
+    			}
+    		}
+    	}
+
+    	for(int j = 0; j < resourceChanges.size(); j++) {
+    		Player p = resourceChanges.get(j).getPlayer();
+    		ResourceType r = resourceChanges.get(j).getResourceType();
+    		int a = resourceChanges.get(j).getAmount();
+    		ControllerFacade.getSingleton().changeOwnerResource(p, gameModel.getBank(), r, a);
+    	}
+    }
+    
+    
+    public PlayerReceivingResources getPlayerResources(BoardPiece boardPiece, ResourceTile resourceTile) {
+    	int amount = 0;
+		if(boardPiece.getPieceType() == PieceType.CITY)
+			amount = 2;
+		else
+			amount = 1;
+		return new PlayerReceivingResources(boardPiece.getOwner(), resourceTile.getResourceType(), amount);
     }
 }

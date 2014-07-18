@@ -185,6 +185,11 @@ class GamePlayController {
     public void changeOwnerSpecial(CardOwner receiver, CardOwner giver, SpecialCardType special) {
         receiver.addSpecialCard(giver.giveSpecialCard(special));
     }    
+    
+    public void changeOwnerResource(CardOwner receiver, CardOwner giver, ResourceType resource, int amount) {
+    	for(int i = 0; i < amount; i++)
+    		receiver.addResourceCard(giver.giveResourceCard(resource));
+    }
 
     /**
      * This method is called when the user clicks the discard button.
@@ -431,10 +436,7 @@ class GamePlayController {
          * @post players may have more resource cards
          */
         public void rollResourceDistribution(int roll) {
-//            hexTileController.rollResourceDistribution(int roll, this);
-            
-            if(roll == 7)
-                robberAction.execute();
+          hexTileController.rollResourceDistribution(roll);
         }
         
         /**

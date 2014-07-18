@@ -17,6 +17,7 @@ public class HexTile {
 	
 	private int x;
 	private int y;
+	private boolean hasRobber;
 	
 	protected HexType myType;
 	protected HexLocation location;
@@ -46,6 +47,14 @@ public class HexTile {
 	
 	public int getY() {
 		return y;
+	}
+	
+	public boolean getHasRobber() {
+		return hasRobber;
+	}
+	
+	public void setHasRobber(boolean value) {
+		hasRobber = value;
 	}
 	
 	

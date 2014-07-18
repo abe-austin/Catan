@@ -41,6 +41,8 @@ public class MapController extends Controller implements IMapController {
 		
 		//<temp>
 		
+		//This undoes everything I've done with the random world generation...those posers.
+		
 		Random rand = new Random();
 
 		for (int x = 0; x <= 3; ++x) {
