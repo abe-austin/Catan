@@ -54,7 +54,8 @@ public class ControllerFacade {
     private ControllerFacade(){
         setupController= new SetupController();
         gamePlayController = new GamePlayController(clientPlayer);
-        tradeController= new TradeController();
+clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
+        tradeController= new TradeController(clientPlayer);
         gameInfoController= new GameInfoController();
         currentGameModel= new GameModel();
         serverPoller= new ServerPoller();
@@ -75,7 +76,7 @@ public class ControllerFacade {
             public void run() {
                 serverPoller.poll();
                 switchGameModel(serverPoller.getGameModel());
-                reassignControllers();
+                //reassignControllers();
                 //updateGui();
             }
         }, 1000, 1000);//timer to execute poll every second
@@ -460,7 +461,8 @@ public class ControllerFacade {
         /**
 	 * Called by the maritime trade view when the user clicks the maritime trade button.
 	 */
-	public void maritimeStartTrade(){//MaritimeTradeController --goes in Trade
+	public ArrayList<ArrayList<ResourceType>> maritimeStartTrade(){//MaritimeTradeController --goes in Trade
+gameState=GameState.GamePlay;//for testing purposes
             switch(gameState){
                 case Login:
                     break;
@@ -471,10 +473,16 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                    ArrayList<ResourceType> playerResourceTypes =tradeController.getPlayerResourceTypes();
+                    ArrayList<ResourceType> bankResourceTypes=tradeController.getBankResourceTypes();
+                    ArrayList< ArrayList<ResourceType>> resources=new ArrayList<>();
+                    resources.add(playerResourceTypes);
+                    resources.add(bankResourceTypes);
+                    return resources;               
             }
+            return null;
         }
-	
+
 	/**
 	 * Make the specified trade with the bank.
 	 */

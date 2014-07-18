@@ -1,11 +1,13 @@
 package client.maritime;
 
+import client.base.*;
+import game.cards.ResourceCard;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 import shared.definitions.*;
-import client.base.*;
 
 
 /**
@@ -59,52 +61,59 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 
 	@Override
 	public void reset() {
-		
+		//unselects the get and give option resource, numbers are reset
+            //all resources are set visible
+            //trade button message reset, trade button enabled(false)
 	}
 
 	@Override
 	public void hideGetOptions() {
-		
+		//set visibility false for all but the selectedGetOption
 	}
 
 	@Override
 	public void hideGiveOptions() {
-		
+		//set visibility false for all but the selectedGiveOption
 	}
 
 	@Override
 	public void selectGetOption(ResourceType selectedResource, int amount) {
-		
+		//sets the selectedGetOption resource and the number (must be 1 in maritime trading)
 	}
 
 	@Override
 	public void selectGiveOption(ResourceType selectedResource, int amount) {
-		
+		//sets the selectedGiveOption resource and the number
+            //giveValue=2 if they have a port of that resource or 3 if they have a 3-1 port 
 	}
 
 	@Override
 	public void setStateMessage(String message) {
-		
+		tradeButton.setText(message);
 	}
 
 	@Override
 	public void setTradeEnabled(boolean enable) {
-		
+		tradeButton.setEnabled(enable);
 	}
 
 	@Override
 	public void setCancelEnabled(boolean enabled) {
-		
+		cancelButton.setEnabled(enabled);
 	}
 
 	@Override
 	public void showGetOptions(ResourceType[] enabledResources) {
-		
+//		for (int i=0; i <enabledResources.length; i++){
+//                    //show which ones are enabled. the others are faded
+//                }
 	}
 
 	@Override
 	public void showGiveOptions(ResourceType[] enabledResources) {
-		
+//		for (int i=0; i <enabledResources.length; i++){
+//                    //show which ones are enabled. the others are faded
+//                }	
 	}
 
 	private ActionListener actionListener = new ActionListener() {
@@ -112,7 +121,7 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 		public void actionPerformed(ActionEvent e) {
 			
 			if (e.getSource() == tradeButton) {
-				getController().startTrade();
+				getController().makeTrade();
 			}
 			else if (e.getSource() == cancelButton) {
 				getController().cancelTrade();
