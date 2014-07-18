@@ -113,10 +113,11 @@ public class ServerProxyFacade {
      * 
      * @return <code>GameModel</code> of the created game
      */
-	public ServerResponse createGame(String name) {
+	public ServerResponse createGame(String name, boolean randomHexes,
+			boolean randomNumbers, boolean randomPorts) {
 		
 		//create param object and convert to json
-		CreateGameParam param = new CreateGameParam(name);
+		CreateGameParam param = new CreateGameParam(name, randomHexes, randomNumbers, randomPorts);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/games/create";

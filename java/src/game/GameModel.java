@@ -20,7 +20,7 @@ public class GameModel {
     private TradeOffer tradeOffer;
     private int version;
     private int winner;
-    private boolean randomHex;
+    private boolean randomHexes;
     private boolean randomNumbers;
     private boolean randomPorts;
 
@@ -143,12 +143,12 @@ public class GameModel {
 		this.user = user;
 	}
 
-	public boolean isRandomHex() {
-		return randomHex;
+	public boolean isRandomHexes() {
+		return randomHexes;
 	}
 
-	public void setRandomHex(boolean randomHex) {
-		this.randomHex = randomHex;
+	public void setRandomHexes(boolean randomHexes) {
+		this.randomHexes = randomHexes;
 	}
 
 	public boolean isRandomNumbers() {

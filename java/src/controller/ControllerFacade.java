@@ -645,12 +645,18 @@ gameState=GameState.GamePlay;//for testing purposes
 	/**
 	 * Called by the new game view when the user clicks the "Create Game" button
 	 */
-	public void createNewGame() { //JoinGameController --goes in Setup !!Not sure if needed
+	public void createNewGame(String title, boolean randomHexes, boolean randomNumbers, boolean randomPorts) { //JoinGameController --goes in Setup !!Not sure if needed
 		
 		switch (gameState) {
 		case Login:
 			break;
 		case JoinGame:
+			//create new game model
+			GameModel gameModel = new GameModel();
+			gameModel.setRandomHexes(randomHexes);
+			gameModel.setRandomNumbers(randomNumbers);
+			gameModel.setRandomPorts(randomPorts);
+			serverProxyFacade.createGame(title, randomHexes, randomNumbers, randomPorts);
 			setupController.createNewGame();
 			break;
 		case PlayerWaiting:

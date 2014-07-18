@@ -97,7 +97,7 @@ public class LoginController extends Controller implements ILoginController {
 			loginAction.execute();
 			
 		} else {
-			loginFailed("Login Errore", "Login failed - invalid username or password");
+			loginFailed("Login Error", "Login failed - invalid username or password");
 		}
 	}
 	/**
