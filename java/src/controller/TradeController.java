@@ -117,6 +117,7 @@ class TradeController {
 	public ArrayList<ArrayList<ResourceType>> maritimeStartTrade(){//MaritimeTradeController --goes in Trade
            player.addResourceCard(new ResourceCard(ResourceType.BRICK));
            player.addResourceCard(new ResourceCard(ResourceType.BRICK));
+           player.addResourceCard(new ResourceCard(ResourceType.BRICK));           
            player.addResourceCard(new ResourceCard(ResourceType.BRICK));
            player.addResourceCard(new ResourceCard(ResourceType.WOOD));
            player.addResourceCard(new ResourceCard(ResourceType.WOOD));
@@ -129,7 +130,7 @@ class TradeController {
            player.addResourceCard(new ResourceCard(ResourceType.ORE));
            player.addResourceCard(new ResourceCard(ResourceType.WHEAT));
            player.addPort(PortType.ORE);
-           player.addPort(PortType.THREE);
+           //player.addPort(PortType.THREE);
            
             ArrayList<ResourceType> playerResourceTypes =maritimeGetPlayerResourceTypes();
             ArrayList<ResourceType> bankResourceTypes=getBankResourceTypes();

@@ -262,7 +262,7 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 					getController().makeTrade();
 				}
 				else if (e.getSource() == cancelButton) {
-					//reset();//TODO Should I leave this in?  It just emptys the view and starts a new one. should the controller do that?
+					reset();//TODO Should I leave this in?  It just emptys the view and starts a new one. should the controller do that?
 					getController().cancelTrade(); 
 				}
 			}
@@ -272,7 +272,7 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 			public void actionPerformed(ActionEvent e) {
 
 				if (e.getSource() == givereload)	
-				{getController().unsetGiveValue();hideGetOptions();}
+				{getController().unsetGiveValue();/*hideGetOptions();*/}
 
 				else if (e.getSource() == givewood) 
 				{getController().setGiveResource(ResourceType.WOOD);}

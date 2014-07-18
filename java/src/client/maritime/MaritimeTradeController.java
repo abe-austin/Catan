@@ -15,8 +15,8 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
         private IMaritimeTradeOverlay tradeOverlay;
         private int getValue;
         private int giveValue;
-	private ResourceType[] bankResources;
-        private ResourceType[] playerResources;
+	private ResourceType[] bankResourceTypes;
+        private ResourceType[] playerResourceTypes;
         private ResourceType selectedGetResource;
         private ResourceType selectedGiveResource;
         
@@ -48,11 +48,11 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		//if (cards==null)System.out.println("cards is empty");
                 ArrayList<ResourceType> playerResources = cards.get(0);
                 ArrayList<ResourceType> bankResources= cards.get(1);
-                ResourceType[] playerResourceTypes= new ResourceType[playerResources.size()];
+                playerResourceTypes= new ResourceType[playerResources.size()];
                 for (int i=0; i < playerResources.size();i++){
                     playerResourceTypes[i]=playerResources.get(i);
                 }
-                ResourceType[] bankResourceTypes = new ResourceType[bankResources.size()];
+                bankResourceTypes = new ResourceType[bankResources.size()];
                 for(int i=0; i < bankResources.size();i++){
                     bankResourceTypes[i]=bankResources.get(i);
                 }
@@ -60,6 +60,8 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
                 getTradeOverlay().showGetOptions(bankResourceTypes);
                 getTradeOverlay().showGiveOptions(playerResourceTypes);
                 
+                selectedGiveResource=null;
+                selectedGetResource=null;
                 getValue=1;
                 giveValue=4;//default trade with bank
                 
@@ -74,7 +76,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
             //get the selectedGetOption resource (quantitiy must be 1)
             //get the selectedGiveOption resource and quantity (2 or 3 depending on port type) or 4
             
-		getTradeOverlay().closeModal();
+            getTradeOverlay().closeModal();
 	}
 
 	@Override
@@ -86,7 +88,11 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	@Override
 	public void setGetResource(ResourceType resource) {
            selectedGetResource = resource;
-           //set getValue based on whether the player has a port
+           getTradeOverlay().selectGetOption(selectedGetResource, getValue);
+           if(selectedGiveResource!=null){
+               getTradeOverlay().setTradeEnabled(true);
+               getTradeOverlay().setStateMessage("Trade Away!");
+           }
 	}
 
 	@Override
@@ -94,14 +100,21 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
             int number = controllerFacade.setGiveResource(resource);
             if (number !=-1){
                 selectedGiveResource = resource;
-                getValue=number;
+                giveValue=number;
+                getTradeOverlay().selectGiveOption(selectedGetResource, number);
+                if(selectedGetResource!=null){
+                     getTradeOverlay().setTradeEnabled(true);
+                     getTradeOverlay().setStateMessage("Trade Away!");
+                }
             }
 	}
 
 	@Override
 	public void unsetGetValue() {
             selectedGetResource=null;
-            
+            getTradeOverlay().showGetOptions(bankResourceTypes);
+            getTradeOverlay().setTradeEnabled(false);
+            getTradeOverlay().setStateMessage("Choose wisely");
             //getTradeOverlay().reset(); only resets the get
 	}
 
@@ -109,7 +122,12 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public void unsetGiveValue() {
             selectedGiveResource=null;
             selectedGetResource=null;
-            getTradeOverlay().reset();
+            //getTradeOverlay().reset();
+            
+            getTradeOverlay().showGetOptions(bankResourceTypes);
+            getTradeOverlay().showGiveOptions(playerResourceTypes);
+            getTradeOverlay().setTradeEnabled(false);
+            getTradeOverlay().setStateMessage("Choose wisely");
 	}
 
 }

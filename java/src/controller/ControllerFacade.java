@@ -82,9 +82,9 @@ public class ControllerFacade {
         timer.scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run() {
-                serverPoller.poll();
-                switchGameModel(serverPoller.getGameModel());
-                reassignControllers();
+                //serverPoller.poll();
+                //switchGameModel(serverPoller.getGameModel());
+                //reassignControllers();
                 //updateGui();
             }
         }, 1000, 1000);//timer to execute poll every second
@@ -532,7 +532,7 @@ gameState=GameState.GamePlay;//for testing purposes
 	/**
 	 * Make the specified trade with the bank.
 	 */
-	public void makeTrade(){//MaritimeTradeController --goes in Trade
+	public void makeTrade(ResourceType giveType, int giveAmount, ResourceType getType){//MaritimeTradeController --goes in Trade
             switch(gameState){
                 case Login:
                     break;
@@ -543,44 +543,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
-	 * Called by the maritime trade overlay when the user cancels a trade.
-	 */
-	public void maritimeCancelTrade(){//MaritimeTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
-	 * Called when the user selects the resource to get.
-	 * 
-	 * @param resource The selected "get" resource
-	 */
-	public void setGetResource(ResourceType resource){//MaritimeTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
+                    serverProxyFacade.maritimeTrade(clientPlayer.getIndex(), giveAmount, giveType, getType);
                     break;
             }
         }

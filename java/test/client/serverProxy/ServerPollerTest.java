@@ -46,6 +46,11 @@ public class ServerPollerTest {
     @Test
     public void testPoll() {
         System.out.println("poll");
+        ServerProxyFacade server = new ServerProxyFacade(false);
+        server.registerUser("test", "testing");
+        server.createGame("crashGame", true, true, true);
+        server.getAllGames();
+        
         ServerPoller instance = new ServerPoller();
         instance.poll();
         assertNull(instance.getGameModel());

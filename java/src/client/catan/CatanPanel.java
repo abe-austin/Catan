@@ -61,6 +61,7 @@ public class CatanPanel extends JPanel
                 MaritimeTradeView maritimeTradeView= new MaritimeTradeView();
                 final MaritimeTradeController maritimeTradeController= new MaritimeTradeController(maritimeTradeView,maritimeTradeOverlay);
                 maritimeTradeView.setController(maritimeTradeController);
+                maritimeTradeOverlay.setController(maritimeTradeController);
                 
 		JButton testButton = new JButton("Test");
 		testButton.addActionListener(new ActionListener() {
