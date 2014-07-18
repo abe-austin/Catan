@@ -268,7 +268,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         /**
 	 * Called by the domestic trade view when the user clicks the domestic trade button.
 	 */
-	public void domesticStartTrade(){//DomesticTradeController --goes in Trade
+	public ArrayList<ResourceType> domesticStartTrade(){//DomesticTradeController --goes in Trade
             switch(gameState){
                 case Login:
                     break;
@@ -279,8 +279,10 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                    ArrayList<ResourceType> playerResourceTypes =tradeController.getPlayerResourceTypes();
+                    return playerResourceTypes;
             }
+            return null;
         }
 	
 	/**
@@ -356,7 +358,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
                     break;
                 case Setup:
                     break;
-                case GamePlay:
+                case GamePlay://Need to return that player or something...not sure how to get the player object from the index at this point though
                     break;
             }
         }
@@ -377,7 +379,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                	break;
             }
         }
 	
@@ -462,7 +464,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	 * Called by the maritime trade view when the user clicks the maritime trade button.
 	 */
 	public ArrayList<ArrayList<ResourceType>> maritimeStartTrade(){//MaritimeTradeController --goes in Trade
-gameState=GameState.GamePlay;//for testing purposes
+			gameState=GameState.GamePlay;//for testing purposes
             switch(gameState){
                 case Login:
                     break;

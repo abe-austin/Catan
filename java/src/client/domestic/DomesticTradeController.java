@@ -1,5 +1,8 @@
 package client.domestic;
 
+import java.util.ArrayList;
+
+import controller.ControllerFacade;
 import shared.definitions.*;
 import client.base.*;
 import client.misc.*;
@@ -13,6 +16,11 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
 	private IAcceptTradeOverlay acceptOverlay;
+	private int getValue;
+	private int giveValue;
+	private ResourceType givingResource;
+	private ResourceType gettingResource;
+	private ControllerFacade controllerFacade= ControllerFacade.getSingleton();
 
 	/**
 	 * DomesticTradeController constructor
@@ -64,17 +72,32 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void startTrade() {
 
-		getTradeOverlay().showModal();
+	     //set the enabled resources for the player
+		ArrayList<ResourceType> playerResources = controllerFacade.domesticStartTrade();
+		//if (cards==null)System.out.println("cards is empty");
+	    ResourceType[] playerResourceTypes= new ResourceType[playerResources.size()];
+	    for (int i=0; i < playerResources.size();i++){
+	    	playerResourceTypes[i]=playerResources.get(i);
+	    }
+	    //getTradeOverlay().showGiveOptions(playerResourceTypes);//Not allowed for Domestic Trade
+	                
+	    getValue=1;
+	    giveValue=1;
+	                
+	    getTradeOverlay().setTradeEnabled(false);
+	    getTradeOverlay().setCancelEnabled(true);
+	    getTradeOverlay().setStateMessage("can't trade yet");
+	    getTradeOverlay().showModal();
 	}
 
-	@Override
+	@Override//So I assume each player does this only for their own resource, not the other player's
 	public void decreaseResourceAmount(ResourceType resource) {
-
+		giveValue--;
 	}
 
 	@Override
 	public void increaseResourceAmount(ResourceType resource) {
-
+		giveValue++;
 	}
 
 	@Override
@@ -86,21 +109,26 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void setPlayerToTradeWith(int playerIndex) {
-
+		controllerFacade.setPlayerToTradeWith(playerIndex);
 	}
 
 	@Override
 	public void setResourceToReceive(ResourceType resource) {
-
+		gettingResource = resource;
+		//Set some active/inactive on the modal maybe?
 	}
 
 	@Override
 	public void setResourceToSend(ResourceType resource) {
-
+		givingResource = resource;
+		//Do I need to run some test that they have this resource, or will they not have been able to accept it unless they have it
 	}
 
 	@Override
 	public void unsetResource(ResourceType resource) {
+		givingResource = null;
+		gettingResource = null;
+		//Undo any changes made to view from setResource
 
 	}
 
@@ -112,7 +140,6 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void acceptTrade(boolean willAccept) {
-
 		getAcceptOverlay().closeModal();
 	}
 
