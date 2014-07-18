@@ -570,42 +570,6 @@ gameState=GameState.GamePlay;//for testing purposes
         }
 	
 	/**
-	 * Called when the player "undoes" their get selection.
-	 */
-	public void unsetGetValue(){//MaritimeTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
-	 * Called when the player "undoes" their give selection.
-	 */
-	public void unsetGiveValue(){//MaritimeTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
 	 * Called by the new game view when the user clicks the "Create Game" button
 	 */
 	public void createNewGame(String title, boolean randomHexes, boolean randomNumbers, boolean randomPorts) { //JoinGameController --goes in Setup !!Not sure if needed

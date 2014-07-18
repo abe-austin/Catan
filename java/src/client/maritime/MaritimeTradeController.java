@@ -75,7 +75,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public void makeTrade() {
             //get the selectedGetOption resource (quantitiy must be 1)
             //get the selectedGiveOption resource and quantity (2 or 3 depending on port type) or 4
-            
+            controllerFacade.makeTrade(selectedGiveResource, giveValue, selectedGetResource);
             getTradeOverlay().closeModal();
 	}
 
