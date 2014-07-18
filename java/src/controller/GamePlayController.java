@@ -1,5 +1,6 @@
 package controller;
 
+import client.base.IAction;
 import client.data.RobPlayerInfo;
 import game.GameModel;
 import game.cards.CardOwner;
@@ -26,6 +27,7 @@ class GamePlayController {
     private GameModel gameModel;
     private Player player;
     private final HexTileController hexTileController;
+    private IAction robberAction;
 
     public GamePlayController(Player player) {
         hexTileController = new HexTileController();
@@ -273,6 +275,7 @@ class GamePlayController {
     public void placeSettlement(VertexLocation vertLoc) {                       // MapController
         BoardPiece piece = player.getAvailableBoardPiece(PieceType.SETTLEMENT);
         piece.setActive(true);
+        player.addPoint();
         hexTileController.placeSettlement(player, piece, vertLoc);
     }
 
@@ -288,6 +291,7 @@ class GamePlayController {
     public void placeCity(VertexLocation vertLoc) {                             // MapController
         BoardPiece piece = player.getAvailableBoardPiece(PieceType.CITY);
         piece.setActive(true);
+        player.addPoint();
         hexTileController.placeCity(player, piece, vertLoc);
     }
 
@@ -428,7 +432,17 @@ class GamePlayController {
          */
         public void rollResourceDistribution(int roll) {
 //            hexTileController.rollResourceDistribution(int roll, this);
-            // look through all hex tiles for a non-robber covered, matching number token,
-            // give resources to any players that own a vertex
+            
+            if(roll == 7)
+                robberAction.execute();
+        }
+        
+        /**
+         * Allows access to robber/soldier action
+         * 
+         * @param action 
+         */
+        public void setRobberAction(IAction action) {
+            robberAction = action;
         }
 }

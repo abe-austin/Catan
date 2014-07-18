@@ -5,7 +5,8 @@
  */
 
 package controller;
-
+import client.base.IAction;
+import client.data.GameInfo;
 import client.data.RobPlayerInfo;
 import client.serverProxy.ServerPoller;
 import client.serverProxy.ServerProxyFacade;
@@ -60,12 +61,12 @@ public class ControllerFacade {
     private ControllerFacade(){
         setupController= new SetupController();
         gamePlayController = new GamePlayController(clientPlayer);
-        clientPlayer = new Player(CatanColor.BLUE, null, 1);//testing purposes
+        clientPlayer=new Player(CatanColor.BLUE,null,1);//testing purposes
         tradeController= new TradeController(clientPlayer);
         gameInfoController= new GameInfoController();
         currentGameModel= new GameModel();
         serverPoller= new ServerPoller();
-        serverProxyFacade = new ServerProxyFacade(true);
+        serverProxyFacade = new ServerProxyFacade(false);
         gameState= GameState.Login;
         reassignControllers();
         startPolling();
@@ -885,7 +886,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 		case NorthWest: e = theHex.northWestEdge; break;
                 	}
                 	gamePlayController.placeRoad(edgeLoc);
-                	serverProxyFacade.buildRoad(0, e);//There is a clientPlayer now, but it doesn't have an index, not sure where that comes from yet
+                	serverProxyFacade.buildRoad(gamePlayController.getPlayer().getIndex(), e);
                 	break;
                 default:
             }
@@ -911,7 +912,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 		case NorthWest: c = theHex.northWestCorner; break;
                 	}
                 	gamePlayController.placeSettlement(vertLoc);
-                	serverProxyFacade.buildSettlement(0, c, true);//I say true because ensuring the corner is free is part of the canBuildSettlement() check
+                	serverProxyFacade.buildSettlement(gamePlayController.getPlayer().getIndex(), c, true);
                 	break;
                 default:
             }
@@ -937,7 +938,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 		case NorthWest: c = theHex.northWestCorner; break;
                 	}
                 	gamePlayController.placeCity(vertLoc);
-                	serverProxyFacade.buildCity(0, c, true);//I say true because I assume this means from from another City, not settlement
+                	serverProxyFacade.buildCity(gamePlayController.getPlayer().getIndex(), c, true);
                 	break;
                 default:
             }
@@ -1128,5 +1129,14 @@ gameState=GameState.GamePlay;//for testing purposes
                 default:
                     return -1;
             }
+        }
+        
+        /**
+         * Allows access to robber/soldier action
+         * 
+         * @param action 
+         */
+        public void setRobberAction(IAction action) {
+            gamePlayController.setRobberAction(action);
         }
 }
