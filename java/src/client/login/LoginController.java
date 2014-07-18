@@ -80,6 +80,9 @@ public class LoginController extends Controller implements ILoginController {
 			
 		} else {
 			//display error message
+			MessageView errorView = new MessageView();
+			errorView.setTitle("Login Error");
+			errorView.setMessage("Login failed - invalid username or password");
 		}
 	}
 
@@ -98,6 +101,9 @@ public class LoginController extends Controller implements ILoginController {
 			
 		} else {
 			//display error message
+			MessageView errorView = new MessageView();
+			errorView.setTitle("Login Error");
+			errorView.setMessage("Login failed - invalid username or password");
 		}
 	}
 }
