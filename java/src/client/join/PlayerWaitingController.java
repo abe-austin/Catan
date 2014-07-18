@@ -10,6 +10,7 @@ import client.base.*;
 public class PlayerWaitingController extends Controller implements IPlayerWaitingController {
 
 	public PlayerWaitingController(IPlayerWaitingView view) {
+		
 		super(view);
 	}
 
@@ -20,12 +21,14 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 	@Override
 	public void start() {
+		
 		ControllerFacade.getSingleton().playerWaitingStart();
 		getView().showModal();
 	}
 
 	@Override
 	public void addAI() {
+		
 		ControllerFacade.getSingleton().addAI();
 		// TEMPORARY
 		getView().closeModal();

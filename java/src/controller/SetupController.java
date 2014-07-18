@@ -13,7 +13,8 @@ class SetupController {
      private GameModel gameModel;
     
     public void switchGameModel(GameModel gameModel){
-        this.gameModel = gameModel;
+       
+    	this.gameModel = gameModel;
     }
 	
 	ServerProxyFacade serverProxyFacade;
@@ -63,7 +64,8 @@ class SetupController {
 	 * @param color The color selected by the user
 	 */
 	void joinGame(CatanColor color, User user){ //JoinGameController --goes in Setup
-            serverProxyFacade.joinGame(user.getId(), color);
+           
+		serverProxyFacade.joinGame(user.getId(), color);
     }
 	
         /**
@@ -75,6 +77,7 @@ class SetupController {
 	 * Called when the "Add AI" button is clicked in the player waiting view
 	 */
 	void addAI(String AIType){ //PlayerWaitingController --goes in Setup
+		
 		serverProxyFacade.addAI(AIType);
     }
 	
@@ -87,6 +90,7 @@ class SetupController {
 	 * Called when the user clicks the "Sign in" button in the login view
 	 */
 	void signIn(String username, String password){ //LoginController --goes in Setup
+		
 		serverProxyFacade.loginUser(username, password);
     }
 	
@@ -94,6 +98,7 @@ class SetupController {
 	 * Called when the user clicks the "Register" button in the login view
 	 */
 	void register(String username, String password){ //LoginController --goes in Setup
+		
 		serverProxyFacade.registerUser(username, password);
     }
 }
