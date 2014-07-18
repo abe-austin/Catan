@@ -111,7 +111,7 @@ public class LoginController extends Controller implements ILoginController {
 		MessageView errorView = new MessageView();
 		errorView.setTitle(title);
 		errorView.setMessage(message);
-		errorView.setVisible(true);
+		errorView.showModal();
 	}
 }
 

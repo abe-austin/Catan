@@ -7,6 +7,7 @@
 package controller;
 
 import client.base.IAction;
+import client.data.GameInfo;
 import client.data.RobPlayerInfo;
 import client.serverProxy.ServerPoller;
 import client.serverProxy.ServerProxyFacade;
@@ -645,20 +646,27 @@ gameState=GameState.GamePlay;//for testing purposes
 	/**
 	 * Called by the new game view when the user clicks the "Create Game" button
 	 */
-	public void createNewGame(String title, boolean randomHexes, boolean randomNumbers, boolean randomPorts) { //JoinGameController --goes in Setup !!Not sure if needed
+	public GameInfo[] createNewGame(String title, boolean randomHexes, boolean randomNumbers, boolean randomPorts) { //JoinGameController --goes in Setup !!Not sure if needed
 		
 		switch (gameState) {
 		case Login:
 			break;
 		case JoinGame:
-			//create new game model
 			GameModel gameModel = new GameModel();
 			gameModel.setRandomHexes(randomHexes);
 			gameModel.setRandomNumbers(randomNumbers);
 			gameModel.setRandomPorts(randomPorts);
 			serverProxyFacade.createGame(title, randomHexes, randomNumbers, randomPorts);
-			setupController.createNewGame();
-			break;
+			
+			ServerResponse serverResponse  = serverProxyFacade.getAllGames();
+			GameInfo[] gameObjects = (GameInfo[]) serverResponse.getBody();
+			GameInfo[] games = new GameInfo[gameObjects.length];
+			
+			for(int i=0; i<gameObjects.length; i++) {
+				games[i] = (GameInfo) gameObjects[i];
+			}
+			
+			return games;
 		case PlayerWaiting:
 			break;
 		case Setup:
@@ -666,6 +674,7 @@ gameState=GameState.GamePlay;//for testing purposes
 		case GamePlay:
 			break;
 		}
+		return null;
     }
 		
 	/**
