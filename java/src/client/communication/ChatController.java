@@ -1,5 +1,6 @@
 package client.communication;
 
+import controller.ControllerFacade;
 import client.base.*;
 
 
@@ -20,7 +21,7 @@ public class ChatController extends Controller implements IChatController {
 
 	@Override
 	public void sendMessage(String message) {
-		
+		ControllerFacade.getSingleton().sendMessage(message);
 	}
 
 }

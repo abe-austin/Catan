@@ -10,6 +10,10 @@ public class ServerResponse {
 		this.code = code;
 		this.body = body;
 	}
+	
+	public void setUserId(int id) {
+		this.body = id;
+	}
 
 	public int getCode() {
 		return code;

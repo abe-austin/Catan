@@ -141,4 +141,10 @@ public class MockServer implements Server{
 		return null;
 	}
 
+	@Override
+	public Cookies getCookies() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

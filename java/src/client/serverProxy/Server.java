@@ -11,4 +11,5 @@ import shared.communication.ServerResponse;
 public interface Server {	
 	public ServerResponse doPost(String url, Object payLoad);
 	public ServerResponse doGet(String url);
+	public Cookies getCookies();
 }
