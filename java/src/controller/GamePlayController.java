@@ -394,7 +394,7 @@ class GamePlayController {
      */
     public int rollDice() {                                                    // RollController
         Random rand = new Random();
-        return (rand.nextInt() % 6 + 1 ) + (rand.nextInt() % 6 + 1); 
+        return (rand.nextInt(Integer.MAX_VALUE) % 6 + 1 ) + (rand.nextInt(Integer.MAX_VALUE) % 6 + 1); 
     }
     
         /**

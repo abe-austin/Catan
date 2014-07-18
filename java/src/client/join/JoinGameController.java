@@ -107,8 +107,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void createNewGame() {
-		
-		ControllerFacade.getSingleton().createNewGame();
+
+		ControllerFacade.getSingleton().createNewGame(
+				newGameView.getTitle(),
+				newGameView.getRandomlyPlaceHexes(),
+				newGameView.getRandomlyPlaceNumbers(),
+				newGameView.getUseRandomPorts());
 		getNewGameView().closeModal();
 	}
 

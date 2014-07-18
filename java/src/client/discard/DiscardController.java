@@ -46,29 +46,24 @@ public class DiscardController extends Controller implements IDiscardController 
             	
             switch(resource) {
                 case BRICK:
-                    if(!singleton.increaseAmount(resource, numBrick))
-                        break;
-                    numBrick++;
+                    if(singleton.increaseAmount(resource, numBrick))
+                        numBrick++;
                     break;
                 case ORE:
-                    if(!singleton.increaseAmount(resource, numOre))
-                        break;
-                    numOre++;
+                    if(singleton.increaseAmount(resource, numOre))
+                        numOre++;
                     break;
                 case WHEAT:
-                    if(!singleton.increaseAmount(resource, numWheat))
-                        break;
-                    numWheat++;
+                    if(singleton.increaseAmount(resource, numWheat))
+                        numWheat++;
                     break;
                 case WOOD:
-                    if(!singleton.increaseAmount(resource, numWood))
-                        break;
-                    numWood++;
+                    if(singleton.increaseAmount(resource, numWood))
+                        numWood++;
                     break;
                 case SHEEP:
-                    if(!singleton.increaseAmount(resource, numSheep))
-                        break;
-                    numSheep++;
+                    if(singleton.increaseAmount(resource, numSheep))
+                        numSheep++;
                     break;
             }
             
@@ -80,29 +75,24 @@ public class DiscardController extends Controller implements IDiscardController 
 		
             switch(resource) {
                 case BRICK:
-                    if(!singleton.decreaseAmount(resource, numBrick))
-                        break;
-                    numBrick--;
+                    if(singleton.decreaseAmount(resource, numBrick))
+                        numBrick--;
                     break;
                 case ORE:
-                    if(!singleton.decreaseAmount(resource, numOre))
-                        break;
-                    numOre--;
+                    if(singleton.decreaseAmount(resource, numOre))
+                        numOre--;
                     break;
                 case WHEAT:
-                    if(!singleton.decreaseAmount(resource, numWheat))
-                        break;
-                    numWheat--;
+                    if(singleton.decreaseAmount(resource, numWheat))
+                        numWheat--;
                     break;
                 case WOOD:
-                    if(!singleton.decreaseAmount(resource, numWood))
-                        break;
-                    numWood--;
+                    if(singleton.decreaseAmount(resource, numWood))
+                        numWood--;
                     break;
                 case SHEEP:
-                    if(!singleton.decreaseAmount(resource, numSheep))
-                        break;
-                    numSheep--;
+                    if(singleton.decreaseAmount(resource, numSheep))
+                        numSheep--;
                     break;
             }
             
@@ -125,8 +115,14 @@ public class DiscardController extends Controller implements IDiscardController 
             for(int i = 0; i < numSheep; i++)
                 toDiscard.add(ResourceType.SHEEP);
             
-            if(singleton.discard(toDiscard)) // only closes if discard was successful
+            if(singleton.discard(toDiscard)) {// only closes if discard was successful
+                numSheep = 0;
+                numWood = 0;
+                numOre = 0;
+                numBrick = 0;
+                numWheat = 0;
                 getDiscardView().closeModal();
+            }
 	}
         
         public void updateValues() {
@@ -139,7 +135,7 @@ public class DiscardController extends Controller implements IDiscardController 
             int total = numWood + numWheat + numOre + numBrick + numSheep;
             
             view.setStateMessage(String.valueOf(total) + " / " + String.valueOf(
-                    singleton.getClientPlayer().getHandSize()));
+                    singleton.getClientPlayer().getHandSize()/2));
         }
 
 }

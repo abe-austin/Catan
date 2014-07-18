@@ -79,10 +79,7 @@ public class LoginController extends Controller implements ILoginController {
 			loginAction.execute();
 			
 		} else {
-			//display error message
-			MessageView errorView = new MessageView();
-			errorView.setTitle("Login Error");
-			errorView.setMessage("Login failed - invalid username or password");
+			loginFailed("Login Errore", "Login failed - invalid username or password");
 		}
 	}
 
@@ -100,11 +97,21 @@ public class LoginController extends Controller implements ILoginController {
 			loginAction.execute();
 			
 		} else {
-			//display error message
-			MessageView errorView = new MessageView();
-			errorView.setTitle("Login Error");
-			errorView.setMessage("Login failed - invalid username or password");
+			loginFailed("Login Error", "Login failed - invalid username or password");
 		}
+	}
+	/**
+	 * creates and shows client an error message when login is not successful
+	 * @param title
+	 * @param message
+	 */
+	
+	public void loginFailed(String title, String message) {
+		
+		MessageView errorView = new MessageView();
+		errorView.setTitle(title);
+		errorView.setMessage(message);
+		errorView.setVisible(true);
 	}
 }
 
