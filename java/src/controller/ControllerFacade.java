@@ -15,6 +15,7 @@ import game.board.Corner;
 import game.board.Edge;
 import game.board.HexTile;
 import game.board.PortTile;
+import game.cards.CardOwner;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -25,8 +26,8 @@ import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.GameState;
 import shared.definitions.PieceType;
-import shared.definitions.PortType;
 import shared.definitions.ResourceType;
+import shared.definitions.SpecialCardType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
@@ -58,7 +59,7 @@ public class ControllerFacade {
     private ControllerFacade(){
         setupController= new SetupController();
         gamePlayController = new GamePlayController(clientPlayer);
-clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
+        clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         tradeController= new TradeController(clientPlayer);
         gameInfoController= new GameInfoController();
         currentGameModel= new GameModel();
@@ -69,11 +70,10 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         startPolling();
     }
     
-    
      /**
      * 
      */
-    public void startPolling(){
+    public final void startPolling(){
         timer= new Timer();
         timer.scheduleAtFixedRate(new TimerTask(){
             @Override
@@ -89,13 +89,13 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
      * replaces the current gameModel with the new GameModel
      * @param gameModel 
      */
-    public void switchGameModel(GameModel gameModel){
-        currentGameModel=gameModel;
+    public final void switchGameModel(GameModel gameModel){
+        currentGameModel = gameModel;
     }
     /**
      * reassigns the controllers after the gameModel is replaced
      */
-    public void reassignControllers(){
+    public final void reassignControllers(){
         gamePlayController.switchGameModel(currentGameModel);
         tradeController.switchGameModel(currentGameModel);
         setupController.switchGameModel(currentGameModel);
@@ -118,12 +118,40 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         return clientPlayer;
     }
     
+    /**
+     * This exchanges a Resource between two card owners
+     *
+     * @param receiver
+     * @param giver
+     * @param resource card type
+     * @pre giver has resource card of given type
+     * @post receiver has resource card of given type
+     */
+    public void changeOwnerResource(CardOwner receiver, CardOwner giver, ResourceType resource) {
+        gamePlayController.changeOwnerResource(receiver, giver, resource);
+    }
+
+    /**
+     * This exchanges a Special Card between two card owners
+     *
+     * @param receiver
+     * @param giver
+     * @param special card type
+     * @pre giver has special card of given type
+     * @post receiver has special card of given type
+     */
+    public void changeOwnerSpecial(CardOwner receiver, CardOwner giver, SpecialCardType special) {
+        gamePlayController.changeOwnerSpecial(receiver, giver, special);
+    }
+    
+    
     //gamehistory is empty
 
     //buyDevCards is empty
     
         /**
 	 * This method displays the "buy dev card" view.
+         * @return true if player has enough resources to buy devCard
 	 */
 	public boolean startBuyCard(){//DevCardController --goes in GamePlay !!Not sure it is needed
             switch(gameState){
@@ -140,10 +168,10 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	public void cancelBuyCard(){
             switch(gameState){
                 case GamePlay:
-                    return;
+                    
                 default:
-                    return;
             }
+            
         }//DevCardController --goes in GamePlay !!Not sure it is needed
 	
 	/**
@@ -160,6 +188,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	
 	/**
 	 * This method displays the "play dev card" view.
+         * @return list of player's current devCards
 	 */
 	public ArrayList<DevCardType> startPlayCard(){
             switch(gameState){
@@ -239,6 +268,8 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	 * This method is called when the user increases the amount of the specified resource.
 	 * 
 	 * @param resource The resource that was increased
+         * @param number current number of cards to discard before change
+         * @return true if player has more of given resource type
 	 */
 	public boolean increaseAmount(ResourceType resource, int number){//DiscardController --goes in GamePlay
             switch(gameState){
@@ -253,6 +284,8 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	 * This method is called when the user decreases the amount of the specified resource.
 	 * 
 	 * @param resource The resource that was decreased
+         * @param number current number of cards to discard before change
+         * @return true if number > 0
 	 */
 	public boolean decreaseAmount(ResourceType resource, int number){//DiscardController --goes in GamePlay
             return gamePlayController.decreaseAmount(resource, number);
@@ -260,6 +293,8 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	
 	/**
 	 * This method is called when the user clicks the discard button.
+         * @param toDiscard resource list to discard
+         * @return true if discard happened, false if not enough cards for discard
 	 */
 	public boolean discard(ArrayList<ResourceType> toDiscard){//DiscardController --goes in GamePlay
             switch(gameState){
@@ -271,6 +306,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         }
         /**
 	 * Called by the domestic trade view when the user clicks the domestic trade button.
+         * @return 
 	 */
 	public ArrayList<ResourceType> domesticStartTrade(){//DomesticTradeController --goes in Trade
             switch(gameState){
@@ -1068,6 +1104,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	 * This method is called by the Rob View when a player to rob is selected via a button click.
 	 * 
 	 * @param victim The player to be robbed
+         * @post client player receives Resource Card from victim at random
 	 */
 	public void robPlayer(RobPlayerInfo victim){//MapController --goes in GamePlay
             switch(gameState){
@@ -1081,6 +1118,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         
         /**
 	 * Called by the view then the user requests to build a road
+         * @return true if player has enough resources and an available road
 	 */
 	public boolean buildRoad(){//ResourceBarController --goes in GamePlay
             switch(gameState){
@@ -1093,6 +1131,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	
 	/**
 	 * Called by the view then the user requests to build a settlement
+         * @return true if player has enough resources and an available settlement
 	 */
 	public boolean buildSettlement(){//ResourceBarController --goes in GamePlay
             switch(gameState){
@@ -1105,6 +1144,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 
 	/**
 	 * Called by the view then the user requests to build a city
+         * @return true if player has enough resources and an available city
 	 */
 	public boolean buildCity(){//ResourceBarController --goes in GamePlay
             switch(gameState){
@@ -1117,6 +1157,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	
 	/**
 	 * Called by the view then the user requests to play a card
+         * @return true if player has at least one devCard
 	 */
 	public boolean playCard(){//ResourceBarController --goes in GamePlay
             switch(gameState){
@@ -1128,6 +1169,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         }
         /**
 	 * Called when the user clicks the "Roll!" button in the roll view
+         * @return dice roll value (2-12)
 	 */
 
 	public int rollDice(){//RollController --goes in GamePlay

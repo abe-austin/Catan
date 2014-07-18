@@ -54,12 +54,9 @@ class GamePlayController {
      *   resources to buy a dev card.
      */
     public boolean startBuyCard() {
-        if(player.hasResource(ResourceType.WHEAT) && 
+        return (player.hasResource(ResourceType.WHEAT) && 
            player.hasResource(ResourceType.SHEEP) && 
-           player.hasResource(ResourceType.ORE))
-            return true;
-        else
-            return false;
+           player.hasResource(ResourceType.ORE));
     }
 
     /**
@@ -124,10 +121,10 @@ class GamePlayController {
     /**
      * This method is called when the user plays a soldier development card.
      * @pre player has soldier development card
+     * @post player has one less soldier card, robber has been moved
      */
     public void playSoldierCard() {                                             // DevCardController
         player.giveDevelopmentCard(DevCardType.SOLDIER);
-        // mapController.moveRobber(player);
     }
 
     /**
@@ -148,10 +145,7 @@ class GamePlayController {
      * @param resource The resource that was increased
      */
     public boolean increaseAmount(ResourceType resource, int number) {          // DiscardController
-        if(player.hasResource(resource, number+1))
-            return true;
-        else
-            return false;
+        return (player.hasResource(resource, number+1));
     }
     
     /**
@@ -160,10 +154,7 @@ class GamePlayController {
 	 * @param resource The resource that was decreased
 	 */
 	public boolean decreaseAmount(ResourceType resource, int number){       // DiscardController
-            if(number > 0)
-                return true;
-            else 
-                return false;
+            return (number > 0);
         }
 
     /**
@@ -356,39 +347,29 @@ class GamePlayController {
      * Called by the view then the user requests to build a road
      */
     public boolean buildRoad() {                                                // ResourceBarController
-        if(player.hasAvailableBoardPiece(PieceType.ROAD) &&
+        return (player.hasAvailableBoardPiece(PieceType.ROAD) &&
                 player.hasResource(ResourceType.BRICK) &&
-                player.hasResource(ResourceType.WOOD))
-            return true;
-        else
-            return false;
+                player.hasResource(ResourceType.WOOD));
     }
 
     /**
      * Called by the view then the user requests to build a settlement
      */
     public boolean buildSettlement() {                                          // ResourceBarController
-        if(player.hasAvailableBoardPiece(PieceType.SETTLEMENT) &&
+        return (player.hasAvailableBoardPiece(PieceType.SETTLEMENT) &&
                 player.hasResource(ResourceType.WHEAT) &&
                 player.hasResource(ResourceType.SHEEP) &&
                 player.hasResource(ResourceType.BRICK) &&
-                player.hasResource(ResourceType.WOOD))
-            return true;
-        else
-            return false;
-            
+                player.hasResource(ResourceType.WOOD));
     }
 
     /**
      * Called by the view then the user requests to build a city
      */
     public boolean buildCity() {                                                // ResourceBarController
-        if(player.hasAvailableBoardPiece(PieceType.CITY) &&
+        return (player.hasAvailableBoardPiece(PieceType.CITY) &&
                 player.hasResource(ResourceType.WHEAT, 2) &&
-                player.hasResource(ResourceType.ORE, 3))
-            return true;
-        else
-            return false;
+                player.hasResource(ResourceType.ORE, 3));
     }
 
     /**
