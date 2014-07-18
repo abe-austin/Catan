@@ -60,12 +60,12 @@ public class ControllerFacade {
     private ControllerFacade(){
         setupController= new SetupController();
         gamePlayController = new GamePlayController(clientPlayer);
-        clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
+        clientPlayer=new Player(CatanColor.BLUE,null,1);//testing purposes
         tradeController= new TradeController(clientPlayer);
         gameInfoController= new GameInfoController();
         currentGameModel= new GameModel();
         serverPoller= new ServerPoller();
-        serverProxyFacade = new ServerProxyFacade(true);
+        serverProxyFacade = new ServerProxyFacade(false);
         gameState= GameState.Login;
         reassignControllers();
         startPolling();
