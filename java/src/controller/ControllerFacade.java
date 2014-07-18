@@ -7,7 +7,9 @@
 package controller;
 
 import client.base.IAction;
+import client.data.GameInfo;
 import client.data.RobPlayerInfo;
+import client.map.MapController;
 import client.serverProxy.ServerPoller;
 import client.serverProxy.ServerProxyFacade;
 import game.GameModel;
@@ -18,6 +20,7 @@ import game.board.PortTile;
 import game.cards.CardOwner;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -62,8 +65,8 @@ public class ControllerFacade {
     
     private ControllerFacade(){
         setupController = new SetupController();
-        gamePlayController = new GamePlayController(clientPlayer);
         clientPlayer = new Player(CatanColor.BLUE,null,1);//testing purposes
+        gamePlayController = new GamePlayController(clientPlayer);
         tradeController = new TradeController(clientPlayer);
         gameInfoController = new GameInfoController();
         currentGameModel = new GameModel();
@@ -114,8 +117,19 @@ public class ControllerFacade {
         return user;
     }
     
-    public void sendMessage(String message){//chat controller-- goes in gameInfo
-        
+    public void sendMessage(String message){
+	        switch(gameState){
+	        case Login:
+	            break;
+	        case JoinGame:
+	            break;
+	        case PlayerWaiting:
+	            break;
+	        case Setup:
+	        	serverProxyFacade.sendChat(clientPlayer.getIndex(), message);
+	        case GamePlay:
+	        	serverProxyFacade.sendChat(clientPlayer.getIndex(), message);
+	    }
     }
     
     public Player getClientPlayer() {
@@ -572,20 +586,27 @@ gameState=GameState.GamePlay;//for testing purposes
 	/**
 	 * Called by the new game view when the user clicks the "Create Game" button
 	 */
-	public void createNewGame(String title, boolean randomHexes, boolean randomNumbers, boolean randomPorts) { //JoinGameController --goes in Setup !!Not sure if needed
+	public GameInfo[] createNewGame(String title, boolean randomHexes, boolean randomNumbers, boolean randomPorts) { //JoinGameController --goes in Setup !!Not sure if needed
 		
 		switch (gameState) {
 		case Login:
 			break;
 		case JoinGame:
-			//create new game model
 			GameModel gameModel = new GameModel();
 			gameModel.setRandomHexes(randomHexes);
 			gameModel.setRandomNumbers(randomNumbers);
 			gameModel.setRandomPorts(randomPorts);
 			serverProxyFacade.createGame(title, randomHexes, randomNumbers, randomPorts);
-			setupController.createNewGame();
-			break;
+			
+			ServerResponse serverResponse  = serverProxyFacade.getAllGames();
+			GameInfo[] gameObjects = (GameInfo[]) serverResponse.getBody();
+			GameInfo[] games = new GameInfo[gameObjects.length];
+			
+			for(int i=0; i<gameObjects.length; i++) {
+				games[i] = (GameInfo) gameObjects[i];
+			}
+			
+			return games;
 		case PlayerWaiting:
 			break;
 		case Setup:
@@ -593,6 +614,7 @@ gameState=GameState.GamePlay;//for testing purposes
 		case GamePlay:
 			break;
 		}
+		return null;
     }
 		
 	/**
@@ -1088,5 +1110,9 @@ gameState=GameState.GamePlay;//for testing purposes
          */
         public void setRobberAction(IAction action) {
             gamePlayController.setRobberAction(action);
+        }
+        
+        public List<HexTile> updateMap(MapController mapControl) {
+        	return currentGameModel.getBoard().getHexes();
         }
 }
