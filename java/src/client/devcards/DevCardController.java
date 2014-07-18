@@ -33,6 +33,7 @@ public class DevCardController extends Controller implements IDevCardController 
 		this.buyCardView = buyCardView;
 		this.soldierAction = soldierAction;
 		this.roadAction = roadAction;
+                singleton.setRobberAction(soldierAction);
 	}
 
 	public IPlayDevCardView getPlayCardView() {

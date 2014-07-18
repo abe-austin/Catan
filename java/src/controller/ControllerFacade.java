@@ -6,6 +6,7 @@
 
 package controller;
 
+import client.base.IAction;
 import client.data.GameInfo;
 import client.data.RobPlayerInfo;
 import client.serverProxy.ServerPoller;
@@ -1229,5 +1230,14 @@ gameState=GameState.GamePlay;//for testing purposes
                 default:
                     return -1;
             }
+        }
+        
+        /**
+         * Allows access to robber/soldier action
+         * 
+         * @param action 
+         */
+        public void setRobberAction(IAction action) {
+            gamePlayController.setRobberAction(action);
         }
 }
