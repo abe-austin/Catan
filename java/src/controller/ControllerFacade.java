@@ -84,7 +84,7 @@ public class ControllerFacade {
             public void run() {
                 serverPoller.poll();
                 switchGameModel(serverPoller.getGameModel());
-                //reassignControllers();
+                reassignControllers();
                 //updateGui();
             }
         }, 1000, 1000);//timer to execute poll every second

@@ -59,7 +59,8 @@ public class CatanPanel extends JPanel
 		
                 MaritimeTradeOverlay maritimeTradeOverlay= new MaritimeTradeOverlay();
                 MaritimeTradeView maritimeTradeView= new MaritimeTradeView();
-                //MaritimeTradeController 
+                final MaritimeTradeController maritimeTradeController= new MaritimeTradeController(maritimeTradeView,maritimeTradeOverlay);
+                maritimeTradeView.setController(maritimeTradeController);
                 
 		JButton testButton = new JButton("Test");
 		testButton.addActionListener(new ActionListener() {
@@ -89,30 +90,32 @@ public class CatanPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				discardView.setResourceMaxAmount(ResourceType.WOOD, 1);
-				discardView.setResourceMaxAmount(ResourceType.BRICK, 0);
-				discardView.setResourceMaxAmount(ResourceType.SHEEP, 11);
-				discardView.setResourceMaxAmount(ResourceType.WHEAT, 1);
-				discardView.setResourceMaxAmount(ResourceType.ORE, 0);
-				
-				discardView.setResourceAmountChangeEnabled(ResourceType.WOOD, true, false);
-				discardView.setResourceAmountChangeEnabled(ResourceType.SHEEP, true, false);
-				discardView.setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
-				
-				discardView.setStateMessage("0/6");
-				
-				discardView.setDiscardButtonEnabled(true);
-				
-				if(state == 0)
-				{
-					discardView.showModal();
-					state = 1;
-				}
-				else if(state == 1)
-				{
-					discardWaitView.showModal();
-					state = 2;
-				}
+                            
+                            maritimeTradeController.startTrade();
+//				discardView.setResourceMaxAmount(ResourceType.WOOD, 1);
+//				discardView.setResourceMaxAmount(ResourceType.BRICK, 0);
+//				discardView.setResourceMaxAmount(ResourceType.SHEEP, 11);
+//				discardView.setResourceMaxAmount(ResourceType.WHEAT, 1);
+//				discardView.setResourceMaxAmount(ResourceType.ORE, 0);
+//				
+//				discardView.setResourceAmountChangeEnabled(ResourceType.WOOD, true, false);
+//				discardView.setResourceAmountChangeEnabled(ResourceType.SHEEP, true, false);
+//				discardView.setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
+//				
+//				discardView.setStateMessage("0/6");
+//				
+//				discardView.setDiscardButtonEnabled(true);
+//				
+//				if(state == 0)
+//				{
+//					discardView.showModal();
+//					state = 1;
+//				}
+//				else if(state == 1)
+//				{
+//					discardWaitView.showModal();
+//					state = 2;
+//				}
 			}
 		});
 		this.add(testButton, BorderLayout.SOUTH);
