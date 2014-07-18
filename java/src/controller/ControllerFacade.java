@@ -6,7 +6,6 @@
 
 package controller;
 
-import client.data.GameInfo;
 import client.data.RobPlayerInfo;
 import client.serverProxy.ServerPoller;
 import client.serverProxy.ServerProxyFacade;
@@ -22,6 +21,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import player.Player;
+import shared.communication.ServerResponse;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.GameState;
@@ -32,6 +32,7 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import system.User;
+
 
 /**
  *
@@ -59,7 +60,7 @@ public class ControllerFacade {
     private ControllerFacade(){
         setupController= new SetupController();
         gamePlayController = new GamePlayController(clientPlayer);
-        clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
+        clientPlayer = new Player(CatanColor.BLUE, null, 1);//testing purposes
         tradeController= new TradeController(clientPlayer);
         gameInfoController= new GameInfoController();
         currentGameModel= new GameModel();
@@ -633,69 +634,12 @@ gameState=GameState.GamePlay;//for testing purposes
                     break;
             }
         }
-        /**
-	 * Displays the join game view
-	 */
-	public void joinGameStart(){//JoinGameController --goes in Setup !!Not sure if needed
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                	setupController.joingGameStart();
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
-	 * Called by the join game view when the user clicks "Create new game" button.
-	 * Displays the new game view.
-	 */
-	public void startCreateNewGame(){//JoinGameController --goes in Setup !!Not sure if needed
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                	setupController.startCreateNewGame();
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
-	 * Called by the new game view when the user clicks the "Cancel" button
-	 */
-	public void cancelCreateNewGame(){//JoinGameController --goes in Setup !!Not sure if needed
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                	setupController.cancelCreateNewGame();
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
 	
 	/**
 	 * Called by the new game view when the user clicks the "Create Game" button
 	 */
-	public void createNewGame(){//JoinGameController --goes in Setup !!Not sure if needed
-            switch(gameState){
+	public void createNewGame() { //JoinGameController --goes in Setup !!Not sure if needed
+            switch(gameState) {
                 case Login:
                     break;
                 case JoinGame:
@@ -708,60 +652,18 @@ gameState=GameState.GamePlay;//for testing purposes
                 case GamePlay:
                     break;
             }
-        }
-	
-	/**
-	 * Called by the join game view when the user clicks a "Join" or "Re-join" button.
-	 * Displays the select color view.
-	 * 
-	 * @param game The game that the user is joining
-	 */
-	public void startJoinGame(GameInfo game){//JoinGameController --goes in Setup !!Not sure if needed
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                	setupController.startJoingGame(game);
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
-	 * Called by the select color view when the user clicks the "Cancel" button
-	 */
-	public void cancelJoinGame(){//JoinGameController --goes in Setup !!Not sure if needed
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                	setupController.cancelJoinGame();
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
+    }
+		
 	/**
 	 * Called by the select color view when the user clicks the "Join Game" button
-	 * 
 	 * @param color The color selected by the user
 	 */
-	public void joinGame(CatanColor color){//JoinGameController --goes in Setup
-            switch(gameState){
+	public void joinGame(CatanColor color) { //JoinGameController --goes in Setup
+            switch(gameState) {
                 case Login:
                     break;
                 case JoinGame:
-                	User user = new User();
+                	//create player here with color
                 	setupController.joinGame(color, user);
                     break;
                 case PlayerWaiting:
@@ -771,12 +673,13 @@ gameState=GameState.GamePlay;//for testing purposes
                 case GamePlay:
                     break;
             }
-        }
+     }
+	
         /**
 	 * Displays the player waiting view
 	 */
-	public void playerWaitingStart(){//PlayerWaitingController --goes in Setup !!Not sure if needed
-            switch(gameState){
+	public void playerWaitingStart() { //PlayerWaitingController --goes in Setup !!Not sure if needed
+            switch(gameState) {
                 case Login:
                     break;
                 case JoinGame:
@@ -789,19 +692,20 @@ gameState=GameState.GamePlay;//for testing purposes
                 case GamePlay:
                     break;
             }
-        }
+    }
 	
 	/**
 	 * Called when the "Add AI" button is clicked in the player waiting view
 	 */
-	public void addAI(){//PlayerWaitingController --goes in Setup
-            switch(gameState){
+	public void addAI() { //PlayerWaitingController --goes in Setup
+            switch(gameState) {
                 case Login:
                     break;
                 case JoinGame:
                     break;
                 case PlayerWaiting:
                 	String AIType = null;
+                	serverProxyFacade.addAI(AIType);
                 	setupController.addAI(AIType);
                     break;
                 case Setup:
@@ -809,35 +713,22 @@ gameState=GameState.GamePlay;//for testing purposes
                 case GamePlay:
                     break;
             }
-        }
-        /**
-	 * Displays the login view
-	 */
-	public void loginStart(){//LoginController --goes in Setup !!Not sure if needed
-            switch(gameState){
-                case Login:
-                	setupController.loginStart();
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
+    }
+
 	/**
 	 * Called when the user clicks the "Sign in" button in the login view
 	 */
-	public void signIn(){//LoginController --goes in Setup
+	public boolean signIn(String username, String password) { //LoginController --goes in Setup
             switch(gameState){
                 case Login:
-                	String username = "";
-                	String password = "";
-                	setupController.signIn(username, password);
+                	ServerResponse serverResponse = serverProxyFacade.loginUser(username, password);
+                	if(serverResponse.getCode() == 200) {
+                		//assign user;
+                		return true;
+                		
+                	} else {
+                		//check body for error type. return false;
+                	}
                     break;
                 case JoinGame:
                     break;
@@ -848,18 +739,25 @@ gameState=GameState.GamePlay;//for testing purposes
                 case GamePlay:
                     break;
             }
-        }
+            
+			return false;
+    }
 	
 	/**
 	 * Called when the user clicks the "Register" button in the login view
 	 */
-	public void register(){//LoginController --goes in Setup
+	public boolean register(String username, String password) { //LoginController --goes in Setup
             switch(gameState){
                 case Login:
-                	String username = "";
-                	String password = "";
-                	setupController.register(username, password);
-                    break;
+                	ServerResponse serverResponse = serverProxyFacade.registerUser(username, password);
+                    if(serverResponse.getCode() == 200) {
+                    	//assign user;
+                    	return true;
+                    	
+                    } else {
+                    	//check body for error type. return false;
+                    }
+                	break;
                 case JoinGame:
                     break;
                 case PlayerWaiting:
@@ -869,7 +767,8 @@ gameState=GameState.GamePlay;//for testing purposes
                 case GamePlay:
                     break;
             }
-        }
+            return false;
+	}
 	
 	public int getPortType(int x, int y) {
 		PortTile hTile = (PortTile) gamePlayController.getGameModel().getBoard().getHexTileAt(x, y);

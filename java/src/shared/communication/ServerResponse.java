@@ -25,7 +25,5 @@ public class ServerResponse {
 	
 	public void setBody(Object body) {
 		this.body = body;
-	}
-	
-	
+	}	
 }

@@ -62,32 +62,43 @@ public class LoginController extends Controller implements ILoginController {
 	@Override
 	public void start() {
 		
-		ControllerFacade.getSingleton().loginStart();
 		getLoginView().showModal();
 	}
 
 	@Override
 	public void signIn() {
 		
-		ControllerFacade.getSingleton().signIn();
-		// TODO: log in user
+		// log in user
+		String username = getLoginView().getLoginUsername();
+		String password = getLoginView().getLoginPassword();
+		boolean success = ControllerFacade.getSingleton().signIn(username, password);
 		
-
 		// If log in succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
+		if(success) {
+			getLoginView().closeModal();
+			loginAction.execute();
+			
+		} else {
+			//display error message
+		}
 	}
 
 	@Override
 	public void register() {
 		
-		ControllerFacade.getSingleton().register();
-		// TODO: register new user (which, if successful, also logs them in)
+		//register new user (which, if successful, also logs them in)
+		String username = getLoginView().getRegisterUsername();
+		String password = getLoginView().getRegisterPassword();
+		boolean success = ControllerFacade.getSingleton().register(username, password);
 		
 		// If register succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
+		if(success) {
+			getLoginView().closeModal();
+			loginAction.execute();
+			
+		} else {
+			//display error message
+		}
 	}
-
 }
 

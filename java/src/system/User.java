@@ -4,9 +4,14 @@ package system;
  * @author Kevin MacMaster
  */
 public class User {
+	
     private Username username;
     private Password password;
     private int id;
+    
+    public User() {
+    	
+    }
 
     /**
      * @return the username
@@ -48,7 +53,5 @@ public class User {
      */
     public void setId(int id) {
         this.id = id;
-    }
-
-    
+    }  
 }
