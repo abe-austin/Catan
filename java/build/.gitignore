@@ -1,4 +1,8 @@
+
+/client
 /controller
-/system
-/player
 /game
+/mainTest
+/player
+/shared
+
