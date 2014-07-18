@@ -12,6 +12,12 @@ public class User {
     public User() {
     	
     }
+    
+    public User(Username username, Password password, int id) {
+    	this.username = username;
+    	this.password = password;
+    	this.id = id;
+    }
 
     /**
      * @return the username

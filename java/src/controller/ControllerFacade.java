@@ -5,8 +5,8 @@
  */
 
 package controller;
+
 import client.base.IAction;
-import client.data.GameInfo;
 import client.data.RobPlayerInfo;
 import client.serverProxy.ServerPoller;
 import client.serverProxy.ServerProxyFacade;
@@ -32,7 +32,9 @@ import shared.definitions.SpecialCardType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import system.Password;
 import system.User;
+import system.Username;
 
 
 /**
@@ -59,15 +61,15 @@ public class ControllerFacade {
     private Player clientPlayer;
     
     private ControllerFacade(){
-        setupController= new SetupController();
+        setupController = new SetupController();
         gamePlayController = new GamePlayController(clientPlayer);
-        clientPlayer=new Player(CatanColor.BLUE,null,1);//testing purposes
-        tradeController= new TradeController(clientPlayer);
-        gameInfoController= new GameInfoController();
-        currentGameModel= new GameModel();
-        serverPoller= new ServerPoller();
+        clientPlayer = new Player(CatanColor.BLUE,null,1);//testing purposes
+        tradeController = new TradeController(clientPlayer);
+        gameInfoController = new GameInfoController();
+        currentGameModel = new GameModel();
+        serverPoller = new ServerPoller();
         serverProxyFacade = new ServerProxyFacade(false);
-        gameState= GameState.Login;
+        gameState = GameState.Login;
         reassignControllers();
         startPolling();
     }
@@ -664,8 +666,8 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Login:
                     break;
                 case JoinGame:
-                	//create player here with color
-                	setupController.joinGame(color, user);
+                	clientPlayer = new Player(color, user, 1); //fix index!!!
+//                	setupController.joinGame(color, user);
                     break;
                 case PlayerWaiting:
                     break;
@@ -676,7 +678,7 @@ gameState=GameState.GamePlay;//for testing purposes
             }
      }
 	
-        /**
+     /**
 	 * Displays the player waiting view
 	 */
 	public void playerWaitingStart() { //PlayerWaitingController --goes in Setup !!Not sure if needed
@@ -724,7 +726,9 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Login:
                 	ServerResponse serverResponse = serverProxyFacade.loginUser(username, password);
                 	if(serverResponse.getCode() == 200) {
-                		//assign user;
+                		int id = (int) serverResponse.getBody();
+                		User user = new User(new Username(username), new Password(password), id);
+                		this.user = user;
                 		return true;
                 		
                 	} else {
@@ -752,7 +756,9 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Login:
                 	ServerResponse serverResponse = serverProxyFacade.registerUser(username, password);
                     if(serverResponse.getCode() == 200) {
-                    	//assign user;
+                    	int id = (int) serverResponse.getBody();
+                		User user = new User(new Username(username), new Password(password), id);
+                		this.user = user;
                     	return true;
                     	
                     } else {

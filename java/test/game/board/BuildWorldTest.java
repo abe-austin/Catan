@@ -17,8 +17,8 @@ public class BuildWorldTest{
 	@Before
 	public void setUp() {
 		bModel = new BoardModel();
-		p1 = new Player(CatanColor.BLUE, new User());
-		p2 = new Player(CatanColor.RED, new User());
+		p1 = new Player(CatanColor.BLUE, new User(), 1);
+		p2 = new Player(CatanColor.RED, new User(), 1);
 		bModel.getHexTileAt(0, 0).buildSettlement(bModel.getHexTileAt(0, 0).northWestCorner, p1);
 		bModel.getHexTileAt(0, 0).buildSettlement(bModel.getHexTileAt(0, 0).eastCorner, p2);
 	}
