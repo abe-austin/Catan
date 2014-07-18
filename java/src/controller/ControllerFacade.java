@@ -871,18 +871,11 @@ gameState=GameState.GamePlay;//for testing purposes
 	 */
 	public boolean canPlaceCity(VertexLocation vertLoc){//MapController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    return false;
-                case JoinGame:
-                    return false;
-                case PlayerWaiting:
-                    return false;
-                case Setup:
-                    return false;
                 case GamePlay:
                     return gamePlayController.canPlaceCity(vertLoc);
+                default:
+                    return false;
             }
-            return false;
         }
 	
 	/**
@@ -895,18 +888,11 @@ gameState=GameState.GamePlay;//for testing purposes
 	 */
 	public boolean canPlaceRobber(HexLocation hexLoc){//MapController --goes in GamePlay
             switch(gameState){
-                case Login:
-                	return false;
-                case JoinGame:
-                    return false;
-                case PlayerWaiting:
-                    return false;
-                case Setup:
-                    return false;
                 case GamePlay:
                     gamePlayController.canPlaceRobber(hexLoc);
+                default:
+                    return false;
             }
-            return false;
         }
 	
 	/**
@@ -916,14 +902,6 @@ gameState=GameState.GamePlay;//for testing purposes
 	 */
 	public void placeRoad(EdgeLocation edgeLoc){//MapController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
                 	HexTile theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(edgeLoc.getHexLoc().getX(), edgeLoc.getHexLoc().getY());
                 	Edge e = null;
@@ -939,6 +917,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 	gamePlayController.placeRoad(edgeLoc);
                 	serverProxyFacade.buildRoad(0, e);
                 	break;
+                default:
             }
         }
 	
@@ -949,14 +928,6 @@ gameState=GameState.GamePlay;//for testing purposes
 	 */
 	public void placeSettlement(VertexLocation vertLoc){//MapController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
                 	HexTile theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(vertLoc.getHexLoc().getX(), vertLoc.getHexLoc().getY());
                 	Corner c = null;
@@ -972,6 +943,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 	gamePlayController.placeSettlement(vertLoc);
                 	serverProxyFacade.buildSettlement(0, c, true);//I say true because ensuring the corner is free is part of the canBuildSettlement() check
                 	break;
+                default:
             }
         }
 	
@@ -982,14 +954,6 @@ gameState=GameState.GamePlay;//for testing purposes
 	 */
 	public void placeCity(VertexLocation vertLoc){//MapController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
                 	HexTile theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(vertLoc.getHexLoc().getX(), vertLoc.getHexLoc().getY());
                 	Corner c = null;
@@ -1005,6 +969,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 	gamePlayController.placeCity(vertLoc);
                 	serverProxyFacade.buildCity(0, c, true);//I say true because I assume this means from from another City, not settlement
                 	break;
+                default:
             }
         }
 	
@@ -1015,17 +980,9 @@ gameState=GameState.GamePlay;//for testing purposes
 	 */
 	public void placeRobber(HexLocation hexLoc){//MapController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
                 	//ServerProxy does not have a method to move the robber
-                	break;
+                default:
             }
         }
 	
@@ -1040,16 +997,9 @@ gameState=GameState.GamePlay;//for testing purposes
 	 */
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected){//MapController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
                 	gamePlayController.startMove(pieceType, isFree, allowDisconnected);
+                default:
             }
         }
 	
@@ -1058,16 +1008,9 @@ gameState=GameState.GamePlay;//for testing purposes
 	 */
 	public void cancelMove(){//MapController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
                 	gamePlayController.cancelMove();
+                default:
             }
         }
 	
@@ -1077,16 +1020,9 @@ gameState=GameState.GamePlay;//for testing purposes
 	 */
 	public void playRoadBuildingCard(){//MapController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    gamePlayController.playRoadBuildingCard();
+                default:
             }
         }
 	
@@ -1097,16 +1033,9 @@ gameState=GameState.GamePlay;//for testing purposes
 	 */
 	public void robPlayer(RobPlayerInfo victim){//MapController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    gamePlayController.robPlayer(victim);
+                default:
             }
         }
         
@@ -1115,90 +1044,60 @@ gameState=GameState.GamePlay;//for testing purposes
         /**
 	 * Called by the view then the user requests to build a road
 	 */
-	public void buildRoad(){//ResourceBarController --goes in GamePlay
+	public boolean buildRoad(){//ResourceBarController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    return gamePlayController.buildRoad();
+                default:
+                    return false;
             }
         }
 	
 	/**
 	 * Called by the view then the user requests to build a settlement
 	 */
-	public void buildSettlement(){//ResourceBarController --goes in GamePlay
+	public boolean buildSettlement(){//ResourceBarController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    return gamePlayController.buildSettlement();
+                default:
+                    return false;
             }
         }
 
 	/**
 	 * Called by the view then the user requests to build a city
 	 */
-	public void buildCity(){//ResourceBarController --goes in GamePlay
+	public boolean buildCity(){//ResourceBarController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    return gamePlayController.buildCity();
+                default:
+                    return false;
             }
         }
 	
 	/**
 	 * Called by the view then the user requests to play a card
 	 */
-	public void playCard(){//ResourceBarController --goes in GamePlay
+	public boolean playCard(){//ResourceBarController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    return gamePlayController.playCard();
+                default:
+                    return false;
             }
         }
         /**
 	 * Called when the user clicks the "Roll!" button in the roll view
 	 */
 
-	public void rollDice(){//RollController --goes in GamePlay
+	public int rollDice(){//RollController --goes in GamePlay
             switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
                 case GamePlay:
-                    break;
+                    return gamePlayController.rollDice();
+                default:
+                    return -1;
             }
         }
         /**

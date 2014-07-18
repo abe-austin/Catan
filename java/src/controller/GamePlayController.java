@@ -7,6 +7,7 @@ import game.cards.DevelopmentCard;
 import game.cards.ResourceCard;
 import game.pieces.BoardPiece;
 import java.util.ArrayList;
+import java.util.Random;
 import player.Player;
 import shared.definitions.DevCardType;
 import shared.definitions.PieceType;
@@ -354,35 +355,54 @@ class GamePlayController {
     /**
      * Called by the view then the user requests to build a road
      */
-    public void buildRoad() {                                                   // ResourceBarController
-        
+    public boolean buildRoad() {                                                // ResourceBarController
+        if(player.hasAvailableBoardPiece(PieceType.ROAD) &&
+                player.hasResource(ResourceType.BRICK) &&
+                player.hasResource(ResourceType.WOOD))
+            return true;
+        else
+            return false;
     }
 
     /**
      * Called by the view then the user requests to build a settlement
      */
-    public void buildSettlement() {                                             // ResourceBarController
-
+    public boolean buildSettlement() {                                          // ResourceBarController
+        if(player.hasAvailableBoardPiece(PieceType.SETTLEMENT) &&
+                player.hasResource(ResourceType.WHEAT) &&
+                player.hasResource(ResourceType.SHEEP) &&
+                player.hasResource(ResourceType.BRICK) &&
+                player.hasResource(ResourceType.WOOD))
+            return true;
+        else
+            return false;
+            
     }
 
     /**
      * Called by the view then the user requests to build a city
      */
-    void buildCity() {                                                          // ResourceBarController
-        
+    public boolean buildCity() {                                                // ResourceBarController
+        if(player.hasAvailableBoardPiece(PieceType.CITY) &&
+                player.hasResource(ResourceType.WHEAT, 2) &&
+                player.hasResource(ResourceType.ORE, 3))
+            return true;
+        else
+            return false;
     }
 
     /**
      * Called by the view then the user requests to play a card
      */
-    public void playCard() {                                                    // ResourceBarController
-        
+    public boolean playCard() {                                                    // ResourceBarController
+        return !player.getDevelopmentCards().isEmpty();
     }
 
     /**
      * Called when the user clicks the "Roll!" button in the roll view
      */
-    public void rollDice() {                                                    // RollController
-        
+    public int rollDice() {                                                    // RollController
+        Random rand = new Random();
+        return (rand.nextInt() % 6 + 1 ) + (rand.nextInt() % 6 + 1); 
     }
 }
