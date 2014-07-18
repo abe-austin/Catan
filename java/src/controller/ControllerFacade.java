@@ -717,11 +717,12 @@ gameState=GameState.GamePlay;//for testing purposes
 	 * 
 	 * @param color The color selected by the user
 	 */
-	public void joinGame(CatanColor color, User user){//JoinGameController --goes in Setup
+	public void joinGame(CatanColor color){//JoinGameController --goes in Setup
             switch(gameState){
                 case Login:
                     break;
                 case JoinGame:
+                	User user = new User();
                 	setupController.joinGame(color, user);
                     break;
                 case PlayerWaiting:
@@ -754,13 +755,14 @@ gameState=GameState.GamePlay;//for testing purposes
 	/**
 	 * Called when the "Add AI" button is clicked in the player waiting view
 	 */
-	public void addAI(String AIType){//PlayerWaitingController --goes in Setup
+	public void addAI(){//PlayerWaitingController --goes in Setup
             switch(gameState){
                 case Login:
                     break;
                 case JoinGame:
                     break;
                 case PlayerWaiting:
+                	String AIType = null;
                 	setupController.addAI(AIType);
                     break;
                 case Setup:
@@ -791,9 +793,11 @@ gameState=GameState.GamePlay;//for testing purposes
 	/**
 	 * Called when the user clicks the "Sign in" button in the login view
 	 */
-	public void signIn(String username, String password){//LoginController --goes in Setup
+	public void signIn(){//LoginController --goes in Setup
             switch(gameState){
                 case Login:
+                	String username;
+                	String password;
                 	setupController.signIn(username, password);
                     break;
                 case JoinGame:
@@ -810,9 +814,11 @@ gameState=GameState.GamePlay;//for testing purposes
 	/**
 	 * Called when the user clicks the "Register" button in the login view
 	 */
-	public void register(String username, String password){//LoginController --goes in Setup
+	public void register(){//LoginController --goes in Setup
             switch(gameState){
                 case Login:
+                	String username;
+                	String password;
                 	setupController.register(username, password);
                     break;
                 case JoinGame:
