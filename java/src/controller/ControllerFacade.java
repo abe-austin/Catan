@@ -14,15 +14,20 @@ import game.GameModel;
 import game.board.Corner;
 import game.board.Edge;
 import game.board.HexTile;
+import game.board.PortTile;
+import game.cards.CardOwner;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import player.Player;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.GameState;
 import shared.definitions.PieceType;
 import shared.definitions.ResourceType;
+import shared.definitions.SpecialCardType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
@@ -54,7 +59,7 @@ public class ControllerFacade {
     private ControllerFacade(){
         setupController= new SetupController();
         gamePlayController = new GamePlayController(clientPlayer);
-clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
+        clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         tradeController= new TradeController(clientPlayer);
         gameInfoController= new GameInfoController();
         currentGameModel= new GameModel();
@@ -65,11 +70,10 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         startPolling();
     }
     
-    
      /**
      * 
      */
-    public void startPolling(){
+    public final void startPolling(){
         timer= new Timer();
         timer.scheduleAtFixedRate(new TimerTask(){
             @Override
@@ -85,13 +89,13 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
      * replaces the current gameModel with the new GameModel
      * @param gameModel 
      */
-    public void switchGameModel(GameModel gameModel){
-        currentGameModel=gameModel;
+    public final void switchGameModel(GameModel gameModel){
+        currentGameModel = gameModel;
     }
     /**
      * reassigns the controllers after the gameModel is replaced
      */
-    public void reassignControllers(){
+    public final void reassignControllers(){
         gamePlayController.switchGameModel(currentGameModel);
         tradeController.switchGameModel(currentGameModel);
         setupController.switchGameModel(currentGameModel);
@@ -114,12 +118,40 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         return clientPlayer;
     }
     
+    /**
+     * This exchanges a Resource between two card owners
+     *
+     * @param receiver
+     * @param giver
+     * @param resource card type
+     * @pre giver has resource card of given type
+     * @post receiver has resource card of given type
+     */
+    public void changeOwnerResource(CardOwner receiver, CardOwner giver, ResourceType resource) {
+        gamePlayController.changeOwnerResource(receiver, giver, resource);
+    }
+
+    /**
+     * This exchanges a Special Card between two card owners
+     *
+     * @param receiver
+     * @param giver
+     * @param special card type
+     * @pre giver has special card of given type
+     * @post receiver has special card of given type
+     */
+    public void changeOwnerSpecial(CardOwner receiver, CardOwner giver, SpecialCardType special) {
+        gamePlayController.changeOwnerSpecial(receiver, giver, special);
+    }
+    
+    
     //gamehistory is empty
 
     //buyDevCards is empty
     
         /**
 	 * This method displays the "buy dev card" view.
+         * @return true if player has enough resources to buy devCard
 	 */
 	public boolean startBuyCard(){//DevCardController --goes in GamePlay !!Not sure it is needed
             switch(gameState){
@@ -136,10 +168,10 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	public void cancelBuyCard(){
             switch(gameState){
                 case GamePlay:
-                    return;
+                    
                 default:
-                    return;
             }
+            
         }//DevCardController --goes in GamePlay !!Not sure it is needed
 	
 	/**
@@ -156,6 +188,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	
 	/**
 	 * This method displays the "play dev card" view.
+         * @return list of player's current devCards
 	 */
 	public ArrayList<DevCardType> startPlayCard(){
             switch(gameState){
@@ -235,6 +268,8 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	 * This method is called when the user increases the amount of the specified resource.
 	 * 
 	 * @param resource The resource that was increased
+         * @param number current number of cards to discard before change
+         * @return true if player has more of given resource type
 	 */
 	public boolean increaseAmount(ResourceType resource, int number){//DiscardController --goes in GamePlay
             switch(gameState){
@@ -249,6 +284,8 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	 * This method is called when the user decreases the amount of the specified resource.
 	 * 
 	 * @param resource The resource that was decreased
+         * @param number current number of cards to discard before change
+         * @return true if number > 0
 	 */
 	public boolean decreaseAmount(ResourceType resource, int number){//DiscardController --goes in GamePlay
             return gamePlayController.decreaseAmount(resource, number);
@@ -256,6 +293,8 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
 	
 	/**
 	 * This method is called when the user clicks the discard button.
+         * @param toDiscard resource list to discard
+         * @return true if discard happened, false if not enough cards for discard
 	 */
 	public boolean discard(ArrayList<ResourceType> toDiscard){//DiscardController --goes in GamePlay
             switch(gameState){
@@ -267,8 +306,9 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         }
         /**
 	 * Called by the domestic trade view when the user clicks the domestic trade button.
+         * @return 
 	 */
-	public void domesticStartTrade(){//DomesticTradeController --goes in Trade
+	public ArrayList<ResourceType> domesticStartTrade(){//DomesticTradeController --goes in Trade
             switch(gameState){
                 case Login:
                     break;
@@ -279,8 +319,10 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                    ArrayList<ResourceType> playerResourceTypes =tradeController.getPlayerResourceTypes();
+                    return playerResourceTypes;
             }
+            return null;
         }
 	
 	/**
@@ -356,7 +398,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
                     break;
                 case Setup:
                     break;
-                case GamePlay:
+                case GamePlay://Need to return that player or something...not sure how to get the player object from the index at this point though
                     break;
             }
         }
@@ -377,7 +419,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                	break;
             }
         }
 	
@@ -460,6 +502,7 @@ clientPlayer=new Player(CatanColor.BLUE,null);//testing purposes
         }
         /**
 	 * Called by the maritime trade view when the user clicks the maritime trade button.
+         * @return 
 	 */
 	public ArrayList<ArrayList<ResourceType>> maritimeStartTrade(){//MaritimeTradeController --goes in Trade
 gameState=GameState.GamePlay;//for testing purposes
@@ -473,12 +516,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Setup:
                     break;
                 case GamePlay:
-                    ArrayList<ResourceType> playerResourceTypes =tradeController.getPlayerResourceTypes();
-                    ArrayList<ResourceType> bankResourceTypes=tradeController.getBankResourceTypes();
-                    ArrayList< ArrayList<ResourceType>> resources=new ArrayList<>();
-                    resources.add(playerResourceTypes);
-                    resources.add(bankResourceTypes);
-                    return resources;               
+                    return tradeController.maritimeStartTrade();               
             }
             return null;
         }
@@ -544,7 +582,7 @@ gameState=GameState.GamePlay;//for testing purposes
 	 * 
 	 * @param resource The selected "give" resource
 	 */
-	public void setGiveResource(ResourceType resource){//MaritimeTradeController --goes in Trade
+	public int setGiveResource(ResourceType resource){//MaritimeTradeController --goes in Trade
             switch(gameState){
                 case Login:
                     break;
@@ -555,8 +593,9 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                    return tradeController.setGetResource(resource);
             }
+            return -1;
         }
 	
 	/**
@@ -796,8 +835,8 @@ gameState=GameState.GamePlay;//for testing purposes
 	public void signIn(){//LoginController --goes in Setup
             switch(gameState){
                 case Login:
-                	String username = null;
-                	String password = null;
+                	String username = "";
+                	String password = "";
                 	setupController.signIn(username, password);
                     break;
                 case JoinGame:
@@ -817,8 +856,8 @@ gameState=GameState.GamePlay;//for testing purposes
 	public void register(){//LoginController --goes in Setup
             switch(gameState){
                 case Login:
-                	String username = null;
-                	String password = null;
+                	String username = "";
+                	String password = "";
                 	setupController.register(username, password);
                     break;
                 case JoinGame:
@@ -831,6 +870,20 @@ gameState=GameState.GamePlay;//for testing purposes
                     break;
             }
         }
+	
+	public int getPortType(int x, int y) {
+		PortTile hTile = (PortTile) gamePlayController.getGameModel().getBoard().getHexTileAt(x, y);
+		switch (hTile.getPortType()) {
+			case BRICK: return 1;
+			case WHEAT: return 2;
+			case ORE: return 3;
+			case SHEEP: return 4;
+			case WOOD: return 5;
+			case THREE: return 6;
+		}
+		return 0;
+	}
+	
 	/**
 	 * This method is called whenever the user is trying to place a road on the map. 
 	 * It is called by the view for each "mouse move" event. The returned value tells 
@@ -1048,6 +1101,7 @@ gameState=GameState.GamePlay;//for testing purposes
 	 * This method is called by the Rob View when a player to rob is selected via a button click.
 	 * 
 	 * @param victim The player to be robbed
+         * @post client player receives Resource Card from victim at random
 	 */
 	public void robPlayer(RobPlayerInfo victim){//MapController --goes in GamePlay
             switch(gameState){
@@ -1061,6 +1115,7 @@ gameState=GameState.GamePlay;//for testing purposes
         
         /**
 	 * Called by the view then the user requests to build a road
+         * @return true if player has enough resources and an available road
 	 */
 	public boolean buildRoad(){//ResourceBarController --goes in GamePlay
             switch(gameState){
@@ -1073,6 +1128,7 @@ gameState=GameState.GamePlay;//for testing purposes
 	
 	/**
 	 * Called by the view then the user requests to build a settlement
+         * @return true if player has enough resources and an available settlement
 	 */
 	public boolean buildSettlement(){//ResourceBarController --goes in GamePlay
             switch(gameState){
@@ -1085,6 +1141,7 @@ gameState=GameState.GamePlay;//for testing purposes
 
 	/**
 	 * Called by the view then the user requests to build a city
+         * @return true if player has enough resources and an available city
 	 */
 	public boolean buildCity(){//ResourceBarController --goes in GamePlay
             switch(gameState){
@@ -1097,6 +1154,7 @@ gameState=GameState.GamePlay;//for testing purposes
 	
 	/**
 	 * Called by the view then the user requests to play a card
+         * @return true if player has at least one devCard
 	 */
 	public boolean playCard(){//ResourceBarController --goes in GamePlay
             switch(gameState){
@@ -1108,12 +1166,19 @@ gameState=GameState.GamePlay;//for testing purposes
         }
         /**
 	 * Called when the user clicks the "Roll!" button in the roll view
+         * @return dice roll value (2-12)
 	 */
 
 	public int rollDice(){//RollController --goes in GamePlay
             switch(gameState){
                 case GamePlay:
-                    return gamePlayController.rollDice();
+                    int roll = gamePlayController.rollDice();
+                    if(roll != 7)
+                        gamePlayController.rollResourceDistribution(roll);
+                    
+                    // IF seven roll, player moves robber and hand size checked
+                    
+                    return roll;
                 default:
                     return -1;
             }
@@ -1133,6 +1198,36 @@ gameState=GameState.GamePlay;//for testing purposes
                     break;
                 case GamePlay:
                     break;
+            }
+        }
+        
+        /**
+         * Gives the number of a given DevCardType the client player has
+         * 
+         * @param type of DevCard
+         * @return number of cards
+         */
+        public int getNumOfDevCards(DevCardType type) {
+            switch(gameState){
+                case GamePlay:
+                    return gamePlayController.getNumOfDevCards(type);
+                default:
+                    return -1;
+            }
+        }
+        
+        /**
+         * Gives the number of a given ResourceType the client player has
+         * 
+         * @param type of Resource
+         * @return number of cards
+         */
+        public int getNumOfResourceCards(ResourceType type) {
+            switch(gameState){
+                case GamePlay:
+                    return gamePlayController.getNumOfResourceCards(type);
+                default:
+                    return -1;
             }
         }
 }

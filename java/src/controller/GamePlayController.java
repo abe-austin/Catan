@@ -54,12 +54,9 @@ class GamePlayController {
      *   resources to buy a dev card.
      */
     public boolean startBuyCard() {
-        if(player.hasResource(ResourceType.WHEAT) && 
+        return (player.hasResource(ResourceType.WHEAT) && 
            player.hasResource(ResourceType.SHEEP) && 
-           player.hasResource(ResourceType.ORE))
-            return true;
-        else
-            return false;
+           player.hasResource(ResourceType.ORE));
     }
 
     /**
@@ -96,6 +93,7 @@ class GamePlayController {
      */
     public void playMonopolyCard(ResourceType resource) {                       // DevCardController
         player.giveDevelopmentCard(DevCardType.MONOPOLY);
+        
         for(Player person : gameModel.getPlayers()) {
             while(!person.equals(player) && person.hasResource(resource))
                 player.addResourceCard(person.giveResourceCard(resource));
@@ -118,16 +116,16 @@ class GamePlayController {
      */
     public void playRoadBuildCard() {                                           // DevCardController
         player.giveDevelopmentCard(DevCardType.ROAD_BUILD);
-        hexTileController.playRoadBuildingCard();
+        hexTileController.playRoadBuildingCard();  // May not be necessary 
     }
 
     /**
      * This method is called when the user plays a soldier development card.
      * @pre player has soldier development card
+     * @post player has one less soldier card, robber has been moved
      */
     public void playSoldierCard() {                                             // DevCardController
         player.giveDevelopmentCard(DevCardType.SOLDIER);
-        // mapController.moveRobber(player);
     }
 
     /**
@@ -148,10 +146,7 @@ class GamePlayController {
      * @param resource The resource that was increased
      */
     public boolean increaseAmount(ResourceType resource, int number) {          // DiscardController
-        if(player.hasResource(resource, number+1))
-            return true;
-        else
-            return false;
+        return (player.hasResource(resource, number+1));
     }
     
     /**
@@ -160,10 +155,7 @@ class GamePlayController {
 	 * @param resource The resource that was decreased
 	 */
 	public boolean decreaseAmount(ResourceType resource, int number){       // DiscardController
-            if(number > 0)
-                return true;
-            else 
-                return false;
+            return (number > 0);
         }
 
     /**
@@ -356,39 +348,29 @@ class GamePlayController {
      * Called by the view then the user requests to build a road
      */
     public boolean buildRoad() {                                                // ResourceBarController
-        if(player.hasAvailableBoardPiece(PieceType.ROAD) &&
+        return (player.hasAvailableBoardPiece(PieceType.ROAD) &&
                 player.hasResource(ResourceType.BRICK) &&
-                player.hasResource(ResourceType.WOOD))
-            return true;
-        else
-            return false;
+                player.hasResource(ResourceType.WOOD));
     }
 
     /**
      * Called by the view then the user requests to build a settlement
      */
     public boolean buildSettlement() {                                          // ResourceBarController
-        if(player.hasAvailableBoardPiece(PieceType.SETTLEMENT) &&
+        return (player.hasAvailableBoardPiece(PieceType.SETTLEMENT) &&
                 player.hasResource(ResourceType.WHEAT) &&
                 player.hasResource(ResourceType.SHEEP) &&
                 player.hasResource(ResourceType.BRICK) &&
-                player.hasResource(ResourceType.WOOD))
-            return true;
-        else
-            return false;
-            
+                player.hasResource(ResourceType.WOOD));
     }
 
     /**
      * Called by the view then the user requests to build a city
      */
     public boolean buildCity() {                                                // ResourceBarController
-        if(player.hasAvailableBoardPiece(PieceType.CITY) &&
+        return (player.hasAvailableBoardPiece(PieceType.CITY) &&
                 player.hasResource(ResourceType.WHEAT, 2) &&
-                player.hasResource(ResourceType.ORE, 3))
-            return true;
-        else
-            return false;
+                player.hasResource(ResourceType.ORE, 3));
     }
 
     /**
@@ -405,4 +387,48 @@ class GamePlayController {
         Random rand = new Random();
         return (rand.nextInt() % 6 + 1 ) + (rand.nextInt() % 6 + 1); 
     }
+    
+        /**
+         * Gives the number of a given DevCardType the client player has
+         * 
+         * @param type of DevCard
+         * @return number of cards
+         */
+        public int getNumOfDevCards(DevCardType type) {
+            int number = 0;
+            
+            for(DevelopmentCard card : player.getDevelopmentCards())
+                if(card.getDevelopmentType().equals(type))
+                    number++;
+            
+            return number;
+        }
+        
+        /**
+         * Gives the number of a given ResourceType the client player has
+         * 
+         * @param type of Resource
+         * @return number of cards
+         */
+        public int getNumOfResourceCards(ResourceType type) {
+            int number = 0;
+            
+            for(ResourceCard card : player.getResourceCards())
+                if(card.getResourceType().equals(type))
+                    number++;
+            
+            return number;
+        }
+        
+        /**
+         * Distributes to players resources for a given roll
+         * 
+         * @param roll 
+         * @post players may have more resource cards
+         */
+        public void rollResourceDistribution(int roll) {
+//            hexTileController.rollResourceDistribution(int roll, this);
+            // look through all hex tiles for a non-robber covered, matching number token,
+            // give resources to any players that own a vertex
+        }
 }

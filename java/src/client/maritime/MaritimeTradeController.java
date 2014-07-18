@@ -12,10 +12,14 @@ import shared.definitions.*;
  */
 public class MaritimeTradeController extends Controller implements IMaritimeTradeController {
         private ControllerFacade controllerFacade= ControllerFacade.getSingleton();
-	private IMaritimeTradeOverlay tradeOverlay;
+        private IMaritimeTradeOverlay tradeOverlay;
         private int getValue;
         private int giveValue;
-	
+	private ResourceType[] bankResources;
+        private ResourceType[] playerResources;
+        private ResourceType selectedGetResource;
+        private ResourceType selectedGiveResource;
+        
 	public MaritimeTradeController(IMaritimeTradeView tradeView, IMaritimeTradeOverlay tradeOverlay) {
 		
 		super(tradeView);
@@ -52,8 +56,9 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
                 for(int i=0; i < bankResources.size();i++){
                     bankResourceTypes[i]=bankResources.get(i);
                 }
-                getTradeOverlay().showGiveOptions(playerResourceTypes);
+                
                 getTradeOverlay().showGetOptions(bankResourceTypes);
+                getTradeOverlay().showGiveOptions(playerResourceTypes);
                 
                 getValue=1;
                 giveValue=4;//default trade with bank
@@ -80,21 +85,30 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void setGetResource(ResourceType resource) {
-
+           selectedGetResource = resource;
+           //set getValue based on whether the player has a port
 	}
 
 	@Override
 	public void setGiveResource(ResourceType resource) {
-
+            int number = controllerFacade.setGiveResource(resource);
+            if (number !=-1){
+                selectedGiveResource = resource;
+                getValue=number;
+            }
 	}
 
 	@Override
 	public void unsetGetValue() {
-            getTradeOverlay().reset();
+            selectedGetResource=null;
+            
+            //getTradeOverlay().reset(); only resets the get
 	}
 
 	@Override
 	public void unsetGiveValue() {
+            selectedGiveResource=null;
+            selectedGetResource=null;
             getTradeOverlay().reset();
 	}
 

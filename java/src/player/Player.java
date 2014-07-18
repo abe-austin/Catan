@@ -9,12 +9,16 @@ import game.pieces.City;
 import game.pieces.Road;
 import game.pieces.Settlement;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.PieceType;
+import shared.definitions.PortType;
+import shared.definitions.ResourceType;
 import shared.definitions.SpecialCardType;
 import system.User;
 
@@ -24,12 +28,14 @@ public class Player extends CardOwner {
 	private Points points;
 	private int soldiersPlayed;
 	private User user;
+	private ArrayList<PortType> playerPorts;
 
 	public Player(CatanColor color, User user) {
 		this.color = color;
 		this.user = user;
 		soldiersPlayed = 0;
 		points = new Points();
+		playerPorts = new ArrayList<PortType>();
 		
 		boardPieces = new HashSet<BoardPiece>();
 		resourceCards = new HashSet<ResourceCard>();
@@ -117,6 +123,24 @@ public class Player extends CardOwner {
 		super.addSpecialCard(specialCard);
 		points.addPoint();
 		points.addPoint();
+	}
+	
+        public int hasResourceNumber(ResourceType resourceType){
+            int number=0;
+            for(ResourceCard card : resourceCards) {
+                if(card.getResourceType().equals(resourceType))
+                    number++;
+            }
+
+            return number;
+        }
+        
+	public void addPort(PortType port) {
+		playerPorts.add(port);
+	}
+	
+	public ArrayList<PortType> getPorts() {
+		return playerPorts;
 	}
 
 	/**
