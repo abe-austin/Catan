@@ -796,8 +796,8 @@ gameState=GameState.GamePlay;//for testing purposes
 	public void signIn(){//LoginController --goes in Setup
             switch(gameState){
                 case Login:
-                	String username;
-                	String password;
+                	String username = null;
+                	String password = null;
                 	setupController.signIn(username, password);
                     break;
                 case JoinGame:
@@ -817,8 +817,8 @@ gameState=GameState.GamePlay;//for testing purposes
 	public void register(){//LoginController --goes in Setup
             switch(gameState){
                 case Login:
-                	String username;
-                	String password;
+                	String username = null;
+                	String password = null;
                 	setupController.register(username, password);
                     break;
                 case JoinGame:

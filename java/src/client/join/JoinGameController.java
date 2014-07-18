@@ -44,6 +44,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	 * @return The action to be executed when the user joins a game
 	 */
 	public IAction getJoinAction() {
+		
 		return joinAction;
 	}
 
@@ -52,70 +53,85 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	 * @param value The action to be executed when the user joins a game
 	 */
 	public void setJoinAction(IAction value) {	
+		
 		joinAction = value;
 	}
 	
 	public INewGameView getNewGameView() {
+		
 		return newGameView;
 	}
 
 	public void setNewGameView(INewGameView newGameView) {
+		
 		this.newGameView = newGameView;
 	}
 	
 	public ISelectColorView getSelectColorView() {
+		
 		return selectColorView;
 	}
 	
 	public void setSelectColorView(ISelectColorView selectColorView) {
+		
 		this.selectColorView = selectColorView;
 	}
 	
 	public IMessageView getMessageView() {
+		
 		return messageView;
 	}
+	
 	public void setMessageView(IMessageView messageView) {
+		
 		this.messageView = messageView;
 	}
 
 	@Override
 	public void start() {
+		
 		ControllerFacade.getSingleton().joinGameStart();
 		getJoinGameView().showModal();
 	}
 
 	@Override
 	public void startCreateNewGame() {
+		
 		ControllerFacade.getSingleton().startCreateNewGame();
 		getNewGameView().showModal();
 	}
 
 	@Override
 	public void cancelCreateNewGame() {
+		
 		ControllerFacade.getSingleton().cancelCreateNewGame();
 		getNewGameView().closeModal();
 	}
 
 	@Override
 	public void createNewGame() {
+		
 		ControllerFacade.getSingleton().createNewGame();
 		getNewGameView().closeModal();
 	}
 
 	@Override
 	public void startJoinGame(GameInfo game) {
+		
 		ControllerFacade.getSingleton().startJoinGame(game);
 		getSelectColorView().showModal();
 	}
 
 	@Override
 	public void cancelJoinGame() {
+		
 		ControllerFacade.getSingleton().cancelJoinGame();
 		getJoinGameView().closeModal();
 	}
 
 	@Override
 	public void joinGame(CatanColor color) {
+		
 		ControllerFacade.getSingleton().joinGame(color);
 		// If join succeeded
 		getSelectColorView().closeModal();
