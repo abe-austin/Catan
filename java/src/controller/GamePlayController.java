@@ -386,4 +386,36 @@ class GamePlayController {
         Random rand = new Random();
         return (rand.nextInt() % 6 + 1 ) + (rand.nextInt() % 6 + 1); 
     }
+    
+        /**
+         * Gives the number of a given DevCardType the client player has
+         * 
+         * @param type of DevCard
+         * @return number of cards
+         */
+        public int getNumOfDevCards(DevCardType type) {
+            int number = 0;
+            
+            for(DevelopmentCard card : player.getDevelopmentCards())
+                if(card.getDevelopmentType().equals(type))
+                    number++;
+            
+            return number;
+        }
+        
+        /**
+         * Gives the number of a given ResourceType the client player has
+         * 
+         * @param type of Resource
+         * @return number of cards
+         */
+        public int getNumOfResourceCards(ResourceType type) {
+            int number = 0;
+            
+            for(ResourceCard card : player.getResourceCards())
+                if(card.getResourceType().equals(type))
+                    number++;
+            
+            return number;
+        }
 }

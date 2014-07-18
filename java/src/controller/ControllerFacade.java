@@ -1197,4 +1197,34 @@ public class ControllerFacade {
                     break;
             }
         }
+        
+        /**
+         * Gives the number of a given DevCardType the client player has
+         * 
+         * @param type of DevCard
+         * @return number of cards
+         */
+        public int getNumOfDevCards(DevCardType type) {
+            switch(gameState){
+                case GamePlay:
+                    return gamePlayController.getNumOfDevCards(type);
+                default:
+                    return -1;
+            }
+        }
+        
+        /**
+         * Gives the number of a given ResourceType the client player has
+         * 
+         * @param type of Resource
+         * @return number of cards
+         */
+        public int getNumOfResourceCards(ResourceType type) {
+            switch(gameState){
+                case GamePlay:
+                    return gamePlayController.getNumOfResourceCards(type);
+                default:
+                    return -1;
+            }
+        }
 }
