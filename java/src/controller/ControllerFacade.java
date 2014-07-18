@@ -62,8 +62,8 @@ public class ControllerFacade {
     
     private ControllerFacade(){
         setupController = new SetupController();
-        gamePlayController = new GamePlayController(clientPlayer);
         clientPlayer = new Player(CatanColor.BLUE,null,1);//testing purposes
+        gamePlayController = new GamePlayController(clientPlayer);
         tradeController = new TradeController(clientPlayer);
         gameInfoController = new GameInfoController();
         currentGameModel = new GameModel();
