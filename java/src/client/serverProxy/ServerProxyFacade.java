@@ -186,12 +186,15 @@ public class ServerProxyFacade {
      */
 	public ServerResponse getGameModel(int version) {
 		
+		//create param object and convert to json
+		GetGameModelParam param = new GetGameModelParam(version);
+		
 		//make post to proper url using json as the body of the request
 		String url = "/game/model";
-		ServerResponse  response = server.doGet(url);
+		ServerResponse  response = server.doPost(url, param);
 		
-		 converter.convert(response, GameModel.class);
-		 return response;
+		converter.convert(response, GameModel.class);
+		return response;
 	}
 
     /**
