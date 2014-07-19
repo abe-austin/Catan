@@ -8,7 +8,10 @@ package controller;
 
 import client.base.IAction;
 import client.data.GameInfo;
+<<<<<<< HEAD
 import client.data.PlayerInfo;
+=======
+>>>>>>> 27ad746cc40a9ca3f39fb060656029020549b9b4
 import client.data.RobPlayerInfo;
 import client.map.MapController;
 import client.serverProxy.ServerPoller;
@@ -87,8 +90,8 @@ public class ControllerFacade {
         timer.scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run() {
-                serverPoller.poll();
-                switchGameModel(serverPoller.getGameModel());
+                //serverPoller.poll();
+                //switchGameModel(serverPoller.getGameModel());
                 //reassignControllers();
                 //updateGui();
             }
@@ -548,7 +551,7 @@ gameState=GameState.GamePlay;//for testing purposes
 	/**
 	 * Make the specified trade with the bank.
 	 */
-	public void makeTrade(){//MaritimeTradeController --goes in Trade
+	public void makeTrade(ResourceType giveType, int giveAmount, ResourceType getType){//MaritimeTradeController --goes in Trade
             switch(gameState){
                 case Login:
                     break;
@@ -559,44 +562,7 @@ gameState=GameState.GamePlay;//for testing purposes
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
-	 * Called by the maritime trade overlay when the user cancels a trade.
-	 */
-	public void maritimeCancelTrade(){//MaritimeTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
-	 * Called when the user selects the resource to get.
-	 * 
-	 * @param resource The selected "get" resource
-	 */
-	public void setGetResource(ResourceType resource){//MaritimeTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
+                    serverProxyFacade.maritimeTrade(clientPlayer.getIndex(), giveAmount, giveType, getType);
                     break;
             }
         }
@@ -623,58 +589,29 @@ gameState=GameState.GamePlay;//for testing purposes
         }
 	
 	/**
-	 * Called when the player "undoes" their get selection.
-	 */
-	public void unsetGetValue(){//MaritimeTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
-	 * Called when the player "undoes" their give selection.
-	 */
-	public void unsetGiveValue(){//MaritimeTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
 	 * Called by the new game view when the user clicks the "Create Game" button
 	 */
-	public void createNewGame(String title, boolean randomHexes, boolean randomNumbers, boolean randomPorts) { //JoinGameController --goes in Setup !!Not sure if needed
+	public GameInfo[] createNewGame(String title, boolean randomHexes, boolean randomNumbers, boolean randomPorts) { //JoinGameController --goes in Setup !!Not sure if needed
 		
 		switch (gameState) {
 		case Login:
 			break;
 		case JoinGame:
-			//create new game model
 			GameModel gameModel = new GameModel();
 			gameModel.setRandomHexes(randomHexes);
 			gameModel.setRandomNumbers(randomNumbers);
 			gameModel.setRandomPorts(randomPorts);
 			serverProxyFacade.createGame(title, randomHexes, randomNumbers, randomPorts);
-			setupController.createNewGame();
-			break;
+			
+			ServerResponse serverResponse  = serverProxyFacade.getAllGames();
+			GameInfo[] gameObjects = (GameInfo[]) serverResponse.getBody();
+			GameInfo[] games = new GameInfo[gameObjects.length];
+			
+			for(int i=0; i<gameObjects.length; i++) {
+				games[i] = (GameInfo) gameObjects[i];
+			}
+			
+			return games;
 		case PlayerWaiting:
 			break;
 		case Setup:
@@ -682,6 +619,7 @@ gameState=GameState.GamePlay;//for testing purposes
 		case GamePlay:
 			break;
 		}
+		return null;
     }
 	/**
 	 * set's gameInfo

@@ -6,13 +6,15 @@
 
 package client.serverProxy;
 
-import game.GameModel;
 
-import org.junit.Test;
-
+import client.data.GameInfo;
 import client.serverProxy.ServerPoller;
 import client.serverProxy.ServerProxyFacade;
+import game.GameModel;
+import java.util.ArrayList;
 import static org.junit.Assert.*;
+import org.junit.Test;
+import shared.definitions.CatanColor;
 
 /**
  *
@@ -46,16 +48,28 @@ public class ServerPollerTest {
     @Test
     public void testPoll() {
         System.out.println("poll");
+        ServerProxyFacade server = new ServerProxyFacade(false);
+        server.registerUser("test", "testing");
+        server.loginUser("test", "testing");
+        server.createGame("crashGame", true, true, true);
+        ArrayList<GameInfo> gameInfo =(ArrayList<GameInfo>)server.getAllGames().getBody();
+        int gameID=0;
+        if (!gameInfo.isEmpty()){
+            gameID=gameInfo.get(0).getId();
+        }
+        server.joinGame(3, CatanColor.RED);
+        System.out.println("gameID "+gameID);
         ServerPoller instance = new ServerPoller();
-        instance.poll();
-        assertNull(instance.getGameModel());
+        instance.setServerProxy(server);
+        instance.poll(0);
+        //assertNull(instance.getGameModel());
         
         ServerProxyFacade mockServer = new ServerProxyFacade(true);
         instance.setServerProxy(mockServer);
-        instance.poll();
+       // instance.poll();
         GameModel expectedGameModel= new GameModel();
        // assertEquals(expectedGameModel,instance.getGameModel());
-        assertTrue(instance.getGameModel()!=null);
+       // assertTrue(instance.getGameModel()!=null);
     }
     
 }

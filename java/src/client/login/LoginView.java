@@ -52,7 +52,7 @@ public class LoginView extends OverlayView implements ILoginView
 
         jf.getContentPane().add(mainPanel);
         jf.setSize(640, 480);
-        jf.setVisible(true);
+       // jf.setVisible(true);
     }
 
     public LoginView()

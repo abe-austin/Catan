@@ -8,6 +8,7 @@ import junit.framework.Assert;
 import game.GameModel;
 import game.board.Corner;
 import game.board.Edge;
+import game.board.HexTile;
 import game.cards.ResourceCard;
 
 import org.junit.Test;
@@ -35,11 +36,11 @@ public class ServerAccessTest {
 	public void test() {
 //		this.registerUser();
 //		this.createGame();
-		this.getAllGames();
-//		this.loginUser();
-//		this.joinGame();
+//		this.getAllGames();
+		this.loginUser();
+		this.joinGame();
 //		this.saveGame();
-//		this.getGameModel();
+		this.getGameModel();
 //		this.resetGame();
 //		this.getGameCommands();
 //		this.doGameCommands();
@@ -110,6 +111,10 @@ public class ServerAccessTest {
 	private void getGameModel() {
 		
 		ServerResponse model = server.getGameModel(0);
+		GameModel game = (GameModel)model.getBody();
+		for(HexTile hex : game.getBoard().getHexes()) {
+			System.out.println(hex.getX() + "," + hex.getY());
+		}
 		assertResponseCorrect(model, GameModel.class);
 	}
 	
@@ -261,7 +266,7 @@ public class ServerAccessTest {
 		else if(response.getCode() == 521) {
 			Assert.assertEquals(response.getBody(), "Server connection failed");
 		}
-		System.out.println(response.getCode());
-		System.out.println(response.getBody());
+		//System.out.println(response.getCode());
+		//System.out.println(response.getBody());
 	}
 }

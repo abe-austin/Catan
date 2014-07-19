@@ -7,6 +7,7 @@
 package controller;
 
 import game.GameModel;
+import game.cards.ResourceCard;
 import java.util.ArrayList;
 import player.Player;
 import shared.definitions.PortType;
@@ -114,6 +115,23 @@ class TradeController {
 	 * Called by the maritime trade view when the user clicks the maritime trade button.
 	 */
 	public ArrayList<ArrayList<ResourceType>> maritimeStartTrade(){//MaritimeTradeController --goes in Trade
+           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
+           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
+           player.addResourceCard(new ResourceCard(ResourceType.BRICK));           
+           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
+           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
+           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
+           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
+           player.addResourceCard(new ResourceCard(ResourceType.ORE));
+           player.addResourceCard(new ResourceCard(ResourceType.ORE));
+           player.addResourceCard(new ResourceCard(ResourceType.WHEAT));
+           player.addPort(PortType.ORE);
+           //player.addPort(PortType.THREE);
+           
             ArrayList<ResourceType> playerResourceTypes =maritimeGetPlayerResourceTypes();
             ArrayList<ResourceType> bankResourceTypes=getBankResourceTypes();
             ArrayList< ArrayList<ResourceType>> resources=new ArrayList<>();

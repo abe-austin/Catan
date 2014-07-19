@@ -20,9 +20,9 @@ public class GameInfo {
 	private String title;
 	private List<PlayerInfo> players;
 
-	public GameInfo() {
-		setId(-1);
-		setTitle("");
+	public GameInfo(int id, String title) {
+		this.id = id;
+		this.title = title;
 		players = new ArrayList<PlayerInfo>();
 	}
 	
