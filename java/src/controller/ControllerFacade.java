@@ -514,7 +514,6 @@ gameState=GameState.GamePlay;//for testing purposes
 			for(Object game: gameObjects) {
 				games.add((GameInfo)game);
 			}
-			
 			return games;
 		case PlayerWaiting:
 			break;
