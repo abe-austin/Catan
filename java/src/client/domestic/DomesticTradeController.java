@@ -190,7 +190,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	public void sendTradeOffer() {
 
 		getTradeOverlay().closeModal();
-//		getWaitOverlay().showModal();
+		getWaitOverlay().showModal();
 	}
 
 	@Override
@@ -245,6 +245,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void acceptTrade(boolean willAccept) {
+            controllerFacade.acceptTrade(willAccept);
 		getAcceptOverlay().closeModal();
 	}
 
