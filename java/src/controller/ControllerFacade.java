@@ -502,6 +502,30 @@ gameState=GameState.GamePlay;//for testing purposes
             return -1;
         }
 	
+	public ArrayList<GameInfo> getAllGames() {
+		
+		switch (gameState) {
+		case Login:
+			break;
+		case JoinGame:
+			ServerResponse serverResponse = serverProxyFacade.getAllGames();
+			ArrayList gameObjects = (ArrayList)serverResponse.getBody();
+			ArrayList<GameInfo> games = new ArrayList<GameInfo>();
+			for(Object game: gameObjects) {
+				games.add((GameInfo)game);
+			}
+			
+			return games;
+		case PlayerWaiting:
+			break;
+		case Setup:
+			break;
+		case GamePlay:
+			break;
+		}
+		return null;
+	}
+	
 	/**
 	 * Called by the new game view when the user clicks the "Create Game" button
 	 */
