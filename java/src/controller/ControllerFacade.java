@@ -540,12 +540,7 @@ gameState=GameState.GamePlay;//for testing purposes
 		case Login:
 			break;
 		case JoinGame:
-<<<<<<< HEAD
-			clientPlayer = new Player(color, user, 1); // fix index!
-			// setupController.joinGame(color, user);
-=======
 			this.gameInfo = gameInfo;
->>>>>>> a172f01fae4c6dda1240770ff7c66335462bdec7
 			break;
 		case PlayerWaiting:
 			break;
