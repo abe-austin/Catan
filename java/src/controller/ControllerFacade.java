@@ -62,6 +62,7 @@ public class ControllerFacade {
     private GameState gameState;
     private User user;
     private Player clientPlayer;
+    private GameInfo gameInfo;
     
     private ControllerFacade(){
         setupController = new SetupController();
@@ -668,6 +669,26 @@ gameState=GameState.GamePlay;//for testing purposes
 		}
 		return null;
     }
+	/**
+	 * set's gameInfo
+	 * @param gameInfo
+	 */
+	public void startJoinGame(GameInfo gameInfo) {
+		
+		switch (gameState) {
+		case Login:
+			break;
+		case JoinGame:
+			this.gameInfo = gameInfo;
+			break;
+		case PlayerWaiting:
+			break;
+		case Setup:
+			break;
+		case GamePlay:
+			break;
+		}
+	}
 		
 	/**
 	 * Called by the select color view when the user clicks the "Join Game" button
@@ -679,8 +700,14 @@ gameState=GameState.GamePlay;//for testing purposes
 		case Login:
 			break;
 		case JoinGame:
-			clientPlayer = new Player(color, user, 1); // fix index!!!
-			// setupController.joinGame(color, user);
+			int index = gameInfo.getPlayers().size() + 1;
+			clientPlayer = new Player(color, user, index);
+			PlayerInfo playerInfo = new PlayerInfo();
+			playerInfo.setName(user.getUsername().getUsername());
+			playerInfo.setPlayerIndex(index);
+			playerInfo.setColor(color);
+			playerInfo.setId(1); //stores key to player. how do I do this??? or to user?
+			gameInfo.addPlayer(playerInfo);
 			break;
 		case PlayerWaiting:
 			break;
