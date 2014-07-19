@@ -69,6 +69,7 @@ public class LoginController extends Controller implements ILoginController {
 	public void signIn() {
 		
 		// log in user
+		System.out.println("signin");
 		String username = getLoginView().getLoginUsername();
 		String password = getLoginView().getLoginPassword();
 		boolean success = ControllerFacade.getSingleton().signIn(username, password);

@@ -115,6 +115,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				newGameView.getUseRandomPorts());
 		PlayerInfo playerInfo = new PlayerInfo();
 		playerInfo.setName(ControllerFacade.getSingleton().getUser().getUsername().getUsername());
+		System.out.println(playerInfo.getName());
 		getJoinGameView().setGames(games, playerInfo);
 		getNewGameView().closeModal();
 	}
