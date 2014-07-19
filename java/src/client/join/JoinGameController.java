@@ -121,7 +121,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
-
+		Player player = ControllerFacade.getSingleton().startJoinGame();
+		game.addPlayer(Player);
 		getSelectColorView().showModal();
 	}
 
@@ -134,8 +135,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void joinGame(CatanColor color) {
 		
-		ControllerFacade.getSingleton().joinGame(color);
 		// If join succeeded
+		
+		ControllerFacade.getSingleton().joinGame(color);
 		getSelectColorView().closeModal();
 		getJoinGameView().closeModal();
 		joinAction.execute();
