@@ -89,10 +89,12 @@ public class LoginController extends Controller implements ILoginController {
 		//register new user (which, if successful, also logs them in)
 		String username = getLoginView().getRegisterUsername();
 		String password = getLoginView().getRegisterPassword();
+		String passwordAgain = getLoginView().getRegisterPasswordRepeat();
 		
 		boolean success;
-		if(username == "" || password == "") {
+		if(!validateUsername(username) && !validatePassword(password, passwordAgain)) {
 			success = false;
+		
 		} else {
 			success = ControllerFacade.getSingleton().register(username, password);
 		}
@@ -111,6 +113,53 @@ public class LoginController extends Controller implements ILoginController {
 	 * @param title
 	 * @param message
 	 */
+	
+	public boolean validateUsername(String username) {
+		
+            final int MIN_UNAME_LENGTH = 3;
+            final int MAX_UNAME_LENGTH = 7;
+
+            if (username.length() < MIN_UNAME_LENGTH
+                    || username.length() > MAX_UNAME_LENGTH)
+            {
+                return false;
+            }
+            else
+            {
+                for (char c : username.toCharArray())
+                {
+                    if (!Character.isLetterOrDigit(c)
+                            && c != '_' && c != '-')
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+	}
+	
+	public boolean validatePassword(String password, String passwordAgain) {
+		 final int MIN_PASS_LENGTH = 5;
+
+         if (password.length() < MIN_PASS_LENGTH)
+         {
+             return false;
+         }
+         else
+         {
+             for (char c : password.toCharArray())
+             {
+                 if (!Character.isLetterOrDigit(c)
+                         && c != '_' && c != '-')
+                 {
+                     return false;
+                 }
+             }
+         }
+         
+         return passwordAgain.equals(password);
+	}
 	
 	public void loginFailed(String title, String message) {
 		
