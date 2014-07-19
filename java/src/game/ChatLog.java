@@ -1,5 +1,6 @@
 package game;
 
+import client.parse.ParsedChat;
 import java.util.ArrayList;
 
 /**
@@ -7,24 +8,24 @@ import java.util.ArrayList;
  * @author Kevin MacMaster
  */
 public class ChatLog {
-    private ArrayList<String> lines;
+    private ArrayList<ParsedChat> lines;
 
     public ChatLog() {
-        lines = new ArrayList<String>();
+        lines = new ArrayList<ParsedChat>();
     }
 
     /**
      * 
-     * @param line String of chat to add to ChatLog
+     * @param line String of chat to add to ChatChat
      */
-    public void addChatLine(String line) {
+    public void addChatLine(ParsedChat line) {
         getChatLines().add(line);
     }
 
     /**
      * @return the lines
      */
-    public ArrayList<String> getChatLines() {
+    public ArrayList<ParsedChat> getChatLines() {
         return lines;
     }
 }

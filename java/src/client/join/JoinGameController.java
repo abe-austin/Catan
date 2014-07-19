@@ -124,9 +124,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
-		
 		ControllerFacade.getSingleton().startJoinGame(game);
 		getSelectColorView().showModal();
+
 	}
 
 	@Override

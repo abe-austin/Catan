@@ -1,6 +1,9 @@
 package client.parse;
 
+import game.ChatLog;
 import game.GameModel;
+import game.TradeOffer;
+import game.TurnTracker;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -72,7 +75,7 @@ public class DoParse
 		}		
 		
 		//CALL FUNCTIONS TO SET yearOfPlenty, monopoly, soldier, roadBuilding, AND monument TO THE gameModel
-		
+		gameModel.getBank().setDevCards(monopoly, roadBuilding, yearOfPlenty, monument, soldier);
 		return input;
 	}
 	
@@ -335,6 +338,10 @@ public class DoParse
 				parsedChats.add(pC);
 			}
 		//CALL FUNCTIONS TO SET parsedChats TO THE gameModel
+                
+                for(ParsedChat chatLine:parsedChats){                
+                    gameModel.getGameHistory().getChatlog().addChatLine(chatLine);
+                }
 		return input;
 	}
 	
@@ -356,6 +363,7 @@ public class DoParse
 		
 		ParsedBank bank = new ParsedBank(brick, wood, sheep, wheat, ore);
 		//CALL FUNCTIONS TO SET bank TO THE gameModel
+                gameModel.getBank().setResources(brick, ore, sheep, wheat, wood);
 		return input;
 	}
 	
@@ -379,6 +387,16 @@ public class DoParse
 		
 		ParsedTurnTracker turnTracker = new ParsedTurnTracker(status, currentTurn, longestRoad, largestArmy);
 		//CALL FUNCTIONS TO SET turnTracker TO THE gameModel
+                boolean road=false;
+                boolean army=false;
+                if(longestRoad==-1){
+                    road=true;
+                }
+                if(largestArmy==-1){
+                    army=true;
+                }
+                gameModel.getBank().setSpecialCards(army, road);
+                gameModel.setTurnTracker(new TurnTracker(status,currentTurn,longestRoad,largestArmy));
 		return input;
 	}
 	public String parseTradeOffer(String input){
@@ -403,7 +421,7 @@ public class DoParse
             
             ParsedTradeOffer tradeOffer = new ParsedTradeOffer(sender, receiver, brick, ore, sheep, wood, wheat);
             //CALL Functions to set trade offer to gameModel
-            //gameModel.setTradeOffer(new TradeOffer(sender, receiver, brick, ore, sheep, wood, wheat);
+            gameModel.setTradeOffer(new TradeOffer(sender, receiver, brick, ore, sheep, wood, wheat));
             return input;
         }
 	public String parseWinner(String input)
@@ -411,6 +429,7 @@ public class DoParse
 		int winner = Integer.parseInt(input.split(",\"version\":")[0]);
 		input = input.split(",\"version\":")[1];
 		//CALL FUNCTIONS TO SET winner TO THE gameModel
+                gameModel.setWinner(winner);
 		return input;
 	}
 	
@@ -418,6 +437,7 @@ public class DoParse
 	{
 		int version = Integer.parseInt(input.split("}")[0]);
 		//CALL FUNCTIONS TO SET version TO THE gameModel
+                gameModel.setVersion(version);
 		input = "";
 		return input;
 	}

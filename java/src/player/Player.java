@@ -53,6 +53,29 @@ public class Player extends CardOwner {
 		for (int i = 0; i < 15; i++)
 			boardPieces.add(new Road(this));
 	}
+	
+	public Player(User user) {
+		this.user = user;
+		
+		soldiersPlayed = 0;
+		points = new Points();
+		playerPorts = new ArrayList<PortType>();
+		
+		boardPieces = new HashSet<BoardPiece>();
+		resourceCards = new HashSet<ResourceCard>();
+		developmentCards = new HashSet<DevelopmentCard>();
+		specialCards = new HashSet<SpecialCard>();
+
+		// initalize board pieces
+		for (int i = 0; i < 5; i++)
+			boardPieces.add(new Settlement(this));
+
+		for (int i = 0; i < 4; i++)
+			boardPieces.add(new City(this));
+
+		for (int i = 0; i < 15; i++)
+			boardPieces.add(new Road(this));
+	}
 
 	/**
 	 * Returns an available board piece of a given type

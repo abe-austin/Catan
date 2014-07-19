@@ -7,25 +7,51 @@ import shared.definitions.GameState;
  * @author Kevin MacMaster
  */
 public class TurnTracker {
-    private GameState status;
+    private String status;
     private int currentTurn;
+    private int longestRoad;
+    private int largestArmy;
+
+    
 
     public TurnTracker() {
-        status = GameState.Setup;
+        status = "Setup";
         currentTurn = 0;
     }
 
+    public TurnTracker(String status, int currentTurn, int longestRoad, int largestArmy) {
+        this.status = status;
+        this.currentTurn = currentTurn;
+        this.longestRoad = longestRoad;
+        this.largestArmy = largestArmy;
+    }
+
+    public int getLongestRoad() {
+        return longestRoad;
+    }
+
+    public void setLongestRoad(int longestRoad) {
+        this.longestRoad = longestRoad;
+    }
+
+    public int getLargestArmy() {
+        return largestArmy;
+    }
+
+    public void setLargestArmy(int largestArmy) {
+        this.largestArmy = largestArmy;
+    }
     /**
      * @return the status
      */
-    public GameState getStatus() {
+    public String getStatus() {
         return status;
     }
 
     /**
      * @param status the GameState to set
      */
-    public void setStatus(GameState status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
