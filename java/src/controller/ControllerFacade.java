@@ -579,30 +579,10 @@ gameState=GameState.GamePlay;//for testing purposes
 		}
      }
 	
-     /**
-	 * Displays the player waiting view
-	 */
-	public void playerWaitingStart() { //PlayerWaitingController --goes in Setup !!Not sure if needed
-		
-		switch (gameState) {
-		case Login:
-			break;
-		case JoinGame:
-			break;
-		case PlayerWaiting:
-			setupController.playerWaitingStart();
-			break;
-		case Setup:
-			break;
-		case GamePlay:
-			break;
-		}
-    }
-	
 	/**
 	 * Called when the "Add AI" button is clicked in the player waiting view
 	 */
-	public void addAI() { //PlayerWaitingController --goes in Setup
+	public void addAI(String AIType) { //PlayerWaitingController --goes in Setup
 		
 		switch (gameState) {
 		case Login:
@@ -610,7 +590,6 @@ gameState=GameState.GamePlay;//for testing purposes
 		case JoinGame:
 			break;
 		case PlayerWaiting:
-			String AIType = null;
 			serverProxyFacade.addAI(AIType);
 			setupController.addAI(AIType);
 			break;

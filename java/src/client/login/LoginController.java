@@ -79,6 +79,7 @@ public class LoginController extends Controller implements ILoginController {
 			loginAction.execute();
 			
 		} else {
+			//check for different kinds of errors
 			loginFailed("Login Error", "Login failed - invalid username or password");
 		}
 	}
@@ -94,17 +95,15 @@ public class LoginController extends Controller implements ILoginController {
 		boolean success;
 		if(!validateUsername(username) || !validatePassword(password, passwordAgain)) {
 			success = false;
-		
 		} else {
 			success = ControllerFacade.getSingleton().register(username, password);
 		}
 		
-		// If register succeeded
 		if(success) {
 			getLoginView().closeModal();
 			loginAction.execute();
-			
 		} else {
+			//need to check for different kinds of errors
 			loginFailed("Login Error", "Login failed - invalid username or password");
 		}
 	}
