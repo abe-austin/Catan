@@ -111,7 +111,7 @@ public class BoardModel {
     		String type = newStructures.get(i).getType();
     		Player p = null;
     		
-    		Player[] players = gameModel.getPlayers();//This is empty though
+    		Player[] players = gameModel.getPlayers();
     		for(int j = 0; j < players.length; j++)
     		{
     			if(owner == players[j].getIndex())//Presumably owner's value is the same as index
@@ -136,6 +136,7 @@ public class BoardModel {
     			getHexTileAt(x, y).buildRoad(edge, p);
     		}
     		
+    		//Evaluate if these are on a port
     		if(type.equals("CITY"))
     		{
     			Corner corner = null;
@@ -152,6 +153,10 @@ public class BoardModel {
         		if(direction.equals("W"))
         			corner = getHexTileAt(x,y).westCorner;
     			getHexTileAt(x, y).buildCity(corner, p);
+    			
+    			PortType port = checkPort(x, y, direction);
+    			if(port != null)
+    				p.addPort(port);
     		}
     		
     		if(type.equals("SETTLEMENT"))
@@ -170,8 +175,63 @@ public class BoardModel {
         		if(direction.equals("W"))
         			corner = getHexTileAt(x,y).westCorner;
     			getHexTileAt(x, y).buildSettlement(corner, p);
+    			
+    			PortType port = checkPort(x, y, direction);
+    			if(port != null)
+    				p.addPort(port);
     		}	
     	}
+    }
+    
+    public PortType checkPort(int x, int y, String direction) {
+    	PortType toReturn = null;
+    	
+    	if( (x == 1 && y == -3 && (direction.equals("SE") || direction.equals("SW")))
+    		|| (x == 1 && y == -2 && (direction.equals("NE") || direction.equals("NW")))
+    		|| (x == 2 && y == -3 && direction.equals("W")) || (x == 2 && y == -3 &&direction.equals("E")) )
+    		toReturn = ((PortTile)getHexTileAt(1, -3)).getPortType();
+    	
+    	if( (x == -1 && y == -2 && (direction.equals("SE") || direction.equals("SW")))
+        	|| (x == -1 && y == -1 && (direction.equals("NE") || direction.equals("NW")))
+        	|| (x == 0 && y == -2 && direction.equals("W")) || (x == -2 && y == -1 &&direction.equals("E")) )
+    		toReturn = ((PortTile)getHexTileAt(-1, -2)).getPortType();
+    	
+    	if( (x == 3 && y == -3 && (direction.equals("W") || direction.equals("SW")))
+        	|| (x == 2 && y == -2 && (direction.equals("E") || direction.equals("NE")))
+        	|| (x == 2 && y == -3 && direction.equals("SE")) || (x == 3 && y == -2 &&direction.equals("NW")) )
+    		toReturn = ((PortTile)getHexTileAt(3, -3)).getPortType();
+    	
+    	if( (x == -3 && y == 0 && (direction.equals("SE") || direction.equals("E")))
+        	|| (x == -2 && y == 0 && (direction.equals("NW") || direction.equals("W")))
+        	|| (x == -2 && y == -1 && direction.equals("SW")) || (x == -3 && y == 1 &&direction.equals("NE")) )
+    		toReturn = ((PortTile)getHexTileAt(-3, 0)).getPortType();
+    	
+    	if( (x == 3 && y == -1 && (direction.equals("W") || direction.equals("NW")))
+        	|| (x == 2 && y == -1 && (direction.equals("E") || direction.equals("SE")))
+        	|| (x == 3 && y == -2 && direction.equals("SW")) || (x == 2 && y == 0 &&direction.equals("NE")) )
+    		toReturn = ((PortTile)getHexTileAt(3, -1)).getPortType();
+    	
+    	if( (x == 2 && y == 1 && (direction.equals("W") || direction.equals("NW")))
+           	|| (x == 1 && y == 1 && (direction.equals("E") || direction.equals("SE")))
+           	|| (x == 2 && y == 0 && direction.equals("SW")) || (x == 1 && y == 2 &&direction.equals("NE")) )
+       		toReturn = ((PortTile)getHexTileAt(2, 1)).getPortType();
+    	
+    	if( (x == 0 && y == 3 && (direction.equals("NE") || direction.equals("NW")))
+        	|| (x == 0 && y == 2 && (direction.equals("SE") || direction.equals("SW")))
+        	|| (x == 1 && y == 2 && direction.equals("W")) || (x == -1 && y == 3 &&direction.equals("E")) )
+    		toReturn = ((PortTile)getHexTileAt(0, 3)).getPortType();
+    	
+    	if( (x == -2 && y == 3 && (direction.equals("NE") || direction.equals("E")))
+        	|| (x == -1 && y == 2 && (direction.equals("W") || direction.equals("SW")))
+        	|| (x == -1 && y == 3 && direction.equals("NW")) || (x == -2 && y == 2 &&direction.equals("SE")) )
+    		toReturn = ((PortTile)getHexTileAt(-2, 3)).getPortType();
+    	
+    	if( (x == -3 && y == 2 && (direction.equals("NE") || direction.equals("E")))
+           	|| (x == -2 && y == 1 && (direction.equals("W") || direction.equals("SW")))
+           	|| (x == -2 && y == 2 && direction.equals("NW")) || (x == -3 && y == 1 &&direction.equals("SE")) )
+       		toReturn = ((PortTile)getHexTileAt(-3, 2)).getPortType();
+    	
+    	return toReturn;
     }
     
     public void updateRobber(int x, int y)
