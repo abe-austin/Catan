@@ -89,7 +89,13 @@ public class LoginController extends Controller implements ILoginController {
 		//register new user (which, if successful, also logs them in)
 		String username = getLoginView().getRegisterUsername();
 		String password = getLoginView().getRegisterPassword();
-		boolean success = ControllerFacade.getSingleton().register(username, password);
+		
+		boolean success;
+		if(username == "" || password == "") {
+			success = false;
+		} else {
+			success = ControllerFacade.getSingleton().register(username, password);
+		}
 		
 		// If register succeeded
 		if(success) {
@@ -108,13 +114,10 @@ public class LoginController extends Controller implements ILoginController {
 	
 	public void loginFailed(String title, String message) {
 		
-		/**MessageView errorView = new MessageView();
+		MessageView errorView = new MessageView();
 		errorView.setTitle(title);
 		errorView.setMessage(message);
-		errorView.showModal();**/
-		LoginErrorView loginError = new LoginErrorView();
-		loginError.setMessage();
-		loginError.showModal();
+		errorView.showModal();
 	}
 }
 
