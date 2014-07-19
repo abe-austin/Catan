@@ -51,7 +51,8 @@ public class ServerPoller {
      */
     public void poll(int version){
         if(serverProxy!=null){
-          	ServerResponse response = serverProxy.getGameModel(0);
+          	ServerResponse response = serverProxy.getGameModel(version);
+                System.out.println("responseCode: "+response.getCode());
           	if(response.getCode() == 200) {
         		gameModel = (GameModel)response.getBody();
           	}
