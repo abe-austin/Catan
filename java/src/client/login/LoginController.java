@@ -92,7 +92,7 @@ public class LoginController extends Controller implements ILoginController {
 		String passwordAgain = getLoginView().getRegisterPasswordRepeat();
 		
 		boolean success;
-		if(!validateUsername(username)) {
+		if(!validateUsername(username) || !validatePassword(password, passwordAgain)) {
 			success = false;
 		
 		} else {
