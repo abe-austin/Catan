@@ -49,9 +49,10 @@ public class ServerPoller {
      * polls the server to see if there have been changes in the game model and 
      * gets the game model if there were changes
      */
-    public void poll(){
+    public void poll(int version){
         if(serverProxy!=null){
-          	ServerResponse response = serverProxy.getGameModel(0);
+          	ServerResponse response = serverProxy.getGameModel(version);
+                System.out.println("responseCode: "+response.getCode());
           	if(response.getCode() == 200) {
         		gameModel = (GameModel)response.getBody();
           	}
