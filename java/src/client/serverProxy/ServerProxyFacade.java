@@ -1,19 +1,18 @@
 package client.serverProxy;
 
 import game.GameModel;
+import game.board.Corner;
+import game.board.Edge;
 import game.cards.ResourceCard;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import game.board.Edge;
-import game.board.Corner;
-import shared.locations.HexLocation;
+import java.util.Map;
 import shared.communication.*;
 import shared.definitions.CatanColor;
 import shared.definitions.Command;
 import shared.definitions.LogLevel;
 import shared.definitions.ResourceType;
+import shared.locations.HexLocation;
 
 /**
  * A proxy between the client controller and the server
@@ -633,12 +632,12 @@ public class ServerProxyFacade {
      * @pre					the client model is in state 'Playing'
      * @post 				trade is offered to another player
      * @param playerIndex 	the integer of the players index
-     * @param offer 		<code>List<Card></code> cards to trade
+     * @param offer 		<code>Map<ResourceType,Integer></code> cards to trade
      * @param receiver	the integer index of player to trade with
      * @return			<code>ServerResponse</code> object
      */
 
-	public ServerResponse offerTrade(int playerIndex, List<ResourceType> offer, int receiver) {
+	public ServerResponse offerTrade(int playerIndex, Map<ResourceType,Integer> offer, int receiver) {
 		
 		//create param object and convert to json
 		OfferTradeParam param = new OfferTradeParam("offerTrade", playerIndex, offer, receiver);

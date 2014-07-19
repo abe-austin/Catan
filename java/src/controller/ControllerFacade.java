@@ -403,7 +403,7 @@ gameState=GameState.GamePlay;
 	/**
 	 * Called by the domestic trade overlay when the user clicks the trade button.
 	 */
-	public void sendTradeOffer(){//DomesticTradeController --goes in Trade
+	public void sendTradeOffer(Map<ResourceType,Integer> tradingOffer,int receiverIndex){//DomesticTradeController --goes in Trade
             switch(gameState){
                 case Login:
                     break;
@@ -414,6 +414,7 @@ gameState=GameState.GamePlay;
                 case Setup:
                     break;
                 case GamePlay:
+                    serverProxyFacade.offerTrade(clientPlayer.getIndex(), tradingOffer, receiverIndex);
                     break;
             }
         }
@@ -434,6 +435,7 @@ gameState=GameState.GamePlay;
                 case Setup:
                     break;
                 case GamePlay:
+                    serverProxyFacade.acceptTrade(clientPlayer.getIndex(), willAccept);
                     break;
             }
         }

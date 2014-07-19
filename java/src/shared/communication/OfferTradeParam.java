@@ -1,17 +1,17 @@
 package shared.communication;
 
 import java.util.List;
-
+import java.util.Map;
 import shared.definitions.ResourceType;
 
 public class OfferTradeParam {
 
 	String type;
 	private int playerIndex;
-	private List<ResourceType> offer;
+	private Map<ResourceType,Integer> offer;
 	private int receiver;
 	
-	public OfferTradeParam(String type, int playerIndex, List<ResourceType> offer,
+	public OfferTradeParam(String type, int playerIndex, Map<ResourceType,Integer> offer,
 			int receiver) {
 		super();
 		this.type = type;
@@ -36,11 +36,11 @@ public class OfferTradeParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public List<ResourceType> getOffer() {
+	public Map<ResourceType,Integer> getOffer() {
 		return offer;
 	}
 
-	public void setOffer(List<ResourceType> offer) {
+	public void setOffer(Map<ResourceType,Integer> offer) {
 		this.offer = offer;
 	}
 
