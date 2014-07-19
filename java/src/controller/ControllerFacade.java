@@ -8,6 +8,7 @@ package controller;
 
 import client.base.IAction;
 import client.data.GameInfo;
+import client.data.PlayerInfo;
 import client.data.RobPlayerInfo;
 import client.map.MapController;
 import client.serverProxy.ServerPoller;
@@ -18,12 +19,11 @@ import game.board.Edge;
 import game.board.HexTile;
 import game.board.PortTile;
 import game.cards.CardOwner;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import player.Player;
 import shared.communication.ServerResponse;
 import shared.definitions.CatanColor;
@@ -85,7 +85,7 @@ public class ControllerFacade {
         timer.scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run() {
-                //serverPoller.poll();
+                //serverPoller.poll(-1);
                 //switchGameModel(serverPoller.getGameModel());
                 //reassignControllers();
                 //updateGui();
@@ -331,6 +331,7 @@ public class ControllerFacade {
          * @return 
 	 */
 	public ArrayList<ResourceType> domesticStartTrade(){//DomesticTradeController --goes in Trade
+gameState=GameState.GamePlay;//testing only
             switch(gameState){
                 case Login:
                     break;
@@ -341,12 +342,63 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    ArrayList<ResourceType> playerResourceTypes =tradeController.getPlayerResourceTypes();
-                    return playerResourceTypes;
+                    return tradeController.domesticStartTrade();
             }
             return null;
         }
+        
+        public boolean isCurrentTurn(){
+currentGameModel.getTurnTracker().setCurrentTurn(clientPlayer.getIndex());//testing
+gameState=GameState.GamePlay;
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    if (clientPlayer.getIndex()==currentGameModel.getTurnTracker().getCurrentTurn()){
+                        return true;
+                    }
+            }
+            return false;
+        }
 	
+        public PlayerInfo[] getPlayerInfo(){
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    return tradeController.getPlayerInfo();
+            }
+            return null;
+        }
+        
+        public Map<ResourceType,Integer> getPlayerResources(){
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    return tradeController.getPlayerResources();
+            }
+            return null;
+        }
+        
 	/**
 	 * Called by the domestic trade overlay when the user decreases the amount of a resource.
 	 * 
