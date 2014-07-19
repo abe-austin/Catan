@@ -567,7 +567,7 @@ gameState=GameState.GamePlay;//for testing purposes
 			playerInfo.setName(user.getUsername().getUsername());
 			playerInfo.setPlayerIndex(index);
 			playerInfo.setColor(color);
-			playerInfo.setId(1); //stores key to player. how do I do this??? or to user?
+			playerInfo.setId(user.getId());
 			gameInfo.addPlayer(playerInfo);
 			break;
 		case PlayerWaiting:

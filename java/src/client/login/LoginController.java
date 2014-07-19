@@ -69,7 +69,6 @@ public class LoginController extends Controller implements ILoginController {
 	public void signIn() {
 		
 		// log in user
-		System.out.println("signin");
 		String username = getLoginView().getLoginUsername();
 		String password = getLoginView().getLoginPassword();
 		boolean success = ControllerFacade.getSingleton().signIn(username, password);
@@ -109,10 +108,13 @@ public class LoginController extends Controller implements ILoginController {
 	
 	public void loginFailed(String title, String message) {
 		
-		MessageView errorView = new MessageView();
+		/**MessageView errorView = new MessageView();
 		errorView.setTitle(title);
 		errorView.setMessage(message);
-		errorView.showModal();
+		errorView.showModal();**/
+		LoginErrorView loginError = new LoginErrorView();
+		loginError.setMessage();
+		loginError.showModal();
 	}
 }
 
