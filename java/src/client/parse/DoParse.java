@@ -1,5 +1,6 @@
 package client.parse;
 
+import game.GameModel;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.regex.Pattern;
 
 public class DoParse
 {
+    private GameModel gameModel=new GameModel();
 	public DoParse()
 	{}
 	
@@ -401,6 +403,7 @@ public class DoParse
             
             ParsedTradeOffer tradeOffer = new ParsedTradeOffer(sender, receiver, brick, ore, sheep, wood, wheat);
             //CALL Functions to set trade offer to gameModel
+            //gameModel.setTradeOffer(new TradeOffer(sender, receiver, brick, ore, sheep, wood, wheat);
             return input;
         }
 	public String parseWinner(String input)
