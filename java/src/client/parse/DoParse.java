@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+import shared.definitions.Command;
 
 
 
@@ -324,6 +325,9 @@ public class DoParse
 				parsedLogs.add(pL);
 			}
 		//CALL FUNCTIONS TO SET parsedLogs TO THE gameModel
+                for(ParsedLog log:parsedLogs){
+                    gameModel.getGameHistory().addCommand(new Command(log.source,log.message));
+                }
 		return input;
 	}
 	
