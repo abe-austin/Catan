@@ -110,15 +110,16 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void createNewGame() {
 
-		ArrayList<GameInfo> games = ControllerFacade.getSingleton().createNewGame(
+		ArrayList<GameInfo> gamesTemp = ControllerFacade.getSingleton().createNewGame(
 				newGameView.getTitle(),
 				newGameView.getRandomlyPlaceHexes(),
 				newGameView.getRandomlyPlaceNumbers(),
 				newGameView.getUseRandomPorts());
 		PlayerInfo playerInfo = new PlayerInfo();
 		playerInfo.setName(ControllerFacade.getSingleton().getUser().getUsername().getUsername());
-		GameInfo[] gamesArray = (GameInfo[]) games.toArray();
-		getJoinGameView().setGames(gamesArray, playerInfo);
+		GameInfo[] games = gamesTemp.toArray(new GameInfo[gamesTemp.size()]);
+		
+		getJoinGameView().setGames(games, playerInfo);
 		getNewGameView().closeModal();
 	}
 
