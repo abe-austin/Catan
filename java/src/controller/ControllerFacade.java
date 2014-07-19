@@ -679,6 +679,7 @@ gameState=GameState.GamePlay;//for testing purposes
                     	int id = (int) serverResponse.getBody();
                 		User user = new User(new Username(username), new Password(password), id);
                 		this.user = user;
+        				this.gameState = GameState.JoinGame;
                     	return true;
                     	
                     } else {
