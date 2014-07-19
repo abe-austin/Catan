@@ -21,16 +21,16 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 	@Override
 	public void start() {
-		
-		ControllerFacade.getSingleton().playerWaitingStart();
+	
 		getView().showModal();
 	}
 
 	@Override
 	public void addAI() {
 		
-		ControllerFacade.getSingleton().addAI();
 		// TEMPORARY
+		String AIType = getView().getSelectedAI();
+		ControllerFacade.getSingleton().addAI(AIType);
 		getView().closeModal();
 	}
 

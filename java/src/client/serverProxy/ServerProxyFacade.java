@@ -1,19 +1,18 @@
 package client.serverProxy;
 
 import game.GameModel;
+import game.board.Corner;
+import game.board.Edge;
 import game.cards.ResourceCard;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import game.board.Edge;
-import game.board.Corner;
-import shared.locations.HexLocation;
+import java.util.Map;
 import shared.communication.*;
 import shared.definitions.CatanColor;
 import shared.definitions.Command;
 import shared.definitions.LogLevel;
 import shared.definitions.ResourceType;
+import shared.locations.HexLocation;
 
 /**
  * A proxy between the client controller and the server
@@ -52,8 +51,7 @@ public class ServerProxyFacade {
      * @post			if successful, catan.user cookie is set
      * @param username 	the string of the username
      * @param password 	the string of the password
-     * @return			<code>true</code> if login was successful, 
-     *                  <code>false</code> if it was not successful
+     * @return			<code>ServerResponse</code> object
      */
 	public ServerResponse loginUser(String username, String password) {
 		
@@ -75,8 +73,7 @@ public class ServerProxyFacade {
      * @post  			if successful, user account is created and catan.user cookie is set
      * @param username	the string of the username
      * @param password	the string of the password
-     * @return			<code>true</code> if login was successful, 
-     * 					<code>false</code> if it was not successful
+     * @return			<code>ServerResponse</code> object
      */
 	public ServerResponse registerUser(String username, String password) {
 		
@@ -95,7 +92,7 @@ public class ServerProxyFacade {
     /**
      * gets the GameModel's for all current games
      * 
-     * @return <code>Set<GameModel></code> that contains all current games
+     * @return	<code>ServerResponse</code> object
      */
 	public ServerResponse getAllGames() {
 		
@@ -103,7 +100,6 @@ public class ServerProxyFacade {
 		String url = "/games/list";
 		ServerResponse  response = server.doGet(url);
 		
-		//TODO what data structure to use??
 		converter.convertGameInfo(response);
 		return response; 
 	}
@@ -111,7 +107,7 @@ public class ServerProxyFacade {
     /**
      * creates an empty game of the server
      * 
-     * @return <code>GameModel</code> of the created game
+     * @return	<code>ServerResponse</code> object
      */
 	public ServerResponse createGame(String name, boolean randomHexes,
 			boolean randomNumbers, boolean randomPorts) {
@@ -123,7 +119,6 @@ public class ServerProxyFacade {
 		String url = "/games/create";
 		 ServerResponse  response = server.doPost(url, param);
 		
-		//TODO data structure?
 		converter.convert(response, CreateGameRes.class);
 		return response; 
 	}
@@ -138,7 +133,7 @@ public class ServerProxyFacade {
      * @post			catan.game cookie is set for player
      * @param gameID	the integer of the game id
      * @param color		the <code>CatanColor</code> of the color for player to use
-     * @return 			<code>GameModel</code> of the joined game
+     * @return			<code>ServerResponse</code> object
      */
 	public ServerResponse joinGame(int id, CatanColor color) {
 		
@@ -154,6 +149,15 @@ public class ServerProxyFacade {
 
 	}
 	
+    /**
+     * saves the current state of the game
+     * 
+     * @pre 			player has valid catan.user cookie set
+     * @pre 			player has valid catan.game cookie set
+     * @param id		the integer of the game id
+     * @param name		name to save the game as
+     * @return			<code>ServerResponse</code> object
+     */
 	public ServerResponse saveGame(int id, String name) {
 		
 		SaveGameParam param = new SaveGameParam(id, name);
@@ -165,6 +169,14 @@ public class ServerProxyFacade {
 		return response; 
 	}
 	
+    /**
+     * loads a game from memory
+     * 
+     * @pre 			player has valid catan.user cookie set
+     * @pre 			player has valid catan.game cookie set
+     * @param name		name of the game to load
+     * @return			<code>ServerResponse</code> object
+     */
 	public ServerResponse loadGame(String name) {
 		
 		//create param object and convert to json
@@ -182,23 +194,26 @@ public class ServerProxyFacade {
      * gets <code>GameModel</code> for the current game
      * 
      * @pre		player has valid catan.user and catan.game id
-     * @return	<code>GameModel</code> of the current game
+     * @return	<code>ServerResponse</code> object
      */
 	public ServerResponse getGameModel(int version) {
 		
+		//create param object and convert to json
+		GetGameModelParam param = new GetGameModelParam(version);
+		
 		//make post to proper url using json as the body of the request
 		String url = "/game/model";
-		ServerResponse  response = server.doGet(url);
+		ServerResponse  response = server.doPost(url, param);
 		
-		 converter.convert(response, GameModel.class);
-		 return response;
+		converter.convert(response, GameModel.class);
+		return response;
 	}
 
     /**
      * resets the game to how it was after all the players joined
      * 
      * @pre		the player has valid catan.user and catan.game id
-     * @return	<code>GameModel</code> of the reset game
+     * @return	<code>ServerResponse</code> object
      */
     public ServerResponse resetGame() { 
 		
@@ -215,8 +230,7 @@ public class ServerProxyFacade {
      * 
      * @pre   			player has valid catan.user and catan.game id
      * @param commands	List<Command> containing all the command's to be applied
-     * @return			<code>true</code> if login was successful, 
-     * 					<code>false</code> if it was not successful
+     * @return			<code>ServerResponse</code> object
      */
 	public ServerResponse doGameCommands(List<Command> commands) {
 		
@@ -235,7 +249,7 @@ public class ServerProxyFacade {
      * get a list of all the <code>Command</code>'s played on a game
      * 
      * @pre		player has valid catan.user and catan.game id
-     * @return	<code>List<Command></code> containing all the command's played on the game
+     * @return	<code>ServerResponse</code> object
      */
 	public ServerResponse getGameCommands() {
 		
@@ -250,13 +264,12 @@ public class ServerProxyFacade {
     /**
      * adds an AI to the game
      * 
-     * @pre			player has valid catan.user and catan.game id
-     * @pre			there is space for an AI player in game
-     * @post		the AI player is added to the next open spot in the game in the poster's catan.game cookie
-     * @post		the AI player uses a <code>CatanColor</code> not taken by any other player
-     * @param ai	the <code>String</code> name of AI
-     * @return		<code>true</code> if login was successful, 
-     * 				<code>false</code> if it was not successful     
+     * @pre				player has valid catan.user and catan.game id
+     * @pre				there is space for an AI player in game
+     * @post			the AI player is added to the next open spot in the game in the poster's catan.game cookie
+     * @post			the AI player uses a <code>CatanColor</code> not taken by any other player
+     * @param AIType	the <code>String</code> name of AI
+     * @return			<code>ServerResponse</code> object    
      */
 	public ServerResponse addAI(String AIType) {
 		
@@ -275,7 +288,7 @@ public class ServerProxyFacade {
     /**
      * gets a <code>Set<String></code> of the available AI types that may be added to the game
      * 
-     * @return Set<String> containing the AI names that may be added to the game
+     * @return	<code>ServerResponse</code> object
      */
 	public ServerResponse getAIList() {
 
@@ -283,7 +296,6 @@ public class ServerProxyFacade {
 		String url = "/game/listAI";
 		ServerResponse response = server.doGet(url);
 		
-		//TODO need data structure
 		converter.convert(response, ArrayList.class);
 		return response; 
 	}
@@ -293,9 +305,8 @@ public class ServerProxyFacade {
      * 
      * @post  				chat contains the new message at the end
      * @param playerIndex	the integer index of the player to chat
-     * @param message		<code>String</code> message to send
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful     
+     * @param content		<code>String</code> message to send
+     * @return				<code>ServerResponse</code> object
      */
 	public ServerResponse sendChat(int playerIndex, String content) {
 		
@@ -319,8 +330,7 @@ public class ServerProxyFacade {
      * @post 				the client model is in the state 'Discarding', 'Robbing', or 'Playing'
      * @param playerIndex	the integer of the players index of roller 
      * @param rollNumber	the integer number rolled
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful     
+     * @return				<code>ServerResponse</code> object    
      */
 	public ServerResponse rollNumber(int playerIndex, int rollNumber) {
 		
@@ -352,12 +362,12 @@ public class ServerProxyFacade {
     /**
      * player ends turn
      * 
-     * @pre 	the client model is in state 'Playing'
-     * @pre		it is players turn
-     * @pre		the client model is in state 'Playing'
-     * @post 	it is the next players turn
-     * @return	<code>true</code> if login was successful, 
-     * 			<code>false</code> if it was not successful
+     * @pre 				the client model is in state 'Playing'
+     * @pre					it is players turn
+     * @pre					the client model is in state 'Playing'
+     * @post 				it is the next players turn
+     * @param playerIndex	the integer of the players index
+     * @return				<code>ServerResponse</code> object
      */
 	public ServerResponse finishTurn(int playerIndex) {
 		
@@ -381,7 +391,7 @@ public class ServerProxyFacade {
      * @pre					the client model is in state 'Playing'
      * @post 				player has the new card
      * @param playerIndex	the integer of the players index
-     * @return 				<code>Card</code> the bought development card
+     * @return				<code>ServerResponse</code> object
      */
 	public ServerResponse buyDevCard(int playerIndex) {
 		
@@ -405,9 +415,9 @@ public class ServerProxyFacade {
      * @pre					it is players turn
      * @post 				player gains two of the specified <code>ResourceType</code>'s
      * @param playerIndex	the integer of the players index
-     * @param resourceOne	the <code>ResourceType</code> of first resource to receive
-     * @param resourceTwo	the <code>ResourceType</code> of second resource to receive
-     * @return 				<code>Card[]</code> an array of two cards of the specified <code>ResourceType</code>'s
+     * @param resource1		the <code>ResourceType</code> of first resource to receive
+     * @param resource2		the <code>ResourceType</code> of second resource to receive
+     * @return				<code>ServerResponse</code> object
      */
 	public ServerResponse playYearOfPlenty(int playerIndex, ResourceType resource1, ResourceType resource2) {
 		
@@ -435,15 +445,14 @@ public class ServerProxyFacade {
      * @post 				player uses two roads
      * @post		 		the map correctly lists the roads played
      * @param playerIndex	the integer of the players index
-     * @param edgeOne		the <code>Edge</code> to place road on
-     * @param edgeTwo		the <code>Edge</code> to place road on
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful    
+     * @param spot1			the <code>Edge</code> to place road on
+     * @param spot2			the <code>Edge</code> to place road on
+     * @return				<code>ServerResponse</code> object   
      */
-	public ServerResponse playRoadBuilding(int playerIndex, Edge edgeOne, Edge edgeTwo) {
+	public ServerResponse playRoadBuilding(int playerIndex, Edge spot1, Edge spot2) {
 		
 		//create param object and convert to json
-		PlayRoadBuildingParam param = new PlayRoadBuildingParam("Road_Building", playerIndex, edgeOne, edgeTwo);
+		PlayRoadBuildingParam param = new PlayRoadBuildingParam("Road_Building", playerIndex, spot1, spot2);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/Road_Building";
@@ -465,8 +474,8 @@ public class ServerProxyFacade {
      * @post		 			the player to rob gives one random resource card to the player playing soldier card
      * @param playerIndex		the integer of the players index
      * @param victimIndex		the integer of the victim index
-     * @param newRobberLocation	the <code>HexLocation</code> to place the robber on
-     * @return 					<code>Card</code> the card stolen by the player from victim
+     * @param location			the <code>HexLocation</code> to place the robber on
+     * @return					<code>ServerResponse</code> object
      */
 	public ServerResponse playSoldier(int playerIndex, int victimIndex, HexLocation location) {
 		
@@ -491,7 +500,7 @@ public class ServerProxyFacade {
      * @post				the player of card get an equal number of those lost
      * @param playerIndex	the integer of the players index
      * @param resource		the <code>ResourceType</code> of the resource to get
-     * @return				<code>List<Card></code> containing all the cards gained by player of monopoly card
+     * @return				<code>ServerResponse</code> object
      */
 	public ServerResponse playMonopoly(int playerIndex, ResourceType resource) {
 		
@@ -515,8 +524,8 @@ public class ServerProxyFacade {
      * @pre					the client model is in state 'Playing'
      * @post 				player gains a victory point
      * @param playerIndex	the integer of the players index
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful      */
+     * @return				<code>ServerResponse</code> object
+     */
 	public ServerResponse playMonument(int playerIndex) { 
 		
 		//create param object and convert to json
@@ -542,9 +551,8 @@ public class ServerProxyFacade {
      * @post 				players spends necessary resources
      * @post 				map lists the new road
      * @param playerIndex 	the integer of the players index
-     * @param e				the <code>Edge</code> to build the road on
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful 
+     * @param roadLocation	the <code>Edge</code> to build the road on
+     * @return				<code>ServerResponse</code> object
      */
 	public ServerResponse buildRoad(int playerIndex, Edge roadLocation) {
 		
@@ -562,19 +570,18 @@ public class ServerProxyFacade {
     /**
      * player builds a settlement
      * 
-     * @pre 				settlement location is open
-     * @pre	    			settlement location is connected to at least one of players roads
-     * @pre					settlement location is not on water
-     * @pre					player has necessary resources
-     * @pre     			it is players turn
-     * @pre					the client model is in state 'Playing'
-     * @post  				players spends necessary resources
-     * @post		  		map lists the new settlement
-     * @param playerIndex 	the integer of the players index
-     * @param c				<code>Corner</code> the Corner to build settlement on
-     * @param free			<code>boolean</code> whether the <code>Corner</code> is free or not
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful 
+     * @pre 					settlement location is open
+     * @pre	    				settlement location is connected to at least one of players roads
+     * @pre						settlement location is not on water
+     * @pre						player has necessary resources
+     * @pre     				it is players turn
+     * @pre						the client model is in state 'Playing'
+     * @post  					players spends necessary resources
+     * @post		  			map lists the new settlement
+     * @param playerIndex 		the integer of the players index
+     * @param vertexLocation	<code>Corner</code> the Corner to build settlement on
+     * @param free				<code>boolean</code> whether the <code>Corner</code> is free or not
+     * @return					<code>ServerResponse</code> object
      */
 	public ServerResponse buildSettlement(int playerIndex, Corner vertexLocation, boolean free) {
 		
@@ -592,18 +599,17 @@ public class ServerProxyFacade {
     /**
      * player builds a city
      * 
-     * @pre					city location is where player currently has settlement
-     * @pre					player has necessary resources
-     * @pre					it is players turn
-     * @pre					the client model is in state 'Playing'
-     * @post  				players spends necessary resources
-     * @post				player gets settlement back
-     * @post				map lists the new city
-     * @param playerIndex 	the integer of the players index
-     * @param c				<code>Corner</code> the Corner to build city on
-     * @param free			<code>boolean</code> whether the <code>Corner</code> is free or not
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful 
+     * @pre						city location is where player currently has settlement
+     * @pre						player has necessary resources
+     * @pre						it is players turn
+     * @pre						the client model is in state 'Playing'
+     * @post  					players spends necessary resources
+     * @post					player gets settlement back
+     * @post					map lists the new city
+     * @param playerIndex 		the integer of the players index
+     * @param vertexLocation	<code>Corner</code> the Corner to build city on
+     * @param free				<code>boolean</code> whether the <code>Corner</code> is free or not
+     * @return					<code>ServerResponse</code> object
      */
 	public ServerResponse buildCity(int playerIndex, Corner vertexLocation, boolean free) {
 		
@@ -626,13 +632,12 @@ public class ServerProxyFacade {
      * @pre					the client model is in state 'Playing'
      * @post 				trade is offered to another player
      * @param playerIndex 	the integer of the players index
-     * @param offer 		<code>List<Card></code> cards to trade
-     * @param recieveIndex	the integer index of player to trade with
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful 
+     * @param offer 		<code>Map<ResourceType,Integer></code> cards to trade
+     * @param receiver	the integer index of player to trade with
+     * @return			<code>ServerResponse</code> object
      */
 
-	public ServerResponse offerTrade(int playerIndex, List<ResourceType> offer, int receiver) {
+	public ServerResponse offerTrade(int playerIndex, Map<ResourceType,Integer> offer, int receiver) {
 		
 		//create param object and convert to json
 		OfferTradeParam param = new OfferTradeParam("offerTrade", playerIndex, offer, receiver);
@@ -654,8 +659,7 @@ public class ServerProxyFacade {
      * @post				trade offer is removed
      * @param playerIndex	the integer index of the player to trade 
      * @param willAccept	the <code>boolean</code> whether trade is accepted or not
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful     
+     * @return			<code>ServerResponse</code> object    
      */
 	public ServerResponse acceptTrade(int playerIndex, boolean willAccept) {
 		
@@ -680,8 +684,7 @@ public class ServerProxyFacade {
      * @param ratio			the integer of the trade ratio
      * @param input			the <code>ResourceType</code> of resources given
      * @param output		the <code>ResourceType</code> of the resource received
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful 
+     * @return				<code>ServerResponse</code> object
      */
 	public ServerResponse maritimeTrade(int playerIndex, int ratio, ResourceType input, ResourceType output) {
 		
@@ -706,8 +709,7 @@ public class ServerProxyFacade {
      * @post 				player gives up specified cards
      * @param playerIndex 	the integer of the players index
      * @param cards 		the <code>List<Card></code> of the cards to discard
-     * @return				<code>true</code> if login was successful, 
-     * 						<code>false</code> if it was not successful     
+     * @return			<code>ServerResponse</code> object    
      */
 	public ServerResponse discardCards(int playerIndex, List<ResourceCard> discardedCards) {
 		
@@ -728,8 +730,7 @@ public class ServerProxyFacade {
      * @pre   			a valid <code>LogLevel</code> is given
      * @post  			server uses the given <code>LogLevel</code>
      * @param logLevel	the <code>LogLevel</code> to be applied
-     * @return			<code>true</code> if login was successful, 
-     * 					<code>false</code> if it was not successful
+     * @return			<code>ServerResponse</code> object
      */
 	public ServerResponse changeLogLevel(LogLevel logLevel) {
 		

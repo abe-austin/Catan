@@ -8,6 +8,7 @@ package controller;
 
 import client.base.IAction;
 import client.data.GameInfo;
+import client.data.PlayerInfo;
 import client.data.RobPlayerInfo;
 import client.map.MapController;
 import client.serverProxy.ServerPoller;
@@ -18,12 +19,11 @@ import game.board.Edge;
 import game.board.HexTile;
 import game.board.PortTile;
 import game.cards.CardOwner;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import player.Player;
 import shared.communication.ServerResponse;
 import shared.definitions.CatanColor;
@@ -62,6 +62,7 @@ public class ControllerFacade {
     private GameState gameState;
     private User user;
     private Player clientPlayer;
+    private GameInfo gameInfo;
     
     private ControllerFacade(){
         setupController = new SetupController();
@@ -85,7 +86,7 @@ public class ControllerFacade {
         timer.scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run() {
-                //serverPoller.poll();
+                //serverPoller.poll(-1);
                 //switchGameModel(serverPoller.getGameModel());
                 //reassignControllers();
                 //updateGui();
@@ -331,6 +332,7 @@ public class ControllerFacade {
          * @return 
 	 */
 	public ArrayList<ResourceType> domesticStartTrade(){//DomesticTradeController --goes in Trade
+gameState=GameState.GamePlay;//testing only
             switch(gameState){
                 case Login:
                     break;
@@ -341,18 +343,14 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    ArrayList<ResourceType> playerResourceTypes =tradeController.getPlayerResourceTypes();
-                    return playerResourceTypes;
+                    return tradeController.domesticStartTrade();
             }
             return null;
         }
-	
-	/**
-	 * Called by the domestic trade overlay when the user decreases the amount of a resource.
-	 * 
-	 * @param resource The resource whose amount is being decreased
-	 */
-	public void decreaseResourceAmount(ResourceType resource){//DomesticTradeController --goes in Trade
+        
+        public boolean isCurrentTurn(){
+currentGameModel.getTurnTracker().setCurrentTurn(clientPlayer.getIndex());//testing
+gameState=GameState.GamePlay;
             switch(gameState){
                 case Login:
                     break;
@@ -363,16 +361,14 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                    if (clientPlayer.getIndex()==currentGameModel.getTurnTracker().getCurrentTurn()){
+                        return true;
+                    }
             }
+            return false;
         }
 	
-	/**
-	 * Called by the domestic trade overlay when the user increases the amount of a resource.
-	 * 
-	 * @param resource The resource whose amount is being increased
-	 */
-	public void increaseResourceAmount(ResourceType resource){//DomesticTradeController --goes in Trade
+        public PlayerInfo[] getPlayerInfo(){
             switch(gameState){
                 case Login:
                     break;
@@ -383,14 +379,31 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                    return tradeController.getPlayerInfo();
             }
+            return null;
         }
-	
+        
+        public Map<ResourceType,Integer> getPlayerResources(){
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    return tradeController.getPlayerResources();
+            }
+            return null;
+        }
+        
 	/**
 	 * Called by the domestic trade overlay when the user clicks the trade button.
 	 */
-	public void sendTradeOffer(){//DomesticTradeController --goes in Trade
+	public void sendTradeOffer(Map<ResourceType,Integer> tradingOffer,int receiverIndex){//DomesticTradeController --goes in Trade
             switch(gameState){
                 case Login:
                     break;
@@ -401,108 +414,11 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
+                    serverProxyFacade.offerTrade(clientPlayer.getIndex(), tradingOffer, receiverIndex);
                     break;
             }
         }
 	
-	/**
-	 * Called by the domestic trade overlay when the user selects a player to trade with.
-	 * 
-	 * @param playerIndex The index [0, 3] of the selected trading partner, or -1 if "None" was selected
-	 */
-	public void setPlayerToTradeWith(int playerIndex){//DomesticTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay://Need to return that player or something...not sure how to get the player object from the index at this point though
-                    break;
-            }
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when the user selects a resource to be received.
-	 * 
-	 * @param resource The resource to be received
-	 */
-	public void setResourceToReceive(ResourceType resource){//DomesticTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                	break;
-            }
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when the user selects a resource to be sent.
-	 * 
-	 * @param resource The resource to be sent
-	 */
-	public void setResourceToSend(ResourceType resource){//DomesticTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when user selects "none" for a resource.
-	 * 
-	 * @param resource The resource for which "none" was selected
-	 */
-	public void unsetResource(ResourceType resource){//DomesticTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when the user cancels a trade.
-	 */
-	public void domesticCancelTrade(){//DomesticTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-
 	/**
 	 * Called by the accept trade overlay when the user either accepts or rejects a trade.
 	 * 
@@ -519,6 +435,7 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
+                    serverProxyFacade.acceptTrade(clientPlayer.getIndex(), willAccept);
                     break;
             }
         }
@@ -597,15 +514,12 @@ gameState=GameState.GamePlay;//for testing purposes
 			gameModel.setRandomNumbers(randomNumbers);
 			gameModel.setRandomPorts(randomPorts);
 			serverProxyFacade.createGame(title, randomHexes, randomNumbers, randomPorts);
-			
 			ServerResponse serverResponse  = serverProxyFacade.getAllGames();
 			GameInfo[] gameObjects = (GameInfo[]) serverResponse.getBody();
 			GameInfo[] games = new GameInfo[gameObjects.length];
-			
 			for(int i=0; i<gameObjects.length; i++) {
 				games[i] = (GameInfo) gameObjects[i];
 			}
-			
 			return games;
 		case PlayerWaiting:
 			break;
@@ -616,6 +530,31 @@ gameState=GameState.GamePlay;//for testing purposes
 		}
 		return null;
     }
+	/**
+	 * set's gameInfo
+	 * @param gameInfo
+	 */
+	public void startJoinGame(GameInfo gameInfo) {
+		
+		switch (gameState) {
+		case Login:
+			break;
+		case JoinGame:
+<<<<<<< HEAD
+			clientPlayer = new Player(color, user, 1); // fix index!
+			// setupController.joinGame(color, user);
+=======
+			this.gameInfo = gameInfo;
+>>>>>>> a172f01fae4c6dda1240770ff7c66335462bdec7
+			break;
+		case PlayerWaiting:
+			break;
+		case Setup:
+			break;
+		case GamePlay:
+			break;
+		}
+	}
 		
 	/**
 	 * Called by the select color view when the user clicks the "Join Game" button
@@ -627,8 +566,14 @@ gameState=GameState.GamePlay;//for testing purposes
 		case Login:
 			break;
 		case JoinGame:
-			clientPlayer = new Player(color, user, 1); // fix index!
-			// setupController.joinGame(color, user);
+			int index = gameInfo.getPlayers().size() + 1;
+			clientPlayer = new Player(color, user, index);
+			PlayerInfo playerInfo = new PlayerInfo();
+			playerInfo.setName(user.getUsername().getUsername());
+			playerInfo.setPlayerIndex(index);
+			playerInfo.setColor(color);
+			playerInfo.setId(user.getId());
+			gameInfo.addPlayer(playerInfo);
 			break;
 		case PlayerWaiting:
 			break;
@@ -639,29 +584,10 @@ gameState=GameState.GamePlay;//for testing purposes
 		}
      }
 	
-     /**
-	 * Displays the player waiting view
-	 */
-	public void playerWaitingStart() { //PlayerWaitingController --goes in Setup !!Not sure if needed
-		
-		switch (gameState) {
-		case Login:
-			break;
-		case JoinGame:
-			break;
-		case PlayerWaiting:
-			break;
-		case Setup:
-			break;
-		case GamePlay:
-			break;
-		}
-    }
-	
 	/**
 	 * Called when the "Add AI" button is clicked in the player waiting view
 	 */
-	public void addAI() { //PlayerWaitingController --goes in Setup
+	public void addAI(String AIType) { //PlayerWaitingController --goes in Setup
 		
 		switch (gameState) {
 		case Login:
@@ -669,7 +595,6 @@ gameState=GameState.GamePlay;//for testing purposes
 		case JoinGame:
 			break;
 		case PlayerWaiting:
-			String AIType = null;
 			serverProxyFacade.addAI(AIType);
 			setupController.addAI(AIType);
 			break;
@@ -727,9 +652,8 @@ gameState=GameState.GamePlay;//for testing purposes
                     	return true;
                     	
                     } else {
-                    	//check body for error type. return false;
+                    	return false;
                     }
-                	break;
                 case JoinGame:
                     break;
                 case PlayerWaiting:

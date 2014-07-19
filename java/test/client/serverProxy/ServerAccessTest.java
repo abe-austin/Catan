@@ -8,6 +8,7 @@ import junit.framework.Assert;
 import game.GameModel;
 import game.board.Corner;
 import game.board.Edge;
+import game.board.HexTile;
 import game.cards.ResourceCard;
 
 import org.junit.Test;
@@ -33,37 +34,37 @@ public class ServerAccessTest {
 	
 	@Test
 	public void test() {
-//		this.registerUser();
-//		this.createGame();
+		this.registerUser();
+		this.createGame();
 		this.getAllGames();
-//		this.loginUser();
-//		this.joinGame();
-//		this.saveGame();
-//		this.getGameModel();
-//		this.resetGame();
-//		this.getGameCommands();
-//		this.doGameCommands();
-//		this.addAI();
-//		this.getAIList();
-//		this.sendChat();
-//		this.rollNumber();
-//		this.robPlayer();
-//		this.finishTurn();
-//		this.buyDevCard();
-//		this.playYearOfPlenty();
-//		this.playRoadBuilding();
-//		this.playSoldier();
-//		this.playMonopoly();
-//		this.playMonument();
-//		this.playRoadBuilding();
-//		this.buildRoad();
-//		this.buildSettlement();
-//		this.buildCity();
-//		this.offerTrade();
-//		this.acceptTrade();
-//		this.maritimeTrade();
-//		this.discardCards();
-//		this.changeLogLevel();
+		this.loginUser();
+		this.joinGame();
+		this.saveGame();
+		this.getGameModel();
+		this.resetGame();
+		this.getGameCommands();
+		this.doGameCommands();
+		this.addAI();
+		this.getAIList();
+		this.sendChat();
+		this.rollNumber();
+		this.robPlayer();
+		this.finishTurn();
+		this.buyDevCard();
+		this.playYearOfPlenty();
+		this.playRoadBuilding();
+		this.playSoldier();
+		this.playMonopoly();
+		this.playMonument();
+		this.playRoadBuilding();
+		this.buildRoad();
+		this.buildSettlement();
+		this.buildCity();
+		this.offerTrade();
+		this.acceptTrade();
+		this.maritimeTrade();
+		this.discardCards();
+		this.changeLogLevel();
 	}
 	
 	private void registerUser() {
@@ -256,12 +257,12 @@ public class ServerAccessTest {
 		Assert.assertNotNull(response);
 		Assert.assertNotNull(response.getCode());
 		if(response.getCode() == 200){
-			//Assert.assertEquals(response.getBody().getClass(), type);
+			Assert.assertEquals(response.getBody().getClass(), type);
 		}
 		else if(response.getCode() == 521) {
 			Assert.assertEquals(response.getBody(), "Server connection failed");
 		}
-		System.out.println(response.getCode());
-		System.out.println(response.getBody());
+		//System.out.println(response.getCode());
+		//System.out.println(response.getBody());
 	}
 }

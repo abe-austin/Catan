@@ -6,12 +6,17 @@
 
 package controller;
 
+import client.data.PlayerInfo;
 import game.GameModel;
 import game.cards.ResourceCard;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import player.Player;
+import shared.definitions.CatanColor;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
+import system.*;
 
 /**
  *
@@ -31,86 +36,49 @@ class TradeController {
     /**
 	 * Called by the domestic trade view when the user clicks the domestic trade button.
 	 */
-	void domesticStartTrade(){//DomesticTradeController --goes in Trade
-            
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when the user decreases the amount of a resource.
-	 * 
-	 * @param resource The resource whose amount is being decreased
-	 */
-	void decreaseResourceAmount(ResourceType resource){//DomesticTradeController --goes in Trade
-            
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when the user increases the amount of a resource.
-	 * 
-	 * @param resource The resource whose amount is being increased
-	 */
-	void increaseResourceAmount(ResourceType resource){//DomesticTradeController --goes in Trade
-            
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when the user clicks the trade button.
-	 */
-	void sendTradeOffer(){//DomesticTradeController --goes in Trade
-            
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when the user selects a player to trade with.
-	 * 
-	 * @param playerIndex The index [0, 3] of the selected trading partner, or -1 if "None" was selected
-	 */
-	void setPlayerToTradeWith(int playerIndex){//DomesticTradeController --goes in Trade
-            
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when the user selects a resource to be received.
-	 * 
-	 * @param resource The resource to be received
-	 */
-	void setResourceToReceive(ResourceType resource){//DomesticTradeController --goes in Trade
-            
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when the user selects a resource to be sent.
-	 * 
-	 * @param resource The resource to be sent
-	 */
-	void setResourceToSend(ResourceType resource){//DomesticTradeController --goes in Trade
-            
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when user selects "none" for a resource.
-	 * 
-	 * @param resource The resource for which "none" was selected
-	 */
-	void unsetResource(ResourceType resource){//DomesticTradeController --goes in Trade
-            
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when the user cancels a trade.
-	 */
-	void domesticCancelTrade(){//DomesticTradeController --goes in Trade
-            
-        }
+	public ArrayList<ResourceType> domesticStartTrade(){//DomesticTradeController --goes in Trade
+             player.addResourceCard(new ResourceCard(ResourceType.BRICK));
+           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
+           player.addResourceCard(new ResourceCard(ResourceType.BRICK));           
+           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
+           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
+           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
+           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
+           player.addResourceCard(new ResourceCard(ResourceType.ORE));
+           player.addResourceCard(new ResourceCard(ResourceType.ORE));
+           player.addResourceCard(new ResourceCard(ResourceType.WHEAT));
+           gameModel.addPlayers(player, 0);
+           gameModel.addPlayers(new Player(CatanColor.BLUE,new User(new Username("Ralphie"),new Password("password"),2),2), 1);
+gameModel.addPlayers(new Player(CatanColor.GREEN,new User(new Username("josh"),new Password("passwor"),3),3), 2);
+gameModel.addPlayers(new Player(CatanColor.PURPLE,new User(new Username("randall"),new Password("passwo"),4),4), 3);            
 
-	/**
-	 * Called by the accept trade overlay when the user either accepts or rejects a trade.
-	 * 
-	 * @param willAccept Whether or not the user accepted the trade
-	 */
-	void acceptTrade(boolean willAccept){//DomesticTradeController --goes in Trade
-            
+//System.out.println("added players");
+           return getPlayerResourceTypes();
         }
+	
+        public PlayerInfo[] getPlayerInfo(){
+            Player[] players = gameModel.getPlayers();
+            PlayerInfo[] playersInfo= new PlayerInfo[3];
+            int i = 0;
+            for(Player player:players){
+                if(player==null)System.out.println("player null");
+                if(this.player==null)System.out.println("this.player null");
+                if (player!=this.player){
+                    PlayerInfo playerInfo= new PlayerInfo();
+                    playerInfo.setColor(player.getColor());
+                    playerInfo.setName(player.getUser().getUsername().getUsername());
+                    playerInfo.setPlayerIndex(player.getIndex());
+                    playersInfo[i] = playerInfo;
+                    i++;
+                }
+            }
+            return playersInfo;
+        }
+      
         /**
 	 * Called by the maritime trade view when the user clicks the maritime trade button.
 	 */
@@ -140,12 +108,6 @@ class TradeController {
             return resources;      
         }
 	
-	/**
-	 * Make the specified trade with the bank.
-	 */
-	public void makeTrade(){//MaritimeTradeController --goes in Trade
-            
-        }
         public int setGetResource(ResourceType resource){
             int number= 4;
             ArrayList<PortType> ports=player.getPorts();
@@ -221,14 +183,30 @@ class TradeController {
             return resources;
         }
         
+        public Map<ResourceType,Integer> getPlayerResources(){
+            Map<ResourceType,Integer> resources = new HashMap<ResourceType,Integer>();
+            int brickCount=player.hasResourceNumber(ResourceType.BRICK);
+            resources.put(ResourceType.BRICK, brickCount);
+            int oreCount=player.hasResourceNumber(ResourceType.ORE);
+            resources.put(ResourceType.ORE, oreCount);
+            int sheepCount=player.hasResourceNumber(ResourceType.SHEEP);
+            resources.put(ResourceType.SHEEP, sheepCount);
+            int woodCount=player.hasResourceNumber(ResourceType.WOOD);
+            resources.put(ResourceType.WOOD, woodCount);
+            int wheatCount=player.hasResourceNumber(ResourceType.WHEAT);
+            resources.put(ResourceType.WHEAT, wheatCount);
+
+            return resources;
+        }
+                
         public ArrayList<ResourceType> maritimeGetPlayerResourceTypes(){
             
             ArrayList<PortType> ports=player.getPorts();
-            int wheatCount=player.hasResourceNumber(ResourceType.WHEAT);
             int brickCount=player.hasResourceNumber(ResourceType.BRICK);
             int oreCount=player.hasResourceNumber(ResourceType.ORE);
             int sheepCount=player.hasResourceNumber(ResourceType.SHEEP);
             int woodCount=player.hasResourceNumber(ResourceType.WOOD);
+            int wheatCount=player.hasResourceNumber(ResourceType.WHEAT);
             ArrayList<ResourceType> resources = new ArrayList<>();
 
             for( PortType portType: ports){

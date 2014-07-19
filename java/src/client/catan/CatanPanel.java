@@ -2,11 +2,13 @@ package client.catan;
 
 import client.discard.DiscardController;
 import client.discard.DiscardView;
+import client.domestic.*;
 import client.maritime.*;
 import client.misc.WaitView;
 import client.roll.RollController;
 import client.roll.RollResultView;
 import client.roll.RollView;
+import game.TradeOffer;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,25 +46,21 @@ public class CatanPanel extends JPanel
 		this.add(midPanel, BorderLayout.CENTER);
 		this.add(rightPanel, BorderLayout.EAST);
 		
-		discardView = new DiscardView();
-		discardWaitView = new WaitView();
-		discardWaitView.setMessage("Waiting for other Players to Discard");
-		discardController = new DiscardController(discardView, discardWaitView);
-		discardView.setController(discardController);
-		discardWaitView.setController(discardController);
-		
-		rollView = new RollView();
-		rollResultView = new RollResultView();
-		rollController = new RollController(rollView, rollResultView);
-		rollView.setController(rollController);
-		rollResultView.setController(rollController);
-		
                 MaritimeTradeOverlay maritimeTradeOverlay= new MaritimeTradeOverlay();
                 MaritimeTradeView maritimeTradeView= new MaritimeTradeView();
                 final MaritimeTradeController maritimeTradeController= new MaritimeTradeController(maritimeTradeView,maritimeTradeOverlay);
                 maritimeTradeView.setController(maritimeTradeController);
                 maritimeTradeOverlay.setController(maritimeTradeController);
                 
+                DomesticTradeView domesticView = new DomesticTradeView();
+                DomesticTradeOverlay domesticOverlay= new DomesticTradeOverlay();
+                final AcceptTradeOverlay acceptOverlay= new AcceptTradeOverlay();
+                WaitView waitView= new WaitView();
+                DomesticTradeController domesticTradeController= new DomesticTradeController(domesticView,domesticOverlay,waitView,acceptOverlay);
+                domesticView.setController(domesticTradeController);
+                domesticOverlay.setController(domesticTradeController);
+                acceptOverlay.setController(domesticTradeController);
+                waitView.setController(domesticTradeController);
 		JButton testButton = new JButton("Test");
 		testButton.addActionListener(new ActionListener() {
 			
@@ -85,38 +83,29 @@ public class CatanPanel extends JPanel
 //			 midPanel.getMapController().startMove(PieceType.ROBBER,
 //			 false, false);
 //			 }
-			
-			int state = 0;
+//			
+//			int state = 0;
 			
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
                             
-                            maritimeTradeController.startTrade();
-//				discardView.setResourceMaxAmount(ResourceType.WOOD, 1);
-//				discardView.setResourceMaxAmount(ResourceType.BRICK, 0);
-//				discardView.setResourceMaxAmount(ResourceType.SHEEP, 11);
-//				discardView.setResourceMaxAmount(ResourceType.WHEAT, 1);
-//				discardView.setResourceMaxAmount(ResourceType.ORE, 0);
+                            TradeOffer tradeOffer=new TradeOffer();
+                            tradeOffer.setBrick(2);
+                            tradeOffer.setOre(0);
+                            tradeOffer.setSheep(-2);
+                            tradeOffer.setWheat(-3);
+                            tradeOffer.setWood(0);
+                            tradeOffer.setSenderIndex(1);
+                            tradeOffer.setReceiverIndex(2);
+                            
+                            acceptOverlay.addGetResource(ResourceType.BRICK, 2);
+                            acceptOverlay.addGiveResource(ResourceType.SHEEP, 2);
+                            acceptOverlay.addGiveResource(ResourceType.WHEAT, 3);
+                            acceptOverlay.setPlayerName("frank");
+                            acceptOverlay.setAcceptEnabled(false);
+                            acceptOverlay.showModal();
 //				
-//				discardView.setResourceAmountChangeEnabled(ResourceType.WOOD, true, false);
-//				discardView.setResourceAmountChangeEnabled(ResourceType.SHEEP, true, false);
-//				discardView.setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
-//				
-//				discardView.setStateMessage("0/6");
-//				
-//				discardView.setDiscardButtonEnabled(true);
-//				
-//				if(state == 0)
-//				{
-//					discardView.showModal();
-//					state = 1;
-//				}
-//				else if(state == 1)
-//				{
-//					discardWaitView.showModal();
-//					state = 2;
-//				}
 			}
 		});
 		this.add(testButton, BorderLayout.SOUTH);

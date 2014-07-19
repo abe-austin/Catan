@@ -14,6 +14,7 @@ import game.GameModel;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import shared.definitions.CatanColor;
 
 /**
  *
@@ -49,16 +50,18 @@ public class ServerPollerTest {
         System.out.println("poll");
         ServerProxyFacade server = new ServerProxyFacade(false);
         server.registerUser("test", "testing");
+        server.loginUser("test", "testing");
         server.createGame("crashGame", true, true, true);
         ArrayList<GameInfo> gameInfo =(ArrayList<GameInfo>)server.getAllGames().getBody();
         int gameID=0;
         if (!gameInfo.isEmpty()){
             gameID=gameInfo.get(0).getId();
         }
+        server.joinGame(3, CatanColor.RED);
         System.out.println("gameID "+gameID);
         ServerPoller instance = new ServerPoller();
         instance.setServerProxy(server);
-        instance.poll(gameID);
+        instance.poll(0);
         //assertNull(instance.getGameModel());
         
         ServerProxyFacade mockServer = new ServerProxyFacade(true);
