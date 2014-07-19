@@ -599,15 +599,12 @@ gameState=GameState.GamePlay;//for testing purposes
 			gameModel.setRandomNumbers(randomNumbers);
 			gameModel.setRandomPorts(randomPorts);
 			serverProxyFacade.createGame(title, randomHexes, randomNumbers, randomPorts);
-			
 			ServerResponse serverResponse  = serverProxyFacade.getAllGames();
 			GameInfo[] gameObjects = (GameInfo[]) serverResponse.getBody();
 			GameInfo[] games = new GameInfo[gameObjects.length];
-			
 			for(int i=0; i<gameObjects.length; i++) {
 				games[i] = (GameInfo) gameObjects[i];
 			}
-			
 			return games;
 		case PlayerWaiting:
 			break;
@@ -756,9 +753,8 @@ gameState=GameState.GamePlay;//for testing purposes
                     	return true;
                     	
                     } else {
-                    	//check body for error type. return false;
+                    	return false;
                     }
-                	break;
                 case JoinGame:
                     break;
                 case PlayerWaiting:
