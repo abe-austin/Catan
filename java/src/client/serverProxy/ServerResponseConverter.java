@@ -1,11 +1,10 @@
 package client.serverProxy;
 
-import java.util.ArrayList;
-
-import shared.communication.ServerResponse;
 import client.data.GameInfo;
-
+import client.parse.DoParse;
 import com.google.gson.Gson;
+import java.util.ArrayList;
+import shared.communication.ServerResponse;
 
 public class ServerResponseConverter {
 	
@@ -19,6 +18,17 @@ public class ServerResponseConverter {
 		
 		if(response.getCode() == 200) {
 			response.setBody(gson.fromJson((String)response.getBody(), type));
+                        return;
+		}
+	}
+        
+        public void convertGameModel(ServerResponse response) {
+		
+		if(response.getCode() == 200) {
+			//response.setBody(gson.fromJson((String)response.getBody(), type));
+                    DoParse parser =new DoParse();
+                    parser.process((String)response.getBody());
+                    response.setBody(parser.getGameModel());
                         return;
 		}
 	}

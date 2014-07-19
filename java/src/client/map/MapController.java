@@ -1,22 +1,24 @@
 package client.map;
 
+import client.base.*;
+import client.data.*;
+import controller.ControllerFacade;
+import controller.IControllerFacadeListener;
+import game.GameModel;
 import game.board.HexTile;
 import game.board.PortTile;
 import game.board.ResourceTile;
 
 import java.util.*;
 
-import controller.ControllerFacade;
 import shared.definitions.*;
 import shared.locations.*;
-import client.base.*;
-import client.data.*;
 
 
 /**
  * Implementation for the map controller
  */
-public class MapController extends Controller implements IMapController {
+public class MapController extends Controller implements IMapController, IControllerFacadeListener {
 	
 	private IRobView robView;
 	
@@ -30,7 +32,14 @@ public class MapController extends Controller implements IMapController {
 		
 		List<HexTile> newMap = ControllerFacade.getSingleton().updateMap(this);
 		//updateMap(newMap);
+                ControllerFacade.getSingleton().addListener(this);
 	}
+        
+	@Override
+        public void gameModelChanged(GameModel gameModel){
+        
+        }
+         
 	
 	public IMapView getView() {
 		

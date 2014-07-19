@@ -1,17 +1,20 @@
 package client.communication;
 
-import controller.ControllerFacade;
 import client.base.*;
+import controller.ControllerFacade;
+import controller.IControllerFacadeListener;
+import game.GameModel;
 
 
 /**
  * Chat controller implementation
  */
-public class ChatController extends Controller implements IChatController {
+public class ChatController extends Controller implements IChatController, IControllerFacadeListener {
 
 	public ChatController(IChatView view) {
 		
 		super(view);
+                ControllerFacade.getSingleton().addListener(this);
 	}
 
 	@Override
@@ -23,6 +26,10 @@ public class ChatController extends Controller implements IChatController {
 	public void sendMessage(String message) {
 		ControllerFacade.getSingleton().sendMessage(message);
 	}
+        @Override
+        public void gameModelChanged(GameModel gameModel){
+        
+        }
 
 }
 

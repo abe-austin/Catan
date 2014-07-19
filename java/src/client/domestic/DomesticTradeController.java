@@ -4,6 +4,8 @@ import client.base.*;
 import client.data.PlayerInfo;
 import client.misc.*;
 import controller.ControllerFacade;
+import controller.IControllerFacadeListener;
+import game.GameModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +15,7 @@ import shared.definitions.*;
 /**
  * Domestic trade controller implementation
  */
-public class DomesticTradeController extends Controller implements IDomesticTradeController {
+public class DomesticTradeController extends Controller implements IDomesticTradeController, IControllerFacadeListener {
 
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
@@ -43,6 +45,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		setTradeOverlay(tradeOverlay);
 		setWaitOverlay(waitOverlay);
 		setAcceptOverlay(acceptOverlay);
+                controllerFacade.addListener(this);
                 
                 resourceTradeAmount= new HashMap<ResourceType,Integer>();
                 resourceTradeAmount.put(ResourceType.BRICK, 0);
@@ -52,6 +55,11 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
                 resourceTradeAmount.put(ResourceType.WOOD, 0);
 	}
 	
+	@Override
+        public void gameModelChanged(GameModel gameModel){
+        
+        }
+         
 	public IDomesticTradeView getTradeView() {
 		
 		return (IDomesticTradeView)super.getView();

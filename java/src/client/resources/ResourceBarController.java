@@ -1,15 +1,17 @@
 package client.resources;
 
-import java.util.*;
 
 import client.base.*;
 import controller.ControllerFacade;
+import controller.IControllerFacadeListener;
+import game.GameModel;
+import java.util.*;
 
 
 /**
  * Implementation for the resource bar controller
  */
-public class ResourceBarController extends Controller implements IResourceBarController {
+public class ResourceBarController extends Controller implements IResourceBarController, IControllerFacadeListener {
 
 	private Map<ResourceBarElement, IAction> elementActions;
         private ControllerFacade singleton = ControllerFacade.getSingleton();
@@ -19,7 +21,14 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		super(view);
 		
 		elementActions = new HashMap<ResourceBarElement, IAction>();
+                singleton.addListener(this);
 	}
+        
+	@Override
+        public void gameModelChanged(GameModel gameModel){
+        
+        }
+         
 
 	@Override
 	public IResourceBarView getView() {

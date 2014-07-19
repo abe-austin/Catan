@@ -1,12 +1,15 @@
 package client.points;
 
 import client.base.*;
+import controller.ControllerFacade;
+import controller.IControllerFacadeListener;
+import game.GameModel;
 
 
 /**
  * Implementation for the points controller
  */
-public class PointsController extends Controller implements IPointsController {
+public class PointsController extends Controller implements IPointsController, IControllerFacadeListener {
 
 	private IGameFinishedView finishedView;
 	
@@ -23,7 +26,14 @@ public class PointsController extends Controller implements IPointsController {
 		setFinishedView(finishedView);
 		
 		initFromModel();
+                ControllerFacade.getSingleton().addListener(this);
 	}
+        
+	@Override
+        public void gameModelChanged(GameModel gameModel){
+        
+        }
+         
 	
 	public IPointsView getPointsView() {
 		

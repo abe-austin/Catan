@@ -2,6 +2,8 @@ package client.maritime;
 
 import client.base.*;
 import controller.ControllerFacade;
+import controller.IControllerFacadeListener;
+import game.GameModel;
 import game.cards.ResourceCard;
 import java.util.ArrayList;
 import shared.definitions.*;
@@ -10,7 +12,7 @@ import shared.definitions.*;
 /**
  * Implementation for the maritime trade controller
  */
-public class MaritimeTradeController extends Controller implements IMaritimeTradeController {
+public class MaritimeTradeController extends Controller implements IMaritimeTradeController, IControllerFacadeListener {
         private ControllerFacade controllerFacade= ControllerFacade.getSingleton();
         private IMaritimeTradeOverlay tradeOverlay;
         private int getValue;
@@ -25,7 +27,14 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		super(tradeView);
 
 		setTradeOverlay(tradeOverlay);
+                controllerFacade.addListener(this);
 	}
+        
+	@Override
+        public void gameModelChanged(GameModel gameModel){
+        
+        }
+         
 	
 	public IMaritimeTradeView getTradeView() {
 		

@@ -1,16 +1,18 @@
 package client.discard;
 
-import shared.definitions.*;
 import client.base.*;
 import client.misc.*;
 import controller.ControllerFacade;
+import controller.IControllerFacadeListener;
+import game.GameModel;
 import java.util.ArrayList;
+import shared.definitions.*;
 
 
 /**
  * Discard controller implementation
  */
-public class DiscardController extends Controller implements IDiscardController {
+public class DiscardController extends Controller implements IDiscardController, IControllerFacadeListener {
 
 	private IWaitView waitView;
         private IDiscardView view;
@@ -31,8 +33,14 @@ public class DiscardController extends Controller implements IDiscardController 
 		this.waitView = waitView;
                 
                 view.setDiscardButtonEnabled(true);
+                ControllerFacade.getSingleton().addListener(this);
 	}
 
+	@Override
+        public void gameModelChanged(GameModel gameModel){
+        
+        }
+         
 	public IDiscardView getDiscardView() {
 		return (IDiscardView)super.getView();
 	}

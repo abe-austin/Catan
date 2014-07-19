@@ -1,18 +1,19 @@
 package client.join;
 
-import java.util.ArrayList;
-
-import controller.ControllerFacade;
-import shared.definitions.CatanColor;
 import client.base.*;
 import client.data.*;
 import client.misc.*;
+import controller.ControllerFacade;
+import controller.IControllerFacadeListener;
+import game.GameModel;
+import java.util.ArrayList;
+import shared.definitions.CatanColor;
 
 
 /**
  * Implementation for the join game controller
  */
-public class JoinGameController extends Controller implements IJoinGameController {
+public class JoinGameController extends Controller implements IJoinGameController, IControllerFacadeListener {
 
 	private INewGameView newGameView;
 	private ISelectColorView selectColorView;
@@ -34,8 +35,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		setNewGameView(newGameView);
 		setSelectColorView(selectColorView);
 		setMessageView(messageView);
+                ControllerFacade.getSingleton().addListener(this);
 	}
 	
+	@Override
+        public void gameModelChanged(GameModel gameModel){
+        
+        }
+         
 	public IJoinGameView getJoinGameView() {
 		
 		return (IJoinGameView)super.getView();

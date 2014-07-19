@@ -1,8 +1,8 @@
 package game;
 
 public class TradeOffer {
-    private int senderIndex;
-    private int receiverIndex;
+    private int senderIndex=-1;
+    private int receiverIndex=-1;
     private int brick;
     private int ore;
     private int sheep;

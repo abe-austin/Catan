@@ -20,7 +20,11 @@ public class DoParse
     
 	public DoParse()
 	{}
-	
+        
+	public GameModel getGameModel(){
+            return gameModel;
+        }
+        
 	public void process(String input)
 	{
 		try 

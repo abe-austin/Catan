@@ -1,16 +1,18 @@
 package client.devcards;
 
-import shared.definitions.ResourceType;
 import client.base.*;
 import controller.ControllerFacade;
+import controller.IControllerFacadeListener;
+import game.GameModel;
 import java.util.ArrayList;
 import shared.definitions.DevCardType;
+import shared.definitions.ResourceType;
 
 
 /**
  * "Dev card" controller implementation
  */
-public class DevCardController extends Controller implements IDevCardController {
+public class DevCardController extends Controller implements IDevCardController, IControllerFacadeListener {
 
 	private IBuyDevCardView buyCardView;
 	private IAction soldierAction;
@@ -34,8 +36,14 @@ public class DevCardController extends Controller implements IDevCardController 
 		this.soldierAction = soldierAction;
 		this.roadAction = roadAction;
                 singleton.setRobberAction(soldierAction);
+                singleton.addListener(this);
 	}
 
+	@Override
+        public void gameModelChanged(GameModel gameModel){
+        
+        }
+         
 	public IPlayDevCardView getPlayCardView() {
 		return (IPlayDevCardView)super.getView();
 	}
