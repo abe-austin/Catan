@@ -8,10 +8,7 @@ package controller;
 
 import client.base.IAction;
 import client.data.GameInfo;
-<<<<<<< HEAD
 import client.data.PlayerInfo;
-=======
->>>>>>> 27ad746cc40a9ca3f39fb060656029020549b9b4
 import client.data.RobPlayerInfo;
 import client.map.MapController;
 import client.serverProxy.ServerPoller;
