@@ -15,6 +15,8 @@ import java.util.regex.Pattern;
 public class DoParse
 {
     private GameModel gameModel=new GameModel();
+    ArrayList<ParsedStructure> structures;
+    
 	public DoParse()
 	{}
 	
@@ -40,6 +42,7 @@ public class DoParse
 	        	i = parseVersion(i);
 	        }
 	        scan.close();
+	        gameModel.getBoard().updateStructures(structures);
 	    } 
 	    catch (Exception e) {e.printStackTrace();}
 	}
@@ -135,12 +138,14 @@ public class DoParse
 				parsedTiles.add(pT);
 			}
 		}
+		
+		gameModel.getBoard().updateBoardResources(parsedTiles);
 		//CALL FUNCTIONS TO SET parsedTiles TO THE gameModel
 	}
 	
 	public void parseStructure(String input, String type)
 	{
-		ArrayList<ParsedStructure> structures = new ArrayList<ParsedStructure>();
+		structures = new ArrayList<ParsedStructure>();
 		
 		String[] theStructures = input.split("}},\\{");
 		
@@ -159,7 +164,7 @@ public class DoParse
 				ParsedStructure pS = new ParsedStructure(owner, x, y, direction, type);
 				structures.add(pS);
 			}
-		//CALL FUNCTIONS TO SET structures TO THE gameModel
+		//Function gets called later, after players have been created
 	}
 	
 	public void parsePorts(String input)
@@ -187,6 +192,7 @@ public class DoParse
 			ParsedPort pP = new ParsedPort(type, ratio, x, y, direction);
 			ports.add(pP);
 		}
+		gameModel.getBoard().updateBoardPorts(ports);
 		//CALL FUNCTIONS TO SET ports TO THE gameModel
 	}
 	
@@ -198,8 +204,9 @@ public class DoParse
 		int y = Integer.parseInt(yStr.split("}")[0]);
 		
 		ParsedRobber robber = new ParsedRobber(x, y);
+		gameModel.getBoard().updateRobber(x, y);
 	}
-	//CALL FUNCTIONS TO SET robber TO THE gameModel
+	
 	
 	public String parsePlayers(String input)
 	{

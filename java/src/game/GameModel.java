@@ -25,7 +25,7 @@ public class GameModel {
     private boolean randomPorts;
 
     public GameModel() {
-        board = new BoardModel();
+        board = new BoardModel(this);
         bank = new Bank();
         players = new Player[4];
         gameHistory = new GameHistory();

@@ -1,12 +1,22 @@
 package game.board;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import client.parse.ParsedPort;
+import client.parse.ParsedStructure;
+import client.parse.ParsedTile;
 import player.Player;
 import shared.definitions.PieceType;
+import shared.definitions.PortType;
+import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
+import game.GameModel;
 import game.pieces.BoardPiece;
+import game.pieces.City;
+import game.pieces.Road;
 import game.pieces.Robber;
 
 /**
@@ -17,11 +27,169 @@ public class BoardModel {
 	private List<HexTile> tiles;
     private BoardPiece[][] pieces;
     private Robber rob;
+    private GameModel gameModel;
 
-    public BoardModel() {
+    public BoardModel(GameModel gameModel) {
+    	this.gameModel = gameModel;
         pieces = new BoardPiece[10][10];
         BuildWorld worldBuilder = new BuildWorld();
         tiles = worldBuilder.getTiles();
+    }
+    
+    public void updateBoardResources(ArrayList<ParsedTile> newTiles) {
+    	BuildWorld worldBuilder = new BuildWorld();//Should now be empty of any pieces
+    	tiles = worldBuilder.getTiles();
+    	for(int i = 0; i < newTiles.size(); i++)
+    	{
+    		int x = newTiles.get(i).getX();
+    		int y = newTiles.get(i).getY();    		
+    		int number = newTiles.get(i).getNumberTile();
+    		
+
+    		for(int j = 0; j < tiles.size(); j++)
+            {
+            	if(tiles.get(j).getX() == x && tiles.get(j).getY() == y)
+            	{
+            		String type = newTiles.get(i).getType();
+            		if(type.equals("DESERT"))
+            			tiles.set(j, new DesertTile());
+            		if(type.equals("brick"))
+            			tiles.set(j, new ResourceTile(ResourceType.BRICK, new NumberToken(number)));
+            		if(type.equals("wood"))
+            			tiles.set(j, new ResourceTile(ResourceType.WOOD, new NumberToken(number)));
+            		if(type.equals("ore"))
+            			tiles.set(j, new ResourceTile(ResourceType.ORE, new NumberToken(number)));
+            		if(type.equals("sheep"))
+            			tiles.set(j, new ResourceTile(ResourceType.SHEEP, new NumberToken(number)));
+            		if(type.equals("wheat"))
+            			tiles.set(j, new ResourceTile(ResourceType.WHEAT, new NumberToken(number)));
+            		
+            		j = tiles.size();
+            	}
+            }	
+    	}    	
+    }
+    
+    public void updateBoardPorts(ArrayList<ParsedPort> newPorts) {
+    	
+    	for(int i = 0; i < newPorts.size(); i++)
+    	{
+    		int x = newPorts.get(i).getX();
+    		int y = newPorts.get(i).getY();
+    		int ratio = newPorts.get(i).getRatio();
+    		
+    		for(int j = 0; j < tiles.size(); j++)
+            {
+            	if(tiles.get(j).getX() == x && tiles.get(j).getY() == y)
+            	{
+            		String type = newPorts.get(i).getType();
+            		if(type.equals("three"))
+            			tiles.set(j, new PortTile(PortType.THREE));
+            		if(type.equals("brick"))
+            			tiles.set(j, new PortTile(PortType.BRICK));
+            		if(type.equals("wheat"))
+            			tiles.set(j, new PortTile(PortType.WHEAT));
+            		if(type.equals("sheep"))
+            			tiles.set(j, new PortTile(PortType.SHEEP));
+            		if(type.equals("ore"))
+            			tiles.set(j, new PortTile(PortType.ORE));
+            		if(type.equals("wood"))
+            			tiles.set(j, new PortTile(PortType.WOOD));         		
+            		j = tiles.size();
+            	}
+            }	
+    	}
+    }
+    
+    public void updateStructures(ArrayList<ParsedStructure> newStructures) {
+    	for(int i = 0; i < newStructures.size(); i++)
+    	{
+    		int x = newStructures.get(i).getX();
+    		int y = newStructures.get(i).getY();
+    		int owner = newStructures.get(i).getOwner();
+    		String direction = newStructures.get(i).getDirection();
+    		String type = newStructures.get(i).getType();
+    		Player p = null;
+    		
+    		Player[] players = gameModel.getPlayers();//This is empty though
+    		for(int j = 0; j < players.length; j++)
+    		{
+    			if(owner == players[j].getIndex())//Presumably owner's value is the same as index
+    				p = players[j];
+    		}
+    		 		
+    		if(type.equals("ROAD"))
+    		{
+    			Edge edge = null;
+    			if(direction.equals("N"))
+    				edge = getHexTileAt(x,y).northEdge;
+        		if(direction.equals("NE"))
+        			edge = getHexTileAt(x,y).northEastEdge;
+        		if(direction.equals("SE"))
+        			edge = getHexTileAt(x,y).southEastEdge;
+        		if(direction.equals("S"))
+        			edge = getHexTileAt(x,y).southEdge;
+        		if(direction.equals("SW"))
+        			edge = getHexTileAt(x,y).southWestEdge;
+        		if(direction.equals("NW"))
+        			edge = getHexTileAt(x,y).northWestEdge;
+    			getHexTileAt(x, y).buildRoad(edge, p);
+    		}
+    		
+    		if(type.equals("CITY"))
+    		{
+    			Corner corner = null;
+    			if(direction.equals("NW"))
+    				corner = getHexTileAt(x,y).northWestCorner;
+        		if(direction.equals("NE"))
+        			corner = getHexTileAt(x,y).northEastCorner;
+        		if(direction.equals("E"))
+        			corner = getHexTileAt(x,y).eastCorner;
+        		if(direction.equals("SE"))
+        			corner = getHexTileAt(x,y).southEastCorner;
+        		if(direction.equals("SW"))
+        			corner = getHexTileAt(x,y).southWestCorner;
+        		if(direction.equals("W"))
+        			corner = getHexTileAt(x,y).westCorner;
+    			getHexTileAt(x, y).buildCity(corner, p);
+    		}
+    		
+    		if(type.equals("SETTLEMENT"))
+    		{
+    			Corner corner = null;
+    			if(direction.equals("NW"))
+    				corner = getHexTileAt(x,y).northWestCorner;
+        		if(direction.equals("NE"))
+        			corner = getHexTileAt(x,y).northEastCorner;
+        		if(direction.equals("E"))
+        			corner = getHexTileAt(x,y).eastCorner;
+        		if(direction.equals("SE"))
+        			corner = getHexTileAt(x,y).southEastCorner;
+        		if(direction.equals("SW"))
+        			corner = getHexTileAt(x,y).southWestCorner;
+        		if(direction.equals("W"))
+        			corner = getHexTileAt(x,y).westCorner;
+    			getHexTileAt(x, y).buildSettlement(corner, p);
+    		}	
+    	}
+    }
+    
+    public void updateRobber(int x, int y)
+    {
+    	HexLocation robLoc = rob.getLocation();
+    	int robX = robLoc.getX();
+    	int robY = robLoc.getY();
+    	
+    	for(int j = 0; j < tiles.size(); j++)
+        {
+        	if(tiles.get(j).getX() == x && tiles.get(j).getY() == y)
+        		tiles.get(j).setHasRobber(true);
+        	
+        	if(tiles.get(j).getX() == robX && tiles.get(j).getY() == robY)
+        		tiles.get(j).setHasRobber(false);
+        }
+    	robLoc = new HexLocation(x, y);
+    	rob.updateLocation(robLoc);
     }
     
     /**

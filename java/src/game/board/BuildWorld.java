@@ -19,7 +19,7 @@ public class BuildWorld {
 	private List<HexTile> tiles;
 	private List<Edge> edges;
 	private List<Corner> corners;
-	private Boolean seenDesert;
+	private boolean seenDesert;
 	
 	public BuildWorld() {//Perhaps a constructor with a list of hexes, tiles, and vertices. Another that is empty and does lists of each
 		seenDesert = false;
