@@ -19,11 +19,13 @@ import game.board.Edge;
 import game.board.HexTile;
 import game.board.PortTile;
 import game.cards.CardOwner;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import player.Player;
 import shared.communication.ServerResponse;
 import shared.definitions.CatanColor;
@@ -613,7 +615,6 @@ gameState=GameState.GamePlay;//for testing purposes
 	 * Called when the user clicks the "Sign in" button in the login view
 	 */
 	public boolean signIn(String username, String password) { // LoginController --goes in setup
-																
 		switch (gameState) {
 		case Login:
 			ServerResponse serverResponse = serverProxyFacade.loginUser(
@@ -623,6 +624,7 @@ gameState=GameState.GamePlay;//for testing purposes
 				User user = new User(new Username(username), new Password(
 						password), id);
 				this.user = user;
+				this.gameState = GameState.JoinGame;
 				return true;
 
 			} else {

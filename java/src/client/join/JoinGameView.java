@@ -2,6 +2,7 @@ package client.join;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -36,7 +37,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	private JPanel gamePanel;
 	private JPanel buttonPanel;
 
-	private GameInfo[] games;
+	private ArrayList<GameInfo> games;
 	private PlayerInfo localPlayer;
 
 	public JoinGameView()
@@ -90,7 +91,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		gamePanel.add(join);
 
 		// This is the looped layout
-		if (games != null && games.length > 0)
+		if (games != null && games.size() > 0)
 		{
 			labelFont = labelFont.deriveFont(labelFont.getStyle(), PANEL_TEXT_SIZE);
 			for (GameInfo game : games)
@@ -166,7 +167,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	}
 
 	@Override
-	public void setGames(GameInfo[] games, PlayerInfo localPlayer)
+	public void setGames(ArrayList<GameInfo> games, PlayerInfo localPlayer)
 	{
 		this.games = games;
 		this.localPlayer = localPlayer;

@@ -4,9 +4,11 @@ import game.GameModel;
 import game.board.Corner;
 import game.board.Edge;
 import game.cards.ResourceCard;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import shared.communication.*;
 import shared.definitions.CatanColor;
 import shared.definitions.Command;
