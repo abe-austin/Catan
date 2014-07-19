@@ -1,5 +1,7 @@
 package client.join;
 
+import java.util.ArrayList;
+
 import controller.ControllerFacade;
 import shared.definitions.CatanColor;
 import client.base.*;
@@ -108,14 +110,15 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void createNewGame() {
 
-		GameInfo[] games = ControllerFacade.getSingleton().createNewGame(
+		ArrayList<GameInfo> games = ControllerFacade.getSingleton().createNewGame(
 				newGameView.getTitle(),
 				newGameView.getRandomlyPlaceHexes(),
 				newGameView.getRandomlyPlaceNumbers(),
 				newGameView.getUseRandomPorts());
 		PlayerInfo playerInfo = new PlayerInfo();
 		playerInfo.setName(ControllerFacade.getSingleton().getUser().getUsername().getUsername());
-		getJoinGameView().setGames(games, playerInfo);
+		GameInfo[] gamesArray = (GameInfo[]) games.toArray();
+		getJoinGameView().setGames(gamesArray, playerInfo);
 		getNewGameView().closeModal();
 	}
 

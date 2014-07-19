@@ -503,7 +503,7 @@ gameState=GameState.GamePlay;//for testing purposes
 	/**
 	 * Called by the new game view when the user clicks the "Create Game" button
 	 */
-	public GameInfo[] createNewGame(String title, boolean randomHexes, boolean randomNumbers, boolean randomPorts) { //JoinGameController --goes in Setup !!Not sure if needed
+	public ArrayList<GameInfo> createNewGame(String title, boolean randomHexes, boolean randomNumbers, boolean randomPorts) { //JoinGameController --goes in Setup !!Not sure if needed
 		
 		switch (gameState) {
 		case Login:
@@ -514,12 +514,20 @@ gameState=GameState.GamePlay;//for testing purposes
 			gameModel.setRandomNumbers(randomNumbers);
 			gameModel.setRandomPorts(randomPorts);
 			serverProxyFacade.createGame(title, randomHexes, randomNumbers, randomPorts);
-			ServerResponse serverResponse  = serverProxyFacade.getAllGames();
+		
+			/**ServerResponse serverResponse  = serverProxyFacade.getAllGames();
 			GameInfo[] gameObjects = (GameInfo[]) serverResponse.getBody();
 			GameInfo[] games = new GameInfo[gameObjects.length];
 			for(int i=0; i<gameObjects.length; i++) {
 				games[i] = (GameInfo) gameObjects[i];
+			}**/
+			ServerResponse serverResponse = serverProxyFacade.getAllGames();
+			ArrayList gameObjects = (ArrayList)serverResponse.getBody();
+			ArrayList<GameInfo> games = new ArrayList<GameInfo>();
+			for(Object game: gameObjects) {
+				games.add((GameInfo)game);
 			}
+			
 			return games;
 		case PlayerWaiting:
 			break;
@@ -569,6 +577,7 @@ gameState=GameState.GamePlay;//for testing purposes
 			playerInfo.setColor(color);
 			playerInfo.setId(user.getId());
 			gameInfo.addPlayer(playerInfo);
+			
 			break;
 		case PlayerWaiting:
 			break;
@@ -617,7 +626,9 @@ gameState=GameState.GamePlay;//for testing purposes
 				return true;
 
 			} else {
-				// check body for error type. return false;
+				if(serverResponse.getCode() == 521) {
+					return false;
+				}
 			}
 			break;
 		case JoinGame:
@@ -629,7 +640,6 @@ gameState=GameState.GamePlay;//for testing purposes
 		case GamePlay:
 			break;
 		}
-
 		return false;
 	}
 	
@@ -647,7 +657,9 @@ gameState=GameState.GamePlay;//for testing purposes
                     	return true;
                     	
                     } else {
-                    	return false;
+                    	if(serverResponse.getCode() == 521) {
+                    		return false;
+                    	}
                     }
                 case JoinGame:
                     break;
