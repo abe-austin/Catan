@@ -28,6 +28,9 @@ public class DoParse
 	        	i = parseChat(i);
 	        	i = parseBank(i);
 	        	i = parseTurnTracker(i);
+                        if (i.contains("tradeOffer")){
+                            i = parseTradeOffer(i);
+                        }
 	        	i = parseWinner(i);
 	        	i = parseVersion(i);
 	        }
@@ -357,8 +360,12 @@ public class DoParse
 	public String parseTurnTracker(String input)
 	{
 		String theTurnTracker = input.split("winner\":")[0];
-		input = input.split("winner\":")[1];
-		
+                if (input.contains("tradeOffer")){
+                    input= input.split("tradeOffer\":")[1];
+                }
+                else{
+                    input = input.split("winner\":")[1];
+                }
 		String gettingStatus = theTurnTracker.split("status\":\"")[1];
 		String status = gettingStatus.split("\"")[0];
 		String gettingCurrentTurn = theTurnTracker.split("currentTurn\":")[1];
@@ -372,7 +379,30 @@ public class DoParse
 		//CALL FUNCTIONS TO SET turnTracker TO THE gameModel
 		return input;
 	}
-	
+	public String parseTradeOffer(String input){
+            String theTradeOffer = input.split("winner\":")[0];
+            input = input.split("winner\":")[1];
+            
+            String gettingSender = theTradeOffer.split("sender\":")[1]; 
+            int sender = Integer.parseInt(gettingSender.split(",")[0]);
+            String gettingReceiver = theTradeOffer.split("receiver\":")[1];
+            int receiver = Integer.parseInt(gettingReceiver.split(",")[0]);
+		
+            String gettingBrick = theTradeOffer.split("brick\":")[1];
+            int brick = Integer.parseInt(gettingBrick.split(",")[0]);
+            String gettingWood = theTradeOffer.split("wood\":")[1];
+            int wood = Integer.parseInt(gettingWood.split(",")[0]);
+            String gettingSheep = theTradeOffer.split("sheep\":")[1];
+            int sheep = Integer.parseInt(gettingSheep.split(",")[0]);
+            String gettingWheat = theTradeOffer.split("wheat\":")[1];
+            int wheat = Integer.parseInt(gettingWheat.split(",")[0]);
+            String gettingOre = theTradeOffer.split("ore\":")[1];
+            int ore = Integer.parseInt(gettingOre.split("}")[0]);
+            
+            ParsedTradeOffer tradeOffer = new ParsedTradeOffer(sender, receiver, brick, ore, sheep, wood, wheat);
+            //CALL Functions to set trade offer to gameModel
+            return input;
+        }
 	public String parseWinner(String input)
 	{
 		int winner = Integer.parseInt(input.split(",\"version\":")[0]);
