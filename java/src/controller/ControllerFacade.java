@@ -19,12 +19,11 @@ import game.board.Edge;
 import game.board.HexTile;
 import game.board.PortTile;
 import game.cards.CardOwner;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import player.Player;
 import shared.communication.ServerResponse;
 import shared.definitions.CatanColor;
@@ -87,7 +86,7 @@ public class ControllerFacade {
         timer.scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run() {
-                //serverPoller.poll();
+                //serverPoller.poll(-1);
                 //switchGameModel(serverPoller.getGameModel());
                 //reassignControllers();
                 //updateGui();
@@ -333,6 +332,7 @@ public class ControllerFacade {
          * @return 
 	 */
 	public ArrayList<ResourceType> domesticStartTrade(){//DomesticTradeController --goes in Trade
+gameState=GameState.GamePlay;//testing only
             switch(gameState){
                 case Login:
                     break;
@@ -343,18 +343,14 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    ArrayList<ResourceType> playerResourceTypes =tradeController.getPlayerResourceTypes();
-                    return playerResourceTypes;
+                    return tradeController.domesticStartTrade();
             }
             return null;
         }
-	
-	/**
-	 * Called by the domestic trade overlay when the user decreases the amount of a resource.
-	 * 
-	 * @param resource The resource whose amount is being decreased
-	 */
-	public void decreaseResourceAmount(ResourceType resource){//DomesticTradeController --goes in Trade
+        
+        public boolean isCurrentTurn(){
+currentGameModel.getTurnTracker().setCurrentTurn(clientPlayer.getIndex());//testing
+gameState=GameState.GamePlay;
             switch(gameState){
                 case Login:
                     break;
@@ -365,16 +361,14 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                    if (clientPlayer.getIndex()==currentGameModel.getTurnTracker().getCurrentTurn()){
+                        return true;
+                    }
             }
+            return false;
         }
 	
-	/**
-	 * Called by the domestic trade overlay when the user increases the amount of a resource.
-	 * 
-	 * @param resource The resource whose amount is being increased
-	 */
-	public void increaseResourceAmount(ResourceType resource){//DomesticTradeController --goes in Trade
+        public PlayerInfo[] getPlayerInfo(){
             switch(gameState){
                 case Login:
                     break;
@@ -385,10 +379,27 @@ public class ControllerFacade {
                 case Setup:
                     break;
                 case GamePlay:
-                    break;
+                    return tradeController.getPlayerInfo();
             }
+            return null;
         }
-	
+        
+        public Map<ResourceType,Integer> getPlayerResources(){
+            switch(gameState){
+                case Login:
+                    break;
+                case JoinGame:
+                    break;
+                case PlayerWaiting:
+                    break;
+                case Setup:
+                    break;
+                case GamePlay:
+                    return tradeController.getPlayerResources();
+            }
+            return null;
+        }
+        
 	/**
 	 * Called by the domestic trade overlay when the user clicks the trade button.
 	 */
@@ -407,104 +418,6 @@ public class ControllerFacade {
             }
         }
 	
-	/**
-	 * Called by the domestic trade overlay when the user selects a player to trade with.
-	 * 
-	 * @param playerIndex The index [0, 3] of the selected trading partner, or -1 if "None" was selected
-	 */
-	public void setPlayerToTradeWith(int playerIndex){//DomesticTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay://Need to return that player or something...not sure how to get the player object from the index at this point though
-                    break;
-            }
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when the user selects a resource to be received.
-	 * 
-	 * @param resource The resource to be received
-	 */
-	public void setResourceToReceive(ResourceType resource){//DomesticTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                	break;
-            }
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when the user selects a resource to be sent.
-	 * 
-	 * @param resource The resource to be sent
-	 */
-	public void setResourceToSend(ResourceType resource){//DomesticTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when user selects "none" for a resource.
-	 * 
-	 * @param resource The resource for which "none" was selected
-	 */
-	public void unsetResource(ResourceType resource){//DomesticTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-	
-	/**
-	 * Called by the domestic trade overlay when the user cancels a trade.
-	 */
-	public void domesticCancelTrade(){//DomesticTradeController --goes in Trade
-            switch(gameState){
-                case Login:
-                    break;
-                case JoinGame:
-                    break;
-                case PlayerWaiting:
-                    break;
-                case Setup:
-                    break;
-                case GamePlay:
-                    break;
-            }
-        }
-
 	/**
 	 * Called by the accept trade overlay when the user either accepts or rejects a trade.
 	 * 
