@@ -8,6 +8,7 @@ import client.misc.WaitView;
 import client.roll.RollController;
 import client.roll.RollResultView;
 import client.roll.RollView;
+import game.TradeOffer;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +54,7 @@ public class CatanPanel extends JPanel
                 
                 DomesticTradeView domesticView = new DomesticTradeView();
                 DomesticTradeOverlay domesticOverlay= new DomesticTradeOverlay();
-                AcceptTradeOverlay acceptOverlay= new AcceptTradeOverlay();
+                final AcceptTradeOverlay acceptOverlay= new AcceptTradeOverlay();
                 WaitView waitView= new WaitView();
                 DomesticTradeController domesticTradeController= new DomesticTradeController(domesticView,domesticOverlay,waitView,acceptOverlay);
                 domesticView.setController(domesticTradeController);
@@ -82,15 +83,28 @@ public class CatanPanel extends JPanel
 //			 midPanel.getMapController().startMove(PieceType.ROBBER,
 //			 false, false);
 //			 }
-			
-			int state = 0;
+//			
+//			int state = 0;
 			
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
                             
-                            maritimeTradeController.startTrade();
+                            TradeOffer tradeOffer=new TradeOffer();
+                            tradeOffer.setBrick(2);
+                            tradeOffer.setOre(0);
+                            tradeOffer.setSheep(-2);
+                            tradeOffer.setWheat(-3);
+                            tradeOffer.setWood(0);
+                            tradeOffer.setSenderIndex(1);
+                            tradeOffer.setReceiverIndex(2);
                             
+                            acceptOverlay.addGetResource(ResourceType.BRICK, 2);
+                            acceptOverlay.addGiveResource(ResourceType.SHEEP, 2);
+                            acceptOverlay.addGiveResource(ResourceType.WHEAT, 3);
+                            acceptOverlay.setPlayerName("frank");
+                            acceptOverlay.setAcceptEnabled(false);
+                            acceptOverlay.showModal();
 //				
 			}
 		});

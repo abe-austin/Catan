@@ -155,7 +155,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void increaseResourceAmount(ResourceType resource) {
             int amount=resourceTradeAmount.get(resource);
-            if (amount<playerResources.get(resource)-1){
+            if (amount<playerResources.get(resource)-1 || gettingResource.contains(resource)){
                 resourceTradeAmount.put(resource,amount+1);
 		getTradeOverlay().setResourceAmountChangeEnabled(resource, true, true);
                 if(gettingResource.contains(resource)){
@@ -188,6 +188,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void sendTradeOffer() {
+            for(ResourceType resource:givingResource){
+                resourceTradeAmount.put(resource,(resourceTradeAmount.get(resource)*-1));
+            }
+            controllerFacade.sendTradeOffer(resourceTradeAmount, tradePartnerIndex);
 
 		getTradeOverlay().closeModal();
 		getWaitOverlay().showModal();
@@ -209,13 +213,33 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void setResourceToReceive(ResourceType resource) {
 		gettingResource.add(resource);
-		
-	}
+		boolean wasGive = givingResource.remove(resource);
+            if(wasGive){
+                giveValue = giveValue -resourceTradeAmount.get(resource);
+                resourceTradeAmount.put(resource,0);
+                getTradeOverlay().setResourceAmount(resource,"0");
+                getTradeOverlay().setResourceAmountChangeEnabled(resource, true, false);
+                if(giveValue==0 || getValue==0 || tradePartnerIndex==-1){
+                    getTradeOverlay().setTradeEnabled(false);
+                    getTradeOverlay().setStateMessage("can't trade yet");
+                }
+            }
+        }
 
 	@Override
 	public void setResourceToSend(ResourceType resource) {
 		givingResource.add(resource);
-		
+		boolean wasGet = gettingResource.remove(resource);
+            if(wasGet){
+                getValue = getValue -resourceTradeAmount.get(resource);
+                resourceTradeAmount.put(resource,0);
+                getTradeOverlay().setResourceAmount(resource,"0");
+                getTradeOverlay().setResourceAmountChangeEnabled(resource, true, false);
+                if(giveValue==0 || getValue==0 || tradePartnerIndex==-1){
+                    getTradeOverlay().setTradeEnabled(false);
+                    getTradeOverlay().setStateMessage("can't trade yet");
+                }
+            }
 	}
 
 	@Override
