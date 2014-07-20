@@ -623,7 +623,6 @@ public class ControllerFacade implements IControllerFacadeListener{
 			playerInfo.setId(user.getId());
 			gameInfo.addPlayer(playerInfo);
 			ServerResponse response = serverProxyFacade.joinGame(gameInfo.getId(), color);
-			System.err.println(response.getBody());
 			return response;	
 		case PlayerWaiting:
 			break;
