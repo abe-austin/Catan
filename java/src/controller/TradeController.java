@@ -37,25 +37,25 @@ class TradeController {
 	 * Called by the domestic trade view when the user clicks the domestic trade button.
 	 */
 	public ArrayList<ResourceType> domesticStartTrade(){//DomesticTradeController --goes in Trade
-             player.addResourceCard(new ResourceCard(ResourceType.BRICK));
-           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
-           player.addResourceCard(new ResourceCard(ResourceType.BRICK));           
-           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
-           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
-           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
-           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
-           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
-           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
-           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
-           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
-           player.addResourceCard(new ResourceCard(ResourceType.ORE));
-           player.addResourceCard(new ResourceCard(ResourceType.ORE));
-           player.addResourceCard(new ResourceCard(ResourceType.WHEAT));
-           gameModel.addPlayers(player, 0);
-           gameModel.addPlayers(new Player(CatanColor.BLUE,new User(new Username("Ralphie"),new Password("password"),2),2), 1);
-gameModel.addPlayers(new Player(CatanColor.GREEN,new User(new Username("josh"),new Password("passwor"),3),3), 2);
-gameModel.addPlayers(new Player(CatanColor.PURPLE,new User(new Username("randall"),new Password("passwo"),4),4), 3);            
-
+//             player.addResourceCard(new ResourceCard(ResourceType.BRICK));
+//           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
+//           player.addResourceCard(new ResourceCard(ResourceType.BRICK));           
+//           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
+//           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+//           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+//           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+//           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+//           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
+//           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
+//           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
+//           player.addResourceCard(new ResourceCard(ResourceType.ORE));
+//           player.addResourceCard(new ResourceCard(ResourceType.ORE));
+//           player.addResourceCard(new ResourceCard(ResourceType.WHEAT));
+//           gameModel.addPlayers(player, 0);
+//           gameModel.addPlayers(new Player(CatanColor.BLUE,new User(new Username("Ralphie"),new Password("password"),2),2), 1);
+//gameModel.addPlayers(new Player(CatanColor.GREEN,new User(new Username("josh"),new Password("passwor"),3),3), 2);
+//gameModel.addPlayers(new Player(CatanColor.PURPLE,new User(new Username("randall"),new Password("passwo"),4),4), 3);            
+//
 //System.out.println("added players");
            return getPlayerResourceTypes();
         }
@@ -83,21 +83,21 @@ gameModel.addPlayers(new Player(CatanColor.PURPLE,new User(new Username("randall
 	 * Called by the maritime trade view when the user clicks the maritime trade button.
 	 */
 	public ArrayList<ArrayList<ResourceType>> maritimeStartTrade(){//MaritimeTradeController --goes in Trade
-           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
-           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
-           player.addResourceCard(new ResourceCard(ResourceType.BRICK));           
-           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
-           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
-           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
-           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
-           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
-           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
-           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
-           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
-           player.addResourceCard(new ResourceCard(ResourceType.ORE));
-           player.addResourceCard(new ResourceCard(ResourceType.ORE));
-           player.addResourceCard(new ResourceCard(ResourceType.WHEAT));
-           player.addPort(PortType.ORE);
+//           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
+//           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
+//           player.addResourceCard(new ResourceCard(ResourceType.BRICK));           
+//           player.addResourceCard(new ResourceCard(ResourceType.BRICK));
+//           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+//           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+//           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+//           player.addResourceCard(new ResourceCard(ResourceType.WOOD));
+//           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
+//           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
+//           player.addResourceCard(new ResourceCard(ResourceType.SHEEP));
+//           player.addResourceCard(new ResourceCard(ResourceType.ORE));
+//           player.addResourceCard(new ResourceCard(ResourceType.ORE));
+//           player.addResourceCard(new ResourceCard(ResourceType.WHEAT));
+//           player.addPort(PortType.ORE);
            //player.addPort(PortType.THREE);
            
             ArrayList<ResourceType> playerResourceTypes =maritimeGetPlayerResourceTypes();

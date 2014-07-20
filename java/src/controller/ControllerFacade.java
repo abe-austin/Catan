@@ -69,7 +69,7 @@ public class ControllerFacade implements IControllerFacadeListener{
     
     private ControllerFacade(){
         setupController = new SetupController();
-        clientPlayer = new Player(CatanColor.BLUE,null,1);//testing purposes
+        //clientPlayer = new Player(CatanColor.BLUE,null,1);//testing purposes
         gamePlayController = new GamePlayController(clientPlayer);
         tradeController = new TradeController(clientPlayer);
         gameInfoController = new GameInfoController();
@@ -152,7 +152,9 @@ public class ControllerFacade implements IControllerFacadeListener{
 	        	serverProxyFacade.sendChat(clientPlayer.getIndex(), message);
 	    }
     }
-    
+    public void setClientPlayer(Player player){
+        clientPlayer=player;
+    }
     public Player getClientPlayer() {
         return clientPlayer;
     }
@@ -352,7 +354,7 @@ public class ControllerFacade implements IControllerFacadeListener{
          * @return 
 	 */
 	public ArrayList<ResourceType> domesticStartTrade(){//DomesticTradeController --goes in Trade
-gameState=GameState.GamePlay;//testing only
+//gameState=GameState.GamePlay;//testing only
             switch(gameState){
                 case Login:
                     break;
@@ -369,8 +371,8 @@ gameState=GameState.GamePlay;//testing only
         }
         
         public boolean isCurrentTurn(){
-currentGameModel.getTurnTracker().setCurrentTurn(clientPlayer.getIndex());//testing
-gameState=GameState.GamePlay;
+//currentGameModel.getTurnTracker().setCurrentTurn(clientPlayer.getIndex());//testing
+//gameState=GameState.GamePlay;
             switch(gameState){
                 case Login:
                     break;
@@ -464,7 +466,7 @@ gameState=GameState.GamePlay;
          * @return 
 	 */
 	public ArrayList<ArrayList<ResourceType>> maritimeStartTrade(){//MaritimeTradeController --goes in Trade
-gameState=GameState.GamePlay;//for testing purposes
+//gameState=GameState.GamePlay;//for testing purposes
             switch(gameState){
                 case Login:
                     break;
