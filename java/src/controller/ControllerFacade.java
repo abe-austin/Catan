@@ -65,7 +65,7 @@ public class ControllerFacade implements IControllerFacadeListener{
     private User user;
     private Player clientPlayer;
     private GameInfo gameInfo;
-    private ArrayList<IControllerFacadeListener> listeners;
+    private ArrayList<IControllerFacadeListener> listeners = new ArrayList<IControllerFacadeListener>();
     
     private ControllerFacade(){
         setupController = new SetupController();
