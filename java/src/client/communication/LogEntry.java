@@ -22,7 +22,7 @@ public class LogEntry {
 		this.color = color;
 		this.message = message;
 	}
-	
+
 	public CatanColor getColor() {
 		return color;
 	}
