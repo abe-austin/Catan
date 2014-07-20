@@ -483,15 +483,15 @@ public class DoParse
                 if(longestRoad==-1){
                     road=true;
                 }
-                else{
-                    gameModel.getPlayers()[longestRoad].addSpecialCard(new SpecialCard(SpecialCardType.LONGEST_ROAD));
-                }
+//                else{
+//                    gameModel.getPlayers()[longestRoad].addSpecialCard(new SpecialCard(SpecialCardType.LONGEST_ROAD));
+//                }
                 if(largestArmy==-1){
                     army=true;
                 }
-                else{
-                    gameModel.getPlayers()[largestArmy].addSpecialCard(new SpecialCard(SpecialCardType.LARGEST_ARMY));
-                }
+//                else{
+//                    gameModel.getPlayers()[largestArmy].addSpecialCard(new SpecialCard(SpecialCardType.LARGEST_ARMY));
+//                }
                 
                 gameModel.getBank().setSpecialCards(army, road);
                 gameModel.setTurnTracker(new TurnTracker(status,currentTurn,longestRoad,largestArmy));
