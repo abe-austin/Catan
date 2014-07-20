@@ -94,6 +94,7 @@ public class ControllerFacade implements IControllerFacadeListener{
                     if(currentGameModel.getVersion()!=serverPoller.getGameModel().getVersion()){
                         switchGameModel(serverPoller.getGameModel());
                         reassignControllers();
+                        gameModelChanged(currentGameModel);
                     }
                 }
                 //updateGui();
