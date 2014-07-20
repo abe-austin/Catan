@@ -4,18 +4,30 @@ import game.ChatLog;
 import game.GameModel;
 import game.TradeOffer;
 import game.TurnTracker;
+import java.awt.Point;
 import game.cards.SpecialCard;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
-
 import player.Player;
+import shared.definitions.CatanColor;
+import shared.definitions.Command;
+import shared.definitions.DevCardType;
+import shared.definitions.ResourceType;
+import shared.definitions.SpecialCardType;
+import game.cards.DevelopmentCard;
+import game.cards.ResourceCard;
+import game.cards.SpecialCard;
+import game.pieces.BoardPiece;
+import game.pieces.City;
+import game.pieces.Road;
+import game.pieces.Settlement;
 import shared.definitions.Command;
 import shared.definitions.SpecialCardType;
-
-
 
 public class DoParse
 {
@@ -231,7 +243,66 @@ public class DoParse
 			ParsedPlayer pP = parsePlayer(thePlayers[i]);
 			players.add(pP);
 		}
-		//CALL FUNCTIONS TO SET players TO THE gameModel
+		
+		int j = 0;
+		Player[] modelPlayers = new Player[players.size()];
+		for(ParsedPlayer parsedPlayer : players) 
+		{
+			Player player = new Player(CatanColor.valueOf(parsedPlayer.getColor()), parsedPlayer.getName(), parsedPlayer.getPlayedIndex());
+			player.setSoldiersPlayed(parsedPlayer.getSoldiers());
+			for(int i = 0; i<parsedPlayer.getVictoryPoints(); i++) {
+				player.addPoint();
+			}
+			//boardPieces
+			Set<BoardPiece> boardPieces = new HashSet<BoardPiece>();
+			for(int i = 0; i < parsedPlayer.getSettlements(); i++) {
+				boardPieces.add(new Settlement(player));
+			}
+			for(int i = 0; i < parsedPlayer.getCities(); i++) {
+				boardPieces.add(new City(player));
+			}
+			for(int i = 0; i < parsedPlayer.getRoads(); i++) {
+				boardPieces.add(new Road(player));
+			}
+			player.setBoardPieces(boardPieces);
+			//resourceCards
+			HashSet<ResourceCard> resourceCards = new HashSet<ResourceCard>();
+			for(int i = 0; i< parsedPlayer.getPlayerResources().getBrick(); i++) {
+				resourceCards.add(new ResourceCard(ResourceType.BRICK));
+			}
+			for(int i = 0; i< parsedPlayer.getPlayerResources().getWheat(); i++) {
+				resourceCards.add(new ResourceCard(ResourceType.WHEAT));
+			}
+			for(int i = 0; i< parsedPlayer.getPlayerResources().getSheep(); i++) {
+				resourceCards.add(new ResourceCard(ResourceType.SHEEP));
+			}
+			for(int i = 0; i< parsedPlayer.getPlayerResources().getOre(); i++) {
+				resourceCards.add(new ResourceCard(ResourceType.ORE));
+			}
+			player.setResourceCards(resourceCards);
+			//developmentCards
+			HashSet<DevelopmentCard> developmentCards = new HashSet<DevelopmentCard>();
+			for(int i = 0; i< parsedPlayer.getOldCards().getYearOfPlenty(); i++) {
+				developmentCards.add(new DevelopmentCard(DevCardType.YEAR_OF_PLENTY));
+			}
+			for(int i = 0; i< parsedPlayer.getOldCards().getMonopoly(); i++) {
+				developmentCards.add(new DevelopmentCard(DevCardType.MONOPOLY));
+			}
+			for(int i = 0; i< parsedPlayer.getOldCards().getMonument(); i++) {
+				developmentCards.add(new DevelopmentCard(DevCardType.MONUMENT));
+			}
+			for(int i = 0; i< parsedPlayer.getOldCards().getSoldier(); i++) {
+				developmentCards.add(new DevelopmentCard(DevCardType.SOLDIER));
+			}
+			for(int i = 0; i< parsedPlayer.getOldCards().getRoadBuilding(); i++) {
+				developmentCards.add(new DevelopmentCard(DevCardType.ROAD_BUILD));
+			}
+			player.setDevelopmentCards(developmentCards);
+			
+			modelPlayers[j] = player;
+			j++;
+		}
+		gameModel.setPlayers(modelPlayers);
 		return input;
 	}
 	

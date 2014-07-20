@@ -29,15 +29,17 @@ public class Player extends CardOwner {
 	private User user;
 	private ArrayList<PortType> playerPorts;
 	private int index;
+	private String username;
 
-	public Player(CatanColor color, User user, int index) {
+	public Player(CatanColor color, String username, int index) {
 		this.color = color;
-		this.user = user;
+//		this.user = user;
+		this.username = username;
 		this.index = index;
 		soldiersPlayed = 0;
 		points = new Points();
 		playerPorts = new ArrayList<PortType>();
-		
+
 		boardPieces = new HashSet<BoardPiece>();
 		resourceCards = new HashSet<ResourceCard>();
 		developmentCards = new HashSet<DevelopmentCard>();
@@ -53,14 +55,14 @@ public class Player extends CardOwner {
 		for (int i = 0; i < 15; i++)
 			boardPieces.add(new Road(this));
 	}
-	
+
 	public Player(User user) {
 		this.user = user;
-		
+
 		soldiersPlayed = 0;
 		points = new Points();
 		playerPorts = new ArrayList<PortType>();
-		
+
 		boardPieces = new HashSet<BoardPiece>();
 		resourceCards = new HashSet<ResourceCard>();
 		developmentCards = new HashSet<DevelopmentCard>();
@@ -79,7 +81,9 @@ public class Player extends CardOwner {
 
 	/**
 	 * Returns an available board piece of a given type
-	 * @param type of BoardPiece
+	 * 
+	 * @param type
+	 *            of BoardPiece
 	 * @return BoardPiece that is not active
 	 */
 	public BoardPiece getAvailableBoardPiece(PieceType type) {
@@ -91,7 +95,8 @@ public class Player extends CardOwner {
 	}
 
 	/**
-	 * @param type of board piece
+	 * @param type
+	 *            of board piece
 	 * @return true if player has available piece of type
 	 */
 	public boolean hasAvailableBoardPiece(PieceType type) {
@@ -106,6 +111,7 @@ public class Player extends CardOwner {
 	/**
 	 * In addition to Card Owner functionality this keeps track of soldier cards
 	 * played
+	 * 
 	 * @post The number of soldiers played has now been incremented by one
 	 */
 	@Override
@@ -121,6 +127,7 @@ public class Player extends CardOwner {
 	/**
 	 * In addition to Card Owner functionality this keeps track of points that
 	 * come from special cards
+	 * 
 	 * @post The players points have now been decremented by the special card's
 	 *       specified value
 	 */
@@ -139,6 +146,7 @@ public class Player extends CardOwner {
 	/**
 	 * In addition to Card Owner functionality this keeps track of points that
 	 * come from special cards
+	 * 
 	 * @post The players points have now been incremented by the the special
 	 *       card's specified value
 	 */
@@ -148,21 +156,21 @@ public class Player extends CardOwner {
 		points.addPoint();
 		points.addPoint();
 	}
-	
-        public int hasResourceNumber(ResourceType resourceType){
-            int number=0;
-            for(ResourceCard card : resourceCards) {
-                if(card.getResourceType().equals(resourceType))
-                    number++;
-            }
 
-            return number;
-        }
-        
+	public int hasResourceNumber(ResourceType resourceType) {
+		int number = 0;
+		for (ResourceCard card : resourceCards) {
+			if (card.getResourceType().equals(resourceType))
+				number++;
+		}
+
+		return number;
+	}
+
 	public void addPort(PortType port) {
 		playerPorts.add(port);
 	}
-	
+
 	public ArrayList<PortType> getPorts() {
 		return playerPorts;
 	}
@@ -216,13 +224,55 @@ public class Player extends CardOwner {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	public int getIndex() {
 		return index;
 	}
-	
+
 	public void setIndex(int index) {
 		this.index = index;
+	}
+	
+	public Set<BoardPiece> getBoardPieces() {
+		return boardPieces;
+	}
+
+	public void setBoardPieces(Set<BoardPiece> boardPieces) {
+		this.boardPieces = boardPieces;
+	}
+
+	public ArrayList<PortType> getPlayerPorts() {
+		return playerPorts;
+	}
+
+	public void setPlayerPorts(ArrayList<PortType> playerPorts) {
+		this.playerPorts = playerPorts;
+	}
+
+	public void setColor(CatanColor color) {
+		this.color = color;
+	}
+
+	public void setPoints(Points points) {
+		this.points = points;
+	}
+
+	public void setSoldiersPlayed(int soldiersPlayed) {
+		this.soldiersPlayed = soldiersPlayed;
+	}
+	
+	public void setResourceCards(HashSet<ResourceCard> resourceCards) {
+		this.resourceCards = resourceCards;
+		
+	}
+	
+	public void setDevelopmentCards(HashSet<DevelopmentCard> developmentCards) {
+		this.developmentCards = developmentCards;
+	}
+	
+	public void setSpecialCards(HashSet<SpecialCard> specialCards) {
+		this.specialCards = specialCards;
+		
 	}
 
 	public boolean equals(Object other) {
