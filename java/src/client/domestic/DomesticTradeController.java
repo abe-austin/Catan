@@ -58,82 +58,84 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	
 	@Override
         public void gameModelChanged(GameModel gameModel){
-            if(gameModel.getTradeOffer().getReceiverIndex()!= -1){//there is an offer
-                if(gameModel.getTradeOffer().getReceiverIndex()==controllerFacade.getClientPlayer().getIndex()){
-                    //the offer is for me
-                    TradeOffer offer= gameModel.getTradeOffer();
-                    int senderIndex=offer.getSenderIndex();
-                    int receiverIndex=offer.getReceiverIndex();
-                    int brick=offer.getBrick();
-                    int ore=offer.getOre();
-                    int sheep=offer.getSheep();
-                    int wood= offer.getWood();
-                    int wheat=offer.getWheat();
-                    getAcceptOverlay().setAcceptEnabled(true);
-                    
-                    if(brick!=0){
-                        if( brick<0){
-                            getAcceptOverlay().addGiveResource(ResourceType.BRICK, brick*-1);
-                            if(!gameModel.getPlayers()[receiverIndex].hasResource(ResourceType.BRICK, brick)){
-                                //doesn't have enough of this resource to trade
-                                getAcceptOverlay().setAcceptEnabled(false);
+            if (controllerFacade.getGameState()==GameState.GamePlay){
+                if(gameModel.getTradeOffer().getReceiverIndex()!= -1){//there is an offer
+                    if(gameModel.getTradeOffer().getReceiverIndex()==controllerFacade.getClientPlayer().getIndex()){
+                        //the offer is for me
+                        TradeOffer offer= gameModel.getTradeOffer();
+                        int senderIndex=offer.getSenderIndex();
+                        int receiverIndex=offer.getReceiverIndex();
+                        int brick=offer.getBrick();
+                        int ore=offer.getOre();
+                        int sheep=offer.getSheep();
+                        int wood= offer.getWood();
+                        int wheat=offer.getWheat();
+                        getAcceptOverlay().setAcceptEnabled(true);
+
+                        if(brick!=0){
+                            if( brick<0){
+                                getAcceptOverlay().addGiveResource(ResourceType.BRICK, brick*-1);
+                                if(!gameModel.getPlayers()[receiverIndex].hasResource(ResourceType.BRICK, brick)){
+                                    //doesn't have enough of this resource to trade
+                                    getAcceptOverlay().setAcceptEnabled(false);
+                                }
+                            }
+                            else{
+                                getAcceptOverlay().addGetResource(ResourceType.BRICK, brick);
                             }
                         }
-                        else{
-                            getAcceptOverlay().addGetResource(ResourceType.BRICK, brick);
-                        }
-                    }
-                    if(ore!=0){
-                        if( ore<0){
-                            getAcceptOverlay().addGiveResource(ResourceType.ORE, ore*-1);
-                            if(!gameModel.getPlayers()[receiverIndex].hasResource(ResourceType.ORE, ore)){
-                                //doesn't have enough of this resource to trade
-                                getAcceptOverlay().setAcceptEnabled(false);
+                        if(ore!=0){
+                            if( ore<0){
+                                getAcceptOverlay().addGiveResource(ResourceType.ORE, ore*-1);
+                                if(!gameModel.getPlayers()[receiverIndex].hasResource(ResourceType.ORE, ore)){
+                                    //doesn't have enough of this resource to trade
+                                    getAcceptOverlay().setAcceptEnabled(false);
+                                }
+                            }
+                            else{
+                                getAcceptOverlay().addGetResource(ResourceType.ORE, ore);
                             }
                         }
-                        else{
-                            getAcceptOverlay().addGetResource(ResourceType.ORE, ore);
-                        }
-                    }
-                    if(sheep!=0){
-                        if( sheep<0){
-                            getAcceptOverlay().addGiveResource(ResourceType.SHEEP, sheep*-1);
-                            if(!gameModel.getPlayers()[receiverIndex].hasResource(ResourceType.SHEEP, sheep)){
-                                //doesn't have enough of this resource to trade
-                                getAcceptOverlay().setAcceptEnabled(false);
+                        if(sheep!=0){
+                            if( sheep<0){
+                                getAcceptOverlay().addGiveResource(ResourceType.SHEEP, sheep*-1);
+                                if(!gameModel.getPlayers()[receiverIndex].hasResource(ResourceType.SHEEP, sheep)){
+                                    //doesn't have enough of this resource to trade
+                                    getAcceptOverlay().setAcceptEnabled(false);
+                                }
+                            }
+                            else{
+                                getAcceptOverlay().addGetResource(ResourceType.SHEEP, sheep);
                             }
                         }
-                        else{
-                            getAcceptOverlay().addGetResource(ResourceType.SHEEP, sheep);
-                        }
-                    }
-                    if(wood!=0){
-                        if(wood<0){
-                            getAcceptOverlay().addGiveResource(ResourceType.WOOD, wood*-1);
-                            if(!gameModel.getPlayers()[receiverIndex].hasResource(ResourceType.WOOD, wood)){
-                                //doesn't have enough of this resource to trade
-                                getAcceptOverlay().setAcceptEnabled(false);
+                        if(wood!=0){
+                            if(wood<0){
+                                getAcceptOverlay().addGiveResource(ResourceType.WOOD, wood*-1);
+                                if(!gameModel.getPlayers()[receiverIndex].hasResource(ResourceType.WOOD, wood)){
+                                    //doesn't have enough of this resource to trade
+                                    getAcceptOverlay().setAcceptEnabled(false);
+                                }
+                            }
+                            else{
+                                getAcceptOverlay().addGetResource(ResourceType.WOOD, wood);
                             }
                         }
-                        else{
-                            getAcceptOverlay().addGetResource(ResourceType.WOOD, wood);
-                        }
-                    }
-                    if(wheat!=0){
-                        if( wheat<0){
-                            getAcceptOverlay().addGiveResource(ResourceType.WHEAT, wheat*-1);
-                            if(!gameModel.getPlayers()[receiverIndex].hasResource(ResourceType.WHEAT, wheat)){
-                                //doesn't have enough of this resource to trade
-                                getAcceptOverlay().setAcceptEnabled(false);
+                        if(wheat!=0){
+                            if( wheat<0){
+                                getAcceptOverlay().addGiveResource(ResourceType.WHEAT, wheat*-1);
+                                if(!gameModel.getPlayers()[receiverIndex].hasResource(ResourceType.WHEAT, wheat)){
+                                    //doesn't have enough of this resource to trade
+                                    getAcceptOverlay().setAcceptEnabled(false);
+                                }
+                            }
+                            else{
+                                getAcceptOverlay().addGetResource(ResourceType.WHEAT, wheat);
                             }
                         }
-                        else{
-                            getAcceptOverlay().addGetResource(ResourceType.WHEAT, wheat);
-                        }
+
+
+                        getAcceptOverlay().showModal();
                     }
-                    
-                    
-                    getAcceptOverlay().showModal();
                 }
             }
         }
