@@ -4,12 +4,16 @@ import game.ChatLog;
 import game.GameModel;
 import game.TradeOffer;
 import game.TurnTracker;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
+import player.Player;
 import shared.definitions.Command;
+import shared.definitions.SpecialCardType;
 
 
 
@@ -412,6 +416,15 @@ public class DoParse
                 }
                 gameModel.getBank().setSpecialCards(army, road);
                 gameModel.setTurnTracker(new TurnTracker(status,currentTurn,longestRoad,largestArmy));
+                
+                Player[] players = gameModel.getPlayers();
+                for(int i = 0; i < players.length; i++)
+                {
+                	if(players[i].getIndex() == longestRoad)
+                		players[i].giveSpecialCard(SpecialCardType.LONGEST_ROAD);
+                	if(players[i].getIndex() == largestArmy)
+                		players[i].giveSpecialCard(SpecialCardType.LARGEST_ARMY);
+                }
 		return input;
 	}
 	public String parseTradeOffer(String input){
