@@ -595,7 +595,7 @@ gameState=GameState.GamePlay;//for testing purposes
 			break;
 		case JoinGame:
 			int index = gameInfo.getPlayers().size() + 1;
-			clientPlayer = new Player(color, user, index);
+			clientPlayer = new Player(color, user.getUsername().getUsername(), index);
 			PlayerInfo playerInfo = new PlayerInfo();
 			playerInfo.setName(user.getUsername().getUsername());
 			playerInfo.setPlayerIndex(index);
