@@ -41,7 +41,9 @@ public class ServerResponseConverter {
 			ArrayList<GameInfo> gameInfo = new ArrayList<GameInfo>();
 			for(Object game : games) {
 				String test = gson.toJson(game);
-				gameInfo.add(gson.fromJson(test, GameInfo.class));
+				GameInfo info = gson.fromJson(test, GameInfo.class);
+				info.resetPlayer();
+				gameInfo.add(info);
 			}
 			response.setBody(gameInfo);
 			return;

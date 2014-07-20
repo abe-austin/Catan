@@ -6,7 +6,10 @@ import client.misc.*;
 import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
+
 import java.util.ArrayList;
+
+import shared.communication.ServerResponse;
 import shared.definitions.CatanColor;
 
 
@@ -151,10 +154,15 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void joinGame(CatanColor color) {
 		
 		// If join succeeded
-		ControllerFacade.getSingleton().joinGame(color);
-		getSelectColorView().closeModal();
-		getJoinGameView().closeModal();
-		joinAction.execute();
+		ServerResponse response = ControllerFacade.getSingleton().joinGame(color);
+		if(response.getCode() == 200) {
+			getSelectColorView().closeModal();
+			getJoinGameView().closeModal();
+			joinAction.execute();
+		}
+		else {
+			getJoinGameView().showModal();
+		}
 	}
 
 }

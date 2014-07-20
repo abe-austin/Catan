@@ -1,6 +1,5 @@
 package client.serverProxy;
 
-import game.GameModel;
 import game.board.Corner;
 import game.board.Edge;
 import game.cards.ResourceCard;

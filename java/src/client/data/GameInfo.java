@@ -51,6 +51,15 @@ public class GameInfo {
 		
 		return Collections.unmodifiableList(players);
 	}
-
+	
+	public void resetPlayer() {
+		ArrayList<PlayerInfo> newPlayers = new ArrayList<PlayerInfo>();
+		for(PlayerInfo player : players) {
+			if(player.getId() != -1) {
+				newPlayers.add(player);
+			}
+		}
+		players = newPlayers;
+	}
 }
 

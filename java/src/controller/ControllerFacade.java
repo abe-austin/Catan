@@ -573,7 +573,6 @@ public class ControllerFacade implements IControllerFacadeListener{
 			for(Object game: gameObjects) {
 				games.add((GameInfo)game);
 			}
-			
 			return games;
 		case PlayerWaiting:
 			break;
@@ -589,7 +588,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 	 * @param gameInfo
 	 */
 	public void startJoinGame(GameInfo gameInfo) {
-		
+
 		switch (gameState) {
 		case Login:
 			break;
@@ -609,7 +608,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 	 * Called by the select color view when the user clicks the "Join Game" button
 	 * @param color The color selected by the user
 	 */
-	public void joinGame(CatanColor color) { //JoinGameController --goes in Setup
+	public ServerResponse joinGame(CatanColor color) { //JoinGameController --goes in Setup
 		
 		switch (gameState) {
 		case Login:
@@ -623,8 +622,9 @@ public class ControllerFacade implements IControllerFacadeListener{
 			playerInfo.setColor(color);
 			playerInfo.setId(user.getId());
 			gameInfo.addPlayer(playerInfo);
-			
-			break;
+			ServerResponse response = serverProxyFacade.joinGame(gameInfo.getId(), color);
+			System.err.println(response.getBody());
+			return response;	
 		case PlayerWaiting:
 			break;
 		case Setup:
@@ -632,6 +632,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 		case GamePlay:
 			break;
 		}
+		return null;
      }
 	
 	/**

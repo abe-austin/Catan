@@ -74,7 +74,8 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 
 		// This is the header layout
 		gamePanel = new JPanel();
-		gamePanel.setLayout(new GridLayout(0, 4));
+
+	gamePanel.setLayout(new GridLayout(10, 4));
 		hash = new JLabel("#");
 		labelFont = new Font(labelFont.getFontName(), Font.BOLD, PANEL_TEXT_SIZE);
 		hash.setFont(labelFont);
@@ -113,11 +114,13 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 				JLabel tmp3 = new JLabel(players);
 				tmp3.setFont(labelFont);
 				gamePanel.add(tmp3);
+				
 				JButton joinButton;
 				
 				boolean containsPlayer = false;
+				System.err.println(localPlayer.getName());
 				for(PlayerInfo playerInfo : game.getPlayers()) {
-					if(playerInfo.getName() == localPlayer.getName())
+					if(playerInfo.getName().equals(localPlayer.getName()))
 						containsPlayer = true;
 				}
 //				if (game.getPlayers().contains(localPlayer))

@@ -45,7 +45,6 @@ public class ServerProxy implements Server{
 	 */
 	@Override
 	public ServerResponse doPost(String url, Object requestOb) {
-		
 		Gson gson = new Gson();
 		String json = gson.toJson(requestOb);
 		
