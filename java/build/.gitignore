@@ -1,4 +1,7 @@
-/client
 /game
+<<<<<<< HEAD
 /player
+=======
+/client
+>>>>>>> 3b13f3cfce54f4769f4c24326de3bf3eb438eaf5
 /controller

@@ -4,8 +4,8 @@ import game.ChatLog;
 import game.GameModel;
 import game.TradeOffer;
 import game.TurnTracker;
-
 import java.awt.Point;
+import game.cards.SpecialCard;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Pattern;
-
 import player.Player;
 import shared.definitions.CatanColor;
 import shared.definitions.Command;
@@ -27,8 +26,8 @@ import game.pieces.BoardPiece;
 import game.pieces.City;
 import game.pieces.Road;
 import game.pieces.Settlement;
-
-
+import shared.definitions.Command;
+import shared.definitions.SpecialCardType;
 
 public class DoParse
 {
@@ -37,7 +36,11 @@ public class DoParse
     
 	public DoParse()
 	{}
-	
+        
+	public GameModel getGameModel(){
+            return gameModel;
+        }
+        
 	public void process(String input)
 	{
 		try 
@@ -480,11 +483,27 @@ public class DoParse
                 if(longestRoad==-1){
                     road=true;
                 }
+                else{
+                    gameModel.getPlayers()[longestRoad].addSpecialCard(new SpecialCard(SpecialCardType.LONGEST_ROAD));
+                }
                 if(largestArmy==-1){
                     army=true;
                 }
+                else{
+                    gameModel.getPlayers()[largestArmy].addSpecialCard(new SpecialCard(SpecialCardType.LARGEST_ARMY));
+                }
+                
                 gameModel.getBank().setSpecialCards(army, road);
                 gameModel.setTurnTracker(new TurnTracker(status,currentTurn,longestRoad,largestArmy));
+                
+                Player[] players = gameModel.getPlayers();
+                for(int i = 0; i < players.length; i++)
+                {
+                	if(players[i].getIndex() == longestRoad)
+                		players[i].giveSpecialCard(SpecialCardType.LONGEST_ROAD);
+                	if(players[i].getIndex() == largestArmy)
+                		players[i].giveSpecialCard(SpecialCardType.LARGEST_ARMY);
+                }
 		return input;
 	}
 	public String parseTradeOffer(String input){

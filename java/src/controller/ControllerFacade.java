@@ -46,7 +46,7 @@ import system.Username;
  *
  * @author Cory
  */
-public class ControllerFacade {
+public class ControllerFacade implements IControllerFacadeListener{
     private static ControllerFacade singleton = new ControllerFacade();
     
     public static ControllerFacade getSingleton() {
@@ -65,6 +65,7 @@ public class ControllerFacade {
     private User user;
     private Player clientPlayer;
     private GameInfo gameInfo;
+    private ArrayList<IControllerFacadeListener> listeners;
     
     private ControllerFacade(){
         setupController = new SetupController();
@@ -88,12 +89,26 @@ public class ControllerFacade {
         timer.scheduleAtFixedRate(new TimerTask(){
             @Override
             public void run() {
-                //serverPoller.poll(-1);
-                //switchGameModel(serverPoller.getGameModel());
-                //reassignControllers();
+                serverPoller.poll(-1);
+                if (serverPoller.getGameModel()!=null){
+                    if(currentGameModel.getVersion()!=serverPoller.getGameModel().getVersion()){
+                        switchGameModel(serverPoller.getGameModel());
+                        reassignControllers();
+                    }
+                }
                 //updateGui();
             }
         }, 1000, 1000);//timer to execute poll every second
+    }
+    
+    @Override
+    public void gameModelChanged(GameModel gameModel){
+        for(IControllerFacadeListener listener:listeners){
+            listener.gameModelChanged(gameModel);
+        }
+    }
+    public void addListener(IControllerFacadeListener listener){
+        listeners.add(listener);
     }
     /**
      * replaces the current gameModel with the new GameModel
@@ -118,6 +133,9 @@ public class ControllerFacade {
     
     public User getUser(){
         return user;
+    }
+    public GameState getGameState(){
+        return gameState;
     }
     
     public void sendMessage(String message){

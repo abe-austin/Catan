@@ -1,8 +1,10 @@
 package client.login;
 
-import controller.ControllerFacade;
 import client.base.*;
 import client.misc.*;
+import controller.ControllerFacade;
+import controller.IControllerFacadeListener;
+import game.GameModel;
 
 //import java.net.*;
 //import java.io.*;
@@ -15,7 +17,7 @@ import client.misc.*;
 /**
  * Implementation for the login controller
  */
-public class LoginController extends Controller implements ILoginController {
+public class LoginController extends Controller implements ILoginController, IControllerFacadeListener {
 
 	private IMessageView messageView;
 	private IAction loginAction;
@@ -29,7 +31,14 @@ public class LoginController extends Controller implements ILoginController {
 		
 		super(view);
 		this.messageView = messageView;
+                ControllerFacade.getSingleton().addListener(this);
 	}
+        
+	@Override
+        public void gameModelChanged(GameModel gameModel){
+        
+        }
+         
 	
 	public ILoginView getLoginView() {
 		

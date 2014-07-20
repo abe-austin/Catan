@@ -1,20 +1,30 @@
 package client.turntracker;
 
-import shared.definitions.CatanColor;
 import client.base.*;
+import controller.ControllerFacade;
+import controller.IControllerFacadeListener;
+import game.GameModel;
+import shared.definitions.CatanColor;
 
 
 /**
  * Implementation for the turn tracker controller
  */
-public class TurnTrackerController extends Controller implements ITurnTrackerController {
+public class TurnTrackerController extends Controller implements ITurnTrackerController, IControllerFacadeListener {
 
 	public TurnTrackerController(ITurnTrackerView view) {
 		
 		super(view);
 		
 		initFromModel();
+                ControllerFacade.getSingleton().addListener(this);
 	}
+        
+	@Override
+        public void gameModelChanged(GameModel gameModel){
+        
+        }
+         
 	
 	@Override
 	public ITurnTrackerView getView() {

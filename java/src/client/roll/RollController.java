@@ -2,12 +2,14 @@ package client.roll;
 
 import client.base.*;
 import controller.ControllerFacade;
+import controller.IControllerFacadeListener;
+import game.GameModel;
 
 
 /**
  * Implementation for the roll controller
  */
-public class RollController extends Controller implements IRollController {
+public class RollController extends Controller implements IRollController, IControllerFacadeListener {
 
 	private IRollResultView resultView;
 
@@ -22,7 +24,14 @@ public class RollController extends Controller implements IRollController {
 		super(view);
 		
 		setResultView(resultView);
+                ControllerFacade.getSingleton().addListener(this);
 	}
+        
+	@Override
+        public void gameModelChanged(GameModel gameModel){
+        
+        }
+         
 	
 	public IRollResultView getResultView() {
 		return resultView;
