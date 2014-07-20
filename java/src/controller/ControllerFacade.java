@@ -560,13 +560,6 @@ public class ControllerFacade implements IControllerFacadeListener{
 			gameModel.setRandomNumbers(randomNumbers);
 			gameModel.setRandomPorts(randomPorts);
 			serverProxyFacade.createGame(title, randomHexes, randomNumbers, randomPorts);
-		
-			/**ServerResponse serverResponse  = serverProxyFacade.getAllGames();
-			GameInfo[] gameObjects = (GameInfo[]) serverResponse.getBody();
-			GameInfo[] games = new GameInfo[gameObjects.length];
-			for(int i=0; i<gameObjects.length; i++) {
-				games[i] = (GameInfo) gameObjects[i];
-			}**/
 			ServerResponse serverResponse = serverProxyFacade.getAllGames();
 			ArrayList gameObjects = (ArrayList)serverResponse.getBody();
 			ArrayList<GameInfo> games = new ArrayList<GameInfo>();
@@ -633,6 +626,30 @@ public class ControllerFacade implements IControllerFacadeListener{
 		}
 		return null;
      }
+	
+	/**
+	 * 
+	 */
+	public boolean startPlayerWaiting() {
+		
+		switch (gameState) {
+		case Login:
+			break;
+		case JoinGame:
+			break;
+		case PlayerWaiting:
+			if(gameInfo.getPlayers().size() < 4) {
+				return false;
+			} else {
+				return true;
+			}
+		case Setup:
+			break;
+		case GamePlay:
+			break;
+		}
+		return false;
+	}
 	
 	/**
 	 * Called when the "Add AI" button is clicked in the player waiting view
