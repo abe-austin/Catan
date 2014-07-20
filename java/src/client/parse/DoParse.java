@@ -248,8 +248,7 @@ public class DoParse
 		Player[] modelPlayers = new Player[players.size()];
 		for(ParsedPlayer parsedPlayer : players) 
 		{
-//			CatanColor color = new CatanColor(CatanColor.);
-			Player player = new Player(CatanColor.RED, parsedPlayer.getName(), parsedPlayer.getPlayedIndex());
+			Player player = new Player(CatanColor.valueOf(parsedPlayer.getColor()), parsedPlayer.getName(), parsedPlayer.getPlayedIndex());
 			player.setSoldiersPlayed(parsedPlayer.getSoldiers());
 			for(int i = 0; i<parsedPlayer.getVictoryPoints(); i++) {
 				player.addPoint();
