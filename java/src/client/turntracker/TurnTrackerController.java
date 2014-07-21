@@ -12,6 +12,7 @@ import shared.definitions.CatanColor;
  * Implementation for the turn tracker controller
  */
 public class TurnTrackerController extends Controller implements ITurnTrackerController, IControllerFacadeListener {
+        private boolean firstTurn = true;
 
 	public TurnTrackerController(ITurnTrackerView view) {
 		
@@ -24,7 +25,11 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	@Override
         public void gameModelChanged(GameModel gameModel){
             Player player = ControllerFacade.getSingleton().getClientPlayer();
-            getView().updatePlayer(player.getIndex(), player.getPoints(), false, 
+            if(firstTurn) {
+                getView().initializePlayer(player.getIndex(), "NAME", player.getColor());
+                firstTurn = false;
+            } else
+                getView().updatePlayer(player.getIndex(), player.getPoints(), false, 
                     player.hasLargestArmy(), player.hasLongestRoad());
         }
          
