@@ -4,6 +4,7 @@ import client.base.*;
 import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
+import shared.definitions.GameState;
 
 
 /**
@@ -19,7 +20,9 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-        
+            if(ControllerFacade.getSingleton().getGameState().equals(GameState.PlayerWaiting) &&
+                    gameModel.getPlayers().length == 4)
+                getView().closeModal();
         }
          
 

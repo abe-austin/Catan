@@ -5,6 +5,7 @@ import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
 import player.Player;
+import shared.definitions.CatanColor;
 
 
 /**
@@ -41,7 +42,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	}
 	
 	private void initFromModel() {
-            Player player = ControllerFacade.getSingleton().getClientPlayer();
+            Player player = new Player(CatanColor.BLUE, null, 1);
             getView().initializePlayer(player.getIndex(), "NAME", player.getColor());
 	}
 
