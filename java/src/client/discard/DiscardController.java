@@ -18,7 +18,7 @@ public class DiscardController extends Controller implements IDiscardController,
         private IDiscardView view;
         private int numWheat = 0, numWood = 0, numOre = 0, numSheep = 0, numBrick = 0;
         private ArrayList<ResourceType> toDiscard = new ArrayList<>();
-        private ControllerFacade singleton = ControllerFacade.getSingleton();
+        private ControllerFacade facade = ControllerFacade.getSingleton();
 	
 	/**
 	 * DiscardController constructor
@@ -38,7 +38,7 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	@Override
         public void gameModelChanged(GameModel gameModel){
-        
+            // NO CHANGE
         }
          
 	public IDiscardView getDiscardView() {
@@ -54,23 +54,23 @@ public class DiscardController extends Controller implements IDiscardController,
             	
             switch(resource) {
                 case BRICK:
-                    if(singleton.increaseAmount(resource, numBrick))
+                    if(facade.increaseAmount(resource, numBrick))
                         numBrick++;
                     break;
                 case ORE:
-                    if(singleton.increaseAmount(resource, numOre))
+                    if(facade.increaseAmount(resource, numOre))
                         numOre++;
                     break;
                 case WHEAT:
-                    if(singleton.increaseAmount(resource, numWheat))
+                    if(facade.increaseAmount(resource, numWheat))
                         numWheat++;
                     break;
                 case WOOD:
-                    if(singleton.increaseAmount(resource, numWood))
+                    if(facade.increaseAmount(resource, numWood))
                         numWood++;
                     break;
                 case SHEEP:
-                    if(singleton.increaseAmount(resource, numSheep))
+                    if(facade.increaseAmount(resource, numSheep))
                         numSheep++;
                     break;
             }
@@ -83,23 +83,23 @@ public class DiscardController extends Controller implements IDiscardController,
 		
             switch(resource) {
                 case BRICK:
-                    if(singleton.decreaseAmount(resource, numBrick))
+                    if(facade.decreaseAmount(resource, numBrick))
                         numBrick--;
                     break;
                 case ORE:
-                    if(singleton.decreaseAmount(resource, numOre))
+                    if(facade.decreaseAmount(resource, numOre))
                         numOre--;
                     break;
                 case WHEAT:
-                    if(singleton.decreaseAmount(resource, numWheat))
+                    if(facade.decreaseAmount(resource, numWheat))
                         numWheat--;
                     break;
                 case WOOD:
-                    if(singleton.decreaseAmount(resource, numWood))
+                    if(facade.decreaseAmount(resource, numWood))
                         numWood--;
                     break;
                 case SHEEP:
-                    if(singleton.decreaseAmount(resource, numSheep))
+                    if(facade.decreaseAmount(resource, numSheep))
                         numSheep--;
                     break;
             }
@@ -123,7 +123,7 @@ public class DiscardController extends Controller implements IDiscardController,
             for(int i = 0; i < numSheep; i++)
                 toDiscard.add(ResourceType.SHEEP);
             
-            if(singleton.discard(toDiscard)) {// only closes if discard was successful
+            if(facade.discard(toDiscard)) {// only closes if discard was successful
                 numSheep = 0;
                 numWood = 0;
                 numOre = 0;
@@ -143,7 +143,7 @@ public class DiscardController extends Controller implements IDiscardController,
             int total = numWood + numWheat + numOre + numBrick + numSheep;
             
             view.setStateMessage(String.valueOf(total) + " / " + String.valueOf(
-                    singleton.getClientPlayer().getHandSize()/2));
+                    facade.getClientPlayer().getHandSize()/2));
         }
 
 }

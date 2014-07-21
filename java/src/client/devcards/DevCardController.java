@@ -17,7 +17,7 @@ public class DevCardController extends Controller implements IDevCardController,
 	private IBuyDevCardView buyCardView;
 	private IAction soldierAction;
 	private IAction roadAction;
-        private ControllerFacade singleton = ControllerFacade.getSingleton();
+        private ControllerFacade facade = ControllerFacade.getSingleton();
 	
 	/**
 	 * DevCardController constructor
@@ -35,13 +35,13 @@ public class DevCardController extends Controller implements IDevCardController,
 		this.buyCardView = buyCardView;
 		this.soldierAction = soldierAction;
 		this.roadAction = roadAction;
-                singleton.setRobberAction(soldierAction);
-                singleton.addListener(this);
+                facade.setRobberAction(soldierAction);
+                facade.addListener(this);
 	}
 
 	@Override
         public void gameModelChanged(GameModel gameModel){
-        
+            // NO CHANGE
         }
          
 	public IPlayDevCardView getPlayCardView() {
@@ -54,7 +54,7 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
 	public void startBuyCard() {
-		if(singleton.startBuyCard())
+		if(facade.startBuyCard())
                     getBuyCardView().showModal();
 	}
 
@@ -66,13 +66,13 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
 	public void buyCard() {
-		singleton.buyCard();
+		facade.buyCard();
 		getBuyCardView().closeModal();
 	}
 
 	@Override
 	public void startPlayCard() {
-		ArrayList<DevCardType> cards = singleton.startPlayCard();
+		ArrayList<DevCardType> cards = facade.startPlayCard();
                 
                 if(cards == null)
                     return;
@@ -85,7 +85,7 @@ public class DevCardController extends Controller implements IDevCardController,
                 for(DevCardType type : DevCardType.values()) {
                     if(cards.contains(type)) {
                         getPlayCardView().setCardEnabled(type, true); 
-                        getPlayCardView().setCardAmount(type, singleton.getNumOfDevCards(type));
+                        getPlayCardView().setCardAmount(type, facade.getNumOfDevCards(type));
                     } else {
                         getPlayCardView().setCardEnabled(type, false);
                         getPlayCardView().setCardAmount(type, 0);
@@ -103,29 +103,29 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
 	public void playMonopolyCard(ResourceType resource) {
-		singleton.playMonopolyCard(resource);
+		facade.playMonopolyCard(resource);
 	}
 
 	@Override
 	public void playMonumentCard() {
-		singleton.playMonumentCard();
+		facade.playMonumentCard();
 	}
 
 	@Override
 	public void playRoadBuildCard() {
-		singleton.playRoadBuildCard();
+		facade.playRoadBuildCard();
 		roadAction.execute();
 	}
 
 	@Override
 	public void playSoldierCard() {
-		singleton.playSoldierCard();
+		facade.playSoldierCard();
 		soldierAction.execute();
 	}
 
 	@Override
 	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
-		singleton.playYearOfPlentyCard(resource1, resource2);
+		facade.playYearOfPlentyCard(resource1, resource2);
 	}
 
 }

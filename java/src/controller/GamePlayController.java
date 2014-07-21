@@ -58,7 +58,8 @@ class GamePlayController {
     public boolean startBuyCard() {
         return (player.hasResource(ResourceType.WHEAT) && 
            player.hasResource(ResourceType.SHEEP) && 
-           player.hasResource(ResourceType.ORE));
+           player.hasResource(ResourceType.ORE) &&
+           gameModel.getTurnTracker().getCurrentTurn() == player.getIndex());
     }
 
     /**
@@ -320,7 +321,8 @@ class GamePlayController {
      * 				Set to true only during initial setup.
      */                                                                         // MapController 
     public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) { 
-        hexTileController.startMove(pieceType, isFree, allowDisconnected);
+        if(gameModel.getTurnTracker().getCurrentTurn() == player.getIndex())
+            hexTileController.startMove(pieceType, isFree, allowDisconnected);
     }
     
     public void cancelMove() {
@@ -359,7 +361,8 @@ class GamePlayController {
     public boolean buildRoad() {                                                // ResourceBarController
         return (player.hasAvailableBoardPiece(PieceType.ROAD) &&
                 player.hasResource(ResourceType.BRICK) &&
-                player.hasResource(ResourceType.WOOD));
+                player.hasResource(ResourceType.WOOD) &&
+           gameModel.getTurnTracker().getCurrentTurn() == player.getIndex());
     }
 
     /**
@@ -370,7 +373,8 @@ class GamePlayController {
                 player.hasResource(ResourceType.WHEAT) &&
                 player.hasResource(ResourceType.SHEEP) &&
                 player.hasResource(ResourceType.BRICK) &&
-                player.hasResource(ResourceType.WOOD));
+                player.hasResource(ResourceType.WOOD)  &&
+           gameModel.getTurnTracker().getCurrentTurn() == player.getIndex());
     }
 
     /**
@@ -379,7 +383,8 @@ class GamePlayController {
     public boolean buildCity() {                                                // ResourceBarController
         return (player.hasAvailableBoardPiece(PieceType.CITY) &&
                 player.hasResource(ResourceType.WHEAT, 2) &&
-                player.hasResource(ResourceType.ORE, 3));
+                player.hasResource(ResourceType.ORE, 3) &&
+           gameModel.getTurnTracker().getCurrentTurn() == player.getIndex());
     }
 
     /**
