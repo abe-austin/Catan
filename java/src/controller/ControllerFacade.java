@@ -92,11 +92,11 @@ public class ControllerFacade implements IControllerFacadeListener{
             public void run() {
                 serverPoller.poll(-1);
                 if (serverPoller.getGameModel()!=null){
-                    if(currentGameModel.getVersion()!=serverPoller.getGameModel().getVersion()){
+//                    if(currentGameModel.getVersion()!=serverPoller.getGameModel().getVersion()){
                         switchGameModel(serverPoller.getGameModel());
                         reassignControllers();
                         gameModelChanged(currentGameModel);
-                    }
+//                    }
                 }
                 else
                     System.out.println("server game model null"+" game state "+gameState);
@@ -140,6 +140,9 @@ public class ControllerFacade implements IControllerFacadeListener{
     }
     public GameState getGameState(){
         return gameState;
+    }
+    public void setGameState(GameState gameState){
+        this.gameState = gameState;
     }
     
     public void sendMessage(String message){

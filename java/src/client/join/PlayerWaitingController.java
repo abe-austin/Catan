@@ -35,6 +35,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	public void start() {
 	
 		getView().showModal();
+                ControllerFacade.getSingleton().setGameState(GameState.PlayerWaiting);
 		boolean full = ControllerFacade.getSingleton().startPlayerWaiting();
 		if(full == true) {
 			getView().closeModal();
