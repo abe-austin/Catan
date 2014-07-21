@@ -138,9 +138,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
+		
 		ControllerFacade.getSingleton().startJoinGame(game);
+		for(PlayerInfo player : game.getPlayers()) {
+			System.out.println(player.getName());
+			System.out.println(player.getColor());
+//			getSelectColorView().setColorEnabled(player.getColor(), false);
+		}
 		getSelectColorView().showModal();
-
 	}
 
 	@Override
