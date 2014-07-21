@@ -1,5 +1,7 @@
 package client.parse;
 
+import shared.definitions.CatanColor;
+
 public class ParsedPlayer
 {
 	ParsedPlayerResources playerResources;
@@ -16,11 +18,11 @@ public class ParsedPlayer
 	int playerID;
 	int playerIndex;
 	String name;
-	String color;
+	CatanColor color;
 	
 	public ParsedPlayer(ParsedPlayerResources playerResources, ParsedPlayerDevCards oldCards, ParsedPlayerDevCards newCards, 
 			int roads, int cities, int settlements, int soldiers, int victoryPoints, int monuments, boolean playedDevCard,
-			boolean discarded, int playerID, int playerIndex, String name, String color)
+			boolean discarded, int playerID, int playerIndex, String name, CatanColor color)
 	{
 		this.playerResources = playerResources;
 		this.oldCards = oldCards;
@@ -109,7 +111,7 @@ public class ParsedPlayer
 		return name;
 	}
 	
-	public String getColor()
+	public CatanColor getColor()
 	{
 		return color;
 	}

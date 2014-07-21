@@ -248,7 +248,7 @@ public class DoParse
 		Player[] modelPlayers = new Player[players.size()];
 		for(ParsedPlayer parsedPlayer : players) 
 		{
-			Player player = new Player(CatanColor.valueOf(parsedPlayer.getColor()), parsedPlayer.getName(), parsedPlayer.getPlayedIndex());
+			Player player = new Player(parsedPlayer.getColor(), parsedPlayer.getName(), parsedPlayer.getPlayedIndex());
 			player.setSoldiersPlayed(parsedPlayer.getSoldiers());
 			for(int i = 0; i<parsedPlayer.getVictoryPoints(); i++) {
 				player.addPoint();
@@ -377,12 +377,33 @@ public class DoParse
 		String gettingColor = theRest.split("color\":")[1];
 		String color = gettingColor.split(",")[0];
 		
+		CatanColor col = null;
+		
+		if(color.equals("red"))
+			col = CatanColor.RED;
+		if(color.equals("orange"))
+			col = CatanColor.ORANGE;
+		if(color.equals("yellow"))
+			col = CatanColor.YELLOW;
+		if(color.equals("blue"))
+			col = CatanColor.BLUE;
+		if(color.equals("green"))
+			col = CatanColor.GREEN;
+		if(color.equals("purple"))
+			col = CatanColor.PURPLE;
+		if(color.equals("puce"))
+			col = CatanColor.PUCE;
+		if(color.equals("white"))
+			col = CatanColor.WHITE;
+		if(color.equals("brown"))
+			col = CatanColor.BROWN;
+		
 		ParsedPlayerResources pPR = new ParsedPlayerResources(brick, wood, sheep, wheat, ore);
 		ParsedPlayerDevCards oldCards = new ParsedPlayerDevCards("OLD", yearOfPlenty, monopoly, soldier, roadBuilding, monument);
 		ParsedPlayerDevCards newCards = new ParsedPlayerDevCards("NEW", yearOfPlenty2, monopoly2, soldier2, roadBuilding2, monument2);
 		
 		return new ParsedPlayer(pPR, oldCards, newCards, roads, cities, settlements, soldiers, victoryPoints, monuments, playedDevCard, 
-				discarded, playerID, playerIndex, name, color);
+				discarded, playerID, playerIndex, name, col);
 		
 	}
 	

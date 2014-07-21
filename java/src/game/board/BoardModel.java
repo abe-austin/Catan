@@ -34,6 +34,7 @@ public class BoardModel {
         pieces = new BoardPiece[10][10];
         BuildWorld worldBuilder = new BuildWorld();
         tiles = worldBuilder.getTiles();
+        rob = new Robber(new HexLocation(0,0));
     }
     
     public void updateBoardResources(ArrayList<ParsedTile> newTiles) {
@@ -44,26 +45,53 @@ public class BoardModel {
     		int x = newTiles.get(i).getX();
     		int y = newTiles.get(i).getY();    		
     		int number = newTiles.get(i).getNumberTile();
-    		
-
+    	
     		for(int j = 0; j < tiles.size(); j++)
             {
             	if(tiles.get(j).getX() == x && tiles.get(j).getY() == y)
             	{
+            		Corner nw = tiles.get(j).northWestCorner;
+            		Corner ne = tiles.get(j).northEastCorner;
+            		Corner e = tiles.get(j).eastCorner;
+            		Corner se = tiles.get(j).southEastCorner;
+            		Corner sw = tiles.get(j).southWestCorner;
+            		Corner w = tiles.get(j).westCorner;
+            		Edge en = tiles.get(j).northEdge;
+            		Edge ene = tiles.get(j).northEastEdge;
+            		Edge ese = tiles.get(j).southEastEdge;
+            		Edge es = tiles.get(j).southEdge;
+            		Edge esw = tiles.get(j).southWestEdge;
+            		Edge enw = tiles.get(j).northWestEdge;
+            		HexTile t = null;           		
+            		
             		String type = newTiles.get(i).getType();
             		if(type.equals("DESERT"))
-            			tiles.set(j, new DesertTile());
+            			t = new DesertTile();
             		if(type.equals("brick"))
-            			tiles.set(j, new ResourceTile(ResourceType.BRICK, new NumberToken(number)));
+            			t = new ResourceTile(ResourceType.BRICK, new NumberToken(number));
             		if(type.equals("wood"))
-            			tiles.set(j, new ResourceTile(ResourceType.WOOD, new NumberToken(number)));
+            			t = new ResourceTile(ResourceType.WOOD, new NumberToken(number));
             		if(type.equals("ore"))
-            			tiles.set(j, new ResourceTile(ResourceType.ORE, new NumberToken(number)));
+            			t = new ResourceTile(ResourceType.ORE, new NumberToken(number));
             		if(type.equals("sheep"))
-            			tiles.set(j, new ResourceTile(ResourceType.SHEEP, new NumberToken(number)));
+            			t = new ResourceTile(ResourceType.SHEEP, new NumberToken(number));
             		if(type.equals("wheat"))
-            			tiles.set(j, new ResourceTile(ResourceType.WHEAT, new NumberToken(number)));
+            			t = new ResourceTile(ResourceType.WHEAT, new NumberToken(number));
             		
+            		t.northWestCorner = nw;
+            		t.northEastCorner = ne;
+            		t.eastCorner = e;
+            		t.southEastCorner = se;
+            		t.southWestCorner = sw;
+            		t.westCorner = w;
+            		t.northEdge = en;
+            		t.northEastEdge = ene;
+            		t.southEastEdge = ese;
+            		t.southEdge = es;
+            		t.southWestEdge = esw;
+            		t.northWestEdge = enw;
+            		t.setCoordinates(x, y);
+            		tiles.set(j, t);
             		j = tiles.size();
             	}
             }	
@@ -82,19 +110,48 @@ public class BoardModel {
             {
             	if(tiles.get(j).getX() == x && tiles.get(j).getY() == y)
             	{
+            		Corner nw = tiles.get(j).northWestCorner;
+            		Corner ne = tiles.get(j).northEastCorner;
+            		Corner e = tiles.get(j).eastCorner;
+            		Corner se = tiles.get(j).southEastCorner;
+            		Corner sw = tiles.get(j).southWestCorner;
+            		Corner w = tiles.get(j).westCorner;
+            		Edge en = tiles.get(j).northEdge;
+            		Edge ene = tiles.get(j).northEastEdge;
+            		Edge ese = tiles.get(j).southEastEdge;
+            		Edge es = tiles.get(j).southEdge;
+            		Edge esw = tiles.get(j).southWestEdge;
+            		Edge enw = tiles.get(j).northWestEdge;
+            		HexTile t = null; 
+            		
             		String type = newPorts.get(i).getType();
             		if(type.equals("three"))
-            			tiles.set(j, new PortTile(PortType.THREE));
+            			t = new PortTile(PortType.THREE);
             		if(type.equals("brick"))
-            			tiles.set(j, new PortTile(PortType.BRICK));
+            			t =new PortTile(PortType.BRICK);
             		if(type.equals("wheat"))
-            			tiles.set(j, new PortTile(PortType.WHEAT));
+            			t = new PortTile(PortType.WHEAT);
             		if(type.equals("sheep"))
-            			tiles.set(j, new PortTile(PortType.SHEEP));
+            			t = new PortTile(PortType.SHEEP);
             		if(type.equals("ore"))
-            			tiles.set(j, new PortTile(PortType.ORE));
+            			t = new PortTile(PortType.ORE);
             		if(type.equals("wood"))
-            			tiles.set(j, new PortTile(PortType.WOOD));         		
+            			t = new PortTile(PortType.WOOD);
+            		
+            		t.northWestCorner = nw;
+            		t.northEastCorner = ne;
+            		t.eastCorner = e;
+            		t.southEastCorner = se;
+            		t.southWestCorner = sw;
+            		t.westCorner = w;
+            		t.northEdge = en;
+            		t.northEastEdge = ene;
+            		t.southEastEdge = ese;
+            		t.southEdge = es;
+            		t.southWestEdge = esw;
+            		t.northWestEdge = enw;
+            		t.setCoordinates(x, y);
+            		tiles.set(j, t);
             		j = tiles.size();
             	}
             }	
