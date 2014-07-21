@@ -76,6 +76,7 @@ public class ControllerFacade implements IControllerFacadeListener{
         currentGameModel = new GameModel();
         serverPoller = new ServerPoller();
         serverProxyFacade = new ServerProxyFacade(false);
+        serverPoller.setServerProxy(serverProxyFacade);
         gameState = GameState.Login;
         reassignControllers();
         startPolling();
@@ -97,6 +98,8 @@ public class ControllerFacade implements IControllerFacadeListener{
                         gameModelChanged(currentGameModel);
                     }
                 }
+                else
+                    System.out.println("server game model null"+" game state "+gameState);
                 //updateGui();
             }
         }, 1000, 1000);//timer to execute poll every second
