@@ -15,29 +15,29 @@ import shared.definitions.ResourceType;
 public class ResourceBarController extends Controller implements IResourceBarController, IControllerFacadeListener {
 
 	private Map<ResourceBarElement, IAction> elementActions;
-        private ControllerFacade singleton = ControllerFacade.getSingleton();
+        private final ControllerFacade facade = ControllerFacade.getSingleton();
 	
 	public ResourceBarController(IResourceBarView view) {
 
 		super(view);
 		
 		elementActions = new HashMap<ResourceBarElement, IAction>();
-                singleton.addListener(this);
+                facade.addListener(this);
 	}
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-            getView().setElementEnabled(ResourceBarElement.BUY_CARD, singleton.startBuyCard());
-            getView().setElementEnabled(ResourceBarElement.CITY, singleton.buildCity());
-            getView().setElementEnabled(ResourceBarElement.ROAD, singleton.buildRoad());
-            getView().setElementEnabled(ResourceBarElement.SETTLEMENT, singleton.buildSettlement());
-            getView().setElementEnabled(ResourceBarElement.PLAY_CARD, singleton.startPlayCard().size() > 0);
+            getView().setElementEnabled(ResourceBarElement.BUY_CARD, facade.startBuyCard());
+            getView().setElementEnabled(ResourceBarElement.CITY, facade.buildCity());
+            getView().setElementEnabled(ResourceBarElement.ROAD, facade.buildRoad());
+            getView().setElementEnabled(ResourceBarElement.SETTLEMENT, facade.buildSettlement());
+            getView().setElementEnabled(ResourceBarElement.PLAY_CARD, facade.startPlayCard().size() > 0);
             
-            getView().setElementAmount(ResourceBarElement.WOOD, singleton.getNumOfResourceCards(ResourceType.WOOD));
-            getView().setElementAmount(ResourceBarElement.WHEAT, singleton.getNumOfResourceCards(ResourceType.WHEAT));
-            getView().setElementAmount(ResourceBarElement.SHEEP, singleton.getNumOfResourceCards(ResourceType.SHEEP));
-            getView().setElementAmount(ResourceBarElement.BRICK, singleton.getNumOfResourceCards(ResourceType.BRICK));
-            getView().setElementAmount(ResourceBarElement.ORE, singleton.getNumOfResourceCards(ResourceType.ORE));
+            getView().setElementAmount(ResourceBarElement.WOOD, facade.getNumOfResourceCards(ResourceType.WOOD));
+            getView().setElementAmount(ResourceBarElement.WHEAT, facade.getNumOfResourceCards(ResourceType.WHEAT));
+            getView().setElementAmount(ResourceBarElement.SHEEP, facade.getNumOfResourceCards(ResourceType.SHEEP));
+            getView().setElementAmount(ResourceBarElement.BRICK, facade.getNumOfResourceCards(ResourceType.BRICK));
+            getView().setElementAmount(ResourceBarElement.ORE, facade.getNumOfResourceCards(ResourceType.ORE));
         }
          
 
@@ -59,31 +59,31 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 
 	@Override
 	public void buildRoad() {
-            if(singleton.buildRoad())
+            if(facade.buildRoad())
                 executeElementAction(ResourceBarElement.ROAD);
 	}
 
 	@Override
 	public void buildSettlement() {
-            if(singleton.buildSettlement())
+            if(facade.buildSettlement())
 		executeElementAction(ResourceBarElement.SETTLEMENT);
 	}
 
 	@Override
 	public void buildCity() {
-            if(singleton.buildCity())
+            if(facade.buildCity())
 		executeElementAction(ResourceBarElement.CITY);
 	}
 
 	@Override
 	public void buyCard() {
-            if(singleton.startBuyCard())
+            if(facade.startBuyCard())
 		executeElementAction(ResourceBarElement.BUY_CARD);
 	}
 
 	@Override
 	public void playCard() {
-            if(singleton.playCard())
+            if(facade.playCard())
 		executeElementAction(ResourceBarElement.PLAY_CARD);
 	}
 	

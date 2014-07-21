@@ -29,7 +29,7 @@ public class RollController extends Controller implements IRollController, ICont
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-        
+            // NO CHANGE
         }
          
 	

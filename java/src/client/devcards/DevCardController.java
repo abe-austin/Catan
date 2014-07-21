@@ -41,7 +41,7 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
         public void gameModelChanged(GameModel gameModel){
-        
+            // NO CHANGE
         }
          
 	public IPlayDevCardView getPlayCardView() {

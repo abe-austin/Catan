@@ -38,7 +38,7 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	@Override
         public void gameModelChanged(GameModel gameModel){
-            
+            // NO CHANGE
         }
          
 	public IDiscardView getDiscardView() {
