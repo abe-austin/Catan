@@ -6,6 +6,7 @@ import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
 import java.util.*;
+import shared.definitions.ResourceType;
 
 
 /**
@@ -26,7 +27,17 @@ public class ResourceBarController extends Controller implements IResourceBarCon
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-        
+            getView().setElementEnabled(ResourceBarElement.BUY_CARD, singleton.startBuyCard());
+            getView().setElementEnabled(ResourceBarElement.CITY, singleton.buildCity());
+            getView().setElementEnabled(ResourceBarElement.ROAD, singleton.buildRoad());
+            getView().setElementEnabled(ResourceBarElement.SETTLEMENT, singleton.buildSettlement());
+            getView().setElementEnabled(ResourceBarElement.PLAY_CARD, singleton.startPlayCard().size() > 0);
+            
+            getView().setElementAmount(ResourceBarElement.WOOD, singleton.getNumOfResourceCards(ResourceType.WOOD));
+            getView().setElementAmount(ResourceBarElement.WHEAT, singleton.getNumOfResourceCards(ResourceType.WHEAT));
+            getView().setElementAmount(ResourceBarElement.SHEEP, singleton.getNumOfResourceCards(ResourceType.SHEEP));
+            getView().setElementAmount(ResourceBarElement.BRICK, singleton.getNumOfResourceCards(ResourceType.BRICK));
+            getView().setElementAmount(ResourceBarElement.ORE, singleton.getNumOfResourceCards(ResourceType.ORE));
         }
          
 

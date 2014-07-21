@@ -4,7 +4,7 @@ import client.base.*;
 import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
-import shared.definitions.CatanColor;
+import player.Player;
 
 
 /**
@@ -22,7 +22,9 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-        
+            Player player = ControllerFacade.getSingleton().getClientPlayer();
+            getView().updatePlayer(player.getIndex(), player.getPoints(), false, 
+                    player.hasLargestArmy(), player.hasLongestRoad());
         }
          
 	
@@ -34,13 +36,13 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 
 	@Override
 	public void endTurn() {
-
+            ControllerFacade.getSingleton().endTurn();
+            getView().updateGameState("Waiting for Other Players", false);
 	}
 	
 	private void initFromModel() {
-		//<temp>
-		getView().setLocalPlayerColor(CatanColor.RED);
-		//</temp>
+            Player player = ControllerFacade.getSingleton().getClientPlayer();
+            getView().initializePlayer(player.getIndex(), "NAME", player.getColor());
 	}
 
 }

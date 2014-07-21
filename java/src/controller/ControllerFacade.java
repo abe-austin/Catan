@@ -1109,4 +1109,8 @@ public class ControllerFacade implements IControllerFacadeListener{
         public List<HexTile> updateMap(MapController mapControl) {
         	return currentGameModel.getBoard().getHexes();
         }
+        
+        public int getPoints() {
+            return gamePlayController.getPlayer().getPoints();
+        }
 }

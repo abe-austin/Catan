@@ -31,7 +31,7 @@ public class PointsController extends Controller implements IPointsController, I
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-        
+            getPointsView().setPoints(ControllerFacade.getSingleton().getPoints());
         }
          
 	
@@ -48,9 +48,7 @@ public class PointsController extends Controller implements IPointsController, I
 	}
 
 	private void initFromModel() {
-		//<temp>		
-		getPointsView().setPoints(5);
-		//</temp>
+		getPointsView().setPoints(0);
 	}
 	
 }
