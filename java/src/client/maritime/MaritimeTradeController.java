@@ -51,7 +51,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 
 	@Override
 	public void startTrade() {
-            
+            if ( controllerFacade.getGameState()==GameState.GamePlay){
             //set the enabled resources for trade of bank and player
 		ArrayList<ArrayList<ResourceType>> cards = controllerFacade.maritimeStartTrade();
 		//if (cards==null)System.out.println("cards is empty");
@@ -78,7 +78,8 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
                 getTradeOverlay().setCancelEnabled(true);
                 getTradeOverlay().setStateMessage("can't trade yet");
                 getTradeOverlay().showModal();
-	}
+            }
+        }
 
 	@Override
 	public void makeTrade() {
