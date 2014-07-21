@@ -24,13 +24,17 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-            Player player = ControllerFacade.getSingleton().getClientPlayer();
             if(firstTurn) {
-                getView().initializePlayer(player.getIndex(), "NAME", player.getColor());
+                for(Player player : gameModel.getPlayers())
+                    getView().initializePlayer(player.getIndex(), player.toString(), player.getColor());
                 firstTurn = false;
-            } else
-                getView().updatePlayer(player.getIndex(), player.getPoints(), false, 
-                    player.hasLargestArmy(), player.hasLongestRoad());
+            } else {
+                for(Player player : gameModel.getPlayers()) {
+                    getView().updatePlayer(player.getIndex(), player.getPoints(), 
+                            gameModel.getTurnTracker().getCurrentTurn() == player.getIndex(),
+                            player.hasLargestArmy(), player.hasLongestRoad());
+                }
+            }
         }
          
 	
@@ -47,8 +51,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	}
 	
 	private void initFromModel() {
-            Player player = new Player(CatanColor.BLUE, null, 1);
-            getView().initializePlayer(player.getIndex(), "NAME", player.getColor());
+            
 	}
 
 }
