@@ -34,6 +34,9 @@ class GamePlayController {
         this.player = player;
     }
 
+    public void setPlayer(Player player){
+        this.player=player;
+    }
     /**
      * @return GameModel
      */

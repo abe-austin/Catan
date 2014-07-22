@@ -85,6 +85,7 @@ public class LoginController extends Controller implements ILoginController, ICo
 		// If log in succeeded
 		if(success) {
 			getLoginView().closeModal();
+                        // ControllerFacade.getSingleton().setClientPlayer(null);  // SET player here (using server)?
 			loginAction.execute();
 			
 		} else {

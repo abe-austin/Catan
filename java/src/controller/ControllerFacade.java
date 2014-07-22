@@ -71,7 +71,6 @@ public class ControllerFacade implements IControllerFacadeListener{
     
     private ControllerFacade(){
         setupController = new SetupController();
-        //clientPlayer = new Player(CatanColor.BLUE,null,1);//testing purposes
         gamePlayController = new GamePlayController(clientPlayer);
         tradeController = new TradeController(clientPlayer);
         gameInfoController = new GameInfoController();
@@ -109,12 +108,17 @@ public class ControllerFacade implements IControllerFacadeListener{
     
     @Override
     public void gameModelChanged(GameModel gameModel){
+        
         for(IControllerFacadeListener listener:listeners){
             listener.gameModelChanged(gameModel);
         }
     }
     public void addListener(IControllerFacadeListener listener){
         listeners.add(listener);
+    }
+    public void resetClientPlayer(){
+        gamePlayController.setPlayer(clientPlayer);
+        tradeController.setPlayer(clientPlayer);
     }
     /**
      * replaces the current gameModel with the new GameModel
@@ -161,9 +165,17 @@ public class ControllerFacade implements IControllerFacadeListener{
 	        	serverProxyFacade.sendChat(clientPlayer.getIndex(), message);
 	    }
     }
+    /**
+     * @param player to set as local player
+     */
     public void setClientPlayer(Player player){
-        clientPlayer=player;
+        clientPlayer = player;
     }
+    
+    /**
+     * 
+     * @return local/client player
+     */
     public Player getClientPlayer() {
         return clientPlayer;
     }
@@ -620,7 +632,15 @@ public class ControllerFacade implements IControllerFacadeListener{
 //			currentPlayerInfo.setPlayerIndex(index);
 //			currentPlayerInfo.setColor(color);
 //			currentPlayerInfo.setId(user.getId());
-			gameInfo.addPlayer(currentPlayerInfo);
+//			gameInfo.addPlayer(currentPlayerInfo);
+			clientPlayer = new Player(color, user.getUsername().getUsername(), index);
+                        resetClientPlayer();
+			PlayerInfo playerInfo = new PlayerInfo();
+			playerInfo.setName(user.getUsername().getUsername());
+			playerInfo.setPlayerIndex(index);
+			playerInfo.setColor(color);
+			playerInfo.setId(user.getId());
+			gameInfo.addPlayer(playerInfo);
 			ServerResponse response = serverProxyFacade.joinGame(gameInfo.getId(), color);
 			currentGameModel.getPlayers();
 			return response;	
@@ -1120,7 +1140,7 @@ public class ControllerFacade implements IControllerFacadeListener{
         public int getPoints() {
             return gamePlayController.getPlayer().getPoints();
         }
-
+        
 		public void setCurrentPlayerInfo(PlayerInfo currentPlayerInfo) {
 			this.currentPlayerInfo = currentPlayerInfo;
 			
