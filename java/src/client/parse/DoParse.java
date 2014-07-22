@@ -240,7 +240,7 @@ public class DoParse
 		
 		for(int i = 1; i < thePlayers.length; i++)
 		{
-			ParsedPlayer pP = parsePlayer(thePlayers[i]);
+			ParsedPlayer pP = parsePlayer(thePlayers[i],i-1);
 			players.add(pP);
 		}
 		
@@ -306,7 +306,7 @@ public class DoParse
 		return input;
 	}
 	
-	public ParsedPlayer parsePlayer(String input)
+	public ParsedPlayer parsePlayer(String input, int index)
 	{
 		String gettingResources = input.split("oldDevCards\":")[0];
 		String theRest = input.split("oldDevCards\":")[1];
@@ -401,7 +401,8 @@ public class DoParse
 		ParsedPlayerResources pPR = new ParsedPlayerResources(brick, wood, sheep, wheat, ore);
 		ParsedPlayerDevCards oldCards = new ParsedPlayerDevCards("OLD", yearOfPlenty, monopoly, soldier, roadBuilding, monument);
 		ParsedPlayerDevCards newCards = new ParsedPlayerDevCards("NEW", yearOfPlenty2, monopoly2, soldier2, roadBuilding2, monument2);
-		
+		playerIndex=index;
+                
 		return new ParsedPlayer(pPR, oldCards, newCards, roads, cities, settlements, soldiers, victoryPoints, monuments, playedDevCard, 
 				discarded, playerID, playerIndex, name, col);
 		

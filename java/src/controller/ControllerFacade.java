@@ -118,14 +118,19 @@ public class ControllerFacade implements IControllerFacadeListener{
         listeners.add(listener);
     }
     public void resetClientPlayer(){
-//        GameModel game = (GameModel)serverProxyFacade.getGameModel(-1).getBody();
-//        if (game!=null){
-//        for(int i =0; i <game.getPlayers().length;i++){
-//           if(clientPlayer.getColor()==game.getPlayers()[i].getColor()){
-//               clientPlayer.setIndex(i);
-//           }                 
-//           }
-//        }
+        GameModel game=null;
+        ServerResponse response = serverProxyFacade.getGameModel(-1);
+                //System.out.println("responseCode: "+response.getCode());
+        if(response.getCode() == 200) {
+                game = (GameModel)response.getBody();
+        }
+        if (game!=null){
+            for(int i =0; i <game.getPlayers().length;i++){
+               if(clientPlayer.toString().equals(game.getPlayers()[i].toString())){
+                   clientPlayer.setIndex(i);
+               }                 
+           }
+        }
         gamePlayController.setPlayer(clientPlayer);
         tradeController.setPlayer(clientPlayer);
     }
@@ -645,9 +650,9 @@ public class ControllerFacade implements IControllerFacadeListener{
 //			currentPlayerInfo.setColor(color);
 //			currentPlayerInfo.setId(user.getId());
 //			gameInfo.addPlayer(currentPlayerInfo);
-			clientPlayer = new Player(color, user.getUsername().getUsername(), index);
+			clientPlayer = new Player(color, "\""+user.getUsername().getUsername()+"\"", index);
                         clientPlayer.setUser(user);
-                        resetClientPlayer();
+                        
 			PlayerInfo playerInfo = new PlayerInfo();
 			playerInfo.setName(user.getUsername().getUsername());
 			playerInfo.setPlayerIndex(index);
@@ -655,6 +660,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 			playerInfo.setId(user.getId());
 			gameInfo.addPlayer(playerInfo);
 			ServerResponse response = serverProxyFacade.joinGame(gameInfo.getId(), color);
+                        resetClientPlayer();
 			currentGameModel.getPlayers();
 			return response;	
 		case PlayerWaiting:
