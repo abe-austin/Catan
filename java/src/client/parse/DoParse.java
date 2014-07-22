@@ -379,23 +379,23 @@ public class DoParse
 		
 		CatanColor col = null;
 		
-		if(color.equals("\"red\""))
+		if(color.contains("\"red\""))
 			col = CatanColor.RED;
-		if(color.equals("\"orange\""))
+		if(color.contains("\"orange\""))
 			col = CatanColor.ORANGE;
-		if(color.equals("\"yellow\""))
+		if(color.contains("\"yellow\""))
 			col = CatanColor.YELLOW;
-		if(color.equals("\"blue\""))
+		if(color.contains("\"blue\""))
 			col = CatanColor.BLUE;
-		if(color.equals("\"green\""))
+		if(color.contains("\"green\""))
 			col = CatanColor.GREEN;
-		if(color.equals("\"purple\""))
+		if(color.contains("\"purple\""))
 			col = CatanColor.PURPLE;
-		if(color.equals("\"puce\""))
+		if(color.contains("\"puce\""))
 			col = CatanColor.PUCE;
-		if(color.equals("\"white\""))
+		if(color.contains("\"white\""))
 			col = CatanColor.WHITE;
-		if(color.equals("\"brown\""))
+		if(color.contains("\"brown\""))
 			col = CatanColor.BROWN;
 		
 		ParsedPlayerResources pPR = new ParsedPlayerResources(brick, wood, sheep, wheat, ore);

@@ -6,6 +6,7 @@ import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
 import java.util.*;
+import shared.definitions.GameState;
 import shared.definitions.ResourceType;
 
 
@@ -27,19 +28,20 @@ public class ResourceBarController extends Controller implements IResourceBarCon
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-            getView().setElementEnabled(ResourceBarElement.BUY_CARD, facade.startBuyCard());
-            getView().setElementEnabled(ResourceBarElement.CITY, facade.buildCity());
-            getView().setElementEnabled(ResourceBarElement.ROAD, facade.buildRoad());
-            getView().setElementEnabled(ResourceBarElement.SETTLEMENT, facade.buildSettlement());
-            getView().setElementEnabled(ResourceBarElement.PLAY_CARD, facade.startPlayCard().size() > 0);
-            
-            getView().setElementAmount(ResourceBarElement.WOOD, facade.getNumOfResourceCards(ResourceType.WOOD));
-            getView().setElementAmount(ResourceBarElement.WHEAT, facade.getNumOfResourceCards(ResourceType.WHEAT));
-            getView().setElementAmount(ResourceBarElement.SHEEP, facade.getNumOfResourceCards(ResourceType.SHEEP));
-            getView().setElementAmount(ResourceBarElement.BRICK, facade.getNumOfResourceCards(ResourceType.BRICK));
-            getView().setElementAmount(ResourceBarElement.ORE, facade.getNumOfResourceCards(ResourceType.ORE));
+            if (ControllerFacade.getSingleton().getGameState()==GameState.GamePlay){
+                getView().setElementEnabled(ResourceBarElement.BUY_CARD, facade.startBuyCard());
+                getView().setElementEnabled(ResourceBarElement.CITY, facade.buildCity());
+                getView().setElementEnabled(ResourceBarElement.ROAD, facade.buildRoad());
+                getView().setElementEnabled(ResourceBarElement.SETTLEMENT, facade.buildSettlement());
+                getView().setElementEnabled(ResourceBarElement.PLAY_CARD, facade.startPlayCard().size() > 0);
+
+                getView().setElementAmount(ResourceBarElement.WOOD, facade.getNumOfResourceCards(ResourceType.WOOD));
+                getView().setElementAmount(ResourceBarElement.WHEAT, facade.getNumOfResourceCards(ResourceType.WHEAT));
+                getView().setElementAmount(ResourceBarElement.SHEEP, facade.getNumOfResourceCards(ResourceType.SHEEP));
+                getView().setElementAmount(ResourceBarElement.BRICK, facade.getNumOfResourceCards(ResourceType.BRICK));
+                getView().setElementAmount(ResourceBarElement.ORE, facade.getNumOfResourceCards(ResourceType.ORE));
+            }
         }
-         
 
 	@Override
 	public IResourceBarView getView() {

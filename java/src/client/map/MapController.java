@@ -37,6 +37,9 @@ public class MapController extends Controller implements IMapController, IContro
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
+            if(ControllerFacade.getSingleton().getGameState()==GameState.GamePlay){
+                //change the gui
+            }
         
         }
          

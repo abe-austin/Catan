@@ -107,7 +107,6 @@ public class ControllerFacade implements IControllerFacadeListener{
     
     @Override
     public void gameModelChanged(GameModel gameModel){
-        
         for(IControllerFacadeListener listener:listeners){
             listener.gameModelChanged(gameModel);
         }
@@ -628,6 +627,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 		case JoinGame:
 			int index = gameInfo.getPlayers().size() + 1;
 			clientPlayer = new Player(color, user.getUsername().getUsername(), index);
+                        clientPlayer.setUser(user);
                         resetClientPlayer();
 			PlayerInfo playerInfo = new PlayerInfo();
 			playerInfo.setName(user.getUsername().getUsername());

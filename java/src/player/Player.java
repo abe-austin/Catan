@@ -275,6 +275,11 @@ public class Player extends CardOwner {
 		
 	}
 
+    @Override
+    public String toString() {
+        return username;
+    }
+
 	public boolean equals(Object other) {
 		if (other == this)
 			return true;
