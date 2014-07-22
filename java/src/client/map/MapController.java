@@ -262,13 +262,28 @@ public class MapController extends Controller implements IMapController, IContro
 		}
 	}
 	
+        public void pieceBuilt(){
+            if(ControllerFacade.getSingleton().getGameState()==GameState.Setup){
+                if(firstRoad){
+                    placingPiece=false;
+                }
+                else if(secondSettlement){
+                    placingPiece=false;
+                    ControllerFacade.getSingleton().endTurn();
+                }
+                else if(secondRoad){
+                    placingPiece=false;
+                }
+            }
+        }
 	public void placeRoad(EdgeLocation edgeLoc, CatanColor color) {
 		getView().placeRoad(edgeLoc, color);
+                pieceBuilt();
 	}
 	
 	public void placeSettlement(VertexLocation vertLoc, CatanColor color) {
 		getView().placeSettlement(vertLoc, color);
-                placingPiece=false;
+                
 		int portType = isPort(vertLoc);
 		if(portType != 0)
 			switch(portType) {
@@ -278,7 +293,8 @@ public class MapController extends Controller implements IMapController, IContro
 				case 4: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.SHEEP); break;
 				case 5: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.WOOD); break;
 				case 6: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.THREE); break;
-			}		
+			}	
+                pieceBuilt();
 	}
 	
 	public void placeCity(VertexLocation vertLoc, CatanColor color) {
@@ -306,12 +322,13 @@ public class MapController extends Controller implements IMapController, IContro
 	public void placeRoad(EdgeLocation edgeLoc) {
 		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor(); //Assume this is proper method to determine the color
 		getView().placeRoad(edgeLoc, playerColor);
+                pieceBuilt();
 	}
 
 	public void placeSettlement(VertexLocation vertLoc) {
 		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor();
 		getView().placeSettlement(vertLoc, playerColor);
-                placingPiece=false;
+               
 		int portType = isPort(vertLoc);
 		if(portType != 0)
 			switch(portType) {
@@ -321,7 +338,8 @@ public class MapController extends Controller implements IMapController, IContro
 				case 4: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.SHEEP); break;
 				case 5: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.WOOD); break;
 				case 6: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.THREE); break;
-			}		
+			}
+                 pieceBuilt();
 	}
 	
 	public int isPort(VertexLocation vertLoc) {
