@@ -2,6 +2,7 @@ package client.map;
 
 import client.base.*;
 import client.data.*;
+import client.parse.ParsedStructure;
 import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
@@ -11,6 +12,7 @@ import game.board.ResourceTile;
 
 import java.util.*;
 
+import player.Player;
 import shared.definitions.*;
 import shared.locations.*;
 
@@ -37,10 +39,10 @@ public class MapController extends Controller implements IMapController, IContro
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-            
             if(ControllerFacade.getSingleton().getGameState()==GameState.Setup){
                 //change the gui
                 updateMap(gameModel.getBoard().getHexes());
+                updateStructures(gameModel.getBoard().getStructures());//Is this the right place to call this?
             }
         
         }
@@ -167,36 +169,92 @@ public class MapController extends Controller implements IMapController, IContro
 				}
 			
 		}
-		
-		
-		
-//		System.out.println("Here with " + newMap.size());
-//		HexType hexType = HexType.WATER;
-//		
-//		for (int x = 0; x <= 3; ++x) {	
-//			int maxY = 3 - x;			
-//			for (int y = -3; y <= maxY; ++y) {
-//				HexLocation hexLoc = new HexLocation(x, y);
-//				getView().addHex(hexLoc, hexType);
-//			}
-//		}
-//		
-//		hexType = HexType.WHEAT;
-//		for (int x = 0; x <= 3; ++x) {	
-//			int maxY = 3 - x;			
-//			for (int y = -3; y <= maxY; ++y) {
-//				HexLocation hexLoc = new HexLocation(x, y);
-//				getView().addHex(hexLoc, hexType);
-//			}
-//		}
-//		
-//		hexType = HexType.SHEEP;
-//		HexLocation hexLoc = new HexLocation(0, 0);
-//		getView().addHex(hexLoc, hexType);
-		
-		
-		//getView().
 	}
+	
+	public void updateStructures(List<ParsedStructure> newStructures) {
+		for(int i = 0; i < newStructures.size(); i++) {
+			
+			int playerIndex = newStructures.get(i).getOwner();
+			Player[] players = ControllerFacade.getSingleton().getPlayers();
+			CatanColor color = null;
+			
+			for(int j = 0; j < players.length; j++) {
+				if(players[j].getIndex() == playerIndex)
+					color = players[j].getColor();
+			}
+			
+			if(newStructures.get(i).getType().equals("ROAD"))
+			{
+				EdgeDirection eD = null;
+				if(newStructures.get(i).getDirection().equals("N"))
+					eD = EdgeDirection.North;
+				if(newStructures.get(i).getDirection().equals("NW"))
+					eD = EdgeDirection.NorthWest;
+				if(newStructures.get(i).getDirection().equals("SW"))
+					eD = EdgeDirection.SouthWest;
+				if(newStructures.get(i).getDirection().equals("S"))
+					eD = EdgeDirection.South;
+				if(newStructures.get(i).getDirection().equals("SE"))
+					eD = EdgeDirection.SouthEast;
+				if(newStructures.get(i).getDirection().equals("NE"))
+					eD = EdgeDirection.NorthEast;
+				
+				HexLocation hexLoc = new HexLocation(newStructures.get(i).getX(), newStructures.get(i).getY());
+				EdgeLocation e = new EdgeLocation(hexLoc, eD);
+				placeRoad(e, color);
+			}
+			
+			else
+			{
+				VertexDirection vD = null;
+				if(newStructures.get(i).getDirection().equals("NW"))
+					vD = VertexDirection.NorthWest;
+				if(newStructures.get(i).getDirection().equals("NE"))
+					vD = VertexDirection.NorthEast;
+				if(newStructures.get(i).getDirection().equals("E"))
+					vD = VertexDirection.East;
+				if(newStructures.get(i).getDirection().equals("SE"))
+					vD = VertexDirection.SouthEast;
+				if(newStructures.get(i).getDirection().equals("SW"))
+					vD = VertexDirection.SouthWest;
+				if(newStructures.get(i).getDirection().equals("W"))
+					vD = VertexDirection.West;
+				
+				HexLocation hexLoc = new HexLocation(newStructures.get(i).getX(), newStructures.get(i).getY());
+				VertexLocation e = new VertexLocation(hexLoc, vD);
+				
+				if(newStructures.get(i).getType().equals("SETTLEMENT"))
+					placeSettlement(e, color);
+				else if(newStructures.get(i).getType().equals("CITY"))
+						placeCity(e, color);
+			}
+				
+		}
+	}
+	
+	public void placeRoad(EdgeLocation edgeLoc, CatanColor color) {
+		getView().placeRoad(edgeLoc, color);
+	}
+	
+	public void placeSettlement(VertexLocation vertLoc, CatanColor color) {
+		getView().placeSettlement(vertLoc, color);
+		int portType = isPort(vertLoc);
+		if(portType != 0)
+			switch(portType) {
+				case 1: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.BRICK); break;
+				case 2: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.WHEAT); break;
+				case 3: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.ORE); break;
+				case 4: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.SHEEP); break;
+				case 5: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.WOOD); break;
+				case 6: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.THREE); break;
+			}		
+	}
+	
+	public void placeCity(VertexLocation vertLoc, CatanColor color) {
+		getView().placeCity(vertLoc, color);
+	}
+	
+	
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		return ControllerFacade.getSingleton().canPlaceRoad(edgeLoc);

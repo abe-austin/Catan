@@ -28,6 +28,7 @@ public class BoardModel {
     private BoardPiece[][] pieces;
     private Robber rob;
     private GameModel gameModel;
+    private List<ParsedStructure> theStructures;
 
     public BoardModel(GameModel gameModel) {
     	this.gameModel = gameModel;
@@ -35,6 +36,7 @@ public class BoardModel {
         BuildWorld worldBuilder = new BuildWorld();
         tiles = worldBuilder.getTiles();
         rob = new Robber(new HexLocation(0,0));
+        theStructures = null;
     }
     
     public void updateBoardResources(ArrayList<ParsedTile> newTiles) {
@@ -238,6 +240,11 @@ public class BoardModel {
     				p.addPort(port);
     		}	
     	}
+    	theStructures = newStructures;
+    }
+    
+    public List<ParsedStructure> getStructures() {
+    	return theStructures;
     }
     
     public PortType checkPort(int x, int y, String direction) {
