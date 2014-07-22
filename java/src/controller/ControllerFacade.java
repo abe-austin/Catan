@@ -108,6 +108,8 @@ public class ControllerFacade implements IControllerFacadeListener{
     
     @Override
     public void gameModelChanged(GameModel gameModel){
+        
+        
         for(IControllerFacadeListener listener:listeners){
             listener.gameModelChanged(gameModel);
         }
@@ -116,6 +118,14 @@ public class ControllerFacade implements IControllerFacadeListener{
         listeners.add(listener);
     }
     public void resetClientPlayer(){
+//        GameModel game = (GameModel)serverProxyFacade.getGameModel(-1).getBody();
+//        if (game!=null){
+//        for(int i =0; i <game.getPlayers().length;i++){
+//           if(clientPlayer.getColor()==game.getPlayers()[i].getColor()){
+//               clientPlayer.setIndex(i);
+//           }                 
+//           }
+//        }
         gamePlayController.setPlayer(clientPlayer);
         tradeController.setPlayer(clientPlayer);
     }
@@ -257,6 +267,8 @@ public class ControllerFacade implements IControllerFacadeListener{
 	 */
 	public ArrayList<DevCardType> startPlayCard(){
             switch(gameState){
+                case Setup:
+                    return new ArrayList<DevCardType>();
                 case GamePlay:
                     return gamePlayController.startPlayCard();
                 default:
@@ -627,6 +639,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 			break;
 		case JoinGame:
 			int index = gameInfo.getPlayers().size() + 1;
+                        
 //			clientPlayer = new Player(color, user.getUsername().getUsername(), index);
 //			currentPlayerInfo.setPlayerIndex(index);
 //			currentPlayerInfo.setColor(color);

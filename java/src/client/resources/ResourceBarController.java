@@ -28,7 +28,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-            if (ControllerFacade.getSingleton().getGameState()==GameState.GamePlay){
+            if (ControllerFacade.getSingleton().getGameState()==GameState.Setup){
                 getView().setElementEnabled(ResourceBarElement.BUY_CARD, facade.startBuyCard());
                 getView().setElementEnabled(ResourceBarElement.CITY, facade.buildCity());
                 getView().setElementEnabled(ResourceBarElement.ROAD, facade.buildRoad());

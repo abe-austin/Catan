@@ -37,8 +37,10 @@ public class MapController extends Controller implements IMapController, IContro
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-            if(ControllerFacade.getSingleton().getGameState()==GameState.GamePlay){
+            
+            if(ControllerFacade.getSingleton().getGameState()==GameState.Setup){
                 //change the gui
+                updateMap(gameModel.getBoard().getHexes());
             }
         
         }
