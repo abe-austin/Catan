@@ -1168,4 +1168,8 @@ public class ControllerFacade implements IControllerFacadeListener{
 			this.currentPlayerInfo = currentPlayerInfo;
 			
 		}
+		
+		public Player[] getPlayers(){
+        	return currentGameModel.getPlayers();
+        }
 }
