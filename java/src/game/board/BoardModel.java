@@ -6,6 +6,7 @@ import java.util.List;
 import client.parse.ParsedPort;
 import client.parse.ParsedStructure;
 import client.parse.ParsedTile;
+import controller.ControllerFacade;
 import player.Player;
 import shared.definitions.PieceType;
 import shared.definitions.PortType;
@@ -18,6 +19,7 @@ import game.pieces.BoardPiece;
 import game.pieces.City;
 import game.pieces.Road;
 import game.pieces.Robber;
+import shared.definitions.GameState;
 
 /**
  *
@@ -624,7 +626,7 @@ public class BoardModel {
 				if(hasNeighborsVertex(hTile, vertexLoc, player))
 					return false;					
 				}
-    		if(allowDisconnected)
+    		if(allowDisconnected || ControllerFacade.getSingleton().getGameState()==GameState.Setup)
     			return true;
     		else {
     			for(VertexLocation vertexLoc : places) {//Check for a road connecting to this corner

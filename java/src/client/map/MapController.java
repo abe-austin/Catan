@@ -67,7 +67,7 @@ public class MapController extends Controller implements IMapController, IContro
                          firstRoad=false;
                     }
                     else if(secondSettlement){
-                         startMove(PieceType.SETTLEMENT,true,false);
+                         startMove(PieceType.SETTLEMENT,true,true);
                          secondSettlement=false;
                     }
                     else if(secondRoad){
