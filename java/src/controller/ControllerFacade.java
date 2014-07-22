@@ -417,8 +417,10 @@ public class ControllerFacade implements IControllerFacadeListener{
                     break;
                 case PlayerWaiting:
                     break;
-                case Setup:
-                    break;
+                case Setup: 
+                    if (clientPlayer.getIndex()==currentGameModel.getTurnTracker().getCurrentTurn()){
+                        return true;
+                    }
                 case GamePlay:
                     if (clientPlayer.getIndex()==currentGameModel.getTurnTracker().getCurrentTurn()){
                         return true;
@@ -813,7 +815,7 @@ public class ControllerFacade implements IControllerFacadeListener{
                 case PlayerWaiting:
                     return false;
                 case Setup:
-                    return false;
+                    return gamePlayController.canPlaceRoad(edgeLoc);
                 case GamePlay:
                     return gamePlayController.canPlaceRoad(edgeLoc);
             }
@@ -837,7 +839,7 @@ public class ControllerFacade implements IControllerFacadeListener{
                 case PlayerWaiting:
                     return false;
                 case Setup:
-                    return false;
+                    return gamePlayController.canPlaceSettlement(vertLoc);
                 case GamePlay:
                     return gamePlayController.canPlaceSettlement(vertLoc);
             }
@@ -1044,6 +1046,8 @@ public class ControllerFacade implements IControllerFacadeListener{
 	 */
 	public boolean buildSettlement(){//ResourceBarController --goes in GamePlay
             switch(gameState){
+                case Setup:
+                    return true;
                 case GamePlay:
                     return gamePlayController.buildSettlement();
                 default:

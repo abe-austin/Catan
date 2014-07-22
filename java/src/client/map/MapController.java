@@ -34,15 +34,45 @@ public class MapController extends Controller implements IMapController, IContro
 		//updateMap(newMap);
                 ControllerFacade.getSingleton().addListener(this);
 	}
-        
+        private boolean firstSettlement = true;
+        private boolean firstRoad =true;
+        private boolean secondSettlement= true;
+        private boolean secondRoad = true;
+        private boolean placingPiece=false;
 	@Override
         public void gameModelChanged(GameModel gameModel){
             
             if(ControllerFacade.getSingleton().getGameState()==GameState.Setup){
                 //change the gui
                 updateMap(gameModel.getBoard().getHexes());
+                if(ControllerFacade.getSingleton().isCurrentTurn()){
+                   if (!placingPiece){
+                       placingSetupPiece();
+                       placingPiece=true;
+                   }
+                }
+                
             }
         
+        }
+        private void placingSetupPiece(){
+             if(firstSettlement){
+                        startMove(PieceType.SETTLEMENT,true,true);
+                        firstSettlement=false;
+                    }
+                    else if(firstRoad){
+                         startMove(PieceType.ROAD,true,false);
+                         firstRoad=false;
+                    }
+                    else if(secondSettlement){
+                         startMove(PieceType.SETTLEMENT,true,false);
+                         secondSettlement=false;
+                    }
+                    else if(secondRoad){
+                         startMove(PieceType.ROAD,true,false);
+                         secondRoad=false;
+                    }
+             placingPiece=false;
         }
          
 	
