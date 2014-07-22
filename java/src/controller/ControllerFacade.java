@@ -67,6 +67,7 @@ public class ControllerFacade implements IControllerFacadeListener{
     private Player clientPlayer;
     private GameInfo gameInfo;
     private ArrayList<IControllerFacadeListener> listeners = new ArrayList<IControllerFacadeListener>();
+    private PlayerInfo currentPlayerInfo;
     
     private ControllerFacade(){
         setupController = new SetupController();
@@ -626,6 +627,11 @@ public class ControllerFacade implements IControllerFacadeListener{
 			break;
 		case JoinGame:
 			int index = gameInfo.getPlayers().size() + 1;
+//			clientPlayer = new Player(color, user.getUsername().getUsername(), index);
+//			currentPlayerInfo.setPlayerIndex(index);
+//			currentPlayerInfo.setColor(color);
+//			currentPlayerInfo.setId(user.getId());
+//			gameInfo.addPlayer(currentPlayerInfo);
 			clientPlayer = new Player(color, user.getUsername().getUsername(), index);
                         clientPlayer.setUser(user);
                         resetClientPlayer();
@@ -636,6 +642,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 			playerInfo.setId(user.getId());
 			gameInfo.addPlayer(playerInfo);
 			ServerResponse response = serverProxyFacade.joinGame(gameInfo.getId(), color);
+			currentGameModel.getPlayers();
 			return response;	
 		case PlayerWaiting:
 			break;
@@ -1133,6 +1140,9 @@ public class ControllerFacade implements IControllerFacadeListener{
         public int getPoints() {
             return gamePlayController.getPlayer().getPoints();
         }
-
-   
+        
+		public void setCurrentPlayerInfo(PlayerInfo currentPlayerInfo) {
+			this.currentPlayerInfo = currentPlayerInfo;
+			
+		}
 }
