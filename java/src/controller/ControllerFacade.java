@@ -27,6 +27,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import player.Player;
+import player.Points;
 import shared.communication.ServerResponse;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
