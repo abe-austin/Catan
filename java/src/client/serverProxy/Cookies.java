@@ -30,7 +30,19 @@ public class Cookies {
 	public void setCookies(Map<String, String> cookies) {
 		this.cookies = cookies;
 	}
-	
+	public String getUsername(){
+            for(String key : cookies.keySet()) {
+			String cookie = cookies.get(key);
+			if(key.equals("catan.user")) {
+				String test = URLDecoder.decode(cookie);
+                                String gettingUsername = test.split("\",\"password\"")[0];
+                                String username=gettingUsername.split("name\":\"")[1];
+				
+				return username;
+			}
+		}
+		return "";
+        }
 	public int getUserId() {
 		for(String key : cookies.keySet()) {
 			String cookie = cookies.get(key);

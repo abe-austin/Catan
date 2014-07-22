@@ -107,12 +107,17 @@ public class ControllerFacade implements IControllerFacadeListener{
     
     @Override
     public void gameModelChanged(GameModel gameModel){
+        
         for(IControllerFacadeListener listener:listeners){
             listener.gameModelChanged(gameModel);
         }
     }
     public void addListener(IControllerFacadeListener listener){
         listeners.add(listener);
+    }
+    public void resetClientPlayer(){
+        gamePlayController.setPlayer(clientPlayer);
+        tradeController.setPlayer(clientPlayer);
     }
     /**
      * replaces the current gameModel with the new GameModel
@@ -623,6 +628,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 		case JoinGame:
 			int index = gameInfo.getPlayers().size() + 1;
 			clientPlayer = new Player(color, user.getUsername().getUsername(), index);
+                        resetClientPlayer();
 			PlayerInfo playerInfo = new PlayerInfo();
 			playerInfo.setName(user.getUsername().getUsername());
 			playerInfo.setPlayerIndex(index);
@@ -1127,4 +1133,6 @@ public class ControllerFacade implements IControllerFacadeListener{
         public int getPoints() {
             return gamePlayController.getPlayer().getPoints();
         }
+
+   
 }
