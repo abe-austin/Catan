@@ -339,6 +339,7 @@ public class MapController extends Controller implements IMapController, IContro
 				case 5: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.WOOD); break;
 				case 6: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.THREE); break;
 			}
+                ControllerFacade.getSingleton().placeSettlement(vertLoc);
                  pieceBuilt();
 	}
 	

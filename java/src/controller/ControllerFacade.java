@@ -913,9 +913,24 @@ public class ControllerFacade implements IControllerFacadeListener{
 	 */
 	public void placeSettlement(VertexLocation vertLoc){//MapController --goes in GamePlay
             switch(gameState){
-                case GamePlay:
-                	HexTile theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(vertLoc.getHexLoc().getX(), vertLoc.getHexLoc().getY());
+                case Setup:
+                     HexTile theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(vertLoc.getHexLoc().getX(), vertLoc.getHexLoc().getY());
                 	Corner c = null;
+                	
+                	switch(vertLoc.getDir()) {
+                		case East: c = theHex.eastCorner; break;
+                		case NorthEast: c = theHex.northEastCorner; break;
+                		case SouthEast: c = theHex.southEastCorner; break;
+                		case West: c = theHex.westCorner; break;
+                		case SouthWest: c = theHex.southWestCorner; break;
+                		case NorthWest: c = theHex.northWestCorner; break;
+                	}
+                	gamePlayController.placeSettlement(vertLoc);
+                	serverProxyFacade.buildSettlement(gamePlayController.getPlayer().getUser().getId(), c, true);
+                	break;
+                case GamePlay:
+                	theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(vertLoc.getHexLoc().getX(), vertLoc.getHexLoc().getY());
+                	c = null;
                 	
                 	switch(vertLoc.getDir()) {
                 		case East: c = theHex.eastCorner; break;
