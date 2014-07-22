@@ -70,7 +70,6 @@ public class ControllerFacade implements IControllerFacadeListener{
     
     private ControllerFacade(){
         setupController = new SetupController();
-        //clientPlayer = new Player(CatanColor.BLUE,null,1);//testing purposes
         gamePlayController = new GamePlayController(clientPlayer);
         tradeController = new TradeController(clientPlayer);
         gameInfoController = new GameInfoController();
@@ -160,9 +159,17 @@ public class ControllerFacade implements IControllerFacadeListener{
 	        	serverProxyFacade.sendChat(clientPlayer.getIndex(), message);
 	    }
     }
+    /**
+     * @param player to set as local player
+     */
     public void setClientPlayer(Player player){
-        clientPlayer=player;
+        clientPlayer = player;
     }
+    
+    /**
+     * 
+     * @return local/client player
+     */
     public Player getClientPlayer() {
         return clientPlayer;
     }
