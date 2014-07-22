@@ -268,6 +268,7 @@ public class MapController extends Controller implements IMapController, IContro
 	
 	public void placeSettlement(VertexLocation vertLoc, CatanColor color) {
 		getView().placeSettlement(vertLoc, color);
+                placingPiece=false;
 		int portType = isPort(vertLoc);
 		if(portType != 0)
 			switch(portType) {
@@ -310,6 +311,7 @@ public class MapController extends Controller implements IMapController, IContro
 	public void placeSettlement(VertexLocation vertLoc) {
 		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor();
 		getView().placeSettlement(vertLoc, playerColor);
+                placingPiece=false;
 		int portType = isPort(vertLoc);
 		if(portType != 0)
 			switch(portType) {
