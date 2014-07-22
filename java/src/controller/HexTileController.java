@@ -45,14 +45,17 @@ public class HexTileController {
     	HexTile theHex = gameModel.getBoard().getHexTileAt(edgeLoc.getHexLoc().getX(), edgeLoc.getHexLoc().getY());
     	Edge e = null;
     	
-    	switch(edgeLoc.getDir()) {
-    		case North: e = theHex.northEdge; break;
-    		case NorthEast: e = theHex.northEastEdge; break;
-    		case SouthEast: e = theHex.southEastEdge; break;
-    		case South: e = theHex.southEdge; break;
-    		case SouthWest: e = theHex.southWestEdge; break;
-    		case NorthWest: e = theHex.northWestEdge; break;
+    	try{
+	    	switch(edgeLoc.getDir()) {
+	    		case North: e = theHex.northEdge; break;
+	    		case NorthEast: e = theHex.northEastEdge; break;
+	    		case SouthEast: e = theHex.southEastEdge; break;
+	    		case South: e = theHex.southEdge; break;
+	    		case SouthWest: e = theHex.southWestEdge; break;
+	    		case NorthWest: e = theHex.northWestEdge; break;
+	    	}
     	}
+    	catch(NullPointerException n){return false;}
     	
         return gameModel.getBoard().canBuildRoad(e, player, allowDisconnect);
     }
@@ -69,14 +72,18 @@ public class HexTileController {
     	HexTile theHex = gameModel.getBoard().getHexTileAt(vertLoc.getHexLoc().getX(), vertLoc.getHexLoc().getY());
     	Corner c = null;
     	
-    	switch(vertLoc.getDir()) {
-    		case East: c = theHex.eastCorner; break;
-    		case NorthEast: c = theHex.northEastCorner; break;
-    		case SouthEast: c = theHex.southEastCorner; break;
-    		case West: c = theHex.westCorner; break;
-    		case SouthWest: c = theHex.southWestCorner; break;
-    		case NorthWest: c = theHex.northWestCorner; break;
+    	try{
+	    	switch(vertLoc.getDir()) {
+	    		case East: c = theHex.eastCorner; break;
+	    		case NorthEast: c = theHex.northEastCorner; break;
+	    		case SouthEast: c = theHex.southEastCorner; break;
+	    		case West: c = theHex.westCorner; break;
+	    		case SouthWest: c = theHex.southWestCorner; break;
+	    		case NorthWest: c = theHex.northWestCorner; break;
+	    	}
     	}
+    	catch(NullPointerException n){return false;}//Because you picked the ocean
+    	
     	
         return gameModel.getBoard().canBuildSettlement(c, player, allowDisconnect);
     }
@@ -93,14 +100,17 @@ public class HexTileController {
     	HexTile theHex = gameModel.getBoard().getHexTileAt(vertLoc.getHexLoc().getX(), vertLoc.getHexLoc().getY());
     	Corner c = null;
     	
-    	switch(vertLoc.getDir()) {
-    		case East: c = theHex.eastCorner; break;
-    		case NorthEast: c = theHex.northEastCorner; break;
-    		case SouthEast: c = theHex.southEastCorner; break;
-    		case West: c = theHex.westCorner; break;
-    		case SouthWest: c = theHex.southWestCorner; break;
-    		case NorthWest: c = theHex.northWestCorner; break;
+    	try{
+    		switch(vertLoc.getDir()) {
+    			case East: c = theHex.eastCorner; break;
+    			case NorthEast: c = theHex.northEastCorner; break;
+    			case SouthEast: c = theHex.southEastCorner; break;
+    			case West: c = theHex.westCorner; break;
+    			case SouthWest: c = theHex.southWestCorner; break;
+    			case NorthWest: c = theHex.northWestCorner; break;
+    		}
     	}
+    	catch(NullPointerException n){return false;}//Because you picked the ocean
     	
         return gameModel.getBoard().canBuildCity(c, player);
     }
