@@ -28,6 +28,9 @@ import game.pieces.Road;
 import game.pieces.Settlement;
 import shared.definitions.Command;
 import shared.definitions.SpecialCardType;
+import system.Password;
+import system.User;
+import system.Username;
 
 public class DoParse
 {
@@ -298,7 +301,8 @@ public class DoParse
 				developmentCards.add(new DevelopmentCard(DevCardType.ROAD_BUILD));
 			}
 			player.setDevelopmentCards(developmentCards);
-			
+                        User user = new User(new Username(parsedPlayer.getName()),new Password(""),parsedPlayer.getPlayedID());
+			player.setUser(user);
 			modelPlayers[j] = player;
 			j++;
 		}

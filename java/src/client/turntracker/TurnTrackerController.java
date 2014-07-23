@@ -13,7 +13,7 @@ import shared.definitions.CatanColor;
  */
 public class TurnTrackerController extends Controller implements ITurnTrackerController, IControllerFacadeListener {
         private boolean firstTurn = true;
-
+        private int playerNumber= 0;
 	public TurnTrackerController(ITurnTrackerView view) {
 		
 		super(view);
@@ -24,17 +24,18 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-//            if(firstTurn) {
+            if(firstTurn|| gameModel.getPlayers().length>playerNumber) {
                 for(Player player : gameModel.getPlayers())
                     getView().initializePlayer(player.getIndex(), player.toString(), player.getColor());
                 firstTurn = false;
-//            } else {
+                playerNumber = gameModel.getPlayers().length;
+            } else {
                 for(Player player : gameModel.getPlayers()) {
                     getView().updatePlayer(player.getIndex(), player.getPoints(), 
                             gameModel.getTurnTracker().getCurrentTurn() == player.getIndex(),
                             player.hasLargestArmy(), player.hasLongestRoad());
                 }
-//            }
+            }
         }
          
 	

@@ -38,6 +38,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
                     PlayerInfo playerInfo = new PlayerInfo();
                     current = gameModel.getPlayers()[i];
                     playerInfo.setId(current.getUser().getId());
+                    
                     playerInfo.setPlayerIndex(current.getIndex());
                     playerInfo.setName(current.getUser().getUsername().getUsername());
                     playerInfo.setColor(current.getColor());
