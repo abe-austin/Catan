@@ -7,10 +7,14 @@ package shared.locations;
 public class VertexLocation {
 
 	private HexLocation hexLoc;
-	private VertexDirection dir;
+	private int x;
+	private int y;
+	private VertexDirection direction;
 	
 	public VertexLocation(HexLocation hexLoc, VertexDirection dir) {
 		setHexLoc(hexLoc);
+		setX(hexLoc.getX());
+		setY(hexLoc.getY());
 		setDir(dir);
 	}
 	
@@ -25,17 +29,33 @@ public class VertexLocation {
 		this.hexLoc = hexLoc;
 	}
 	
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
 	public VertexDirection getDir() {
-		return dir;
+		return direction;
 	}
 	
 	private void setDir(VertexDirection direction) {
-		this.dir = direction;
+		this.direction = direction;
 	}
 
 	@Override
 	public String toString() {
-		return "VertexLocation [hexLoc=" + hexLoc + ", dir=" + dir + "]";
+		return "VertexLocation [hexLoc=" + hexLoc + ", dir=" + direction + "]";
 	}
 
 	@Override
@@ -43,7 +63,7 @@ public class VertexLocation {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((dir == null) ? 0 : dir.hashCode());
+				+ ((direction == null) ? 0 : direction.hashCode());
 		result = prime * result
 				+ ((hexLoc == null) ? 0 : hexLoc.hashCode());
 		return result;
@@ -58,7 +78,7 @@ public class VertexLocation {
 		if (getClass() != obj.getClass())
 			return false;
 		VertexLocation other = (VertexLocation) obj;
-		if (dir != other.dir)
+		if (direction != other.direction)
 			return false;
 		if (hexLoc == null) {
 			if (other.hexLoc != null)
@@ -80,7 +100,7 @@ public class VertexLocation {
 		
 		// Return location that has direction NW or NE
 		
-		switch (dir) {
+		switch (direction) {
 			case NorthWest:
 			case NorthEast:
 				return this;

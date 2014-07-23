@@ -14,6 +14,7 @@ import shared.definitions.Command;
 import shared.definitions.LogLevel;
 import shared.definitions.ResourceType;
 import shared.locations.HexLocation;
+import shared.locations.VertexLocation;
 
 /**
  * A proxy between the client controller and the server
@@ -598,10 +599,14 @@ public class ServerProxyFacade {
      * @param free				<code>boolean</code> whether the <code>Corner</code> is free or not
      * @return					<code>ServerResponse</code> object
      */
-	public ServerResponse buildSettlement(int playerIndex, Corner vertexLocation, boolean free) {
+	public ServerResponse buildSettlement(int playerIndex, VertexLocation vertexLocation, boolean free) {
 		
 		//create param object and convert to json
 		BuildSettlementParam param = new BuildSettlementParam("buildSettlement", playerIndex, vertexLocation, free);
+		
+//		System.err.println("Actual: ");
+//		System.err.println(param.getVertexLocation().getX() + ", " + param.getVertexLocation().getY());
+//		System.err.println(param.getVertexLocation().getDirection());
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/buildSettlement";
