@@ -58,6 +58,7 @@ public class Player extends CardOwner {
 
 	public Player(User user) {
 		this.user = user;
+                this.username = user.getUsername().getUsername();
 
 		soldiersPlayed = 0;
 		points = new Points();

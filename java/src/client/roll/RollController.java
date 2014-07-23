@@ -63,7 +63,6 @@ public class RollController extends Controller implements IRollController, ICont
                 this.timer = new Timer();
                 TimerTask task = new DisplayCountdown();
                 timer.schedule(task, 0, 1000);
-                getRollView().showModal();
                 waitingOnTimer = true;
             }
 	}

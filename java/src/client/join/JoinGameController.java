@@ -8,6 +8,7 @@ import controller.IControllerFacadeListener;
 import game.GameModel;
 
 import java.util.ArrayList;
+import player.Player;
 
 import shared.communication.ServerResponse;
 import shared.definitions.CatanColor;
@@ -43,7 +44,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	
 	@Override
         public void gameModelChanged(GameModel gameModel){
-        
+            
         }
          
 	public IJoinGameView getJoinGameView() {
@@ -104,7 +105,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 		getJoinGameView().showModal();
 		PlayerInfo playerInfo = new PlayerInfo();
-		playerInfo.setName(ControllerFacade.getSingleton().getUser().getUsername().getUsername());
+		playerInfo.setName(ControllerFacade.getSingleton().getClientPlayer().toString());
 		ArrayList<GameInfo> games = ControllerFacade.getSingleton().getAllGames();
 		getJoinGameView().setGames(games, playerInfo);
 	}
@@ -130,21 +131,30 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				newGameView.getRandomlyPlaceNumbers(),
 				newGameView.getUseRandomPorts());
 		PlayerInfo playerInfo = new PlayerInfo();
-		playerInfo.setName(ControllerFacade.getSingleton().getUser().getUsername().getUsername());
+		playerInfo.setName(ControllerFacade.getSingleton().getClientPlayer().toString());
 		ControllerFacade.getSingleton().setCurrentPlayerInfo(playerInfo);
 		getJoinGameView().setGames(gamesTemp, playerInfo);
 		getNewGameView().closeModal();
+                startJoinGame(gamesTemp.get(gamesTemp.size()-1));
 	}
 
 	@Override
-	public void startJoinGame(GameInfo game) {
-		
+	public void startJoinGame(GameInfo game) {            
+            
 		ControllerFacade.getSingleton().startJoinGame(game);
+                
+                for (CatanColor color : CatanColor.values())
+			getSelectColorView().setColorEnabled(color, true);
+                
 		for(PlayerInfo player : game.getPlayers()) {
-//			System.out.println(player.getName());
-//			System.out.println(player.getColor());
-//			getSelectColorView().setColorEnabled(player.getColor(), false);
+			if (player.getName().equals(ControllerFacade.getSingleton().
+                            getClientPlayer().toString())) {
+				joinGame(CatanColor.RED); // TEMP FIX
+				return;
+			}
+			getSelectColorView().setColorEnabled(player.getColor(), false);
 		}
+                
 		getSelectColorView().showModal();
 	}
 
@@ -160,9 +170,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		// If join succeeded
 		ServerResponse response = ControllerFacade.getSingleton().joinGame(color);
 		if(response.getCode() == 200) {
-			getSelectColorView().closeModal();
+                    if(getSelectColorView().isModalShowing())
+                        getSelectColorView().closeModal();
+                    
+                    if(getJoinGameView().isModalShowing())
 			getJoinGameView().closeModal();
-			joinAction.execute();
+                    
+                    joinAction.execute();
 		}
 		else {
 			getJoinGameView().showModal();

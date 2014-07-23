@@ -5,6 +5,10 @@ import client.misc.*;
 import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
+import player.Player;
+import system.Password;
+import system.User;
+import system.Username;
 
 //import java.net.*;
 //import java.io.*;
@@ -85,7 +89,8 @@ public class LoginController extends Controller implements ILoginController, ICo
 		// If log in succeeded
 		if(success) {
 			getLoginView().closeModal();
-                        // ControllerFacade.getSingleton().setClientPlayer(null);  // SET player here (using server)?
+                        ControllerFacade.getSingleton().setClientPlayer(new Player(
+                                new User(new Username(username), new Password(password), 1)));
 			loginAction.execute();
 			
 		} else {
@@ -111,6 +116,8 @@ public class LoginController extends Controller implements ILoginController, ICo
 		
 		if(success) {
 			getLoginView().closeModal();
+                        ControllerFacade.getSingleton().setClientPlayer(new Player(
+                                new User(new Username(username), new Password(password), 1)));
 			loginAction.execute();
 		} else {
 			//need to check for different kinds of errors
