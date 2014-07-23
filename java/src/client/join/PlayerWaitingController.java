@@ -1,9 +1,11 @@
 package client.join;
 
 import client.base.*;
+import client.data.PlayerInfo;
 import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
+import player.Player;
 import shared.definitions.GameState;
 
 
@@ -16,6 +18,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		
 		super(view);
                 ControllerFacade.getSingleton().addListener(this);
+                view.setAIChoices(new String[] {"REGULAR"});
 	}
         
 	@Override
@@ -24,6 +27,24 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
                     gameModel.getPlayers().length == 4){
                 start();
                 ControllerFacade.getSingleton().setGameState(GameState.Setup);
+            } else {
+                if(gameModel.getPlayers().length == 0)
+                    return;
+                
+                PlayerInfo[] info = new PlayerInfo[gameModel.getPlayers().length];
+                Player current;
+                
+                for(int i = 0; i < gameModel.getPlayers().length; i++) {
+                    PlayerInfo playerInfo = new PlayerInfo();
+                    current = gameModel.getPlayers()[i];
+                    playerInfo.setId(current.getUser().getId());
+                    playerInfo.setPlayerIndex(current.getIndex());
+                    playerInfo.setName(current.getUser().getUsername().getUsername());
+                    playerInfo.setColor(current.getColor());
+                    info[i] = playerInfo;
+                }
+                
+                getView().setPlayers(info);
             }
         }
          
@@ -47,7 +68,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	@Override
 	public void addAI() {
 		
-		// TEMPORARY
 		String AIType = getView().getSelectedAI();
 		ControllerFacade.getSingleton().addAI(AIType);
 		getView().closeModal();
