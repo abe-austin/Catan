@@ -68,6 +68,7 @@ public class ControllerFacade implements IControllerFacadeListener{
     private GameInfo gameInfo;
     private ArrayList<IControllerFacadeListener> listeners = new ArrayList<IControllerFacadeListener>();
     private PlayerInfo currentPlayerInfo;
+    private boolean myTurn = false;
     
     private ControllerFacade(){
         setupController = new SetupController();
@@ -1074,10 +1075,8 @@ public class ControllerFacade implements IControllerFacadeListener{
 	public int rollDice(){//RollController --goes in GamePlay
             switch(gameState){
                 case GamePlay:
-                    int roll = gamePlayController.rollDice();
-                    
-                    serverProxyFacade.rollNumber(clientPlayer.getIndex(), roll);
-                    
+                    int roll = gamePlayController.rollDice();                    
+                    serverProxyFacade.rollNumber(clientPlayer.getIndex(), roll);                    
                     return roll;
                 default:
                     return -1;
@@ -1161,5 +1160,14 @@ public class ControllerFacade implements IControllerFacadeListener{
         public String[] getAIList() {
             System.out.println(serverProxyFacade.getAIList().getBody());
             return new String[] {"LARGEST_ARMY"};
+        }
+        
+        public boolean isStartTurn() {
+            if(myTurn) {
+                return false;
+            } else {
+                myTurn = true;
+                return true;
+            }
         }
 }
