@@ -43,7 +43,6 @@ public class RollController extends Controller implements IRollController, ICont
                     startRolling();
                 }
         }
-         
 	
 	public IRollResultView getResultView() {
 		return resultView;

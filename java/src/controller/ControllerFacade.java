@@ -1097,6 +1097,7 @@ public class ControllerFacade implements IControllerFacadeListener{
                     serverProxyFacade.finishTurn(clientPlayer.getIndex());
                     break;
                 case GamePlay:
+                    myTurn = false;
                     break;
             }
         }
