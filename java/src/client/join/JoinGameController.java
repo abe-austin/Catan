@@ -148,7 +148,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		for(PlayerInfo player : game.getPlayers()) {
 			if (player.getName().equals(ControllerFacade.getSingleton().
                             getClientPlayer().toString())) {
-				joinGame(CatanColor.RED); // TEMP FIX
+				joinGame(player.getCatanColor()); // TEMP FIX
 				return;
 			}
 //			getSelectColorView().setColorEnabled(player.getColor(), false);

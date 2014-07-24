@@ -658,7 +658,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 			PlayerInfo playerInfo = new PlayerInfo();
 			playerInfo.setName(user.getUsername().getUsername());
 			playerInfo.setPlayerIndex(index);
-			playerInfo.setColor(color);
+			playerInfo.setCatanColor(color);
 			playerInfo.setId(user.getId());
 			gameInfo.addPlayer(playerInfo);
 			ServerResponse response = serverProxyFacade.joinGame(gameInfo.getId(), color);
@@ -725,32 +725,32 @@ public class ControllerFacade implements IControllerFacadeListener{
 	 */
 	public boolean signIn(String username, String password) { // LoginController --goes in setup
 		switch (gameState) {
-		case Login:
-			ServerResponse serverResponse = serverProxyFacade.loginUser(
-					username, password);
-			if (serverResponse.getCode() == 200) {
-				int id = (int) serverResponse.getBody();
-				User user = new User(new Username(username), new Password(
-						password), id);
-				this.user = user;
-				this.gameState = GameState.JoinGame;
-		        startPolling();
-				return true;
-
-			} else {
-				if(serverResponse.getCode() == 521) {
-					return false;
+			case Login:
+				ServerResponse serverResponse = serverProxyFacade.loginUser(
+						username, password);
+				if (serverResponse.getCode() == 200) {
+					int id = (int) serverResponse.getBody();
+					User user = new User(new Username(username), new Password(
+							password), id);
+					this.user = user;
+					this.gameState = GameState.JoinGame;
+			        startPolling();
+					return true;
+	
+				} else {
+					if(serverResponse.getCode() == 521) {
+						return false;
+					}
 				}
-			}
-			break;
-		case JoinGame:
-			break;
-		case PlayerWaiting:
-			break;
-		case Setup:
-			break;
-		case GamePlay:
-			break;
+				break;
+			case JoinGame:
+				break;
+			case PlayerWaiting:
+				break;
+			case Setup:
+				break;
+			case GamePlay:
+				break;
 		}
 		return false;
 	}
