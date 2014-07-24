@@ -27,6 +27,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
                     gameModel.getPlayers().length == 4){
                 start();
                 ControllerFacade.getSingleton().setGameState(GameState.Setup);
+                getView().closeModal();
             } else {
                 if(gameModel.getPlayers().length == 0)
                     return;
@@ -59,11 +60,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	public void start() {
 	
 		getView().showModal();
-                ControllerFacade.getSingleton().setGameState(GameState.PlayerWaiting);
-		boolean full = ControllerFacade.getSingleton().startPlayerWaiting();
-		if(full == true) {
-			getView().closeModal();
-		}
+        ControllerFacade.getSingleton().setGameState(GameState.PlayerWaiting);
+		ControllerFacade.getSingleton().startPlayerWaiting();
 	}
 
 	@Override
