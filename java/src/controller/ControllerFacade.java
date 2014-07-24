@@ -68,7 +68,7 @@ public class ControllerFacade implements IControllerFacadeListener{
     private GameInfo gameInfo;
     private ArrayList<IControllerFacadeListener> listeners = new ArrayList<IControllerFacadeListener>();
     private PlayerInfo currentPlayerInfo;
-    private boolean myTurn = false;
+    private boolean hasRolled = false;
     
     private ControllerFacade(){
         setupController = new SetupController();
@@ -1112,7 +1112,7 @@ public class ControllerFacade implements IControllerFacadeListener{
                     serverProxyFacade.finishTurn(clientPlayer.getIndex());
                     break;
                 case GamePlay:
-                    myTurn = false;
+                    hasRolled = false;
                     break;
             }
         }
@@ -1172,6 +1172,17 @@ public class ControllerFacade implements IControllerFacadeListener{
 		public Player[] getPlayers(){
         	return currentGameModel.getPlayers();
         }
+		
+		public Player getPlayerByUsername(String username){
+			username = "\"" + username + "\"";
+        	Player[] players = currentGameModel.getPlayers();
+        	for(Player player : players) {
+        		if(player.getUsername().equals(username)) {
+        			return player;
+        		}
+        	}
+        	return null;
+        }
 
         public String[] getAIList() {
             System.out.println(serverProxyFacade.getAIList().getBody());
@@ -1179,8 +1190,8 @@ public class ControllerFacade implements IControllerFacadeListener{
         }
         
         public boolean isStartTurn() {
-            if(!myTurn && isCurrentTurn()) {
-                myTurn = true;
+            if(!hasRolled && isCurrentTurn()) {
+                hasRolled = true;
                 return true;
             } else {
                 return false;
