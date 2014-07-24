@@ -1163,11 +1163,11 @@ public class ControllerFacade implements IControllerFacadeListener{
         }
         
         public boolean isStartTurn() {
-            if(myTurn) {
-                return false;
-            } else {
+            if(!myTurn && isCurrentTurn()) {
                 myTurn = true;
                 return true;
+            } else {
+                return false;
             }
         }
 }
