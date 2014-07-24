@@ -41,6 +41,7 @@ public class MapController extends Controller implements IMapController, IContro
         private boolean secondSettlement= true;
         private boolean secondRoad = true;
         private boolean placingPiece=false;
+        
 	@Override
         public void gameModelChanged(GameModel gameModel){
             if(ControllerFacade.getSingleton().getGameState()==GameState.Setup){
@@ -262,6 +263,7 @@ public class MapController extends Controller implements IMapController, IContro
 	}
 	
         public void pieceBuilt(){
+        	
             if(ControllerFacade.getSingleton().getGameState()==GameState.Setup){
                 if(firstRoad){
                     placingPiece=false;
@@ -277,7 +279,7 @@ public class MapController extends Controller implements IMapController, IContro
         }
 	public void placeRoad(EdgeLocation edgeLoc, CatanColor color) {
 		getView().placeRoad(edgeLoc, color);
-                pieceBuilt();
+                //pieceBuilt();
 	}
 	
 	public void placeSettlement(VertexLocation vertLoc, CatanColor color) {
@@ -293,7 +295,7 @@ public class MapController extends Controller implements IMapController, IContro
 				case 5: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.WOOD); break;
 				case 6: ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.THREE); break;
 			}	
-                pieceBuilt();
+                //pieceBuilt();
 	}
 	
 	public void placeCity(VertexLocation vertLoc, CatanColor color) {
