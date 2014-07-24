@@ -23,5 +23,6 @@ public interface IResourceBarView extends IView {
 	 * @param amount The new amount for the specified element
 	 */
 	void setElementAmount(ResourceBarElement element, int amount);
+
 }
 

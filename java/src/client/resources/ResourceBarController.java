@@ -5,7 +5,11 @@ import client.base.*;
 import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
+import game.cards.ResourceCard;
+
 import java.util.*;
+
+import player.Player;
 import shared.definitions.GameState;
 import shared.definitions.PieceType;
 import shared.definitions.ResourceType;
@@ -29,6 +33,11 @@ public class ResourceBarController extends Controller implements IResourceBarCon
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
+				for(Player player : gameModel.getPlayers()) {
+					for( ResourceCard card : player.getResourceCards()) {
+						System.out.println("****" + player.getUsername() + " " + card.getResourceType());
+					}
+				}
             if (ControllerFacade.getSingleton().getGameState() == GameState.Setup ||
                 ControllerFacade.getSingleton().getGameState() == GameState.GamePlay) {
                 getView().setElementEnabled(ResourceBarElement.BUY_CARD, facade.startBuyCard());

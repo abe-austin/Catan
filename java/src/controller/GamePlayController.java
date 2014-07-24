@@ -7,8 +7,10 @@ import game.cards.CardOwner;
 import game.cards.DevelopmentCard;
 import game.cards.ResourceCard;
 import game.pieces.BoardPiece;
+
 import java.util.ArrayList;
 import java.util.Random;
+
 import player.Player;
 import shared.definitions.DevCardType;
 import shared.definitions.PieceType;
@@ -435,6 +437,7 @@ class GamePlayController {
                     number++;
             
             return number;
+           
         }
         
         /**

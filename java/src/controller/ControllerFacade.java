@@ -18,6 +18,7 @@ import game.board.Corner;
 import game.board.HexTile;
 import game.board.PortTile;
 import game.cards.CardOwner;
+import game.cards.ResourceCard;
 import game.pieces.BoardPiece;
 
 import java.util.ArrayList;
@@ -96,6 +97,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 //                    if(currentGameModel.getVersion()!=serverPoller.getGameModel().getVersion()){
                         switchGameModel(serverPoller.getGameModel());
                         reassignControllers();
+                        updateClientPlayer(currentGameModel);
                         gameModelChanged(currentGameModel);
 //                    }
                 }
@@ -112,9 +114,11 @@ public class ControllerFacade implements IControllerFacadeListener{
             listener.gameModelChanged(gameModel);
         }
     }
+    
     public void addListener(IControllerFacadeListener listener){
         listeners.add(listener);
     }
+    
     public void resetClientPlayer(){
         GameModel game=null;
         ServerResponse response = serverProxyFacade.getGameModel(-1);
@@ -130,6 +134,18 @@ public class ControllerFacade implements IControllerFacadeListener{
            }
         }
         gamePlayController.setPlayer(clientPlayer);
+        tradeController.setPlayer(clientPlayer);
+    }
+    
+    public void updateClientPlayer(GameModel gameModel) {
+    	
+		for (Player modelPlayer : gameModel.getPlayers()) {
+			if (modelPlayer.getIndex() == clientPlayer.getIndex()) {
+				clientPlayer = modelPlayer;
+			}
+		}
+		
+		gamePlayController.setPlayer(clientPlayer);
         tradeController.setPlayer(clientPlayer);
     }
     /**
