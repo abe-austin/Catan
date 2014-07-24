@@ -48,15 +48,17 @@ public class MapController extends Controller implements IMapController, IContro
             if(ControllerFacade.getSingleton().getGameState()==GameState.Setup){
                 //change the gui
                 updateMap(gameModel.getBoard().getHexes());
-                updateStructures(gameModel.getBoard().getStructures());//Is this the right place to call this?
+                updateStructures(gameModel.getBoard().getStructures());
                 if(ControllerFacade.getSingleton().isCurrentTurn()){
                    
                    if (!placingPiece){
                        placingSetupPiece();
-                      
                    }
                 }
-
+            }
+            else if(ControllerFacade.getSingleton().getGameState()==GameState.GamePlay){
+                updateMap(gameModel.getBoard().getHexes());
+                updateStructures(gameModel.getBoard().getStructures());
             }
         
         }
@@ -287,6 +289,7 @@ public class MapController extends Controller implements IMapController, IContro
                 }
                 else{
                     ControllerFacade.getSingleton().endTurn();
+                    ControllerFacade.getSingleton().setGameState(GameState.GamePlay);
                 }
             }
         }

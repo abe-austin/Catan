@@ -171,39 +171,41 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void startTrade() {
-            if (controllerFacade.isCurrentTurn()){//if( currentPlayers turn){
-                 //set the enabled resources for the player
-                    ArrayList<ResourceType> playerResourceType = controllerFacade.domesticStartTrade();
-                    //if (cards==null)System.out.println("cards is empty");
-                ResourceType[] playerResourceTypes= new ResourceType[playerResourceType.size()];
-                for (int i=0; i < playerResourceType.size();i++){
-                    playerResourceTypes[i]=playerResourceType.get(i);
+            if (controllerFacade.getGameState()==GameState.GamePlay){
+                if (controllerFacade.isCurrentTurn()){//if( currentPlayers turn){
+                     //set the enabled resources for the player
+                        ArrayList<ResourceType> playerResourceType = controllerFacade.domesticStartTrade();
+                        //if (cards==null)System.out.println("cards is empty");
+                    ResourceType[] playerResourceTypes= new ResourceType[playerResourceType.size()];
+                    for (int i=0; i < playerResourceType.size();i++){
+                        playerResourceTypes[i]=playerResourceType.get(i);
+                    }
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, true, false);
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, true, false);
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, false);
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, true, false);
+
+                    tradePartnerIndex=-1;
+                    giveValue=0;
+                    getValue=0;
+                    gettingResource=new ArrayList<ResourceType>();
+                    givingResource= new ArrayList<ResourceType>();
+                    playerResources= controllerFacade.getPlayerResources();
+                    PlayerInfo[] players= controllerFacade.getPlayerInfo();
+                    getTradeOverlay().setPlayers(players);
+                    getTradeOverlay().setPlayerSelectionEnabled(true);
+                    getTradeOverlay().setStateMessage("can't trade yet");
                 }
-                getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, true, false);
-                getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, true, false);
-                getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, false);
-                getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
-                getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, true, false);
-                
-                tradePartnerIndex=-1;
-                giveValue=0;
-                getValue=0;
-                gettingResource=new ArrayList<ResourceType>();
-                givingResource= new ArrayList<ResourceType>();
-                playerResources= controllerFacade.getPlayerResources();
-                PlayerInfo[] players= controllerFacade.getPlayerInfo();
-                getTradeOverlay().setPlayers(players);
-                getTradeOverlay().setPlayerSelectionEnabled(true);
-                getTradeOverlay().setStateMessage("can't trade yet");
+                else{
+                        getTradeOverlay().setStateMessage("not your turn");
+                        getTradeOverlay().setPlayerSelectionEnabled(false);
+                        getTradeOverlay().setResourceSelectionEnabled(false);
+                }
+                getTradeOverlay().setTradeEnabled(false);
+                getTradeOverlay().setCancelEnabled(true);
+                getTradeOverlay().showModal();
             }
-            else{
-                    getTradeOverlay().setStateMessage("not your turn");
-                    getTradeOverlay().setPlayerSelectionEnabled(false);
-                    getTradeOverlay().setResourceSelectionEnabled(false);
-            }
-            getTradeOverlay().setTradeEnabled(false);
-            getTradeOverlay().setCancelEnabled(true);
-	    getTradeOverlay().showModal();
 	}
 
 	@Override//So I assume each player does this only for their own resource, not the other player's
