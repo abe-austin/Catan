@@ -108,8 +108,6 @@ public class ControllerFacade implements IControllerFacadeListener{
     
     @Override
     public void gameModelChanged(GameModel gameModel){
-        
-        
         for(IControllerFacadeListener listener:listeners){
             listener.gameModelChanged(gameModel);
         }
@@ -1101,10 +1099,8 @@ public class ControllerFacade implements IControllerFacadeListener{
             switch(gameState){
                 case GamePlay:
                     int roll = gamePlayController.rollDice();
-                    if(roll != 7)
-                        gamePlayController.rollResourceDistribution(roll);
                     
-                    // IF seven roll, player moves robber and hand size checked
+                    serverProxyFacade.rollNumber(clientPlayer.getIndex(), roll);
                     
                     return roll;
                 default:

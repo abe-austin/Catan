@@ -30,6 +30,7 @@ public class Player extends CardOwner {
 	private ArrayList<PortType> playerPorts;
 	private int index;
 	private String username;
+        private boolean discarded = false;
 
 	public Player(CatanColor color, String username, int index) {
 		this.color = color;
@@ -278,7 +279,7 @@ public class Player extends CardOwner {
 
     @Override
     public String toString() {
-        return username;
+        return getUsername();
     }
 
 	public boolean equals(Object other) {
@@ -295,4 +296,32 @@ public class Player extends CardOwner {
                 
 		return color.equals(p.getColor());
 	}
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * @return the discarded
+     */
+    public boolean hasDiscarded() {
+        return discarded;
+    }
+
+    /**
+     * @param discarded the discarded to set
+     */
+    public void setDiscarded(boolean discarded) {
+        this.discarded = discarded;
+    }
 }
