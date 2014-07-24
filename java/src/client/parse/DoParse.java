@@ -122,6 +122,8 @@ public class DoParse
 		theRest = theRest.split("robber\":")[1];
 		String theRobber = theRest.split("}")[0];
 		
+		structures = new ArrayList<ParsedStructure>();
+		
 		parseHexes(theHexes);
 		parseStructure(theRoads, "ROAD");
 		parseStructure(theCities, "CITY");
@@ -168,9 +170,7 @@ public class DoParse
 	}
 	
 	public void parseStructure(String input, String type)
-	{
-		structures = new ArrayList<ParsedStructure>();
-		
+	{		
 		String[] theStructures = input.split("}},\\{");
 		
 		if(input.contains("owner"))
@@ -184,6 +184,7 @@ public class DoParse
 				int x = Integer.parseInt(xStr.split(",")[0]);
 				String yStr = theStructures[i].split("y\":")[1];
 				int y = Integer.parseInt(yStr.split("}")[0]);
+				
 			
 				ParsedStructure pS = new ParsedStructure(owner, x, y, direction, type);
 				structures.add(pS);
