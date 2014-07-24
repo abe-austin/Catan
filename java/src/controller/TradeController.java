@@ -71,7 +71,7 @@ class TradeController {
                 if(this.player==null)System.out.println("this.player null");
                 if (player!=this.player){
                     PlayerInfo playerInfo= new PlayerInfo();
-                    playerInfo.setColor(player.getColor());
+                    playerInfo.setCatanColor(player.getColor());
                     playerInfo.setName(player.getUser().getUsername().getUsername());
                     playerInfo.setPlayerIndex(player.getIndex());
                     playersInfo[i] = playerInfo;
