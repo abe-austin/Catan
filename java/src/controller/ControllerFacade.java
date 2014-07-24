@@ -1157,6 +1157,17 @@ public class ControllerFacade implements IControllerFacadeListener{
 		public Player[] getPlayers(){
         	return currentGameModel.getPlayers();
         }
+		
+		public Player getPlayerByUsername(String username){
+			username = "\"" + username + "\"";
+        	Player[] players = currentGameModel.getPlayers();
+        	for(Player player : players) {
+        		if(player.getUsername().equals(username)) {
+        			return player;
+        		}
+        	}
+        	return null;
+        }
 
         public String[] getAIList() {
             System.out.println(serverProxyFacade.getAIList().getBody());

@@ -30,7 +30,7 @@ public class Player extends CardOwner {
 	private ArrayList<PortType> playerPorts;
 	private int index;
 	private String username;
-        private boolean discarded = false;
+    private boolean discarded = false;
 
 	public Player(CatanColor color, String username, int index) {
 		this.color = color;

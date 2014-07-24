@@ -4,15 +4,23 @@ import game.ChatLog;
 import game.GameModel;
 import game.TradeOffer;
 import game.TurnTracker;
+
 import java.awt.Point;
+
 import game.cards.SpecialCard;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Pattern;
+
 import player.Player;
 import shared.definitions.CatanColor;
 import shared.definitions.Command;
@@ -418,12 +426,14 @@ public class DoParse
 	
 	public String parseLog(String input)
 	{
+		//System.out.println(input);
 		String theLog = input.split("chat\":")[0];
 		input = input.split("chat\":")[1];
 		String[] logs = theLog.split("},\\{");
 		ArrayList<ParsedLog> parsedLogs = new ArrayList<ParsedLog>();
 		
-		if(input.contains("}},{"))
+        //System.out.println(theLog);
+		if(theLog.contains("},{")) {
 			for(int i = 0; i < logs.length; i++)
 			{
 				String gettingSource = logs[i].split("source\":\"")[1];
@@ -433,6 +443,7 @@ public class DoParse
 				ParsedLog pL = new ParsedLog(source, message);
 				parsedLogs.add(pL);
 			}
+		}
 		//CALL FUNCTIONS TO SET parsedLogs TO THE gameModel
                 for(ParsedLog log:parsedLogs){
                     gameModel.getGameHistory().addCommand(new Command(log.source,log.message));
