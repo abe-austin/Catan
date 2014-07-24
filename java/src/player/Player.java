@@ -290,9 +290,9 @@ public class Player extends CardOwner {
 			return false;
 
 		Player p = (Player) other;
-		if (getUser() != p.getUser())
+		if (!this.toString().equals(p.toString()))
 			return false;
-
+                
 		return color.equals(p.getColor());
 	}
 }

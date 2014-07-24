@@ -56,7 +56,26 @@ public class PlayerInfo {
 	public CatanColor getColor() {
 		return color;
 	}
-
+        public void setColor(String color){
+            if(color.contains("red"))
+			this.color = CatanColor.RED;
+		if(color.contains("orange"))
+			this.color = CatanColor.ORANGE;
+		if(color.contains("yellow"))
+			this.color = CatanColor.YELLOW;
+		if(color.contains("blue"))
+			this.color = CatanColor.BLUE;
+		if(color.contains("green"))
+			this.color = CatanColor.GREEN;
+		if(color.contains("purple"))
+			this.color = CatanColor.PURPLE;
+		if(color.contains("puce"))
+			this.color = CatanColor.PUCE;
+		if(color.contains("white"))
+			this.color = CatanColor.WHITE;
+		if(color.contains("brown"))
+			this.color = CatanColor.BROWN;
+        }
 	public void setColor(CatanColor color) {
 		this.color = color;
 	}
