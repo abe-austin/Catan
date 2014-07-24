@@ -13,6 +13,7 @@ import shared.definitions.CatanColor;
 import shared.definitions.Command;
 import shared.definitions.LogLevel;
 import shared.definitions.ResourceType;
+import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 
@@ -569,10 +570,10 @@ public class ServerProxyFacade {
      * @param roadLocation	the <code>Edge</code> to build the road on
      * @return				<code>ServerResponse</code> object
      */
-	public ServerResponse buildRoad(int playerIndex, Edge roadLocation) {
+	public ServerResponse buildRoad(int playerIndex, EdgeLocation roadLocation, boolean free) {
 		
 		//create param object and convert to json
-		BuildRoadParam param = new BuildRoadParam("buildRoad", playerIndex, roadLocation);
+		BuildRoadParam param = new BuildRoadParam("buildRoad", playerIndex, roadLocation, free);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/buildRoad";

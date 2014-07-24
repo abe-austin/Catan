@@ -886,38 +886,14 @@ public class ControllerFacade implements IControllerFacadeListener{
 	 * @param edgeLoc The road location
 	 */
 	public void placeRoad(EdgeLocation edgeLoc){//MapController --goes in GamePlay
-             HexTile theHex;
-             Edge e;
             switch(gameState){
                 case Setup:
-                    theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(edgeLoc.getHexLoc().getX(), edgeLoc.getHexLoc().getY());
-                    e = null;
-                	
-                	switch(edgeLoc.getDir()) {
-                		case North: e = theHex.northEdge; break;
-                		case NorthEast: e = theHex.northEastEdge; break;
-                		case SouthEast: e = theHex.southEastEdge; break;
-                		case South: e = theHex.southEdge; break;
-                		case SouthWest: e = theHex.southWestEdge; break;
-                		case NorthWest: e = theHex.northWestEdge; break;
-                	}
                 	gamePlayController.placeRoad(edgeLoc);
-                	serverProxyFacade.buildRoad(gamePlayController.getPlayer().getIndex(), e);
+                	serverProxyFacade.buildRoad(gamePlayController.getPlayer().getIndex(), edgeLoc, true);
                 	break;
                 case GamePlay:
-                	theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(edgeLoc.getHexLoc().getX(), edgeLoc.getHexLoc().getY());
-                	e = null;
-                	
-                	switch(edgeLoc.getDir()) {
-                		case North: e = theHex.northEdge; break;
-                		case NorthEast: e = theHex.northEastEdge; break;
-                		case SouthEast: e = theHex.southEastEdge; break;
-                		case South: e = theHex.southEdge; break;
-                		case SouthWest: e = theHex.southWestEdge; break;
-                		case NorthWest: e = theHex.northWestEdge; break;
-                	}
                 	gamePlayController.placeRoad(edgeLoc);
-                	serverProxyFacade.buildRoad(gamePlayController.getPlayer().getIndex(), e);
+                	serverProxyFacade.buildRoad(gamePlayController.getPlayer().getIndex(), edgeLoc, true);
                 	break;
                 default:
             }

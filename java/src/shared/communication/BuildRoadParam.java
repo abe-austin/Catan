@@ -1,18 +1,20 @@
 package shared.communication;
 
-import game.board.Edge;
+import shared.locations.EdgeLocation;
 
 public class BuildRoadParam {
 
 	private String type;
 	private int playerIndex;
-	private Edge roadLocation;
+	private MapLocationParam roadLocation;
+	private boolean free;
 	
-	public BuildRoadParam(String type, int playerIndex, Edge roadLocation) {
+	public BuildRoadParam(String type, int playerIndex, EdgeLocation roadLocation, boolean free) {
 		super();
 		this.type = type;
 		this.playerIndex = playerIndex;
-		this.roadLocation = roadLocation;
+		this.roadLocation = new MapLocationParam(roadLocation);
+		this.free = free;
 	}
 
 	public String getType() {
@@ -31,13 +33,19 @@ public class BuildRoadParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public Edge getRoadLocation() {
+	public MapLocationParam getRoadLocation() {
 		return roadLocation;
 	}
 
-	public void setRoadLocation(Edge roadLocation) {
-		this.roadLocation = roadLocation;
+	public void setRoadLocation(MapLocationParam edgeLocation) {
+		this.roadLocation = edgeLocation;
 	}
-	
-	
+
+	public boolean isFree() {
+		return free;
+	}
+
+	public void setFree(boolean free) {
+		this.free = free;
+	}
 }

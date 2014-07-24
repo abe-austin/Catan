@@ -7,14 +7,14 @@ public class BuildSettlementParam {
 
 	private String type;
 	private int playerIndex;
-	private VertexLocationParam vertexLocation;
+	private MapLocationParam vertexLocation;
 	private boolean free;
 	
 	public BuildSettlementParam(String type, int playerIndex, VertexLocation vertexLocation, boolean free) {
 		super();
 		this.type = type;
 		this.playerIndex = playerIndex;
-		this.vertexLocation = new VertexLocationParam(vertexLocation);
+		this.vertexLocation = new MapLocationParam(vertexLocation);
 		this.free = free;
 	}
 
@@ -34,11 +34,11 @@ public class BuildSettlementParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public VertexLocationParam getVertexLocation() {
+	public MapLocationParam getVertexLocation() {
 		return vertexLocation;
 	}
 
-	public void setVertexLocation(VertexLocationParam vertexLocation) {
+	public void setVertexLocation(MapLocationParam vertexLocation) {
 		this.vertexLocation = vertexLocation;
 	}
 
