@@ -8,7 +8,6 @@ import controller.IControllerFacadeListener;
 import game.GameModel;
 
 import java.util.ArrayList;
-import player.Player;
 
 import shared.communication.ServerResponse;
 import shared.definitions.CatanColor;
@@ -152,7 +151,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				joinGame(CatanColor.RED); // TEMP FIX
 				return;
 			}
-			getSelectColorView().setColorEnabled(player.getColor(), false);
+//			getSelectColorView().setColorEnabled(player.getColor(), false);
 		}
                 
 		getSelectColorView().showModal();

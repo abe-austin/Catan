@@ -1165,4 +1165,9 @@ public class ControllerFacade implements IControllerFacadeListener{
 		public Player[] getPlayers(){
         	return currentGameModel.getPlayers();
         }
+
+        public String[] getAIList() {
+            System.out.println(serverProxyFacade.getAIList().getBody());
+            return new String[] {"LARGEST_ARMY"};
+        }
 }

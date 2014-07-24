@@ -18,7 +18,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		
 		super(view);
                 ControllerFacade.getSingleton().addListener(this);
-                view.setAIChoices(new String[] {"LARGEST_ARMY"});
+                view.setAIChoices(ControllerFacade.getSingleton().getAIList());
 	}
         
 	@Override
