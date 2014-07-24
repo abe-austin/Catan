@@ -80,7 +80,7 @@ public class ControllerFacade implements IControllerFacadeListener{
         serverPoller.setServerProxy(serverProxyFacade);
         gameState = GameState.Login;
         reassignControllers();
-        startPolling();
+        //startPolling();
     }
     
      /**
@@ -734,6 +734,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 						password), id);
 				this.user = user;
 				this.gameState = GameState.JoinGame;
+		        startPolling();
 				return true;
 
 			} else {
@@ -766,6 +767,7 @@ public class ControllerFacade implements IControllerFacadeListener{
                 		User user = new User(new Username(username), new Password(password), id);
                 		this.user = user;
         				this.gameState = GameState.JoinGame;
+        		        startPolling();
                     	return true;
                     	
                     } else {
