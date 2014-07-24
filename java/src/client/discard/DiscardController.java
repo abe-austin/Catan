@@ -65,7 +65,7 @@ public class DiscardController extends Controller implements IDiscardController,
             	
             for(ResourceType type : ResourceType.values()) {
                 if(facade.increaseAmount(resource, numToDiscard.get(type)))
-                    numToDiscard.replace(type, numToDiscard.get(type)+1);
+                    numToDiscard.put(type, numToDiscard.get(type)+1);
             }
             
             updateValues();
@@ -76,7 +76,7 @@ public class DiscardController extends Controller implements IDiscardController,
 		
             for(ResourceType type : ResourceType.values()) {
                 if(facade.decreaseAmount(resource, numToDiscard.get(type)))
-                    numToDiscard.replace(type, numToDiscard.get(type)-1);
+                    numToDiscard.put(type, numToDiscard.get(type)-1);
             }
             
             updateValues();
@@ -94,12 +94,15 @@ public class DiscardController extends Controller implements IDiscardController,
             
             if(facade.discard(toDiscard)) {      // only closes if discard was successful
                 for(ResourceType type : ResourceType.values())
-                    numToDiscard.replace(type, 0);
+                    numToDiscard.put(type, 0);
                 getDiscardView().closeModal();
                 ControllerFacade.getSingleton().getClientPlayer().setDiscarded(false);
             }
 	}
         
+        /**
+         * Updates the GUI information to reflect changes by player
+         */
         public void updateValues() {
             for(ResourceType type : ResourceType.values()) {
                 // Update Number to Discard on view
