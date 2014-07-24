@@ -100,6 +100,9 @@ public class DiscardController extends Controller implements IDiscardController,
             }
 	}
         
+        /**
+         * Updates the GUI information to reflect changes by player
+         */
         public void updateValues() {
             for(ResourceType type : ResourceType.values()) {
                 // Update Number to Discard on view
