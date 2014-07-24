@@ -6,6 +6,7 @@ import controller.IControllerFacadeListener;
 import game.GameModel;
 import java.util.Timer;
 import java.util.TimerTask;
+import shared.definitions.GameState;
 
 
 /**
@@ -15,6 +16,7 @@ public class RollController extends Controller implements IRollController, ICont
 
 	private Timer timer;
 	private boolean waitingOnTimer = false;
+        private ControllerFacade facade;
     
 	private IRollResultView resultView;
 
@@ -29,13 +31,17 @@ public class RollController extends Controller implements IRollController, ICont
 		super(view);
 		
 		setResultView(resultView);
-                ControllerFacade.getSingleton().addListener(this);
+                facade = ControllerFacade.getSingleton();
+                facade.addListener(this);
 	}
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-            if(resultView.isModalShowing() && !waitingOnTimer)
-               startRolling();
+            if(facade.getGameState().equals(GameState.GamePlay))
+                if(!waitingOnTimer  && facade.isStartTurn()) {
+                    getRollView().showModal();
+                    startRolling();
+                }
         }
          
 	
