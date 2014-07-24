@@ -283,6 +283,9 @@ public class DoParse
 			for(int i = 0; i< parsedPlayer.getPlayerResources().getOre(); i++) {
 				resourceCards.add(new ResourceCard(ResourceType.ORE));
 			}
+			for(int i = 0; i< parsedPlayer.getPlayerResources().getWood(); i++) {
+				resourceCards.add(new ResourceCard(ResourceType.WOOD));
+			}
 			player.setResourceCards(resourceCards);
 			//developmentCards
 			HashSet<DevelopmentCard> developmentCards = new HashSet<DevelopmentCard>();
