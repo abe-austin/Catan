@@ -108,8 +108,6 @@ public class ControllerFacade implements IControllerFacadeListener{
     
     @Override
     public void gameModelChanged(GameModel gameModel){
-        
-        
         for(IControllerFacadeListener listener:listeners){
             listener.gameModelChanged(gameModel);
         }
@@ -888,10 +886,27 @@ public class ControllerFacade implements IControllerFacadeListener{
 	 * @param edgeLoc The road location
 	 */
 	public void placeRoad(EdgeLocation edgeLoc){//MapController --goes in GamePlay
+             HexTile theHex;
+             Edge e;
             switch(gameState){
+                case Setup:
+                    theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(edgeLoc.getHexLoc().getX(), edgeLoc.getHexLoc().getY());
+                    e = null;
+                	
+                	switch(edgeLoc.getDir()) {
+                		case North: e = theHex.northEdge; break;
+                		case NorthEast: e = theHex.northEastEdge; break;
+                		case SouthEast: e = theHex.southEastEdge; break;
+                		case South: e = theHex.southEdge; break;
+                		case SouthWest: e = theHex.southWestEdge; break;
+                		case NorthWest: e = theHex.northWestEdge; break;
+                	}
+                	gamePlayController.placeRoad(edgeLoc);
+                	serverProxyFacade.buildRoad(gamePlayController.getPlayer().getIndex(), e);
+                	break;
                 case GamePlay:
-                	HexTile theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(edgeLoc.getHexLoc().getX(), edgeLoc.getHexLoc().getY());
-                	Edge e = null;
+                	theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(edgeLoc.getHexLoc().getX(), edgeLoc.getHexLoc().getY());
+                	e = null;
                 	
                 	switch(edgeLoc.getDir()) {
                 		case North: e = theHex.northEdge; break;
@@ -1084,10 +1099,8 @@ public class ControllerFacade implements IControllerFacadeListener{
             switch(gameState){
                 case GamePlay:
                     int roll = gamePlayController.rollDice();
-                    if(roll != 7)
-                        gamePlayController.rollResourceDistribution(roll);
                     
-                    // IF seven roll, player moves robber and hand size checked
+                    serverProxyFacade.rollNumber(clientPlayer.getIndex(), roll);
                     
                     return roll;
                 default:

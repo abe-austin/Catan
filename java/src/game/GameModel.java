@@ -23,6 +23,7 @@ public class GameModel {
     private boolean randomHexes;
     private boolean randomNumbers;
     private boolean randomPorts;
+    private boolean checkDiscard;
 
     public GameModel() {
         board = new BoardModel(this);
@@ -33,6 +34,7 @@ public class GameModel {
         tradeOffer = new TradeOffer();
         version = 0;
         winner = -1;
+        checkDiscard = false;
     }
 
     /**
@@ -166,4 +168,18 @@ public class GameModel {
 	public void setRandomPorts(boolean randomPorts) {
 		this.randomPorts = randomPorts;
 	}
+
+    /**
+     * @return the checkDiscard
+     */
+    public boolean isCheckDiscard() {
+        return checkDiscard;
+    }
+
+    /**
+     * @param checkDiscard the checkDiscard to set
+     */
+    public void setCheckDiscard(boolean checkDiscard) {
+        this.checkDiscard = checkDiscard;
+    }
 }

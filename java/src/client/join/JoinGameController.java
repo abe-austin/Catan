@@ -145,6 +145,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
                 for (CatanColor color : CatanColor.values())
 			getSelectColorView().setColorEnabled(color, true);
                 
+
 		for(PlayerInfo player : game.getPlayers()) {
 			if (player.getName().equals(ControllerFacade.getSingleton().
                             getClientPlayer().toString())) {
@@ -153,6 +154,16 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			}
 //			getSelectColorView().setColorEnabled(player.getColor(), false);
 		}
+
+//		for(PlayerInfo player : game.getPlayers()) {
+//			if (player.getName().equals(ControllerFacade.getSingleton().
+//                            getClientPlayer().toString())) {
+//				joinGame(CatanColor.RED); // TEMP FIX
+//				return;
+//			}
+//			getSelectColorView().setColorEnabled(player.getColor(), false);
+//		}
+
                 
 		getSelectColorView().showModal();
 	}

@@ -74,7 +74,6 @@ public class MapController extends Controller implements IMapController, IContro
                          startMove(PieceType.ROAD,true,false);
                          secondRoad=false;
                     }
-             placingPiece=false;
         }
          
 	
@@ -322,6 +321,7 @@ public class MapController extends Controller implements IMapController, IContro
 	public void placeRoad(EdgeLocation edgeLoc) {
 		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor(); //Assume this is proper method to determine the color
 		getView().placeRoad(edgeLoc, playerColor);
+                ControllerFacade.getSingleton().placeRoad(edgeLoc);
                 pieceBuilt();
 	}
 

@@ -173,7 +173,7 @@ public class DoParse
 		
 		String[] theStructures = input.split("}},\\{");
 		
-		if(input.contains("}},{"))
+		if(input.contains("owner"))
 			for(int i = 0; i < theStructures.length; i++)
 			{
 				String gettingOwner = theStructures[i].split("owner\":")[1];

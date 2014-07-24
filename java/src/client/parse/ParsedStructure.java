@@ -39,6 +39,15 @@ public class ParsedStructure
 	
 	public String getDirection()
 	{
+            if(direction.contains("\"")){
+                StringBuilder ss = new StringBuilder();
+                for(char c:direction.toCharArray()){
+                    if(c !='\"'){
+                        ss.append(c);
+                    }
+                }
+                direction=ss.toString();
+            }
 		return direction;
 	}
 	
