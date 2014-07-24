@@ -7,6 +7,7 @@ import controller.IControllerFacadeListener;
 import game.GameModel;
 import java.util.*;
 import shared.definitions.GameState;
+import shared.definitions.PieceType;
 import shared.definitions.ResourceType;
 
 
@@ -41,6 +42,9 @@ public class ResourceBarController extends Controller implements IResourceBarCon
                 getView().setElementAmount(ResourceBarElement.SHEEP, facade.getNumOfResourceCards(ResourceType.SHEEP));
                 getView().setElementAmount(ResourceBarElement.BRICK, facade.getNumOfResourceCards(ResourceType.BRICK));
                 getView().setElementAmount(ResourceBarElement.ORE, facade.getNumOfResourceCards(ResourceType.ORE));
+                getView().setElementAmount(ResourceBarElement.CITY, facade.getNumAvaliableBoardPieces(PieceType.CITY));
+                getView().setElementAmount(ResourceBarElement.ROAD, facade.getNumAvaliableBoardPieces(PieceType.ROAD));
+                getView().setElementAmount(ResourceBarElement.SETTLEMENT, facade.getNumAvaliableBoardPieces(PieceType.SETTLEMENT));
             }
         }
 

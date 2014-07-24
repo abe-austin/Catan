@@ -15,10 +15,10 @@ import client.serverProxy.ServerPoller;
 import client.serverProxy.ServerProxyFacade;
 import game.GameModel;
 import game.board.Corner;
-import game.board.Edge;
 import game.board.HexTile;
 import game.board.PortTile;
 import game.cards.CardOwner;
+import game.pieces.BoardPiece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import player.Player;
-import player.Points;
 import shared.communication.ServerResponse;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
@@ -1170,5 +1169,21 @@ public class ControllerFacade implements IControllerFacadeListener{
             } else {
                 return false;
             }
+        }
+        
+        /**
+         * Returns number of available board pieces of given type
+         * 
+         * @param type piece type
+         * @return number available of type
+         */
+        public int getNumAvaliableBoardPieces(PieceType type) {
+            int amount = 0;
+            
+            for(BoardPiece piece : clientPlayer.getBoardPieces())
+                if(!piece.isActive() && piece.getPieceType() == type)
+                    amount++;
+            
+            return amount;
         }
 }
