@@ -39,6 +39,7 @@ public class MapController extends Controller implements IMapController, IContro
         private boolean firstSettlement = true;
         private boolean firstRoad =true;
         private boolean secondSettlement= true;
+        private boolean afterFirst = true;
         private boolean secondRoad = true;
         private boolean placingPiece=false;
         
@@ -49,9 +50,10 @@ public class MapController extends Controller implements IMapController, IContro
                 updateMap(gameModel.getBoard().getHexes());
                 updateStructures(gameModel.getBoard().getStructures());//Is this the right place to call this?
                 if(ControllerFacade.getSingleton().isCurrentTurn()){
+                   
                    if (!placingPiece){
                        placingSetupPiece();
-                       placingPiece=true;
+                      
                    }
                 }
 
@@ -62,18 +64,26 @@ public class MapController extends Controller implements IMapController, IContro
              if(firstSettlement){
                         startMove(PieceType.SETTLEMENT,true,true);
                         firstSettlement=false;
+                         placingPiece=true;
                     }
                     else if(firstRoad){
                          startMove(PieceType.ROAD,true,false);
                          firstRoad=false;
+                          placingPiece=true;
+                    }
+                    else if (afterFirst){
+                        afterFirst=false;
+                         placingPiece=false;
                     }
                     else if(secondSettlement){
                          startMove(PieceType.SETTLEMENT,true,true);
                          secondSettlement=false;
+                          placingPiece=true;
                     }
                     else if(secondRoad){
                          startMove(PieceType.ROAD,true,false);
                          secondRoad=false;
+                         placingPiece=true;
                     }
         }
          
@@ -274,6 +284,9 @@ public class MapController extends Controller implements IMapController, IContro
                 }
                 else if(secondRoad){
                     placingPiece=false;
+                }
+                else{
+                    ControllerFacade.getSingleton().endTurn();
                 }
             }
         }
