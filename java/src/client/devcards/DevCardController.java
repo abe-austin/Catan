@@ -54,7 +54,7 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
 	public void startBuyCard() {
-		if(facade.startBuyCard())
+		if(facade.startBuyCard() && facade.isCurrentTurn())
                     getBuyCardView().showModal();
 	}
 
@@ -78,6 +78,9 @@ public class DevCardController extends Controller implements IDevCardController,
                     return;
                 
                 if(cards.isEmpty())
+                    return;
+                
+                if(!facade.isCurrentTurn())
                     return;
                 
                 // Set which cards are useable and amounts
@@ -119,7 +122,7 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
 	public void playSoldierCard() {
-		//facade.playSoldierCard();
+		facade.getClientPlayer().giveDevelopmentCard(DevCardType.SOLDIER);
 		soldierAction.execute();
 	}
 

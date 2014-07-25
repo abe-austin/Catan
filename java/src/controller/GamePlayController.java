@@ -272,7 +272,7 @@ class GamePlayController {
      */
     public void placeRoad(EdgeLocation edgeLoc) {                               // MapController
         BoardPiece piece = player.getAvailableBoardPiece(PieceType.ROAD);
-        piece.setActive(true);
+//        piece.setActive(true);
         hexTileController.placeRoad(player, piece, edgeLoc);
     }
 
@@ -285,7 +285,7 @@ class GamePlayController {
      */
     public void placeSettlement(VertexLocation vertLoc) {                       // MapController
         BoardPiece piece = player.getAvailableBoardPiece(PieceType.SETTLEMENT);
-        piece.setActive(true);
+//        piece.setActive(true);
         player.addPoint();
         hexTileController.placeSettlement(player, piece, vertLoc);
     }
@@ -301,7 +301,7 @@ class GamePlayController {
      */
     public void placeCity(VertexLocation vertLoc) {                             // MapController
         BoardPiece piece = player.getAvailableBoardPiece(PieceType.CITY);
-        piece.setActive(true);
+//        piece.setActive(true);
         player.addPoint();
         hexTileController.placeCity(player, piece, vertLoc);
     }
