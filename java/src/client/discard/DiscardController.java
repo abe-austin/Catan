@@ -33,6 +33,7 @@ public class DiscardController extends Controller implements IDiscardController,
 		super(view);
                 this.view = view;
 		this.waitView = waitView;
+                view.setController(this);
                 
                 view.setDiscardButtonEnabled(true);
                 ControllerFacade.getSingleton().addListener(this);
@@ -44,8 +45,9 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	@Override
         public void gameModelChanged(GameModel gameModel){
-            if(facade.getRoll() == 7 && !facade.getClientPlayer().hasDiscarded() 
-                    && facade.getClientPlayer().getHandSize() > 7) {
+            if(gameModel.getTurnTracker().getStatus().contains("Discard") && 
+                    !facade.getClientPlayer().hasDiscarded() && facade.getClientPlayer().getHandSize() > 7 
+                    && !getDiscardView().isModalShowing()) {
                 updateValues();
                 getDiscardView().showModal();
                 facade.getClientPlayer().setDiscarded(true);

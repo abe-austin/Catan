@@ -111,6 +111,7 @@ public class CatanPanel extends JPanel
 		this.add(testButton, BorderLayout.SOUTH);
                 
                 rollController = new RollController(new RollView(), new RollResultView());
+                discardController = new DiscardController(new DiscardView(), new WaitView());
 	}
 	
 }
