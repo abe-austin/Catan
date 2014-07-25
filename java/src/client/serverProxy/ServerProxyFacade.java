@@ -664,11 +664,11 @@ public class ServerProxyFacade {
 		
 		//create param object and convert to json
 		OfferTradeParam param = new OfferTradeParam("offerTrade", playerIndex, offer, receiver);
-		
+		//System.out.println("ServerFacade pre offer "+offer);
 		//make post to proper url using json as the body of the request
 		String url = "/moves/offerTrade";
 		ServerResponse  response = server.doPost(url, param);
-		
+		//System.out.println("json after "+(String)response.getBody());
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
                 return response;

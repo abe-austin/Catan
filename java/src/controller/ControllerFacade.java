@@ -69,6 +69,7 @@ public class ControllerFacade implements IControllerFacadeListener{
     private ArrayList<IControllerFacadeListener> listeners = new ArrayList<IControllerFacadeListener>();
     private PlayerInfo currentPlayerInfo;
     private boolean hasRolled = false;
+    private boolean afterRoll=false;
     
     private ControllerFacade(){
         setupController = new SetupController();
@@ -138,15 +139,18 @@ public class ControllerFacade implements IControllerFacadeListener{
     }
     
     public void updateClientPlayer(GameModel gameModel) {
-    	
+    
 		for (Player modelPlayer : gameModel.getPlayers()) {
 			if (modelPlayer.getIndex() == clientPlayer.getIndex()) {
 				clientPlayer = modelPlayer;
 			}
 		}
 		
-		gamePlayController.setPlayer(clientPlayer);
+        gamePlayController.setPlayer(clientPlayer);
         tradeController.setPlayer(clientPlayer);
+        if(!isCurrentTurn()){
+            afterRoll=false;
+        }
     }
     /**
      * replaces the current gameModel with the new GameModel
@@ -489,6 +493,9 @@ public class ControllerFacade implements IControllerFacadeListener{
                 case Setup:
                     break;
                 case GamePlay:
+                    System.out.println("sender index "+ clientPlayer.getIndex());
+                    System.out.println("trading offer map "+tradingOffer);
+                    System.out.println("receiver index "+receiverIndex);
                     serverProxyFacade.offerTrade(clientPlayer.getIndex(), tradingOffer, receiverIndex);
                     break;
             }
@@ -1113,6 +1120,9 @@ public class ControllerFacade implements IControllerFacadeListener{
                     break;
                 case GamePlay:
                     hasRolled = false;
+                    afterRoll=true;
+                    currentGameModel.getTurnTracker().setCurrentTurn(clientPlayer.getIndex()+1);
+                     serverProxyFacade.finishTurn(clientPlayer.getIndex());
                     break;
             }
         }
@@ -1190,6 +1200,9 @@ public class ControllerFacade implements IControllerFacadeListener{
         }
         
         public boolean isStartTurn() {
+            if (afterRoll){
+               return false;
+            }
             if(!hasRolled && isCurrentTurn()) {
                 hasRolled = true;
                 return true;

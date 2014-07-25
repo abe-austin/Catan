@@ -37,7 +37,14 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 //                else{
 //                    getView().updateGameState("Hold your horses! It's not your turn",false );
 //                }
-                 getView().updateGameState(gameModel.getTurnTracker().getStatus(), (ControllerFacade.getSingleton().isCurrentTurn()));
+                if ((ControllerFacade.getSingleton().isCurrentTurn())){
+                    if(gameModel.getTurnTracker().getStatus().contains("Playing")){
+                        getView().updateGameState("End Turn", true);
+                    }
+                }
+                else{
+                    getView().updateGameState(gameModel.getTurnTracker().getStatus(), false);
+                }
             }
             if(firstTurn|| gameModel.getPlayers().length>playerNumber) {
                 int i = 0;

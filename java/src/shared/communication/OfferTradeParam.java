@@ -8,7 +8,7 @@ public class OfferTradeParam {
 
 	String type;
 	private int playerIndex;
-	private Map<ResourceType,Integer> offer;
+	private OfferParam offer;
 	private int receiver;
 	
 	public OfferTradeParam(String type, int playerIndex, Map<ResourceType,Integer> offer,
@@ -16,7 +16,7 @@ public class OfferTradeParam {
 		super();
 		this.type = type;
 		this.playerIndex = playerIndex;
-		this.offer = offer;
+		this.offer = new OfferParam(offer);
 		this.receiver = receiver;
 	}
 
@@ -36,11 +36,11 @@ public class OfferTradeParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public Map<ResourceType,Integer> getOffer() {
+	public OfferParam getOffer() {
 		return offer;
 	}
 
-	public void setOffer(Map<ResourceType,Integer> offer) {
+	public void setOffer(OfferParam offer) {
 		this.offer = offer;
 	}
 
