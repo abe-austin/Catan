@@ -42,6 +42,7 @@ public class MapController extends Controller implements IMapController, IContro
         private boolean afterFirst = true;
         private boolean secondRoad = true;
         private boolean placingPiece=false;
+        private HexLocation lastRobLoc;
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
@@ -471,6 +472,7 @@ public class MapController extends Controller implements IMapController, IContro
     		RobPlayerInfo[] candidateVictims = robInfos.toArray(new RobPlayerInfo[robInfos.size()]);		
     		getRobView().setPlayers(candidateVictims);
     		getRobView().showModal();
+    		lastRobLoc = hexLoc;
     	}
     	
     	public void beginRobber() {
@@ -500,7 +502,7 @@ public class MapController extends Controller implements IMapController, IContro
 	
         @Override
         public void robPlayer(RobPlayerInfo victim) {		
-    		ControllerFacade.getSingleton().robPlayer(victim);
+    		ControllerFacade.getSingleton().robPlayer(victim, lastRobLoc);
     	}
 	
 }
