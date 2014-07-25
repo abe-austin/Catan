@@ -77,6 +77,9 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
                 getTradeOverlay().setTradeEnabled(false);
                 getTradeOverlay().setCancelEnabled(true);
                 getTradeOverlay().setStateMessage("can't trade yet");
+                if(!controllerFacade.isCurrentTurn()){
+                    getTradeOverlay().setStateMessage("Not your turn");
+                }
                 getTradeOverlay().showModal();
             }
         }
@@ -85,6 +88,9 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public void makeTrade() {
             //get the selectedGetOption resource (quantitiy must be 1)
             //get the selectedGiveOption resource and quantity (2 or 3 depending on port type) or 4
+//            System.out.println("selectedGive "+selectedGiveResource);
+//            System.out.println("give Value "+giveValue);
+//            System.out.println("selectedGet "+selectedGetResource);
             controllerFacade.makeTrade(selectedGiveResource, giveValue, selectedGetResource);
             getTradeOverlay().closeModal();
 	}

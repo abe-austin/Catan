@@ -7,8 +7,8 @@ public class MaritimeTradeParam {
 	private String type;
 	private int playerIndex;
 	private int ratio;
-	private ResourceType inputResource;
-	private ResourceType outputResource;
+	private String inputResource;
+	private String outputResource;
 	
 	public MaritimeTradeParam(String type, int playerIndex, int ratio, ResourceType inputResource,
 			ResourceType outputResource) {
@@ -16,9 +16,38 @@ public class MaritimeTradeParam {
 		this.type = type;
 		this.playerIndex = playerIndex;
 		this.ratio = ratio;
-		this.inputResource = inputResource;
-		this.outputResource = outputResource;
-	}
+                if(inputResource==ResourceType.BRICK){
+                     this.inputResource="brick";
+                }
+                else if(inputResource==ResourceType.ORE){
+                    this.inputResource="ore";
+                }
+                else if(inputResource==ResourceType.SHEEP){
+                    this.inputResource="sheep";
+                }
+                else if(inputResource==ResourceType.WHEAT){
+                    this.inputResource="wheat";
+                }
+                else if(inputResource==ResourceType.WOOD){
+                    this.inputResource="wood";
+                }
+                
+                if(outputResource==ResourceType.BRICK){
+                     this.outputResource="brick";
+                }
+                else if(outputResource==ResourceType.ORE){
+                    this.outputResource="ore";
+                }
+                else if(outputResource==ResourceType.SHEEP){
+                    this.outputResource="sheep";
+                }
+                else if(outputResource==ResourceType.WHEAT){
+                    this.outputResource="wheat";
+                }
+                else if(outputResource==ResourceType.WOOD){
+                    this.outputResource="wood";
+                }	
+        }
 
 	public String getType() {
 		return type;
@@ -44,19 +73,19 @@ public class MaritimeTradeParam {
 		this.ratio = ratio;
 	}
 
-	public ResourceType getInputResource() {
+	public String getInputResource() {
 		return inputResource;
 	}
 
-	public void setInputResource(ResourceType inputResource) {
+	public void setInputResource(String inputResource) {
 		this.inputResource = inputResource;
 	}
 
-	public ResourceType getOutputResource() {
+	public String getOutputResource() {
 		return outputResource;
 	}
 
-	public void setOutputResource(ResourceType outputResource) {
+	public void setOutputResource(String outputResource) {
 		this.outputResource = outputResource;
 	}
 	

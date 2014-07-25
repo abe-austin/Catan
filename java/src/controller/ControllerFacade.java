@@ -556,6 +556,10 @@ public class ControllerFacade implements IControllerFacadeListener{
                 case Setup:
                     break;
                 case GamePlay:
+//                    System.out.println("facade");
+//                    System.out.println("selectedGive "+giveType);
+//                    System.out.println("give Value "+giveAmount);
+//                    System.out.println("selectedGet "+getType);
                     serverProxyFacade.maritimeTrade(clientPlayer.getIndex(), giveAmount, giveType, getType);
                     break;
             }

@@ -715,11 +715,14 @@ public class ServerProxyFacade {
 		
 		//create param object and convert to json
 		MaritimeTradeParam param = new MaritimeTradeParam("maritimeTrade", playerIndex, ratio, input, output);
-		
+//		System.out.println("server playerIndex "+playerIndex);
+//                System.out.println("ratio "+ratio);
+//                System.out.println("resourceInput "+input);
+//                System.out.println("output "+output);
 		//make post to proper url using json as the body of the request
 		String url = "/moves/maritimeTrade";
 		ServerResponse  response = server.doPost(url, param);
-		
+//		System.out.println("Json after "+(String)response.getBody());
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
                 return response;
