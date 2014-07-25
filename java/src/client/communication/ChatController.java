@@ -3,6 +3,7 @@ package client.communication;
 import java.util.ArrayList;
 import java.util.List;
 
+import player.Player;
 import client.base.*;
 import client.parse.ParsedChat;
 import controller.ControllerFacade;
@@ -37,9 +38,13 @@ public class ChatController extends Controller implements IChatController, ICont
     @Override
     public void gameModelChanged(GameModel gameModel){
     	List<LogEntry> entries = new ArrayList<LogEntry>();
-    	for(ParsedChat mes : gameModel.getGameHistory().getChatlog().getChatLines()) {
-    		LogEntry entry = new LogEntry(shared.definitions.CatanColor.BLUE, mes.getMessage());
-    		entries.add(entry);
+    	for(ParsedChat chat : gameModel.getGameHistory().getChatlog().getChatLines()) {
+    		Player player = ControllerFacade.getSingleton().getPlayerByUsername(chat.getSource());
+    		if(player != null) {
+    			String message = chat.getSource() + ": " + chat.getMessage();
+	    		LogEntry entry = new LogEntry(player.getColor(), message);
+	    		entries.add(entry);
+    		}
     	}
     	view.setEntries(entries);
     }

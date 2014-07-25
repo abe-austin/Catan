@@ -578,7 +578,7 @@ public class BoardModel {
     	return false;
     }
     
-  //Do we need special test-functions for if this is the start of the game (placing settlement shouldn't be based on friendly neighbor)
+  //NEED TO BE DIFFERENT IN SETUP, SECOND ROAD HAS TO CONNECT TO SECOND SETTLEMENT...I THINK
     /**
     *
     * @param e Edge to build on

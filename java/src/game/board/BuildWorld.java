@@ -1164,12 +1164,12 @@ public class BuildWorld {
 		tiles.get(18).addCorner(corners.get(4), VertexDirection.SouthWest);
 		tiles.get(18).addCorner(corners.get(5), VertexDirection.West);
 		tiles.get(18).addCorner(corners.get(0), VertexDirection.NorthWest);
-		tiles.get(19).addCorner(corners.get(4), VertexDirection.NorthEast);
-		tiles.get(19).addCorner(corners.get(3), VertexDirection.East);
-		tiles.get(19).addCorner(corners.get(14), VertexDirection.SouthEast);
-		tiles.get(19).addCorner(corners.get(15), VertexDirection.SouthWest);
-		tiles.get(19).addCorner(corners.get(16), VertexDirection.West);
-		tiles.get(19).addCorner(corners.get(17), VertexDirection.NorthWest);
+		tiles.get(19).addCorner(corners.get(3), VertexDirection.NorthEast);
+		tiles.get(19).addCorner(corners.get(14), VertexDirection.East);
+		tiles.get(19).addCorner(corners.get(15), VertexDirection.SouthEast);
+		tiles.get(19).addCorner(corners.get(16), VertexDirection.SouthWest);
+		tiles.get(19).addCorner(corners.get(17), VertexDirection.West);
+		tiles.get(19).addCorner(corners.get(4), VertexDirection.NorthWest);
 		tiles.get(20).addCorner(corners.get(15), VertexDirection.NorthEast);
 		tiles.get(20).addCorner(corners.get(38), VertexDirection.East);
 		tiles.get(20).addCorner(corners.get(39), VertexDirection.SouthEast);

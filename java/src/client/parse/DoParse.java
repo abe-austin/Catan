@@ -457,8 +457,7 @@ public class DoParse
 		input = input.split("bank\":")[1];
 		String[] chats = theChat.split("},\\{");
 		ArrayList<ParsedChat> parsedChats = new ArrayList<ParsedChat>();
-		
-		if(input.contains("}},{"))
+		if(theChat.contains("[{\""))
 			for(int i = 0; i < chats.length; i++)
 			{
 				String gettingSource = chats[i].split("source\":\"")[1];
