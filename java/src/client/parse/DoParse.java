@@ -67,7 +67,7 @@ public class DoParse
 	        	i = parseChat(i);
 	        	i = parseBank(i);
 	        	i = parseTurnTracker(i);
-                        if (i.contains("tradeOffer")){
+                        if (i.contains("sender")){
                             i = parseTradeOffer(i);
                         }
 	        	i = parseWinner(i);

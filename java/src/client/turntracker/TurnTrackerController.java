@@ -6,6 +6,7 @@ import controller.IControllerFacadeListener;
 import game.GameModel;
 import player.Player;
 import shared.definitions.CatanColor;
+import shared.definitions.GameState;
 
 
 /**
@@ -24,10 +25,28 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
+            if(ControllerFacade.getSingleton().getGameState()==GameState.GamePlay){
+//                if(ControllerFacade.getSingleton().isCurrentTurn()){
+//                    if(gameModel.getTurnTracker().getStatus().equals("Robbing")){
+//                        getView().updateGameState(gameModel.getTurnTracker().getStatus(), false);
+//                    }
+//                    else if(!ControllerFacade.getSingleton().isStartTurn()){
+//                        getView().updateGameState("End Turn", true);
+//                    }
+//                }
+//                else{
+//                    getView().updateGameState("Hold your horses! It's not your turn",false );
+//                }
+                 getView().updateGameState(gameModel.getTurnTracker().getStatus(), (ControllerFacade.getSingleton().isCurrentTurn()));
+            }
             if(firstTurn|| gameModel.getPlayers().length>playerNumber) {
-                for(Player player : gameModel.getPlayers())
+                int i = 0;
+                for(Player player : gameModel.getPlayers()){
+                    if( i>=playerNumber)
                     getView().initializePlayer(player.getIndex(), player.toString(), player.getColor());
-                firstTurn = false;
+                    i++;
+                }
+                    firstTurn = false;
                 playerNumber = gameModel.getPlayers().length;
             } else {
                 for(Player player : gameModel.getPlayers()) {
