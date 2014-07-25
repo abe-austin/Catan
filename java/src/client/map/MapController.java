@@ -487,10 +487,11 @@ public class MapController extends Controller implements IMapController, IContro
 	public void cancelMove() {
 		
 	}
-	
+	private boolean soldier=false;
         @Override
 	public void playSoldierCard() {	
-		
+                soldier=true;
+		beginRobber();
 	}
 	
         @Override
@@ -499,8 +500,13 @@ public class MapController extends Controller implements IMapController, IContro
 	}
 	
         @Override
-        public void robPlayer(RobPlayerInfo victim) {		
+        public void robPlayer(RobPlayerInfo victim) {	
+            if(soldier){
+                ControllerFacade.getSingleton().playSoldierCard(victim);
+            }
+            else{
     		ControllerFacade.getSingleton().robPlayer(victim);
+            }
     	}
 	
 }
