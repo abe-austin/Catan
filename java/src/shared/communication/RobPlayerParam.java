@@ -1,15 +1,16 @@
 package shared.communication;
 
 import game.board.Corner;
+import shared.locations.HexLocation;
 
 public class RobPlayerParam {
 
 	String type;
 	int playerIndex;
 	int victimIndex;
-	Corner location;
+	HexLocation location;
 	
-	public RobPlayerParam(String type, int playerIndex, int victimIndex, Corner location) {
+	public RobPlayerParam(String type, int playerIndex, int victimIndex, HexLocation location) {
 		super();
 		this.type = type;
 		this.playerIndex = playerIndex;
@@ -41,11 +42,11 @@ public class RobPlayerParam {
 		this.victimIndex = victimIndex;
 	}
 	
-	public Corner getLocation() {
+	public HexLocation getLocation() {
 		return location;
 	}
 	
-	public void setLocation(Corner location) {
+	public void setLocation(HexLocation location) {
 		this.location = location;
 	}
 	

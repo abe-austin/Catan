@@ -119,7 +119,7 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
 	public void playSoldierCard() {
-		facade.playSoldierCard();
+		//facade.playSoldierCard();
 		soldierAction.execute();
 	}
 

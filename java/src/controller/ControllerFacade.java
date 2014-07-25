@@ -282,6 +282,7 @@ public class ControllerFacade implements IControllerFacadeListener{
             switch(gameState){
                 case GamePlay:
                     gamePlayController.buyCard();
+                    serverProxyFacade.buyDevCard(clientPlayer.getIndex());
                 default:
                     
             }
@@ -312,6 +313,7 @@ public class ControllerFacade implements IControllerFacadeListener{
             switch(gameState){
                 case GamePlay:
                     gamePlayController.playMonopolyCard(resource);
+                    serverProxyFacade.playMonopoly(clientPlayer.getIndex(), resource);
                 default:
                     
             }
@@ -324,6 +326,7 @@ public class ControllerFacade implements IControllerFacadeListener{
             switch(gameState){
                 case GamePlay:
                     gamePlayController.playMonumentCard();
+                    serverProxyFacade.playMonument(clientPlayer.getIndex());
                 default:
                     
             }
@@ -344,10 +347,11 @@ public class ControllerFacade implements IControllerFacadeListener{
 	/**
 	 * This method is called when the user plays a soldier development card.
 	 */
-	public void playSoldierCard(){//DevCardController and MapController --goes in GamePlay
+	public void playSoldierCard(int victimIndex, HexLocation location){//DevCardController and MapController --goes in GamePlay
             switch(gameState){
                 case GamePlay:
                     gamePlayController.playSoldierCard();
+                    serverProxyFacade.playSoldier(clientPlayer.getIndex(), victimIndex, location);
                 default:
                     
             }
@@ -363,6 +367,7 @@ public class ControllerFacade implements IControllerFacadeListener{
             switch(gameState){
                 case GamePlay:
                     gamePlayController.playYearOfPlentyCard(resource1, resource2);
+                    serverProxyFacade.playYearOfPlenty(clientPlayer.getIndex(), resource1, resource2);
                 default:
                     
             }
@@ -957,17 +962,17 @@ public class ControllerFacade implements IControllerFacadeListener{
 	public void placeCity(VertexLocation vertLoc){//MapController --goes in GamePlay
             switch(gameState){
                 case GamePlay:
-                	HexTile theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(vertLoc.getHexLoc().getX(), vertLoc.getHexLoc().getY());
-                	Corner c = null;
-                	
-                	switch(vertLoc.getDir()) {
-                		case East: c = theHex.eastCorner; break;
-                		case NorthEast: c = theHex.northEastCorner; break;
-                		case SouthEast: c = theHex.southEastCorner; break;
-                		case West: c = theHex.westCorner; break;
-                		case SouthWest: c = theHex.southWestCorner; break;
-                		case NorthWest: c = theHex.northWestCorner; break;
-                	}
+//                	HexTile theHex = gamePlayController.getGameModel().getBoard().getHexTileAt(vertLoc.getHexLoc().getX(), vertLoc.getHexLoc().getY());
+//                	Corner c = null;
+//                	
+//                	switch(vertLoc.getDir()) {
+//                		case East: c = theHex.eastCorner; break;
+//                		case NorthEast: c = theHex.northEastCorner; break;
+//                		case SouthEast: c = theHex.southEastCorner; break;
+//                		case West: c = theHex.westCorner; break;
+//                		case SouthWest: c = theHex.southWestCorner; break;
+//                		case NorthWest: c = theHex.northWestCorner; break;
+//                	}
                 	gamePlayController.placeCity(vertLoc);
                 	serverProxyFacade.buildCity(gamePlayController.getPlayer().getIndex(), vertLoc, false);
                 	break;
@@ -1034,10 +1039,11 @@ public class ControllerFacade implements IControllerFacadeListener{
 	 * This method is called when the user plays a "road building" progress development card.
 	 * It should initiate the process of allowing the player to place two roads.
 	 */
-	public void playRoadBuildingCard(){//MapController --goes in GamePlay
+	public void playRoadBuildingCard(EdgeLocation spot1, EdgeLocation spot2){//MapController --goes in GamePlay
             switch(gameState){
                 case GamePlay:
                     gamePlayController.playRoadBuildingCard();
+                    serverProxyFacade.playRoadBuilding(clientPlayer.getIndex(), spot1, spot2);
                 default:
             }
         }

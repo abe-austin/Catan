@@ -354,7 +354,7 @@ public class ServerProxyFacade {
 
 	}
 	
-	public ServerResponse robPlayer(int playerIndex, int victimIndex, Corner location) {
+	public ServerResponse robPlayer(int playerIndex, int victimIndex, HexLocation location) {
 		
 		//create param object and convert to json
 		RobPlayerParam param = new RobPlayerParam("robPlayer", playerIndex, victimIndex, location);
@@ -461,7 +461,7 @@ public class ServerProxyFacade {
      * @param spot2			the <code>Edge</code> to place road on
      * @return				<code>ServerResponse</code> object   
      */
-	public ServerResponse playRoadBuilding(int playerIndex, Edge spot1, Edge spot2) {
+	public ServerResponse playRoadBuilding(int playerIndex, EdgeLocation spot1, EdgeLocation spot2) {
 		
 		//create param object and convert to json
 		PlayRoadBuildingParam param = new PlayRoadBuildingParam("Road_Building", playerIndex, spot1, spot2);
@@ -491,7 +491,7 @@ public class ServerProxyFacade {
      * @return					<code>ServerResponse</code> object
      */
 	public ServerResponse playSoldier(int playerIndex, int victimIndex, HexLocation location) {
-		
+		System.out.println("in server soldier playerIndex "+playerIndex+"victim "+victimIndex);
 		//create param object and convert to json
 		PlaySoldierParam param = new PlaySoldierParam("Soldier", playerIndex, victimIndex, location);
 		

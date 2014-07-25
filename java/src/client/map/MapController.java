@@ -68,6 +68,7 @@ public class MapController extends Controller implements IMapController, IContro
             }
         
         }
+        
         private void placingSetupPiece(){
              if(firstSettlement){
                         startMove(PieceType.SETTLEMENT,true,true);
@@ -94,8 +95,7 @@ public class MapController extends Controller implements IMapController, IContro
                          placingPiece=true;
                     }
         }
-         
-	
+         	
 	public IMapView getView() {
 		
 		return (IMapView)super.getView();
@@ -299,6 +299,7 @@ public class MapController extends Controller implements IMapController, IContro
                 }
             }
         }
+        
 	public void placeRoad(EdgeLocation edgeLoc, CatanColor color) {
 		getView().placeRoad(edgeLoc, color);
                 //pieceBuilt();
@@ -324,8 +325,6 @@ public class MapController extends Controller implements IMapController, IContro
 		getView().placeCity(vertLoc, color);
 	}
 	
-	
-
         @Override
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		return ControllerFacade.getSingleton().canPlaceRoad(edgeLoc);

@@ -6,13 +6,27 @@ public class PlayMonopolyParam {
 
 	private String type;
 	private int playerIndex;
-	private ResourceType resource;
+	private String resource;
 	
 	public PlayMonopolyParam(String type, int playerIndex, ResourceType resource) {
 		super();
 		this.type = type;
 		this.playerIndex = playerIndex;
-		this.resource = resource;
+		if(resource==ResourceType.BRICK){
+                     this.resource="brick";
+                }
+                else if(resource==ResourceType.ORE){
+                    this.resource="ore";
+                }
+                else if(resource==ResourceType.SHEEP){
+                    this.resource="sheep";
+                }
+                else if(resource==ResourceType.WHEAT){
+                    this.resource="wheat";
+                }
+                else if(resource==ResourceType.WOOD){
+                    this.resource="wood";
+                }
 	}
 
 	public String getType() {
@@ -31,11 +45,11 @@ public class PlayMonopolyParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public ResourceType getResource() {
+	public String getResource() {
 		return resource;
 	}
 
-	public void setResource(ResourceType resource) {
+	public void setResource(String resource) {
 		this.resource = resource;
 	}
 }
