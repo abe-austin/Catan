@@ -58,8 +58,9 @@ public class RollController extends Controller implements IRollController, ICont
 	
 	@Override
 	public void rollDice() {
-                timer.cancel();    
-                getRollView().closeModal();
+                timer.cancel();
+                if(getRollView().isModalShowing())
+                    getRollView().closeModal();
                 getResultView().setRollValue(facade.rollDice());
 		getResultView().showModal();
                 waitingOnTimer = false;

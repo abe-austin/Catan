@@ -44,11 +44,11 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	@Override
         public void gameModelChanged(GameModel gameModel){
-            if(gameModel.isCheckDiscard() && !ControllerFacade.getSingleton().getClientPlayer().hasDiscarded() 
-                    && ControllerFacade.getSingleton().getClientPlayer().getHandSize() > 7) {
+            if(facade.getRoll() == 7 && !facade.getClientPlayer().hasDiscarded() 
+                    && facade.getClientPlayer().getHandSize() > 7) {
                 updateValues();
                 getDiscardView().showModal();
-                ControllerFacade.getSingleton().getClientPlayer().setDiscarded(true);
+                facade.getClientPlayer().setDiscarded(true);
             }
         }
          

@@ -1160,6 +1160,10 @@ public class ControllerFacade implements IControllerFacadeListener{
                 case GamePlay:
                     hasRolled = false;
                     afterRoll=true;
+                    
+                    for(Player player : currentGameModel.getPlayers())
+                        player.setDiscarded(false);
+                    
                     currentGameModel.getTurnTracker().setCurrentTurn(clientPlayer.getIndex()+1);
                      serverProxyFacade.finishTurn(clientPlayer.getIndex());
                     break;
