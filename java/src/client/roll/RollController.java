@@ -29,7 +29,8 @@ public class RollController extends Controller implements IRollController, ICont
 	public RollController(IRollView view, IRollResultView resultView) {
 
 		super(view);
-		
+		view.setController(this);
+                resultView.setController(this);
 		setResultView(resultView);
                 facade = ControllerFacade.getSingleton();
                 facade.addListener(this);
@@ -40,7 +41,7 @@ public class RollController extends Controller implements IRollController, ICont
             if(facade.getGameState().equals(GameState.GamePlay))
                 if(!waitingOnTimer  && facade.isStartTurn()) {
                     getRollView().showModal();
-                    startRolling();
+                    start();
                 }
         }
 	
@@ -57,17 +58,18 @@ public class RollController extends Controller implements IRollController, ICont
 	
 	@Override
 	public void rollDice() {
-            getRollView().closeModal();
-                getResultView().setRollValue(ControllerFacade.getSingleton().rollDice());
+                timer.cancel();    
+                getRollView().closeModal();
+                getResultView().setRollValue(facade.rollDice());
 		getResultView().showModal();
                 waitingOnTimer = false;
-                timer.cancel();
+                
 	}
         
-        private void startRolling() {
+        private void start() {
             if (!waitingOnTimer) {
                 this.timer = new Timer();
-                TimerTask task = new DisplayCountdown();
+                TimerTask task = new Countdown();
                 timer.schedule(task, 0, 1000);
                 waitingOnTimer = true;
             }
@@ -78,17 +80,16 @@ public class RollController extends Controller implements IRollController, ICont
                 getRollView().setMessage(seconds + " seconds left to roll");
                 seconds--;
             } else {
-               // getRollView().closeModal();
                 rollDice();
             }
             
             return seconds;
 	}
 
-	class DisplayCountdown extends TimerTask {
+	class Countdown extends TimerTask {
             int seconds;
 
-            public DisplayCountdown() {
+            public Countdown() {
                 seconds = 3;
             }
 
