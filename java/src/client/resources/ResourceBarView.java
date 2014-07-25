@@ -520,7 +520,6 @@ public class ResourceBarView extends PanelView implements IResourceBarView
 		{
 			this._elementCount = elementCount;
 			this.update();
-			System.out.println("****" + this.getElementType() + " " + this.getElementCount());
 		}
 		
 		public int getElementCount()

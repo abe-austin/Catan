@@ -33,11 +33,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-				for(Player player : gameModel.getPlayers()) {
-					for( ResourceCard card : player.getResourceCards()) {
-						System.out.println("****" + player.getUsername() + " " + card.getResourceType());
-					}
-				}
+			
             if (ControllerFacade.getSingleton().getGameState() == GameState.Setup ||
                 ControllerFacade.getSingleton().getGameState() == GameState.GamePlay) {
                 getView().setElementEnabled(ResourceBarElement.BUY_CARD, facade.startBuyCard());
