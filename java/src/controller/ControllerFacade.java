@@ -1055,11 +1055,11 @@ public class ControllerFacade implements IControllerFacadeListener{
 	 * @param victim The player to be robbed
          * @post client player receives Resource Card from victim at random
 	 */
-	public void robPlayer(RobPlayerInfo victim){//MapController --goes in GamePlay
+	public void robPlayer(RobPlayerInfo victim, HexLocation location){//MapController --goes in GamePlay
             switch(gameState){
                 case GamePlay:
                     gamePlayController.robPlayer(victim);
-                    serverProxyFacade.robPlayer(clientPlayer.getIndex(), victim.getId(), currentGameModel.getBoard().getRobber().getLocation());
+                    serverProxyFacade.robPlayer(clientPlayer.getIndex(), victim.getPlayerIndex(), location);
                 default:
             }
         }
