@@ -320,22 +320,27 @@ public class MapController extends Controller implements IMapController, IContro
 	
 	
 
+        @Override
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		return ControllerFacade.getSingleton().canPlaceRoad(edgeLoc);
 	}
 
+        @Override
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
 		return ControllerFacade.getSingleton().canPlaceSettlement(vertLoc);
 	}
 
+        @Override
 	public boolean canPlaceCity(VertexLocation vertLoc) {
 		return ControllerFacade.getSingleton().canPlaceCity(vertLoc);
 	}
 
+        @Override
 	public boolean canPlaceRobber(HexLocation hexLoc) {
 		return ControllerFacade.getSingleton().canPlaceRobber(hexLoc);
 	}
 
+        @Override
 	public void placeRoad(EdgeLocation edgeLoc) {
 		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor(); //Assume this is proper method to determine the color
 		getView().placeRoad(edgeLoc, playerColor);
@@ -343,6 +348,7 @@ public class MapController extends Controller implements IMapController, IContro
                 pieceBuilt();
 	}
 
+        @Override
 	public void placeSettlement(VertexLocation vertLoc) {
 		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor();
 		getView().placeSettlement(vertLoc, playerColor);
@@ -444,11 +450,14 @@ public class MapController extends Controller implements IMapController, IContro
 		return ControllerFacade.getSingleton().getPortType(x, y);
 	}
 
+        @Override
 	public void placeCity(VertexLocation vertLoc) {
 		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor();
 		getView().placeCity(vertLoc, playerColor);
+                ControllerFacade.getSingleton().placeCity(vertLoc);
 	}
 
+        @Override
 	public void placeRobber(HexLocation hexLoc) {
 		
 		getView().placeRobber(hexLoc);
@@ -456,6 +465,7 @@ public class MapController extends Controller implements IMapController, IContro
 		getRobView().showModal();
 	}
 	
+        @Override
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
             if(ControllerFacade.getSingleton().getGameState()==GameState.GamePlay && pieceType!=PieceType.ROBBER){
                 allowDisconnected=true;
@@ -464,18 +474,22 @@ public class MapController extends Controller implements IMapController, IContro
 		getView().startDrop(pieceType, playerColor, allowDisconnected);
 	}
 	
+        @Override
 	public void cancelMove() {
 		
 	}
 	
+        @Override
 	public void playSoldierCard() {	
 		
 	}
 	
+        @Override
 	public void playRoadBuildingCard() {	
 		
 	}
 	
+        @Override
 	public void robPlayer(RobPlayerInfo victim) {	
 		
 	}

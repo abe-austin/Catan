@@ -113,7 +113,7 @@ public class HexTile {
 	public void buildCity(Corner corner,  Player player) {
 		BoardPiece theCity = player.getAvailableBoardPiece(PieceType.CITY);
 		BoardPiece theSettlement = corner.getStructure();
-		theSettlement.setActive(false);
+		//theSettlement.setActive(false); had to comment it out, was null from parsed data
 		corner.buildStructure(theCity);
 		theCity.setActive(true);
 	}

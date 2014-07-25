@@ -633,14 +633,16 @@ public class ServerProxyFacade {
      * @param free				<code>boolean</code> whether the <code>Corner</code> is free or not
      * @return					<code>ServerResponse</code> object
      */
-	public ServerResponse buildCity(int playerIndex, Corner vertexLocation, boolean free) {
+	public ServerResponse buildCity(int playerIndex, VertexLocation vertexLocation, boolean free) {
 		
 		//create param object and convert to json
 		BuildCityParam param = new BuildCityParam("buildCity", playerIndex, vertexLocation, free);
+		//System.out.println("ServerFacade playerIndex "+playerIndex);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/buildCity";
 		ServerResponse  response = server.doPost(url, param);
+		//System.out.println("json after "+(String)response.getBody());
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);

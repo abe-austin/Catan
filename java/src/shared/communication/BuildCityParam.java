@@ -1,19 +1,20 @@
 package shared.communication;
 
 import game.board.Corner;
+import shared.locations.VertexLocation;
 
 public class BuildCityParam {
 
 	private String type;
 	private int playerIndex;
-	private Corner vertexLocation;
+	private MapLocationParam vertexLocation;
 	private boolean free;
 		
-	public BuildCityParam(String type, int playerIndex, Corner vertexLocation, boolean free) {
+	public BuildCityParam(String type, int playerIndex, VertexLocation vertexLocation, boolean free) {
 		super();
 		this.type = type;
 		this.playerIndex = playerIndex;
-		this.vertexLocation = vertexLocation;
+		this.vertexLocation = new MapLocationParam(vertexLocation);
 		this.free = free;
 	}
 	
@@ -31,10 +32,10 @@ public class BuildCityParam {
 	public void setPlayerIndex(int playerIndex) {
 		this.playerIndex = playerIndex;
 	}
-	public Corner getVertexLocation() {
+	public MapLocationParam getVertexLocation() {
 		return vertexLocation;
 	}
-	public void setVertexLocation(Corner vertexLocation) {
+	public void setVertexLocation(MapLocationParam vertexLocation) {
 		this.vertexLocation = vertexLocation;
 	}
 	public boolean isFree() {

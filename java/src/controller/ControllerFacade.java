@@ -965,7 +965,7 @@ public class ControllerFacade implements IControllerFacadeListener{
                 		case NorthWest: c = theHex.northWestCorner; break;
                 	}
                 	gamePlayController.placeCity(vertLoc);
-                	serverProxyFacade.buildCity(gamePlayController.getPlayer().getIndex(), c, false);
+                	serverProxyFacade.buildCity(gamePlayController.getPlayer().getIndex(), vertLoc, false);
                 	break;
                 default:
             }
