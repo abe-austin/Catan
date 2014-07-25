@@ -49,8 +49,8 @@ public class DiscardController extends Controller implements IDiscardController,
                     !facade.getClientPlayer().hasDiscarded() && facade.getClientPlayer().getHandSize() > 7 
                     && !getDiscardView().isModalShowing()) {
                 updateValues();
-                getDiscardView().showModal();
                 facade.getClientPlayer().setDiscarded(true);
+                getDiscardView().showModal();
             }
         }
          
