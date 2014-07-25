@@ -57,6 +57,7 @@ public class RollController extends Controller implements IRollController, ICont
 	
 	@Override
 	public void rollDice() {
+            getRollView().closeModal();
                 getResultView().setRollValue(ControllerFacade.getSingleton().rollDice());
 		getResultView().showModal();
                 waitingOnTimer = false;
@@ -77,7 +78,7 @@ public class RollController extends Controller implements IRollController, ICont
                 getRollView().setMessage(seconds + " seconds left to roll");
                 seconds--;
             } else {
-                getRollView().closeModal();
+               // getRollView().closeModal();
                 rollDice();
             }
             
@@ -88,7 +89,7 @@ public class RollController extends Controller implements IRollController, ICont
             int seconds;
 
             public DisplayCountdown() {
-                seconds = 10;
+                seconds = 3;
             }
 
             @Override

@@ -916,7 +916,7 @@ public class ControllerFacade implements IControllerFacadeListener{
                 	break;
                 case GamePlay:
                 	gamePlayController.placeRoad(edgeLoc);
-                	serverProxyFacade.buildRoad(gamePlayController.getPlayer().getIndex(), edgeLoc, true);
+                	serverProxyFacade.buildRoad(gamePlayController.getPlayer().getIndex(), edgeLoc, false);
                 	break;
                 default:
             }
@@ -935,7 +935,7 @@ public class ControllerFacade implements IControllerFacadeListener{
                 	break;
                 case GamePlay:
                 	gamePlayController.placeSettlement(vertLoc);
-                	serverProxyFacade.buildSettlement(gamePlayController.getPlayer().getIndex(), vertLoc, true);
+                	serverProxyFacade.buildSettlement(gamePlayController.getPlayer().getIndex(), vertLoc, false);
                 	break;
                 default:
             }
@@ -961,7 +961,7 @@ public class ControllerFacade implements IControllerFacadeListener{
                 		case NorthWest: c = theHex.northWestCorner; break;
                 	}
                 	gamePlayController.placeCity(vertLoc);
-                	serverProxyFacade.buildCity(gamePlayController.getPlayer().getIndex(), c, true);
+                	serverProxyFacade.buildCity(gamePlayController.getPlayer().getIndex(), c, false);
                 	break;
                 default:
             }

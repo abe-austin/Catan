@@ -457,6 +457,9 @@ public class MapController extends Controller implements IMapController, IContro
 	}
 	
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
+            if(ControllerFacade.getSingleton().getGameState()==GameState.GamePlay && pieceType!=PieceType.ROBBER){
+                allowDisconnected=true;
+            }
 		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor();
 		getView().startDrop(pieceType, playerColor, allowDisconnected);
 	}

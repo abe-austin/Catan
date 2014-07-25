@@ -41,6 +41,9 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
                     if(gameModel.getTurnTracker().getStatus().contains("Playing")){
                         getView().updateGameState("End Turn", true);
                     }
+                    else if(gameModel.getTurnTracker().getStatus().contains("Robbing")){
+                        getView().updateGameState("Robbing", true);
+                    }
                 }
                 else{
                     getView().updateGameState(gameModel.getTurnTracker().getStatus(), false);
