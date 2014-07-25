@@ -1,5 +1,7 @@
 package client.communication;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.List;
 
 import javax.swing.*;
@@ -12,11 +14,20 @@ import client.base.*;
  */
 @SuppressWarnings("serial")
 public class ChatView extends PanelView implements IChatView {
-
+	
+	private LogComponent logPanel;
+	private JScrollPane logScroll;
+	
 	public ChatView() {
+
+		this.setLayout(new BorderLayout());
+		this.setBackground(Color.white);
+
+		logPanel = new LogComponent();
 		
-		// TEMPORARY
-		this.add(new JLabel("Chat View"));
+		logScroll = new JScrollPane(logPanel);
+		
+		this.add(logScroll, BorderLayout.CENTER);
 		
 	}
 	
@@ -27,7 +38,10 @@ public class ChatView extends PanelView implements IChatView {
 
 	@Override
 	public void setEntries(final List<LogEntry> entries) {
-	
+		logPanel.setEntries(entries);
+		JScrollBar vertical = logScroll.getVerticalScrollBar();
+		vertical.setValue(vertical.getMaximum());
+;	
 	}
 	
 }
