@@ -24,6 +24,7 @@ import game.pieces.BoardPiece;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -70,6 +71,7 @@ public class ControllerFacade implements IControllerFacadeListener{
     private PlayerInfo currentPlayerInfo;
     private boolean hasRolled = false;
     private boolean afterRoll=false;
+    private int lastRoll;
     
     private ControllerFacade(){
         setupController = new SetupController();
@@ -82,6 +84,7 @@ public class ControllerFacade implements IControllerFacadeListener{
         serverPoller.setServerProxy(serverProxyFacade);
         gameState = GameState.Login;
         reassignControllers();
+        lastRoll = -1;
         //startPolling();
     }
     
@@ -899,13 +902,14 @@ public class ControllerFacade implements IControllerFacadeListener{
 	 * @return true if the robber can be placed at hexLoc, false otherwise
 	 */
 	public boolean canPlaceRobber(HexLocation hexLoc){//MapController --goes in GamePlay
-            switch(gameState){
-                case GamePlay:
-                    gamePlayController.canPlaceRobber(hexLoc);
-                default:
-                    return false;
-            }
+        switch(gameState){
+            case GamePlay:
+                gamePlayController.canPlaceRobber(hexLoc);
+                return gamePlayController.canPlaceRobber(hexLoc);
+            default:
+                return false;
         }
+	}
 	
 	/**
 	 * This method is called when the user clicks the mouse to place a road. 
@@ -976,13 +980,27 @@ public class ControllerFacade implements IControllerFacadeListener{
 	 * 
 	 * @param hexLoc The robber location
 	 */
-	public void placeRobber(HexLocation hexLoc){//MapController --goes in GamePlay
-            switch(gameState){
-                case GamePlay:
-                	//ServerProxy does not have a method to move the robber
-                default:
-            }
-        }
+		public ArrayList<RobPlayerInfo> placeRobber(HexLocation hexLoc){//MapController --goes in GamePlay
+	            switch(gameState){
+	                case GamePlay:
+	                	Set<Player> thePlayers = gamePlayController.getGameModel().getBoard().getPlayersOn(hexLoc);
+	                	ArrayList<RobPlayerInfo> robInfos = new ArrayList<RobPlayerInfo>();
+	                	for(Player p : thePlayers) {
+	                		RobPlayerInfo r = new RobPlayerInfo();
+	                		r.setName(p.getUsername());
+	                		r.setCatanColor(p.getColor());
+	                		r.setNumCards(p.getHandSize());
+	                		r.setPlayerIndex(p.getIndex());
+	                		robInfos.add(r);
+	                        }
+	                	return robInfos;
+	                	
+	                	//Find all the players on that hexLoc...create RobPlayerInfos off of that and then  store them in the robView
+	                	//ServerProxy does not have a method to move the robber
+	                default:
+	                	return null;
+	            }
+	        }
 	
 	/**
 	 * This method is called when the user requests to place a piece on the map (road, city, or settlement)
@@ -1099,15 +1117,24 @@ public class ControllerFacade implements IControllerFacadeListener{
 	 */
 
 	public int rollDice(){//RollController --goes in GamePlay
-            switch(gameState){
-                case GamePlay:
-                    int roll = gamePlayController.rollDice();                    
-                    serverProxyFacade.rollNumber(clientPlayer.getIndex(), roll);                    
-                    return roll;
-                default:
-                    return -1;
-            }
+        switch(gameState){
+            case GamePlay:
+                int roll = gamePlayController.rollDice();
+                lastRoll = roll;
+                serverProxyFacade.rollNumber(clientPlayer.getIndex(), roll);                    
+                return roll;
+            default:
+                return -1;
         }
+    }
+	
+	public int getRoll(){
+		return lastRoll;
+	}
+	
+	public void clearRoll(){
+		lastRoll = -1;
+	}
         /**
 	 * This is called when the local player ends their turn
 	 */

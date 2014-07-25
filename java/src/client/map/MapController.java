@@ -59,6 +59,12 @@ public class MapController extends Controller implements IMapController, IContro
             else if(ControllerFacade.getSingleton().getGameState()==GameState.GamePlay){
                 updateMap(gameModel.getBoard().getHexes());
                 updateStructures(gameModel.getBoard().getStructures());
+                if(ControllerFacade.getSingleton().isCurrentTurn()){
+                	if(ControllerFacade.getSingleton().getRoll() == 7){
+                		ControllerFacade.getSingleton().clearRoll();
+                		beginRobber();
+                	}
+                }
             }
         
         }
@@ -458,21 +464,25 @@ public class MapController extends Controller implements IMapController, IContro
 	}
 
         @Override
-	public void placeRobber(HexLocation hexLoc) {
-		
-		getView().placeRobber(hexLoc);
-		
-		getRobView().showModal();
-	}
+        public void placeRobber(HexLocation hexLoc) {
+    		
+    		getView().placeRobber(hexLoc);
+    		
+    		ArrayList<RobPlayerInfo> robInfos = ControllerFacade.getSingleton().placeRobber(hexLoc);
+    		RobPlayerInfo[] candidateVictims = robInfos.toArray(new RobPlayerInfo[robInfos.size()]);		
+    		getRobView().setPlayers(candidateVictims);
+    		getRobView().showModal();
+    	}
+    	
+    	public void beginRobber() {
+    		getView().startDrop(PieceType.ROBBER, ControllerFacade.getSingleton().getClientPlayer().getColor(), true);
+    	}
 	
-        @Override
-	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
-            if(ControllerFacade.getSingleton().getGameState()==GameState.GamePlay && pieceType!=PieceType.ROBBER){
-                allowDisconnected=true;
-            }
-		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor();
-		getView().startDrop(pieceType, playerColor, allowDisconnected);
-	}
+    @Override
+    public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
+    		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor();
+    		getView().startDrop(pieceType, playerColor, allowDisconnected);
+    }
 	
         @Override
 	public void cancelMove() {
@@ -490,9 +500,9 @@ public class MapController extends Controller implements IMapController, IContro
 	}
 	
         @Override
-	public void robPlayer(RobPlayerInfo victim) {	
-		
-	}
+        public void robPlayer(RobPlayerInfo victim) {		
+    		ControllerFacade.getSingleton().robPlayer(victim);
+    	}
 	
 }
 

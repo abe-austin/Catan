@@ -1,7 +1,9 @@
 package game.board;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import client.parse.ParsedPort;
 import client.parse.ParsedStructure;
@@ -663,4 +665,38 @@ public class BoardModel {
     		}
     	}
     }//vertex,Player (building type?)
+    
+    
+    
+    public Set<Player> getPlayersOn(HexLocation hexLoc) {
+    	HexTile hTile = getHexTileAt(hexLoc.getX(), hexLoc.getY());
+    	Set<Player> playersOn = new HashSet<Player>();
+    	
+    	if(hTile.northWestCorner.hasStructure()) {
+    		if(hTile.northWestCorner.getStructure().getOwner() != ControllerFacade.getSingleton().getClientPlayer())
+    			playersOn.add(hTile.northWestCorner.getStructure().getOwner());
+    	}
+    	if(hTile.northEastCorner.hasStructure()) {
+    		if(hTile.northEastCorner.getStructure().getOwner() != ControllerFacade.getSingleton().getClientPlayer())
+    		playersOn.add(hTile.northEastCorner.getStructure().getOwner());
+    	}
+    	if(hTile.eastCorner.hasStructure()) {
+    		if(hTile.eastCorner.getStructure().getOwner() != ControllerFacade.getSingleton().getClientPlayer())
+    			playersOn.add(hTile.eastCorner.getStructure().getOwner());
+    	}
+    	if(hTile.southEastCorner.hasStructure()) {
+    		if(hTile.southEastCorner.getStructure().getOwner() != ControllerFacade.getSingleton().getClientPlayer())
+    			playersOn.add(hTile.southEastCorner.getStructure().getOwner());
+    	}
+    	if(hTile.southWestCorner.hasStructure()) {
+    		if(hTile.southWestCorner.getStructure().getOwner() != ControllerFacade.getSingleton().getClientPlayer())
+    			playersOn.add(hTile.southWestCorner.getStructure().getOwner());
+    	}
+    	if(hTile.westCorner.hasStructure()) {
+    		if(hTile.westCorner.getStructure().getOwner() != ControllerFacade.getSingleton().getClientPlayer())
+    			playersOn.add(hTile.westCorner.getStructure().getOwner());
+    	}
+    	
+    	return playersOn;
+    }
 }
