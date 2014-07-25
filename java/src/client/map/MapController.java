@@ -478,7 +478,6 @@ public class MapController extends Controller implements IMapController, IContro
     	
     	public void beginRobber() {
     		getView().startDrop(PieceType.ROBBER, ControllerFacade.getSingleton().getClientPlayer().getColor(), true);
-    		ControllerFacade.getSingleton().discardExtras();
     	}
 	
     @Override

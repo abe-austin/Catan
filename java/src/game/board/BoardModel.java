@@ -372,8 +372,6 @@ public class BoardModel {
     			if(!inBetween.getStructure().getOwner().equals(player))
     				return false;
     		}
-    		else
-    			return false;
     	if(edge != null) {
     		if(edge.hasStructure()) {
     			if(edge.getStructure().getOwner().equals(player))
