@@ -60,6 +60,7 @@ public class MapController extends Controller implements IMapController, IContro
             else if(ControllerFacade.getSingleton().getGameState()==GameState.GamePlay){
                 updateMap(gameModel.getBoard().getHexes());
                 updateStructures(gameModel.getBoard().getStructures());
+                getView().placeRobber(gameModel.getBoard().getRobber().getLocation());
                 if(ControllerFacade.getSingleton().isCurrentTurn()){
                 	if(ControllerFacade.getSingleton().getRoll() == 7){
                 		ControllerFacade.getSingleton().clearRoll();
@@ -477,6 +478,7 @@ public class MapController extends Controller implements IMapController, IContro
     	
     	public void beginRobber() {
     		getView().startDrop(PieceType.ROBBER, ControllerFacade.getSingleton().getClientPlayer().getColor(), true);
+    		ControllerFacade.getSingleton().discardExtras();
     	}
 	
     @Override
