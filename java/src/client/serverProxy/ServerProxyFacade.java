@@ -355,7 +355,7 @@ public class ServerProxyFacade {
 	}
 	
 	public ServerResponse robPlayer(int playerIndex, int victimIndex, HexLocation location) {
-		
+		System.out.println("playerIndex"+playerIndex+"victimIndex"+victimIndex);
 		//create param object and convert to json
 		RobPlayerParam param = new RobPlayerParam("robPlayer", playerIndex, victimIndex, location);
 		

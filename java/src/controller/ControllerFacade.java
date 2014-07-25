@@ -347,12 +347,20 @@ public class ControllerFacade implements IControllerFacadeListener{
 	/**
 	 * This method is called when the user plays a soldier development card.
 	 */
-	public void playSoldierCard(RobPlayerInfo victim){//DevCardController and MapController --goes in GamePlay
+	public void playSoldierCard(RobPlayerInfo victim, HexLocation location){//DevCardController and MapController --goes in GamePlay
             switch(gameState){
                 case GamePlay:
                     gamePlayController.playSoldierCard();
-                    serverProxyFacade.playSoldier(clientPlayer.getIndex(), victim.getId(),
-                            currentGameModel.getBoard().getRobber().getLocation());
+                    int i =0;
+                    int id=0;
+                    for(Player player: currentGameModel.getPlayers()){
+                        if(player.getUsername().equals(victim.getName())){
+                            id=i;
+                            break;
+                        }
+                        i++;
+                    }
+                    serverProxyFacade.playSoldier(clientPlayer.getIndex(), id, location);
                 default:
                     
             }

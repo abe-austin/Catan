@@ -505,7 +505,9 @@ public class MapController extends Controller implements IMapController, IContro
         @Override
         public void robPlayer(RobPlayerInfo victim) {	
             if(soldier){
-                ControllerFacade.getSingleton().playSoldierCard(victim);
+                System.out.println("victim name "+victim.getName()+" id "+victim.getId());
+                
+                ControllerFacade.getSingleton().playSoldierCard(victim, lastRobLoc);
             }
             else{
     		ControllerFacade.getSingleton().robPlayer(victim, lastRobLoc);
