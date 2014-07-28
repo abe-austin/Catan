@@ -1,19 +1,31 @@
 package server;
 
+import shared.communication.ServerResponse;
+
 /**
  *
- * @author Kevin
+ * @author Kevin MacMaster
  */
 public class GameHandler implements IHandler {
 
     @Override
-    public void handle(String command, Object Json) {
-        if(!command.contains("/game/"))
-            return;
+    public ServerResponse handle(String command, Object Json) {
+        if(!command.contains("/user/"))
+            return null;
         
         switch(command) {
+            case "/game/reset":
+		
+				
+            case "/game/commands":
+                   
+
+            case "game/addAI":
+                
             
+            case "/game/create":
         }
+        return null;
     }
     
 }

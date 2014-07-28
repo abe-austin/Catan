@@ -1,9 +1,11 @@
 package server;
 
+import shared.communication.ServerResponse;
+
 /**
  *
  * @author Kevin
  */
 public interface IHandler {
-    public void handle(String command, Object Json);
+    public ServerResponse handle(String command, Object Json);
 }

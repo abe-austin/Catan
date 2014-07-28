@@ -22,9 +22,9 @@ public class ServerController {
         
         handlers = new ArrayList<>();
         
-        handlers.add(new UserHandler());
+        handlers.add(new UserHandler(this));
         handlers.add(new MovesHandler());
-        handlers.add(new AllGamesHandler());
+        handlers.add(new AllGamesHandler(this));
         handlers.add(new GameHandler());
     }
     
