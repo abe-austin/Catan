@@ -24,6 +24,7 @@ public class GameModel {
     private boolean randomNumbers;
     private boolean randomPorts;
     private boolean checkDiscard;
+    private String gameName;
 
     public GameModel() {
         board = new BoardModel(this);
@@ -35,6 +36,15 @@ public class GameModel {
         version = 0;
         winner = -1;
         checkDiscard = false;
+        gameName = "";
+    }
+    
+    public void setGameName(String name) {
+        gameName = name;
+    }
+    
+    public String getGameName() {
+        return gameName;
     }
 
     /**

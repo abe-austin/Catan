@@ -102,4 +102,20 @@ public class ServerController {
                 handler.handle(command, Json);
         }
         
+        /**
+         * Returns a game by the name of the game
+         * 
+         * @pre name is the name of an existing not-complete game
+         * @param name of game
+         * @return matching GameModel
+         */
+        public GameModel getGameByName(String name) {
+            for(GameModel game : model.getGames()) {
+                if(game.getGameName().equals(name))
+                    return game;
+            }
+            
+            return null;
+        }
+        
 }
