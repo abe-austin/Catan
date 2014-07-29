@@ -106,7 +106,7 @@ public class ServerController {
                 if(response != null)
                 	return response;
             }
-            return null;
+            return new ServerResponse(400, "Command not supported");
         }
         
         /**

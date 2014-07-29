@@ -247,7 +247,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 
     /**
@@ -324,7 +324,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 
 	}
 	
@@ -349,7 +349,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 
 	}
 	
@@ -364,7 +364,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -388,7 +388,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -413,7 +413,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -440,7 +440,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -471,7 +471,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -500,7 +500,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -526,7 +526,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -551,7 +551,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -580,7 +580,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -614,7 +614,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -645,7 +645,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -672,7 +672,7 @@ public class ServerProxyFacade {
 		//System.out.println("json after "+(String)response.getBody());
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -697,7 +697,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -726,7 +726,7 @@ public class ServerProxyFacade {
 //		System.out.println("Json after "+(String)response.getBody());
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
@@ -752,7 +752,7 @@ public class ServerProxyFacade {
 		
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
-                return response;
+		return response;
 	}
 	
     /**
