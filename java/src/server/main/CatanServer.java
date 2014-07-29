@@ -10,10 +10,14 @@ import server.*;
 import shared.communication.*;
 
 
+/**
+ * @author brentroberts
+ */
 public class CatanServer {
 	private static int SERVER_PORT_NUMBER = 8080;
 	private static final int MAX_WAITING_CONNECTIONS = 10;
 	private ServerController controller;
+	private HttpServer server;
 
 	static {
 		try {
@@ -24,6 +28,11 @@ public class CatanServer {
 		}
 	}
 
+	/**
+	 * creates a log and sets the level
+	 * 
+	 * @throws IOException
+	 */
 	private static void initLog() throws IOException {
 
 		Level logLevel = Level.FINE;
@@ -38,12 +47,16 @@ public class CatanServer {
 		fileHandler.setFormatter(new SimpleFormatter());
 	}
 
-	private HttpServer server;
-
 	private CatanServer() {
 		controller = new ServerController();
 	}
 
+	
+	/**
+	 * runs the server
+	 * 
+	 * @pre <code>SERVER_PORT_NUMBER</code> is set to a valid port
+	 */
 	private void run() {
 
 		try {
@@ -62,6 +75,10 @@ public class CatanServer {
 		server.start();
 	}
 	
+	/**
+	 * Processes the http request and sends the request info to the handlers to be handled
+	 * 
+	 */
 	private com.sun.net.httpserver.HttpHandler handler = new com.sun.net.httpserver.HttpHandler() {	
 		@Override
 		public void handle(com.sun.net.httpserver.HttpExchange exchange) throws IOException {
@@ -80,6 +97,12 @@ public class CatanServer {
 		}
 	};
 	
+	/**
+	 * gets and returns the command from the http request
+	 * 
+	 * @param exchange
+	 * @return the command from the request
+	 */
 	private String getBody(HttpExchange exchange) {
         @SuppressWarnings("resource")
 		java.util.Scanner s = new java.util.Scanner(exchange.getRequestBody()).useDelimiter("\\A");
@@ -88,6 +111,11 @@ public class CatanServer {
         return command;
 	}
 	
+	/**
+	 * creates and runs the server
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		if(args.length == 0)
 			SERVER_PORT_NUMBER = 8081;
