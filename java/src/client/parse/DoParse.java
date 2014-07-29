@@ -273,10 +273,13 @@ public class DoParse
 			for(int i = 0; i < parsedPlayer.getCities(); i++) {
 				boardPieces.add(new City(player));
 			}
+                        int roadCount=0;
 			for(int i = 0; i < parsedPlayer.getRoads(); i++) {
-				boardPieces.add(new Road(player));
+				boardPieces.add(new Road(player));roadCount++;
 			}
 			player.setBoardPieces(boardPieces);
+                        
+                //System.out.println("doParse setBoardPieces roads "+ roadCount);
 			//resourceCards
 			HashSet<ResourceCard> resourceCards = new HashSet<ResourceCard>();
 			for(int i = 0; i< parsedPlayer.getPlayerResources().getBrick(); i++) {
@@ -369,7 +372,9 @@ public class DoParse
 		
 		//theRest
 		String gettingRoads = theRest.split("roads\":")[1];
+               // System.out.println("doParse Roads "+ gettingRoads);
 		int roads = Integer.parseInt(gettingRoads.split(",")[0]);
+               // System.out.println("doParse Roads "+ roads);
 		String gettingCities = theRest.split("cities\":")[1];
 		int cities = Integer.parseInt(gettingCities.split(",")[0]);
 		String gettingSettlements = theRest.split("settlements\":")[1];

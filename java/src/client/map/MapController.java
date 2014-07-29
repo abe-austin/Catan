@@ -351,6 +351,7 @@ public class MapController extends Controller implements IMapController, IContro
 	public void placeRoad(EdgeLocation edgeLoc) {
 		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor(); //Assume this is proper method to determine the color
 		getView().placeRoad(edgeLoc, playerColor);
+                //System.out.println("placeRoad mapcontroller");
                 ControllerFacade.getSingleton().placeRoad(edgeLoc);
                 pieceBuilt();
 	}
@@ -508,6 +509,7 @@ public class MapController extends Controller implements IMapController, IContro
                 System.out.println("victim name "+victim.getName()+" id "+victim.getId());
                 
                 ControllerFacade.getSingleton().playSoldierCard(victim, lastRobLoc);
+                soldier=false;
             }
             else{
     		ControllerFacade.getSingleton().robPlayer(victim, lastRobLoc);

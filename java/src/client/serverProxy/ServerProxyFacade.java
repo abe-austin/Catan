@@ -355,7 +355,7 @@ public class ServerProxyFacade {
 	}
 	
 	public ServerResponse robPlayer(int playerIndex, int victimIndex, HexLocation location) {
-		System.out.println("playerIndex"+playerIndex+"victimIndex"+victimIndex);
+		//System.out.println("in server robPlayer  playerIndex"+playerIndex+"victimIndex"+victimIndex);
 		//create param object and convert to json
 		RobPlayerParam param = new RobPlayerParam("robPlayer", playerIndex, victimIndex, location);
 		
@@ -491,7 +491,7 @@ public class ServerProxyFacade {
      * @return					<code>ServerResponse</code> object
      */
 	public ServerResponse playSoldier(int playerIndex, int victimIndex, HexLocation location) {
-		System.out.println("in server soldier playerIndex "+playerIndex+"victim "+victimIndex);
+		//System.out.println("in server soldier playerIndex "+playerIndex+"victim "+victimIndex);
 		//create param object and convert to json
 		PlaySoldierParam param = new PlaySoldierParam("Soldier", playerIndex, victimIndex, location);
 		
@@ -571,14 +571,14 @@ public class ServerProxyFacade {
      * @return				<code>ServerResponse</code> object
      */
 	public ServerResponse buildRoad(int playerIndex, EdgeLocation roadLocation, boolean free) {
-		
+		//System.out.println("placeRoad serverProxy");
 		//create param object and convert to json
 		BuildRoadParam param = new BuildRoadParam("buildRoad", playerIndex, roadLocation, free);
 		
 		//make post to proper url using json as the body of the request
 		String url = "/moves/buildRoad";
 		ServerResponse  response = server.doPost(url, param);
-		
+		//System.out.println("json after buildRoad "+(String)response.getBody());
 		//converter.convert(response, GameModel.class);
 		converter.convertGameModel(response);
                 return response;

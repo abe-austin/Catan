@@ -65,7 +65,8 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
                 for(Player player : gameModel.getPlayers()) {
                     getView().updatePlayer(player.getIndex(), player.getPoints(), 
                             gameModel.getTurnTracker().getCurrentTurn() == player.getIndex(),
-                            player.hasLargestArmy(), player.hasLongestRoad());
+                            player.getIndex()==gameModel.getTurnTracker().getLargestArmy(),
+                            player.getIndex()==gameModel.getTurnTracker().getLongestRoad());
                 }
             }
         }

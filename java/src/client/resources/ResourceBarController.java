@@ -42,6 +42,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
                 getView().setElementEnabled(ResourceBarElement.SETTLEMENT, facade.buildSettlement());
                 getView().setElementEnabled(ResourceBarElement.PLAY_CARD, facade.startPlayCard().size() > 0);
 
+                getView().setElementAmount(ResourceBarElement.SOLDIERS, facade.getClientPlayer().getSoldiersPlayed());
                 getView().setElementAmount(ResourceBarElement.WOOD, facade.getNumOfResourceCards(ResourceType.WOOD));
                 getView().setElementAmount(ResourceBarElement.WHEAT, facade.getNumOfResourceCards(ResourceType.WHEAT));
                 getView().setElementAmount(ResourceBarElement.SHEEP, facade.getNumOfResourceCards(ResourceType.SHEEP));
