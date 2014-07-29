@@ -156,11 +156,11 @@ public class ServerAccessTest {
 		assertResponseCorrect(roll, GameModel.class);
 	}
 	
-	private void robPlayer() {
-		
-		ServerResponse rob = server.robPlayer(0, 2, new Corner(new ArrayList<VertexLocation>()));
-		assertResponseCorrect(rob, GameModel.class);
-	}
+//	private void robPlayer() {
+//		
+//		ServerResponse rob = server.robPlayer(0, 2, new HexLocation());
+//		assertResponseCorrect(rob, GameModel.class);
+//	}
 	
 	private void finishTurn() {
 		
@@ -180,12 +180,12 @@ public class ServerAccessTest {
 		assertResponseCorrect(year, GameModel.class);
 	}
 	
-	private void playRoadBuilding() {
-		
-		ServerResponse road = server.playRoadBuilding(0, new Edge(new ArrayList<EdgeLocation>()),
-				new Edge(new ArrayList<EdgeLocation>()));
-		assertResponseCorrect(road, GameModel.class);
-	}
+//	private void playRoadBuilding() {
+//		
+//		ServerResponse road = server.playRoadBuilding(0, new Edge(new ArrayList<EdgeLocation>()),
+//				new Edge(new ArrayList<EdgeLocation>()));
+//		assertResponseCorrect(road, GameModel.class);
+//	}
 	
 	private void playSoldier() {
 		
@@ -205,29 +205,29 @@ public class ServerAccessTest {
 		assertResponseCorrect(monument, GameModel.class);
 	}
 	
-	private void buildRoad() {
-		
-		ServerResponse road = server.buildRoad(0, new Edge(new ArrayList<EdgeLocation>()));
-		assertResponseCorrect(road, GameModel.class);
-	}
+//	private void buildRoad() {
+//		
+//		ServerResponse road = server.buildRoad(0, new Edge(new ArrayList<EdgeLocation>()));
+//		assertResponseCorrect(road, GameModel.class);
+//	}
+//	
+//	private void buildSettlement() {
+//		
+//		ServerResponse settlemet = server.buildSettlement(0,  new Corner(new ArrayList<VertexLocation>()), true);
+//		assertResponseCorrect(settlemet, GameModel.class);
+//	}
+//	
+//	private void buildCity() {
+//		
+//		ServerResponse city = server.buildCity(0,  new Corner(new ArrayList<VertexLocation>()), true);
+//		assertResponseCorrect(city, GameModel.class);
+//	}
 	
-	private void buildSettlement() {
-		
-		ServerResponse settlemet = server.buildSettlement(0,  new Corner(new ArrayList<VertexLocation>()), true);
-		assertResponseCorrect(settlemet, GameModel.class);
-	}
-	
-	private void buildCity() {
-		
-		ServerResponse city = server.buildCity(0,  new Corner(new ArrayList<VertexLocation>()), true);
-		assertResponseCorrect(city, GameModel.class);
-	}
-	
-	private void offerTrade() {
-		
+//	private void offerTrade() {
+//		
 //		ServerResponse trade = server.offerTrade(0, new ArrayList<ResourceType>(), 3);
 //		assertResponseCorrect(trade, GameModel.class);
-	}
+//	}
 	
 	private void acceptTrade() {
 		

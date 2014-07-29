@@ -1,5 +1,7 @@
 package server;
 
+import shared.communication.ServerResponse;
+
 /**
  *
  * @author Kevin MacMaster
@@ -7,21 +9,18 @@ package server;
 public class GameHandler implements IHandler {
 
     @Override
-    public Object handle(String command, Object Json) {
+    public ServerResponse handle(String command, Object Json) {
         if(!command.contains("/user/"))
             return null;
         
         switch(command) {
-            case "/game/reset":
-		
-				
+        	case "/game/model":
+        		
+            case "/game/reset":	
+            	
             case "/game/commands":
-                   
-
-            case "game/addAI":
-                
-            
-            case "/game/create":
+            	
+            case "/game/addAI":         
         }
         return null;
     }

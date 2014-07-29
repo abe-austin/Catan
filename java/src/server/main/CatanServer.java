@@ -8,14 +8,15 @@ import java.util.logging.*;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.*;
 
-import server.ServerController;
-import server.UserHandler;
+import server.*;
 import shared.communication.*;
 
 
 public class CatanServer {
 	private static int SERVER_PORT_NUMBER = 8080;
 	private static final int MAX_WAITING_CONNECTIONS = 10;
+	private ServerController controller;
+	private Gson gson;
 
 	static {
 		try {
@@ -43,6 +44,8 @@ public class CatanServer {
 	private HttpServer server;
 
 	private CatanServer() {
+		controller = new ServerController();
+		gson = new Gson();
 		return;
 	}
 
@@ -60,37 +63,37 @@ public class CatanServer {
 		}
 
 		server.setExecutor(null);
-
-		server.createContext("/user/register", registerUser);
-
-
-
+		server.createContext("/", handler);
 		server.start();
 	}
-
-	private com.sun.net.httpserver.HttpHandler registerUser = new com.sun.net.httpserver.HttpHandler() {	
+	
+	private com.sun.net.httpserver.HttpHandler handler = new com.sun.net.httpserver.HttpHandler() {	
 		@Override
 		public void handle(com.sun.net.httpserver.HttpExchange exchange) throws IOException {
 			byte[] response = new byte[256];
-	   		String command = exchange.getRequestURI().toString().substring(0);
-
-	        java.util.Scanner s = new java.util.Scanner(exchange.getRequestBody()).useDelimiter("\\A");
-	        String string = s.hasNext() ? s.next() : "";
+			
+			String requestBody = getCommand(exchange);
 	        
-	        RegisterUserParam param = new Gson().fromJson(string, RegisterUserParam.class);
-
-	        ServerController controller = new ServerController();
-	        UserHandler handler = new UserHandler(controller);
+	        RegisterUserParam param = gson.fromJson(requestBody, RegisterUserParam.class);
 	        
-	        Object serverResponse = handler.handle(command, param);
+	        ServerResponse serverResponse = controller.handleCommand(exchange.getRequestURI().toString().substring(0),
+	        		param);
 	        
-	        response = new Gson().toJson(serverResponse).getBytes("UTF-8");
+	        response = gson.toJson(serverResponse.getBody()).getBytes("UTF-8");
 	        
-	        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.length);
+	        exchange.sendResponseHeaders(serverResponse.getCode(), response.length);
 	        exchange.getResponseBody().write(response);
 	        exchange.close();	
 		}
 	};
+	
+	private String getCommand(HttpExchange exchange) {
+        @SuppressWarnings("resource")
+		java.util.Scanner s = new java.util.Scanner(exchange.getRequestBody()).useDelimiter("\\A");
+        String command = s.hasNext() ? s.next() : "";
+        s.close();
+        return command;
+	}
 	
 	public static void main(String[] args) {
 		if(args.length == 0)

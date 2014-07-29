@@ -7,5 +7,5 @@ import shared.communication.ServerResponse;
  * @author Kevin
  */
 public interface IHandler {
-    public Object handle(String command, Object Json);
+    public ServerResponse handle(String command, Object Json);
 }

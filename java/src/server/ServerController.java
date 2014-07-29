@@ -1,7 +1,10 @@
 package server;
 
 import game.GameModel;
+
 import java.util.ArrayList;
+
+import shared.communication.ServerResponse;
 import system.Password;
 import system.User;
 import system.Username;
@@ -97,9 +100,13 @@ public class ServerController {
          * @param Json object to be passed to game
          * @post object updates game
          */
-        public void handleCommand(String command, Object Json) {
-            for(IHandler handler : handlers)
-                handler.handle(command, Json);
+        public ServerResponse handleCommand(String command, Object Json) {
+            for(IHandler handler : handlers) {
+            	ServerResponse response = handler.handle(command, Json);
+                if(response != null)
+                	return response;
+            }
+            return null;
         }
         
         /**

@@ -2,6 +2,7 @@ package server;
 
 import shared.communication.ServerResponse;
 
+
 /**
  *
  * @author Kevin MacMaster
@@ -14,13 +15,13 @@ public class UserHandler implements IHandler{
     }
 
     @Override
-    public Object handle(String command, Object Json) {
+    public ServerResponse handle(String command, Object Json) {
         if(!command.contains("/user/"))
             return null;
         
         switch(command) {
-            case "/user/login":
-                				
+            case "/user/login":	
+            	
             case "/user/register":
         }
         

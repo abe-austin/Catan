@@ -1,5 +1,7 @@
 package server;
 
+import shared.communication.ServerResponse;
+
 /**
  *
  * @author Kevin MacMaster
@@ -12,14 +14,17 @@ public class AllGamesHandler implements IHandler {
     }
     
     @Override
-    public Object handle(String command, Object Json) {
-        if(!command.contains("/user/"))
-            return null;
+    public ServerResponse handle(String command, Object Json) {
         
         switch(command) {
+        	case "/games/list":
+        		
+        	case "/games/create":
+        		
+        	case "/games/join":
+        		
             case "/games/save":
-                
-	
+            	
             case "/games/load":
         }
         return null;
