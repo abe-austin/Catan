@@ -1,6 +1,4 @@
-/client
-/controller
-/game
-/mainTest
-/player
-/shared
+/client/
+/game/
+/mainTest/
+/player/

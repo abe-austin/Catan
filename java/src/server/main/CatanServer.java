@@ -1,11 +1,9 @@
 package server.main;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.util.logging.*;
 
-import com.google.gson.Gson;
 import com.sun.net.httpserver.*;
 
 import server.*;
@@ -19,9 +17,7 @@ public class CatanServer {
 	private static int SERVER_PORT_NUMBER = 8080;
 	private static final int MAX_WAITING_CONNECTIONS = 10;
 	private ServerController controller;
-	private Gson gson;
 	private HttpServer server;
-
 
 	static {
 		try {
@@ -53,8 +49,6 @@ public class CatanServer {
 
 	private CatanServer() {
 		controller = new ServerController();
-		gson = new Gson();
-		return;
 	}
 
 	
@@ -95,7 +89,7 @@ public class CatanServer {
 	        ServerResponse serverResponse = controller.handleCommand(exchange.getRequestURI().toString().substring(0),
 	        		requestBody);
 	        
-	        response = gson.toJson(serverResponse.getBody()).getBytes("UTF-8");
+	        response = JsonUtils.convertToJson(serverResponse.getBody()).getBytes("UTF-8");
 
 	        exchange.sendResponseHeaders(serverResponse.getCode(), response.length);
 	        exchange.getResponseBody().write(response);
