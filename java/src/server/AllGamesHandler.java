@@ -51,20 +51,6 @@ public class AllGamesHandler implements IHandler {
     }
     
     /**
-     * Games the GameModel for a given game
-     * 
-     * @param param info on game
-     * @return GameModel or failure
-     */
-    public ServerResponse getGameModel(GetGameModelParam param) {
-        ServerResponse response = null;
-        
-        
-        
-        return response;
-    }
-    
-    /**
      * Saves the GameModel of a given game
      * 
      * @param param info on game
