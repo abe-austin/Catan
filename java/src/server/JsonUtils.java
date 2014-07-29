@@ -17,7 +17,7 @@ public class JsonUtils {
      * @return correct object type (not Json)
      * @post Json object is now a Catan object
      */
-    public static Object convertFromJson(Object conversionType, String toConvert) {       
-        return new Gson().fromJson(toConvert, conversionType.getClass());
+    public static Object convertFromJson(Class conversionType, String toConvert) {       
+        return new Gson().fromJson(toConvert, conversionType);
     }
 }

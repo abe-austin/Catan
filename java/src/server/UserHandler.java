@@ -22,11 +22,10 @@ public class UserHandler implements IHandler{
         switch(command) {
             case "/user/login":	
             	return loginUser((LoginUserParam)JsonUtils.convertFromJson(
-                                    new LoginUserParam(null,null), (String)Json));
+                                    LoginUserParam.class, (String)Json));
             case "/user/register":
                 return registerUser((RegisterUserParam)JsonUtils.convertFromJson(
-                                    new RegisterUserParam(null,null), (String)Json));
-                
+                                    RegisterUserParam.class, (String)Json));
             default:
                 return null;
         }

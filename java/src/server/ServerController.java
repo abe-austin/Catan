@@ -3,6 +3,7 @@ package server;
 import game.GameModel;
 
 import java.util.ArrayList;
+import shared.communication.CreateGameParam;
 
 import shared.communication.ServerResponse;
 import system.Password;
@@ -105,6 +106,57 @@ public class ServerController {
     }
     
     /**
+         * Returns a game by the name of the game
+         * 
+         * @pre name is the name of an existing not-complete game
+         * @param name of game
+         * @return matching GameModel
+         */
+        public GameModel getGameByName(String name) {
+            for(GameModel game : model.getGames()) {
+                if(game.getGameName().equals(name))
+                    return game;
+            }
+            
+            return null;
+        }
+        
+        /**
+         * Checks to see if game already exists
+         * 
+         * @param gameName name of game
+         * @return true if no game of gameName exists and 
+         *          gameName string meets basic requirements
+         */
+        public boolean canCreateGame (String gameName) {
+            if(gameName.length() > 4 || gameName.length() > 20)
+                return false;
+            
+            return (getGameByName(gameName) != null);
+        }
+        
+        /**
+         * Creates new Game and adds it to model
+         * 
+         * @pre Game does not have same name as another game
+         * @param param info on game
+         * @return new Game
+         * @post new game is added to ServerModel
+         */
+        public GameModel createGame(CreateGameParam param) {
+            GameModel game = new GameModel();
+            
+            game.setRandomHexes(param.isRandomHexes());
+            game.setRandomNumbers(param.isRandomNumbers());
+            game.setRandomPorts(param.isRandomPorts());
+            game.setGameName(param.getName());
+            
+            model.addGame(game);
+            
+            return game;
+        }
+    
+        /**
          * Handles a given command
          * 
          * @pre command is one of the pre-determined commands 
@@ -122,21 +174,4 @@ public class ServerController {
             }
             return new ServerResponse(400, "Command not supported");
         }
-        
-        /**
-         * Returns a game by the name of the game
-         * 
-         * @pre name is the name of an existing not-complete game
-         * @param name of game
-         * @return matching GameModel
-         */
-        public GameModel getGameByName(String name) {
-            for(GameModel game : model.getGames()) {
-                if(game.getGameName().equals(name))
-                    return game;
-            }
-            
-            return null;
-        }
-        
 }
