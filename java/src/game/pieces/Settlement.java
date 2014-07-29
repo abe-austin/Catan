@@ -6,17 +6,17 @@ import shared.definitions.PieceType;
 
 public class Settlement extends BoardPiece {
 	private Cost cost;
-	
+
 	public Settlement(Player owner) {
-            super(owner);
-            cost = Cost.SETTLEMENT;
+		super(owner);
+		cost = Cost.SETTLEMENT;
 	}
-        
-        @Override
-        public PieceType getPieceType() {
-            return PieceType.SETTLEMENT;
-        }
-	
+
+	@Override
+	public PieceType getPieceType() {
+		return PieceType.SETTLEMENT;
+	}
+
 	/**
 	 * @return What the associated cost is
 	 */

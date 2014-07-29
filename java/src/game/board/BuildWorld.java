@@ -46,6 +46,9 @@ public class BuildWorld {
 		return tiles;
 	}
 	
+	/**
+	 * creates the different tiles for the map
+	 */
 	public void createTiles() {
 		//Key
 		// 0 = Wood
@@ -191,6 +194,11 @@ public class BuildWorld {
 		tiles.add(p3p0);
 	}
 	
+	/**
+	 * gets a random port type
+	 * @param number
+	 * @return
+	 */
 	public HexTile getPortType(int number) {
 		switch(number) {
 			case 0: return new PortTile(PortType.THREE);
@@ -203,6 +211,13 @@ public class BuildWorld {
 		}
 	}
 	
+	/**
+	 * gets a random land type based of the number
+	 * @param number
+	 * @param numberTokens
+	 * @param index
+	 * @return
+	 */
 	public HexTile getLandType(int number, ArrayList<Integer> numberTokens, int index) {
 		int theToken = 0;
 		if(seenDesert || index == 18)
@@ -220,6 +235,9 @@ public class BuildWorld {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public void addEdges() {
 		//0
 		EdgeLocation l1 = new EdgeLocation(new HexLocation(0, -1), EdgeDirection.South);

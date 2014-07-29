@@ -8,21 +8,20 @@ import shared.definitions.ResourceType;
  * @author Kevin MacMaster
  */
 public class ResourceCard {
-    private ResourceType resourceType;
+	private ResourceType resourceType;
 
-    public ResourceCard(ResourceType type) {
-        this.resourceType = type;
-    }
+	public ResourceCard(ResourceType type) {
+		this.resourceType = type;
+	}
 
+	public CardType getCardType() {
+		return CardType.RESOURCE;
+	}
 
-    public CardType getCardType() {
-        return CardType.RESOURCE;
-    }
-
-    /**
-     * @return the resource
-     */
-    public ResourceType getResourceType() {
-        return resourceType;
-    }
+	/**
+	 * @return the resource
+	 */
+	public ResourceType getResourceType() {
+		return resourceType;
+	}
 }

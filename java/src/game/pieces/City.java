@@ -6,17 +6,17 @@ import shared.definitions.PieceType;
 
 public class City extends BoardPiece {
 	private Cost cost;
-	
+
 	public City(Player owner) {
-            super(owner);
-            cost = Cost.CITY;
+		super(owner);
+		cost = Cost.CITY;
 	}
 
-        @Override
-        public PieceType getPieceType() {
-            return PieceType.CITY;
-        }
-	
+	@Override
+	public PieceType getPieceType() {
+		return PieceType.CITY;
+	}
+
 	/**
 	 * @return What the associated cost is
 	 */

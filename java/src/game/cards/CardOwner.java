@@ -11,160 +11,179 @@ import shared.definitions.SpecialCardType;
  * @author Kevin MacMaster
  */
 public class CardOwner {
-        protected Set<ResourceCard> resourceCards;
-        protected Set<DevelopmentCard> developmentCards;
-        protected Set<SpecialCard> specialCards;
+	protected Set<ResourceCard> resourceCards;
+	protected Set<DevelopmentCard> developmentCards;
+	protected Set<SpecialCard> specialCards;
 
-        public CardOwner() {
-            resourceCards = new HashSet<ResourceCard>();
-            developmentCards = new HashSet<DevelopmentCard>();
-            specialCards = new HashSet<SpecialCard>();
-        }
+	public CardOwner() {
+		resourceCards = new HashSet<ResourceCard>();
+		developmentCards = new HashSet<DevelopmentCard>();
+		specialCards = new HashSet<SpecialCard>();
+	}
 
-        /**
-         * adds a resource to the owner's resource cards
-         * @param resourceCard the card to be given to the owner
-         */
-        public void addResourceCard(ResourceCard resourceCard){
-            resourceCards.add(resourceCard);
-        }
-        /**
-         * removes a resource card from the owner and gives it to someone else (or bank)
-         * @pre   owner has at least one card of the specified resource type
-         * @post  the owner has one less resource card of the specified type
-         * @param resourceType the type of resource to be given
-         * @return a ResourceCard of the specified type
-         */
-        public ResourceCard giveResourceCard(ResourceType resourceType){
-            for(ResourceCard card : resourceCards) {
-                if(card.getResourceType().equals(resourceType)) {
-                    resourceCards.remove(card);
-                    return card;
-                }
-            }
+	/**
+	 * adds a resource to the owner's resource cards
+	 * 
+	 * @param resourceCard
+	 *            the card to be given to the owner
+	 */
+	public void addResourceCard(ResourceCard resourceCard) {
+		resourceCards.add(resourceCard);
+	}
 
-            return null;
-        }
-        /**
-         * adds a specified development card to the owner's development cards
-         * @param devCard the development card to be given to the owner
-         */
-        public void addDevelopmentCard(DevelopmentCard devCard){
-            developmentCards.add(devCard);
-        }
+	/**
+	 * removes a resource card from the owner and gives it to someone else (or
+	 * bank)
+	 * 
+	 * @pre owner has at least one card of the specified resource type
+	 * @post the owner has one less resource card of the specified type
+	 * @param resourceType
+	 *            the type of resource to be given
+	 * @return a ResourceCard of the specified type
+	 */
+	public ResourceCard giveResourceCard(ResourceType resourceType) {
+		for (ResourceCard card : resourceCards) {
+			if (card.getResourceType().equals(resourceType)) {
+				resourceCards.remove(card);
+				return card;
+			}
+		}
 
-        /**
-         * use the specific development card
-         * @pre   owner has at least one card of the specified development type
-         * @post  the owner has one less development card of the specified type
-         * @param devCardType the type of development card to be given
-         * @return a Development card of the given type
-         */
-        public DevelopmentCard giveDevelopmentCard(DevCardType devCardType){
-            for(DevelopmentCard card : developmentCards) {
-                if(card.getDevelopmentType().equals(devCardType)) {
-                    developmentCards.remove(card);
-                    return card;
-                }
-            }
+		return null;
+	}
 
-            return null;
-        }
+	/**
+	 * adds a specified development card to the owner's development cards
+	 * 
+	 * @param devCard
+	 *            the development card to be given to the owner
+	 */
+	public void addDevelopmentCard(DevelopmentCard devCard) {
+		developmentCards.add(devCard);
+	}
 
-        /**
-         * gives a special card (LargestArmy or LongestRoad) to the owner
-         * @param specialCard the special card to be given to the owner
-         */
-        public void addSpecialCard(SpecialCard specialCard){
-            specialCards.add(specialCard);
-        }
+	/**
+	 * use the specific development card
+	 * 
+	 * @pre owner has at least one card of the specified development type
+	 * @post the owner has one less development card of the specified type
+	 * @param devCardType
+	 *            the type of development card to be given
+	 * @return a Development card of the given type
+	 */
+	public DevelopmentCard giveDevelopmentCard(DevCardType devCardType) {
+		for (DevelopmentCard card : developmentCards) {
+			if (card.getDevelopmentType().equals(devCardType)) {
+				developmentCards.remove(card);
+				return card;
+			}
+		}
 
-        /**
-         * removes a specified special card from the owner and gives it to someone else
-         * @pre   the owner has the special card of the specified type
-         * @post  the owner does not have a card of the specified type
-         * @param specialCardType the type of special card to be given
-         *                          (LARGEST_ARMY or LONGEST_ROAD)
-         * @return the specified SpecialCard
-         */
-        public SpecialCard giveSpecialCard(SpecialCardType specialCardType){
-            for(SpecialCard card : specialCards) {
-                if(card.getSpecial().equals(specialCardType)) {
-                    specialCards.remove(card);
-                    return card;
-                }
-            }
+		return null;
+	}
 
-            return null;
-        }
+	/**
+	 * gives a special card (LargestArmy or LongestRoad) to the owner
+	 * 
+	 * @param specialCard
+	 *            the special card to be given to the owner
+	 */
+	public void addSpecialCard(SpecialCard specialCard) {
+		specialCards.add(specialCard);
+	}
 
-        /**
-         * @param resourceType the type of resource being sought after
-         * @return true if the owner has at the number needed, false otherwise
-         */
-        public boolean hasResource(ResourceType resourceType, int number){
-            for(ResourceCard card : resourceCards) {
-                if(card.getResourceType().equals(resourceType))
-                    number--;
-            }
+	/**
+	 * removes a specified special card from the owner and gives it to someone
+	 * else
+	 * 
+	 * @pre the owner has the special card of the specified type
+	 * @post the owner does not have a card of the specified type
+	 * @param specialCardType
+	 *            the type of special card to be given (LARGEST_ARMY or
+	 *            LONGEST_ROAD)
+	 * @return the specified SpecialCard
+	 */
+	public SpecialCard giveSpecialCard(SpecialCardType specialCardType) {
+		for (SpecialCard card : specialCards) {
+			if (card.getSpecial().equals(specialCardType)) {
+				specialCards.remove(card);
+				return card;
+			}
+		}
 
-            return number <= 0;
-        }
+		return null;
+	}
 
-        /**
-         * same as above with one resource
-         */
-        public boolean hasResource(ResourceType resourceType) {
-            return hasResource(resourceType, 1);
-        }
+	/**
+	 * @param resourceType
+	 *            the type of resource being sought after
+	 * @return true if the owner has at the number needed, false otherwise
+	 */
+	public boolean hasResource(ResourceType resourceType, int number) {
+		for (ResourceCard card : resourceCards) {
+			if (card.getResourceType().equals(resourceType))
+				number--;
+		}
 
-        /**
-         * @param devCardType the type of development card being sought after
-         * @return true if the owner has at least one, false otherwise
-         */
-        public boolean hasDevelopmentCard(DevCardType devCardType){
-            for(DevelopmentCard card : developmentCards) {
-                if(card.getDevelopmentType().equals(devCardType))
-                    return true;
-            }
+		return number <= 0;
+	}
 
-            return false;
-        }
+	/**
+	 * same as above with one resource
+	 */
+	public boolean hasResource(ResourceType resourceType) {
+		return hasResource(resourceType, 1);
+	}
 
-        /**
-         * @return true if the owner has the longest road special card
-         *         false otherwise
-         */
-        public boolean hasLongestRoad(){
-            for(SpecialCard card : specialCards) {
-                if(card.getSpecial().equals(SpecialCardType.LONGEST_ROAD))
-                    return true;
-            }
+	/**
+	 * @param devCardType
+	 *            the type of development card being sought after
+	 * @return true if the owner has at least one, false otherwise
+	 */
+	public boolean hasDevelopmentCard(DevCardType devCardType) {
+		for (DevelopmentCard card : developmentCards) {
+			if (card.getDevelopmentType().equals(devCardType))
+				return true;
+		}
 
-            return false;
-        }
+		return false;
+	}
 
-        /**
-         * @return true if the owner has the largest army special card
-         *         false otherwise
-         */
-        public boolean hasLargestArmy(){
-            for(SpecialCard card : specialCards) {
-                if(card.getSpecial().equals(SpecialCardType.LARGEST_ARMY))
-                    return true;
-            }
+	/**
+	 * @return true if the owner has the longest road special card false
+	 *         otherwise
+	 */
+	public boolean hasLongestRoad() {
+		for (SpecialCard card : specialCards) {
+			if (card.getSpecial().equals(SpecialCardType.LONGEST_ROAD))
+				return true;
+		}
 
-            return false;
-        }
-        public Set<ResourceCard> getResourceCards() {
-            return resourceCards;
-        }
+		return false;
+	}
 
-        public Set<DevelopmentCard> getDevelopmentCards() {
-            return developmentCards;
-        }
-        
-        public Set<SpecialCard> getSpecialCards() {
-            return specialCards;
-        }
+	/**
+	 * @return true if the owner has the largest army special card false
+	 *         otherwise
+	 */
+	public boolean hasLargestArmy() {
+		for (SpecialCard card : specialCards) {
+			if (card.getSpecial().equals(SpecialCardType.LARGEST_ARMY))
+				return true;
+		}
+
+		return false;
+	}
+
+	public Set<ResourceCard> getResourceCards() {
+		return resourceCards;
+	}
+
+	public Set<DevelopmentCard> getDevelopmentCards() {
+		return developmentCards;
+	}
+
+	public Set<SpecialCard> getSpecialCards() {
+		return specialCards;
+	}
 }
