@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 public class JsonUtils {
 
     /**
-     * Changes a Json object to its original form
+     * Changes a Json String to a Catan Object 
      * 
      * @pre toConvert object can be changes to converstionType
      * @param conversionType type of object to convert to 
@@ -19,5 +19,15 @@ public class JsonUtils {
      */
     public static Object convertFromJson(Class conversionType, String toConvert) {       
         return new Gson().fromJson(toConvert, conversionType);
+    }
+    
+    /**
+     * Changes a Catan Object to a Json String
+     *     
+     * @param toConvert object to convert
+     * @return Json String
+     */
+    public static String convertToJson(Object toConvert) {
+        return new Gson().toJson(toConvert);
     }
 }
