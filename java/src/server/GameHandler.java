@@ -10,11 +10,11 @@ public class GameHandler implements IHandler {
 
     @Override
     public ServerResponse handle(String command, Object Json) {
-        if(!command.contains("/user/"))
+        if(!command.contains("/game/"))
             return null;
         
         switch(command) {
-        	case "/game/model":
+            case "/game/model":
         		
             case "/game/reset":	
             	

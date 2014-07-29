@@ -15,13 +15,15 @@ public class AllGamesHandler implements IHandler {
     
     @Override
     public ServerResponse handle(String command, Object Json) {
+        if(!command.contains("/games/"))
+            return null;
         
         switch(command) {
-        	case "/games/list":
-        		
-        	case "/games/create":
-        		
-        	case "/games/join":
+            case "/games/list":
+
+            case "/games/create":
+
+            case "/games/join":
         		
             case "/games/save":
             	

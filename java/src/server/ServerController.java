@@ -36,16 +36,12 @@ public class ServerController {
      *   username and password
      * 
      * @param username to create
-     * @param password1 
-     * @param password2
+     * @param password 
      * @return true if username doesn't exist and password and username
      *          fit proper lengths
      */
-    public boolean canCreateUser(String username, String password1, String password2) {
-        if(!password1.equals(password2))
-            return false;
-        
-        if(password1.length() < 4 || password1.length() > 20)
+    public boolean canCreateUser(String username, String password) {        
+        if(password.length() < 4 || password.length() > 20)
             return false;
         
         if(username.length() < 4 || username.length() > 20)
@@ -73,6 +69,23 @@ public class ServerController {
         User user = new User(new Username(username), new Password(password), lastUserId++);
         model.addUser(user);
         return user;
+    }
+    
+    /**
+     * If parameters match, logins in and returns User
+     * 
+     * @param username of User
+     * @param password of User
+     * @return the User with given username and password
+     */
+    public User loginUser(String username, String password) {
+        for(User user : model.getUsers()) {
+            if(user.getUsername().getUsername().equals(username) &&
+                    user.getPassword().getPassword().equals(password))
+                return user;
+        }
+        
+        return null;
     }
     
     /**
