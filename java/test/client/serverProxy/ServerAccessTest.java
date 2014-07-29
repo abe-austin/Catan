@@ -35,36 +35,36 @@ public class ServerAccessTest {
 	@Test
 	public void test() {
 		this.registerUser();
-		this.createGame();
-		this.getAllGames();
-		this.loginUser();
-		this.joinGame();
-		this.saveGame();
-		this.getGameModel();
-		this.resetGame();
-		this.getGameCommands();
-		this.doGameCommands();
-		this.addAI();
-		this.getAIList();
-		this.sendChat();
-		this.rollNumber();
-		this.robPlayer();
-		this.finishTurn();
-		this.buyDevCard();
-		this.playYearOfPlenty();
-		this.playRoadBuilding();
-		this.playSoldier();
-		this.playMonopoly();
-		this.playMonument();
-		this.playRoadBuilding();
-		this.buildRoad();
-		this.buildSettlement();
-		this.buildCity();
-		this.offerTrade();
-		this.acceptTrade();
-		this.maritimeTrade();
-		this.discardCards();
-		this.changeLogLevel();
+//		this.createGame();
+//		this.getAllGames();
+//		this.loginUser();
+//		this.joinGame();
+//		this.saveGame();
+//		this.getGameModel();
+//		this.resetGame();
+//		this.getGameCommands();
+//		this.doGameCommands();
+//		this.addAI();
+//		this.getAIList();
+//		this.sendChat();
+//		this.rollNumber();
+//		this.robPlayer();
+//		this.finishTurn();
+//		this.buyDevCard();
+//		this.playYearOfPlenty();
+//		this.playRoadBuilding();
+//		this.playSoldier();
+//		this.playMonopoly();
+//		this.playMonument();
+//		this.playRoadBuilding();
+//		this.buildRoad();
+//		this.buildSettlement();
+//		this.buildCity();
+//		this.offerTrade();
+//		this.acceptTrade();
+//		this.maritimeTrade();
+//		this.discardCards();
+//		this.changeLogLevel();
 	}
 	
 	private void registerUser() {
@@ -262,7 +262,7 @@ public class ServerAccessTest {
 		else if(response.getCode() == 521) {
 			Assert.assertEquals(response.getBody(), "Server connection failed");
 		}
-		//System.out.println(response.getCode());
-		//System.out.println(response.getBody());
+		System.out.println(response.getCode());
+		System.out.println(response.getBody());
 	}
 }

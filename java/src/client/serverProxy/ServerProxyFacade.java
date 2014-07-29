@@ -88,7 +88,6 @@ public class ServerProxyFacade {
 		ServerResponse  response = server.doPost(url, param);
 		response.setUserId(server.getCookies().getUserId());
 		
-		//converter.convert(response, String.class);
 		return response;
 	}
 

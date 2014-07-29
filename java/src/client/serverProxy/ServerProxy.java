@@ -65,6 +65,7 @@ public class ServerProxy implements Server{
 			this.setCookies(response.getAllHeaders());
 
 			responseOb = EntityUtils.toString(entity);
+			System.out.println(responseOb);
 			serverResponse = new ServerResponse(response.getStatusLine().getStatusCode(),
 					responseOb);
 		}

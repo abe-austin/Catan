@@ -14,7 +14,7 @@ public class UserHandler implements IHandler{
     }
 
     @Override
-    public ServerResponse handle(String command, Object Json) {
+    public Object handle(String command, Object Json) {
         if(!command.contains("/user/"))
             return null;
         

@@ -1,7 +1,5 @@
 package server;
 
-import shared.communication.ServerResponse;
-
 /**
  *
  * @author Kevin MacMaster
@@ -9,7 +7,7 @@ import shared.communication.ServerResponse;
 public class GameHandler implements IHandler {
 
     @Override
-    public ServerResponse handle(String command, Object Json) {
+    public Object handle(String command, Object Json) {
         if(!command.contains("/user/"))
             return null;
         
