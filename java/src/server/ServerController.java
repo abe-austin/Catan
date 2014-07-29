@@ -98,6 +98,7 @@ public class ServerController {
          *       and object is a catan object related to command
          * @param command header command
          * @param Json object to be passed to game
+         * @return Response object
          * @post object updates game
          */
         public ServerResponse handleCommand(String command, Object Json) {
