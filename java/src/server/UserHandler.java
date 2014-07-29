@@ -39,10 +39,12 @@ public class UserHandler implements IHandler{
      */
     public ServerResponse registerUser(RegisterUserParam parm) {
         ServerResponse response = null;
-        
         if(controller.canCreateUser(parm.getUsername(), parm.getPassword())) {
             User user = controller.createUser(parm.getUsername(), parm.getPassword());
-            
+            response = new ServerResponse(200, "Success");
+        }
+        else {
+        	response = new ServerResponse(400, "Cannot create user");
         }
         
         return response;

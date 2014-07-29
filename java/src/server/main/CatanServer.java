@@ -72,22 +72,20 @@ public class CatanServer {
 		public void handle(com.sun.net.httpserver.HttpExchange exchange) throws IOException {
 			byte[] response = new byte[256];
 			
-			String requestBody = getCommand(exchange);
-	        
-	        RegisterUserParam param = gson.fromJson(requestBody, RegisterUserParam.class);
-	        
+			String requestBody = getBody(exchange);
+	        	        
 	        ServerResponse serverResponse = controller.handleCommand(exchange.getRequestURI().toString().substring(0),
-	        		param);
+	        		requestBody);
 	        
 	        response = gson.toJson(serverResponse.getBody()).getBytes("UTF-8");
-	        
+
 	        exchange.sendResponseHeaders(serverResponse.getCode(), response.length);
 	        exchange.getResponseBody().write(response);
 	        exchange.close();	
 		}
 	};
 	
-	private String getCommand(HttpExchange exchange) {
+	private String getBody(HttpExchange exchange) {
         @SuppressWarnings("resource")
 		java.util.Scanner s = new java.util.Scanner(exchange.getRequestBody()).useDelimiter("\\A");
         String command = s.hasNext() ? s.next() : "";
