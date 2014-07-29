@@ -114,6 +114,7 @@ public class MovesHandler implements IHandler {
      * 
      * @param parm rob info
      * @return success or failure
+     * @post resource change from one player to another
      */
     public ServerResponse robPlayer(RobPlayerParam parm) {
         ServerResponse response = null;
@@ -126,8 +127,10 @@ public class MovesHandler implements IHandler {
     /**
      * Applies Purchase of DevCard to GameModel
      * 
+     * @pre player can buy DevCard
      * @param parm purchase info
      * @return success or failure
+     * @post player has another DevCard
      */
     public ServerResponse buyDevCard(BuyDevCardParam parm) {
         ServerResponse response = null;
@@ -140,8 +143,10 @@ public class MovesHandler implements IHandler {
     /**
      * Applies Play of Monopoly DevCard to GameModel
      * 
+     * @pre player has monopoly card
      * @param parm play card info
      * @return success or failure
+     * @post player has one less monopoly card
      */
     public ServerResponse playMonopoly(PlayMonopolyParam parm) {
         ServerResponse response = null;
@@ -154,8 +159,10 @@ public class MovesHandler implements IHandler {
     /**
      * Applies Play of RoadBuilding DevCard to GameModel
      * 
+     * @pre player has two roads available
      * @param parm play card info
      * @return success or failure
+     * @post player has two more roads built
      */
     public ServerResponse playRoadBuilding(PlayRoadBuildingParam parm) {
         ServerResponse response = null;
@@ -170,6 +177,7 @@ public class MovesHandler implements IHandler {
      * 
      * @param parm play card info
      * @return success or failure
+     * @post robber is moved
      */
     public ServerResponse playSoldier(PlaySoldierParam parm) {
         ServerResponse response = null;
@@ -184,6 +192,7 @@ public class MovesHandler implements IHandler {
      * 
      * @param parm play card info
      * @return success or failure
+     * @post player has two more resource cards
      */
     public ServerResponse playYearOfPlenty(PlayYearOfPlentyParam parm) {
         ServerResponse response = null;
@@ -198,6 +207,7 @@ public class MovesHandler implements IHandler {
      * 
      * @param parm play card info
      * @return success or failure
+     * @post player has one more point
      */
     public ServerResponse playMonument(PlayMonumentParam parm) {
         ServerResponse response = null;
@@ -210,6 +220,7 @@ public class MovesHandler implements IHandler {
     /**
      * Applies Road built to GameModel
      * 
+     * @pre player has available road and is connected (if not setup)
      * @param parm board piece info
      * @return success or failure
      */
@@ -224,6 +235,7 @@ public class MovesHandler implements IHandler {
     /**
      * Applies Settlement built to GameModel
      * 
+     * @pre player has available settlement and is being build in correct place
      * @param parm board piece info
      * @return success or failure
      */
@@ -238,8 +250,10 @@ public class MovesHandler implements IHandler {
     /**
      * Applies City built to GameModel
      * 
+     * @pre player has available city and city is to be built on settlement
      * @param parm board piece info
      * @return success or failure
+     * @post player has one less available city and one more settlement
      */
     public ServerResponse buildCity(BuildCityParam parm) {
         ServerResponse response = null;
@@ -252,6 +266,7 @@ public class MovesHandler implements IHandler {
     /**
      * Sends Trade Offer
      * 
+     * @pre player has resources to trade
      * @param parm trade info
      * @return success or failure
      */
@@ -266,8 +281,10 @@ public class MovesHandler implements IHandler {
     /**
      * Accepts Trade Offer
      * 
+     * @pre players have resources to trade
      * @param parm trade info
      * @return success or failure
+     * @post resources are traded
      */
     public ServerResponse acceptTradeOffer(AcceptTradeParam parm) {
         ServerResponse response = null;
@@ -280,8 +297,10 @@ public class MovesHandler implements IHandler {
     /**
      * Maritime Trade applied to Player/Bank
      * 
+     * @pre player and bank have enough resources of each
      * @param parm trade info
      * @return success or failure
+     * @post player and bank have new resources
      */
     public ServerResponse maritimeTrade(MaritimeTradeParam parm) {
         ServerResponse response = null;
@@ -294,8 +313,10 @@ public class MovesHandler implements IHandler {
     /**
      * Discard Card applied to GameModel
      * 
+     * @pre player has cards that will be discarded
      * @param parm discard info
      * @return success or failure
+     * @post player has less cards
      */
     public ServerResponse discardCards(DiscardCardsParam parm) {
         ServerResponse response = null;
