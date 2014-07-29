@@ -19,18 +19,17 @@ public class UserHandler implements IHandler{
 
     @Override
     public ServerResponse handle(String command, Object Json) {
-        if(!command.contains("/user/"))
-            return null;
-        
         switch(command) {
             case "/user/login":	
-            	
+            	return loginUser((LoginUserParam)JsonUtils.convertFromJson(
+                                    new LoginUserParam(null,null), (String)Json));
             case "/user/register":
                 return registerUser((RegisterUserParam)JsonUtils.convertFromJson(
                                     new RegisterUserParam(null,null), (String)Json));
+                
+            default:
+                return null;
         }
-        
-        return null;
     }
     
     /**
@@ -56,8 +55,8 @@ public class UserHandler implements IHandler{
      * @param parm info on user
      * @return User or failures
      */
-    public Object loginUser(LoginUserParam parm) {
-        Object response = null;
+    public ServerResponse loginUser(LoginUserParam parm) {
+        ServerResponse response = null;
         
         
         

@@ -10,9 +10,6 @@ public class MovesHandler implements IHandler {
 
     @Override
     public ServerResponse handle(String command, Object Json) {
-        if(!command.contains("/moves/"))
-            return null;
-        
         switch(command) {
             case "/moves/sendChat":
                    
@@ -47,8 +44,10 @@ public class MovesHandler implements IHandler {
             case "/moves/maritimeTrade":
                     
             case "/moves/discardCards":
+                
+            default:
+                return null;
         }
-        return null;
     }
     
 }

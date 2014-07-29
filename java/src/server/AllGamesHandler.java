@@ -15,9 +15,6 @@ public class AllGamesHandler implements IHandler {
     
     @Override
     public ServerResponse handle(String command, Object Json) {
-        if(!command.contains("/games/"))
-            return null;
-        
         switch(command) {
             case "/games/list":
 
@@ -28,8 +25,10 @@ public class AllGamesHandler implements IHandler {
             case "/games/save":
             	
             case "/games/load":
+                
+            default:
+                return null;
         }
-        return null;
     }
     
 }
