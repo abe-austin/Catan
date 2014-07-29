@@ -124,12 +124,12 @@ public class LoginController extends Controller implements ILoginController, ICo
 			loginFailed("Login Error", "Login failed - invalid username or password");
 		}
 	}
+	
 	/**
 	 * creates and shows client an error message when login is not successful
 	 * @param title
 	 * @param message
 	 */
-	
 	public boolean validateUsername(String username) {
 		
             final int MIN_UNAME_LENGTH = 3;
@@ -155,6 +155,12 @@ public class LoginController extends Controller implements ILoginController, ICo
             return true;
 	}
 	
+	/**
+	 * checks to see if the inputed password is valid before creating a new user
+	 * @param password
+	 * @param passwordAgain
+	 * @return
+	 */
 	public boolean validatePassword(String password, String passwordAgain) {
 		 final int MIN_PASS_LENGTH = 5;
 
@@ -177,6 +183,11 @@ public class LoginController extends Controller implements ILoginController, ICo
          return passwordAgain.equals(password);
 	}
 	
+	/**
+	 * set the text for the error overlay and displays it
+	 * @param title
+	 * @param message
+	 */
 	public void loginFailed(String title, String message) {
 		
 		MessageView errorView = new MessageView();
