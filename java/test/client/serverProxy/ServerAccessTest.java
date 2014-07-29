@@ -13,6 +13,7 @@ import game.cards.ResourceCard;
 
 import org.junit.Test;
 
+import cs340.model.hexgrid.vertex.VertexDirection;
 import client.data.GameInfo;
 import shared.communication.CreateGameRes;
 import shared.communication.ServerResponse;
@@ -20,6 +21,7 @@ import shared.definitions.CatanColor;
 import shared.definitions.Command;
 import shared.definitions.LogLevel;
 import shared.definitions.ResourceType;
+import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
@@ -48,19 +50,18 @@ public class ServerAccessTest {
 		this.getAIList();
 		this.sendChat();
 		this.rollNumber();
-		this.robPlayer();
+//		this.robPlayer();
 		this.finishTurn();
 		this.buyDevCard();
 		this.playYearOfPlenty();
-		this.playRoadBuilding();
+//		this.playRoadBuilding();
 		this.playSoldier();
 		this.playMonopoly();
 		this.playMonument();
-		this.playRoadBuilding();
 		this.buildRoad();
-		this.buildSettlement();
-		this.buildCity();
-		this.offerTrade();
+//		this.buildSettlement();
+//		this.buildCity();
+//		this.offerTrade();
 		this.acceptTrade();
 		this.maritimeTrade();
 		this.discardCards();
@@ -156,11 +157,11 @@ public class ServerAccessTest {
 		assertResponseCorrect(roll, GameModel.class);
 	}
 	
-	private void robPlayer() {
-		
-		ServerResponse rob = server.robPlayer(0, 2, new Corner(new ArrayList<VertexLocation>()));
-		assertResponseCorrect(rob, GameModel.class);
-	}
+//	private void robPlayer() {
+//		
+//		ServerResponse rob = server.robPlayer(0, 2, new HexLocation());
+//		assertResponseCorrect(rob, GameModel.class);
+//	}
 	
 	private void finishTurn() {
 		
@@ -180,12 +181,12 @@ public class ServerAccessTest {
 		assertResponseCorrect(year, GameModel.class);
 	}
 	
-	private void playRoadBuilding() {
-		
-		ServerResponse road = server.playRoadBuilding(0, new Edge(new ArrayList<EdgeLocation>()),
-				new Edge(new ArrayList<EdgeLocation>()));
-		assertResponseCorrect(road, GameModel.class);
-	}
+//	private void playRoadBuilding() {
+//		
+//		ServerResponse road = server.playRoadBuilding(0, new Edge(new ArrayList<EdgeLocation>()),
+//				new Edge(new ArrayList<EdgeLocation>()));
+//		assertResponseCorrect(road, GameModel.class);
+//	}
 	
 	private void playSoldier() {
 		
@@ -207,27 +208,27 @@ public class ServerAccessTest {
 	
 	private void buildRoad() {
 		
-		ServerResponse road = server.buildRoad(0, new Edge(new ArrayList<EdgeLocation>()));
+		ServerResponse road = server.buildRoad(0, new EdgeLocation(new HexLocation(0,0), EdgeDirection.North), true);
 		assertResponseCorrect(road, GameModel.class);
 	}
 	
-	private void buildSettlement() {
-		
-		ServerResponse settlemet = server.buildSettlement(0,  new Corner(new ArrayList<VertexLocation>()), true);
-		assertResponseCorrect(settlemet, GameModel.class);
-	}
-	
-	private void buildCity() {
-		
-		ServerResponse city = server.buildCity(0,  new Corner(new ArrayList<VertexLocation>()), true);
-		assertResponseCorrect(city, GameModel.class);
-	}
-	
-	private void offerTrade() {
-		
+//	private void buildSettlement() {
+//		
+//		ServerResponse settlemet = server.buildSettlement(0,  new VertexLocation((new HexLocation(0,0), VertexDirection.NE), true);
+//		assertResponseCorrect(settlemet, GameModel.class);
+//	}
+//	
+//	private void buildCity() {
+//		
+//		ServerResponse city = server.buildCity(0,  new Corner(new ArrayList<VertexLocation>()), true);
+//		assertResponseCorrect(city, GameModel.class);
+//	}
+//	
+//	private void offerTrade() {
+//		
 //		ServerResponse trade = server.offerTrade(0, new ArrayList<ResourceType>(), 3);
 //		assertResponseCorrect(trade, GameModel.class);
-	}
+//	}
 	
 	private void acceptTrade() {
 		
@@ -262,7 +263,7 @@ public class ServerAccessTest {
 		else if(response.getCode() == 521) {
 			Assert.assertEquals(response.getBody(), "Server connection failed");
 		}
-		//System.out.println(response.getCode());
-		//System.out.println(response.getBody());
+		System.out.println(response.getCode());
+		System.out.println(response.getBody());
 	}
 }

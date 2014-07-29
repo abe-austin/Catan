@@ -2,6 +2,7 @@ package server;
 
 import shared.communication.ServerResponse;
 
+
 /**
  *
  * @author Kevin MacMaster
@@ -19,8 +20,8 @@ public class UserHandler implements IHandler{
             return null;
         
         switch(command) {
-            case "/user/login":
-                				
+            case "/user/login":	
+            	
             case "/user/register":
         }
         

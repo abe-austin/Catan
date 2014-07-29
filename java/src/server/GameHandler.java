@@ -14,16 +14,13 @@ public class GameHandler implements IHandler {
             return null;
         
         switch(command) {
-            case "/game/reset":
-		
-				
+        	case "/game/model":
+        		
+            case "/game/reset":	
+            	
             case "/game/commands":
-                   
-
-            case "game/addAI":
-                
-            
-            case "/game/create":
+            	
+            case "/game/addAI":         
         }
         return null;
     }
