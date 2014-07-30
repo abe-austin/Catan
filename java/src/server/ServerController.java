@@ -3,6 +3,7 @@ package server;
 import game.GameModel;
 
 import java.util.ArrayList;
+import shared.communication.CreateGameParam;
 
 import shared.communication.ServerResponse;
 import system.Password;
@@ -36,16 +37,12 @@ public class ServerController {
      *   username and password
      * 
      * @param username to create
-     * @param password1 
-     * @param password2
+     * @param password 
      * @return true if username doesn't exist and password and username
      *          fit proper lengths
      */
-    public boolean canCreateUser(String username, String password1, String password2) {
-        if(!password1.equals(password2))
-            return false;
-        
-        if(password1.length() < 4 || password1.length() > 20)
+    public boolean canCreateUser(String username, String password) {        
+        if(password.length() < 4 || password.length() > 20)
             return false;
         
         if(username.length() < 4 || username.length() > 20)
@@ -76,6 +73,23 @@ public class ServerController {
     }
     
     /**
+     * If parameters match, logins in and returns User
+     * 
+     * @param username of User
+     * @param password of User
+     * @return the User with given username and password
+     */
+    public User loginUser(String username, String password) {
+        for(User user : model.getUsers()) {
+            if(user.getUsername().getUsername().equals(username) &&
+                    user.getPassword().getPassword().equals(password))
+                return user;
+        }
+        
+        return null;
+    }
+    
+    /**
      * 
      * @pre user is a valid user already in the system
      * @param user to check existing games
@@ -92,24 +106,6 @@ public class ServerController {
     }
     
     /**
-         * Handles a given command
-         * 
-         * @pre command is one of the pre-determined commands 
-         *       and object is a catan object related to command
-         * @param command header command
-         * @param Json object to be passed to game
-         * @post object updates game
-         */
-        public ServerResponse handleCommand(String command, Object Json) {
-            for(IHandler handler : handlers) {
-            	ServerResponse response = handler.handle(command, Json);
-                if(response != null)
-                	return response;
-            }
-            return new ServerResponse(400, "Command not supported");
-        }
-        
-        /**
          * Returns a game by the name of the game
          * 
          * @pre name is the name of an existing not-complete game
@@ -125,4 +121,57 @@ public class ServerController {
             return null;
         }
         
+        /**
+         * Checks to see if game already exists
+         * 
+         * @param gameName name of game
+         * @return true if no game of gameName exists and 
+         *          gameName string meets basic requirements
+         */
+        public boolean canCreateGame (String gameName) {
+            if(gameName.length() > 4 || gameName.length() > 20)
+                return false;
+            
+            return (getGameByName(gameName) != null);
+        }
+        
+        /**
+         * Creates new Game and adds it to model
+         * 
+         * @pre Game does not have same name as another game
+         * @param param info on game
+         * @return new Game
+         * @post new game is added to ServerModel
+         */
+        public GameModel createGame(CreateGameParam param) {
+            GameModel game = new GameModel();
+            
+            game.setRandomHexes(param.isRandomHexes());
+            game.setRandomNumbers(param.isRandomNumbers());
+            game.setRandomPorts(param.isRandomPorts());
+            game.setGameName(param.getName());
+            
+            model.addGame(game);
+            
+            return game;
+        }
+    
+        /**
+         * Handles a given command
+         * 
+         * @pre command is one of the pre-determined commands 
+         *       and object is a catan object related to command
+         * @param command header command
+         * @param Json object to be passed to game
+         * @return Response object
+         * @post object updates game
+         */
+        public ServerResponse handleCommand(String command, Object Json) {
+            for(IHandler handler : handlers) {
+            	ServerResponse response = handler.handle(command, Json);
+                if(response != null)
+                	return response;
+            }
+            return new ServerResponse(400, "Command not supported");
+        }
 }

@@ -9,48 +9,49 @@ import shared.definitions.PieceType;
  * @author Kevin MacMaster
  */
 public abstract class BoardPiece {
-    private Player owner;
-    private boolean active;
+	private Player owner;
+	private boolean active;
 
-    public BoardPiece(Player owner) {
-        active = false;
-        this.owner = owner;
-    }
+	public BoardPiece(Player owner) {
+		active = false;
+		this.owner = owner;
+	}
 
-    /**
-     * 
-     * @return BoardPiece owner
-     */
-    public Player getOwner() {
-        return owner;
-    }
+	/**
+	 * 
+	 * @return BoardPiece owner
+	 */
+	public Player getOwner() {
+		return owner;
+	}
 
-    /**
-     *
-     * @return BoardPiece activity
-     */
-    public boolean isActive() {
-        return active;
-    }
+	/**
+	 *
+	 * @return BoardPiece activity
+	 */
+	public boolean isActive() {
+		return active;
+	}
 
-    /**
-     * 
-     * @param set BoardPiece activity
-     */
-    public void setActive(boolean set) {
-        active = set;
-    }
+	/**
+	 * 
+	 * @param set
+	 *            BoardPiece activity
+	 */
+	public void setActive(boolean set) {
+		active = set;
+	}
 
-    /**
-     * 
-     * @return the type of board piece
-     */
-    abstract public PieceType getPieceType();
+	/**
+	 * 
+	 * @return the type of board piece
+	 */
+	abstract public PieceType getPieceType();
 
-    /**
-     *
-     * @return the cost to place board piece
-     */
-    abstract public Cost getCost();
-    
+	/**
+	 *
+	 * @return the cost to place board piece
+	 */
+	abstract public Cost getCost();
+
 }

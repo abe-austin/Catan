@@ -11,6 +11,11 @@ import system.User;
 public class ServerModel {
         private ArrayList<GameModel> games;
         private ArrayList<User> users;
+        
+        public ServerModel() {
+        	games = new ArrayList<GameModel>();
+        	users = new ArrayList<User>();
+        }
 
         /**
          *
