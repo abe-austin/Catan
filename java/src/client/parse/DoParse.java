@@ -261,7 +261,9 @@ public class DoParse
 		for(ParsedPlayer parsedPlayer : players) 
 		{
 			Player player = new Player(parsedPlayer.getColor(), parsedPlayer.getName(), parsedPlayer.getPlayedIndex());
-			player.setSoldiersPlayed(parsedPlayer.getSoldiers());
+			//System.out.println(player.getUsername()+" "+player.hasDiscarded());
+                        player.setDiscarded(parsedPlayer.getDiscarded());
+                        player.setSoldiersPlayed(parsedPlayer.getSoldiers());
 			for(int i = 0; i<parsedPlayer.getVictoryPoints(); i++) {
 				player.addPoint();
 			}
@@ -389,6 +391,8 @@ public class DoParse
 		boolean playedDevCard = Boolean.parseBoolean(gettingPlayedDevCard.split(",")[0]);
 		String gettingDiscarded = theRest.split("discarded\":")[1];
 		boolean discarded = Boolean.parseBoolean(gettingDiscarded.split(",")[0]);
+                //System.out.println("doParse gettingdiscarded "+gettingDiscarded);
+                //System.out.println("doParse discarded "+discarded);
 		String gettingPlayerID = theRest.split("playerID\":")[1];
 		int playerID = Integer.parseInt(gettingPlayerID.split(",")[0]);
 		String gettingPlayerIndex = theRest.split("playerIndex\":")[1];
