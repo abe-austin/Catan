@@ -29,15 +29,17 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-	    	List<LogEntry> entries = new ArrayList<LogEntry>();
-	    	for(Command command : gameModel.getGameHistory().getCommands()) {
-	    		Player player = ControllerFacade.getSingleton().getPlayerByUsername(command.getSource());
-	    		if(player != null) {
-		    		LogEntry entry = new LogEntry(player.getColor(), command.getCommand());
-		    		entries.add(entry);
-	    		}
-	    	}
-	    	view.setEntries(entries);
+	    	 if(ControllerFacade.getSingleton().getGameState()==GameState.Setup || ControllerFacade.getSingleton().getGameState()==GameState.GamePlay){
+                    List<LogEntry> entries = new ArrayList<LogEntry>();
+                    for(Command command : gameModel.getGameHistory().getCommands()) {
+                            Player player = ControllerFacade.getSingleton().getPlayerByUsername(command.getSource());
+                            if(player != null) {
+                                    LogEntry entry = new LogEntry(player.getColor(), command.getCommand());
+                                    entries.add(entry);
+                            }
+                    }
+                    view.setEntries(entries);
+                 }
         }
          
 	@Override
