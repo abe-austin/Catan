@@ -102,7 +102,7 @@ public class CatanServer {
 	        }
 	        exchange.sendResponseHeaders(serverResponse.getCode(), response.length);
 	        exchange.getResponseBody().write(response);
-	        exchange.close();	
+	        exchange.close();
 		}
 		
 		public CookieObject createCookieObject(HttpExchange exchange) {
@@ -117,18 +117,13 @@ public class CatanServer {
 					sb.delete(0, 10);
 					String edited = sb.toString();
 					String decoded = URLDecoder.decode(edited);
-					System.out.println(decoded);
 
 					String[] temp = decoded.split(",");
 					String username = temp[0].substring(temp[0].indexOf(":") + 2, temp[0].length() - 1);
-					System.out.println(username);
 					String password = temp[1].substring(temp[1].indexOf(":") + 2, temp[1].length() - 1);
-					System.out.println(password);
 					int id = Integer.parseInt(temp[2].substring(temp[2].indexOf(":") + 1, temp[2].length() - 1));
-					System.out.println(id);
 					if (temp.length == 4) {
 						int gameID = Integer.parseInt(temp[3].substring(temp[3].indexOf(":") + 1,temp[3].length() - 1));
-						System.out.println(gameID);
 						cookieObject.setGameID(gameID);
 					}
 					cookieObject.setUsername(username);

@@ -36,11 +36,11 @@ public class ServerAccessTest {
 	
 	@Test
 	public void test() {
-		this.registerUser();
 //		this.registerUser();
-//		this.createGame();
+//		this.registerUser();
+		this.createGame();
 //		this.getAllGames();
-		this.loginUser();
+//		this.loginUser();
 //		this.joinGame();
 //		this.saveGame();
 //		this.getGameModel();

@@ -38,7 +38,7 @@ public class ServerResponseConverter {
 	}
 	
 	public void convertGameInfo(ServerResponse response) {
-		
+		System.err.println(response.getBody());
 		if(response.getCode() == 200) {
 			response.setBody(gson.fromJson((String)response.getBody(), ArrayList.class));
 			ArrayList<GameInfo> games = (ArrayList<GameInfo>)response.getBody();
@@ -50,15 +50,18 @@ public class ServerResponseConverter {
 				info.resetPlayer();
 				for(Object player : info.getPlayers()) {
 					String playerString = gson.toJson(player);
-      //                                  System.out.println("playerinfo convert "+playerString);
 					PlayerInfo playerInfo = gson.fromJson(playerString, PlayerInfo.class);
 					playerInfo.setColor(playerInfo.getColor());
 					playerInfoList.add(playerInfo);
-       //                                 System.out.println("playerinfo after "+playerInfo.getName()+" "+playerInfo.getCatanColor()+" "+playerInfo.getColor());
 				}
 				info.setPlayerInfo(playerInfoList);
 				gameInfo.add(info);
 			}
+			response.setBody(gameInfo);
+			return;
+		}
+		else {
+			ArrayList<GameInfo> gameInfo = new ArrayList<GameInfo>();
 			response.setBody(gameInfo);
 			return;
 		}

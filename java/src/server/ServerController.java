@@ -90,6 +90,15 @@ public class ServerController {
     }
     
     /**
+     * Gets all of the games on the server
+     * 
+     * @return list of games
+     */
+    public ArrayList<GameModel> getAllGames() {
+        return model.getGames();
+    }
+    
+    /**
      * 
      * @pre user is a valid user already in the system
      * @param user to check existing games
