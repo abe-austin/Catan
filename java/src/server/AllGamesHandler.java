@@ -3,6 +3,7 @@ package server;
 import game.GameModel;
 
 import java.util.ArrayList;
+import player.Player;
 
 import shared.communication.*;
 
@@ -69,11 +70,11 @@ public class AllGamesHandler implements IHandler {
      * @post new GameModel added and returned
      */
     public ServerResponse createGame(CreateGameParam param) {    	
-        ServerResponse response = null;
-        
+        ServerResponse response = null;   
         if(controller.canCreateGame(param.getName())) {
             GameModel game = controller.createGame(param);
-            response = new ServerResponse(200, JsonUtils.convertToJson(game));
+            response = new ServerResponse(200, "Success");
+            response.setCookie(controller.createCookie(game.getGameId()));
         } else {
             response = new ServerResponse(400, "Game Already Exists");
         }
@@ -118,12 +119,24 @@ public class AllGamesHandler implements IHandler {
     public ServerResponse joinGame(JoinGameParam param) {
         ServerResponse response = null;
         
-        GameModel model = controller.getGameModel(param.getID());
+        GameModel game = controller.getGameModel(param.getID());
         
-        if(model != null) {
+        if(game != null) {
+             for(Player player : game.getPlayers()) {
+                 if(player.getColor().equals(param.getColor())) {
+                     response = new ServerResponse(200, "Success");
+                     
+                 }
+             }
+             
+             if(response == null && game.getPlayers().length != 4) {
+                 
+             } else if(response == null) {
+                 response = new ServerResponse(400, "Game is full");
+             }
              
         } else {
-            response = new ServerResponse(400, "Game is full or does not exist");
+            response = new ServerResponse(400, "Game does not exist");
         }
         
         return response;

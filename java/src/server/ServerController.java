@@ -20,11 +20,13 @@ public class ServerController {
     private ServerModel model;
     private ArrayList<IHandler> handlers;
     private int lastUserId;
+    private int lastGameId;
     private CookieObject currentCookie;
     
     public ServerController() {
         model = new ServerModel();
         lastUserId = 0;
+        lastGameId = 0;
         currentCookie = null;
         
         handlers = new ArrayList<>();
@@ -33,9 +35,13 @@ public class ServerController {
         handlers.add(new MovesHandler(this));
         handlers.add(new AllGamesHandler(this));
         handlers.add(new GameHandler(this));
-    }
+    }  
     
-    /**
+    public CookieObject getCurrentCookie() {
+		return currentCookie;
+	}
+
+	/**
      * Checks to see if you can create a user with given 
      *   username and password
      * 
@@ -155,10 +161,11 @@ public class ServerController {
          *          gameName string meets basic requirements
          */
         public boolean canCreateGame (String gameName) {
-            if(gameName.length() > 4 || gameName.length() > 20)
+            if(gameName.length() < 4 || gameName.length() > 20) {
                 return false;
-            
-            return (getGameModel(gameName) != null);
+            }
+
+            return (getGameModel(gameName) == null);
         }
         
         /**
@@ -176,8 +183,10 @@ public class ServerController {
             game.setRandomNumbers(param.isRandomNumbers());
             game.setRandomPorts(param.isRandomPorts());
             game.setGameName(param.getName());
+            game.setGameId(lastGameId++);
             
             model.addGame(game);
+            currentCookie.setGameID(game.getGameId());
             
             return game;
         }
@@ -201,5 +210,40 @@ public class ServerController {
                 	return response;
             }
             return new ServerResponse(400, "Command not supported");
+        }
+        
+        public CookieObject getCookieObject() {
+            return currentCookie;
+        }        
+        
+        /**
+         * Creates Cookie String
+         * 
+         * @param user username
+         * @param pass password
+         * @param id user id
+         * @param gameId game id
+         * @return String to represent cookie
+         */
+        public String createCookie(String user, String pass, int id, int gameId) {
+            String cookie = "catan.user=%7B%22authentication%22%3A%22-1286879297%22%2C%22name%22%3A%22" +
+                            user + "%22%2C%22password%22%3A%22" +
+                            pass + "%22%2C%22playerID%22%3A" + id;
+            
+            if(gameId != -1)
+                cookie += "%22%2C%22gameID%22%3A" + gameId;
+                        
+            cookie += "%7D;Path=/;";
+            
+            return cookie;
+        }
+        
+        public String createCookie(String user, String pass, int id) {
+            return createCookie(user, pass, id, -1);
+        }
+        
+        public String createCookie(int gameId) {
+            return createCookie(currentCookie.getUsername(),currentCookie.getPassword(),
+                                    currentCookie.getID(), gameId);
         }
 }

@@ -20,6 +20,7 @@ public class GameModel {
     private TradeOffer tradeOffer;
     private int version;
     private int winner;
+    private int id;
     private boolean randomHexes;
     private boolean randomNumbers;
     private boolean randomPorts;
@@ -37,6 +38,7 @@ public class GameModel {
         winner = -1;
         checkDiscard = false;
         gameName = "";
+        id = -1;
     }
     
     public void setGameName(String name) {
@@ -45,6 +47,14 @@ public class GameModel {
     
     public String getGameName() {
         return gameName;
+    }
+    
+    public void setGameId(int id) {
+        this.id = id;
+    }
+    
+    public int getGameId() {
+        return id;
     }
 
     /**

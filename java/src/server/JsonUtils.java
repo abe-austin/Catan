@@ -28,6 +28,12 @@ public class JsonUtils {
      * @return Json String
      */
     public static String convertToJson(Object toConvert) {
+    	try{
         return new Gson().toJson(toConvert);
+    	}
+    	catch(Exception e) {
+    		e.printStackTrace();
+    		return null;
+    	}
     }
 }
