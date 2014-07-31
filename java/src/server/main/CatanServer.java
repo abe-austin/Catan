@@ -93,7 +93,7 @@ public class CatanServer {
 			CookieObject cookieObject = createCookieObject(exchange);
 			
 	        ServerResponse serverResponse = controller.handleCommand(exchange.getRequestURI().toString().substring(0),
-	        		requestBody);
+	        		requestBody, cookieObject);
 	        
 	        response = JsonUtils.convertToJson(serverResponse.getBody()).getBytes("UTF-8");
 

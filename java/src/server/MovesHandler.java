@@ -7,6 +7,11 @@ import shared.communication.*;
  * @author Kevin MacMaster
  */
 public class MovesHandler implements IHandler {
+    private ServerController controller;
+    
+    public MovesHandler(ServerController controller) {
+        this.controller = controller;
+    }
 
     @Override
     public ServerResponse handle(String command, Object Json) {

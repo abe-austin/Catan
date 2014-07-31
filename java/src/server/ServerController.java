@@ -3,6 +3,7 @@ package server;
 import game.GameModel;
 
 import java.util.ArrayList;
+import shared.communication.CookieObject;
 import shared.communication.CreateGameParam;
 
 import shared.communication.ServerResponse;
@@ -19,17 +20,19 @@ public class ServerController {
     private ServerModel model;
     private ArrayList<IHandler> handlers;
     private int lastUserId;
+    private CookieObject currentCookie;
     
     public ServerController() {
         model = new ServerModel();
         lastUserId = 0;
+        currentCookie = null;
         
         handlers = new ArrayList<>();
         
         handlers.add(new UserHandler(this));
-        handlers.add(new MovesHandler());
+        handlers.add(new MovesHandler(this));
         handlers.add(new AllGamesHandler(this));
-        handlers.add(new GameHandler());
+        handlers.add(new GameHandler(this));
     }
     
     /**
@@ -41,13 +44,7 @@ public class ServerController {
      * @return true if username doesn't exist and password and username
      *          fit proper lengths
      */
-    public boolean canCreateUser(String username, String password) {        
-        if(password.length() < 4 || password.length() > 20)
-            return false;
-        
-        if(username.length() < 4 || username.length() > 20)
-            return false;
-        
+    public boolean canCreateUser(String username, String password) {
         for(User user : model.getUsers()) {
             if(user.getUsername().getUsername().equals(username))
                 return false;
@@ -114,20 +111,40 @@ public class ServerController {
         return gameList;
     }
     
-    /**
+        /**
          * Returns a game by the name of the game
          * 
          * @pre name is the name of an existing not-complete game
          * @param name of game
          * @return matching GameModel
          */
-        public GameModel getGameByName(String name) {
+        public GameModel getGameModel(String name) {
             for(GameModel game : model.getGames()) {
                 if(game.getGameName().equals(name))
                     return game;
             }
             
             return null;
+        }
+        
+        /**
+         * Returns a game by the id of the game
+         * 
+         * @pre id is for an existing not-complete game
+         * @param id game id
+         * @return matching GameModel
+         */        
+        public GameModel getGameModel(int id) {
+            for(GameModel game : model.getGames()) {
+                if(game.getVersion() == id)
+                    return game;
+            }
+            
+            return null;
+        }
+        
+        public GameModel getGameModel() {
+            return getGameModel(currentCookie.getGameID());
         }
         
         /**
@@ -141,7 +158,7 @@ public class ServerController {
             if(gameName.length() > 4 || gameName.length() > 20)
                 return false;
             
-            return (getGameByName(gameName) != null);
+            return (getGameModel(gameName) != null);
         }
         
         /**
@@ -172,10 +189,12 @@ public class ServerController {
          *       and object is a catan object related to command
          * @param command header command
          * @param Json object to be passed to game
+         * @param cookie player and game info
          * @return Response object
-         * @post object updates game
+         * @post object updates games/users
          */
-        public ServerResponse handleCommand(String command, Object Json) {
+        public ServerResponse handleCommand(String command, Object Json, CookieObject cookie) {
+            currentCookie = cookie;
             for(IHandler handler : handlers) {
             	ServerResponse response = handler.handle(command, Json);
                 if(response != null)

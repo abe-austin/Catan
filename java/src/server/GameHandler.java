@@ -8,6 +8,11 @@ import shared.communication.*;
  * @author Kevin MacMaster
  */
 public class GameHandler implements IHandler {
+    private ServerController controller;
+    
+    public GameHandler(ServerController controller) {
+        this.controller = controller;
+    }
 
     @Override
     public ServerResponse handle(String command, Object Json) {
@@ -34,17 +39,16 @@ public class GameHandler implements IHandler {
      * @param param info on game
      * @return GameModel or failure
      */
-	public ServerResponse getGameModel(GetGameModelParam param) {
-       
-		ServerResponse response = null;
-//		GameModel gameModel = getGameModel(); //get game id from cookie
-//		if(gameModel != null) {
-//			response = new ServerResponse(200, gameModel);
-//    	  
-//		} else {
-//			response = new ServerResponse(400, null);
-//		}      
-			return response;
+	public ServerResponse getGameModel(GetGameModelParam param) {       
+            ServerResponse response = null;
+            
+            GameModel model = controller.getGameModel();
+		if(model != null) {
+                    response = new ServerResponse(200, JsonUtils.convertToJson(model));   	  
+		} else {
+                    response = new ServerResponse(400, null);
+		}      
+            return response;
     }
     
     /**

@@ -70,17 +70,15 @@ public class AllGamesHandler implements IHandler {
      * @return GameModel or failure
      * @post new GameModel added and returned
      */
-    public ServerResponse createGame(CreateGameParam param) {
-    	
+    public ServerResponse createGame(CreateGameParam param) {    	
         ServerResponse response = null;
         
-       // if(controller.canCreateGame(param.getName())) {
-        	GameModel game = controller.createGame(param);
-        	response = new ServerResponse(200, game);
-        //}
-        //else {
-        //	response = new ServerResponse(400, "Cannot create game");
-       // }
+        if(controller.canCreateGame(param.getName())) {
+            GameModel game = controller.createGame(param);
+            response = new ServerResponse(200, JsonUtils.convertToJson(game));
+        } else {
+            response = new ServerResponse(400, "Game Already Exists");
+        }
         
         return response;
     }
@@ -122,7 +120,13 @@ public class AllGamesHandler implements IHandler {
     public ServerResponse joinGame(JoinGameParam param) {
         ServerResponse response = null;
         
+        GameModel model = controller.getGameModel(param.getID());
         
+        if(model != null) {
+             
+        } else {
+            response = new ServerResponse(400, "Game is full or does not exist");
+        }
         
         return response;
     }
