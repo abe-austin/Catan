@@ -38,7 +38,6 @@ public class ServerResponseConverter {
 	}
 	
 	public void convertGameInfo(ServerResponse response) {
-		System.err.println(response.getBody());
 		if(response.getCode() == 200) {
 			response.setBody(gson.fromJson((String)response.getBody(), ArrayList.class));
 			ArrayList<GameInfo> games = (ArrayList<GameInfo>)response.getBody();

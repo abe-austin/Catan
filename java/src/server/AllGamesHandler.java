@@ -52,7 +52,6 @@ public class AllGamesHandler implements IHandler {
         
         if(gameList == null) {
         	response = new ServerResponse(400, "Failed to get games");
-        	response = new ServerResponse(200, JsonUtils.convertToJson(gameList));
         }
         else if(gameList.size() == 0) {
         	response = new ServerResponse(201, JsonUtils.convertToJson(gameList));
