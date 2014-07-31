@@ -50,9 +50,11 @@ public class ServerResponseConverter {
 				info.resetPlayer();
 				for(Object player : info.getPlayers()) {
 					String playerString = gson.toJson(player);
+      //                                  System.out.println("playerinfo convert "+playerString);
 					PlayerInfo playerInfo = gson.fromJson(playerString, PlayerInfo.class);
 					playerInfo.setColor(playerInfo.getColor());
 					playerInfoList.add(playerInfo);
+       //                                 System.out.println("playerinfo after "+playerInfo.getName()+" "+playerInfo.getCatanColor()+" "+playerInfo.getColor());
 				}
 				info.setPlayerInfo(playerInfoList);
 				gameInfo.add(info);

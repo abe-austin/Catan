@@ -9,6 +9,7 @@ import client.parse.ParsedChat;
 import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
+import shared.definitions.GameState;
 
 
 /**
@@ -37,17 +38,18 @@ public class ChatController extends Controller implements IChatController, ICont
 	
     @Override
     public void gameModelChanged(GameModel gameModel){
-    	List<LogEntry> entries = new ArrayList<LogEntry>();
-    	for(ParsedChat chat : gameModel.getGameHistory().getChatlog().getChatLines()) {
-    		Player player = ControllerFacade.getSingleton().getPlayerByUsername(chat.getSource());
-    		if(player != null) {
-    			String message = chat.getSource() + ": " + chat.getMessage();
-	    		LogEntry entry = new LogEntry(player.getColor(), message);
-	    		entries.add(entry);
-    		}
-    	}
-    	view.setEntries(entries);
+        if(ControllerFacade.getSingleton().getGameState()==GameState.Setup || ControllerFacade.getSingleton().getGameState()==GameState.GamePlay){
+            List<LogEntry> entries = new ArrayList<LogEntry>();
+            for(ParsedChat chat : gameModel.getGameHistory().getChatlog().getChatLines()) {
+                    Player player = ControllerFacade.getSingleton().getPlayerByUsername(chat.getSource());
+                    if(player != null) {
+                            String message = chat.getSource() + ": " + chat.getMessage();
+                            LogEntry entry = new LogEntry(player.getColor(), message);
+                            entries.add(entry);
+                    }
+            }
+            view.setEntries(entries);
+        }
     }
-
 }
 

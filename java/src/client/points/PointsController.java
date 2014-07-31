@@ -4,6 +4,7 @@ import client.base.*;
 import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
+import shared.definitions.GameState;
 
 
 /**
@@ -32,13 +33,15 @@ public class PointsController extends Controller implements IPointsController, I
         
 	@Override
         public void gameModelChanged(GameModel gameModel){
-            getPointsView().setPoints(ControllerFacade.getSingleton().getPoints());
-            if (gameModel.getWinner()!=-1){
-                if (gameModel.getWinner()==ControllerFacade.getSingleton().getClientPlayer().getIndex()){
-                    getFinishedView().setWinner(ControllerFacade.getSingleton().getClientPlayer().getUsername(), true);
-                }
-                else{
-                    getFinishedView().setWinner(ControllerFacade.getSingleton().getClientPlayer().getUsername(), false);                    
+            if(ControllerFacade.getSingleton().getGameState()==GameState.Setup || ControllerFacade.getSingleton().getGameState()==GameState.GamePlay){
+                getPointsView().setPoints(ControllerFacade.getSingleton().getPoints());
+                if (gameModel.getWinner()!=-1){
+                    if (gameModel.getWinner()==ControllerFacade.getSingleton().getClientPlayer().getIndex()){
+                        getFinishedView().setWinner(ControllerFacade.getSingleton().getClientPlayer().getUsername(), true);
+                    }
+                    else{
+                        getFinishedView().setWinner(ControllerFacade.getSingleton().getClientPlayer().getUsername(), false);                    
+                    }
                 }
             }
         }
