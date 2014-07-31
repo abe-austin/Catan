@@ -122,10 +122,12 @@ public class CatanServer {
 					String username = temp[0].substring(temp[0].indexOf(":") + 2, temp[0].length() - 1);
 					String password = temp[1].substring(temp[1].indexOf(":") + 2, temp[1].length() - 1);
 					int id = Integer.parseInt(temp[2].substring(temp[2].indexOf(":") + 1, temp[2].length() - 1));
-					if (temp.length == 4) {
+					
+					if(temp.length == 4) {
 						int gameID = Integer.parseInt(temp[3].substring(temp[3].indexOf(":") + 1,temp[3].length() - 1));
 						cookieObject.setGameID(gameID);
 					}
+
 					cookieObject.setUsername(username);
 					cookieObject.setPassword(password);
 					cookieObject.setID(id);

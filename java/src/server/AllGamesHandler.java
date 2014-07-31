@@ -91,7 +91,12 @@ public class AllGamesHandler implements IHandler {
      */
     public ServerResponse saveGame(SaveGameParam param) {
         ServerResponse response = null;
-        
+        CookieObject cookies = controller.getCookieObject();
+        System.out.println(cookies.getID());
+        System.out.println(cookies.getUsername());
+        System.out.println(cookies.getPassword());
+        System.out.println(cookies.getGameID());
+
         
         
         return response;
