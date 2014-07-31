@@ -10,6 +10,7 @@ public class ServerResponse {
 		super();
 		this.code = code;
 		this.body = body;
+		this.cookie = null;
 	}
 	
 	public void setUserId(int id) {

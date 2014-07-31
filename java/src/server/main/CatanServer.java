@@ -90,7 +90,9 @@ public class CatanServer {
 	        
 	        response = JsonUtils.convertToJson(serverResponse.getBody()).getBytes("UTF-8");
 
-	        exchange.getResponseHeaders().set("Set-cookie", serverResponse.getCookie());
+	        if(serverResponse.getCookie() != null) {
+		        exchange.getResponseHeaders().set("Set-cookie", serverResponse.getCookie());
+	        }
 	        exchange.sendResponseHeaders(serverResponse.getCode(), response.length);
 	        exchange.getResponseBody().write(response);
 	        exchange.close();	
