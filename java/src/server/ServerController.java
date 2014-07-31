@@ -33,9 +33,13 @@ public class ServerController {
         handlers.add(new MovesHandler(this));
         handlers.add(new AllGamesHandler(this));
         handlers.add(new GameHandler(this));
-    }
+    }  
     
-    /**
+    public CookieObject getCurrentCookie() {
+		return currentCookie;
+	}
+
+	/**
      * Checks to see if you can create a user with given 
      *   username and password
      * 
@@ -155,10 +159,11 @@ public class ServerController {
          *          gameName string meets basic requirements
          */
         public boolean canCreateGame (String gameName) {
-            if(gameName.length() > 4 || gameName.length() > 20)
+            if(gameName.length() < 4 || gameName.length() > 20) {
                 return false;
-            
-            return (getGameModel(gameName) != null);
+            }
+
+            return (getGameModel(gameName) == null);
         }
         
         /**

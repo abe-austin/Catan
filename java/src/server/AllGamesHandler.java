@@ -69,11 +69,11 @@ public class AllGamesHandler implements IHandler {
      * @post new GameModel added and returned
      */
     public ServerResponse createGame(CreateGameParam param) {    	
-        ServerResponse response = null;
-        
+        ServerResponse response = null;   
         if(controller.canCreateGame(param.getName())) {
             GameModel game = controller.createGame(param);
-            response = new ServerResponse(200, JsonUtils.convertToJson(game));
+        	response = new ServerResponse(200, game);
+
         } else {
             response = new ServerResponse(400, "Game Already Exists");
         }
