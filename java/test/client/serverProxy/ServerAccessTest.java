@@ -36,7 +36,11 @@ public class ServerAccessTest {
 	
 	@Test
 	public void test() {
+<<<<<<< HEAD
 		this.registerUser();
+=======
+//		this.registerUser();
+>>>>>>> c76a5fc326950f39deacf1f1fa07dd766b2528bd
 //		this.createGame();
 //		this.getAllGames();
 		this.loginUser();
@@ -70,13 +74,13 @@ public class ServerAccessTest {
 	
 	private void registerUser() {
 		
-		ServerResponse register = server.registerUser("usrname", "password");
+		ServerResponse register = server.registerUser("BRent", "brentPassword");
 		assertResponseCorrect(register, Integer.class);
 	}
 	
 	private void loginUser() {
 		
-		ServerResponse login = server.loginUser("usrname", "password");
+		ServerResponse login = server.loginUser("BRent", "brentPassword");
 		assertResponseCorrect(login, Integer.class);
 	}
 	
