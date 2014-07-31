@@ -1,6 +1,9 @@
 package server;
 
+import game.GameModel;
+import player.Player;
 import shared.communication.*;
+import shared.definitions.ResourceType;
 
 /**
  *
@@ -287,11 +290,11 @@ public class MovesHandler implements IHandler {
      * Accepts Trade Offer
      * 
      * @pre players have resources to trade
-     * @param parm trade info
+     * @param param trade info
      * @return success or failure
      * @post resources are traded
      */
-    public ServerResponse acceptTradeOffer(AcceptTradeParam parm) {
+    public ServerResponse acceptTradeOffer(AcceptTradeParam param) {
         ServerResponse response = null;
         
         
@@ -303,11 +306,11 @@ public class MovesHandler implements IHandler {
      * Maritime Trade applied to Player/Bank
      * 
      * @pre player and bank have enough resources of each
-     * @param parm trade info
+     * @param param trade info
      * @return success or failure
      * @post player and bank have new resources
      */
-    public ServerResponse maritimeTrade(MaritimeTradeParam parm) {
+    public ServerResponse maritimeTrade(MaritimeTradeParam param) {
         ServerResponse response = null;
         
         
@@ -319,14 +322,25 @@ public class MovesHandler implements IHandler {
      * Discard Card applied to GameModel
      * 
      * @pre player has cards that will be discarded
-     * @param parm discard info
+     * @param param discard info
      * @return success or failure
      * @post player has less cards
      */
-    public ServerResponse discardCards(DiscardCardsParam parm) {
+    public ServerResponse discardCards(DiscardCardsParam param) {
         ServerResponse response = null;
         
-        
+        GameModel game = controller.getGameModel();
+        if(game != null) {
+            Player player = game.getPlayers()[param.getPlayerIndex()];
+            
+            for(ResourceType resource : param.getDiscardedCards())
+                game.getBank().addResourceCard(player.giveResourceCard(resource));
+            
+            response = new ServerResponse(200, "Success");
+            
+        } else {
+            response = new ServerResponse(400, "No game of that type");
+        }
         
         return response;
     }
