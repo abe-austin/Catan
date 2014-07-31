@@ -4,6 +4,7 @@ public class ServerResponse {
 
 	private int code;
 	private Object body;
+	private String cookie;
 	
 	public ServerResponse(int code, Object body) {
 		super();
@@ -29,5 +30,13 @@ public class ServerResponse {
 	
 	public void setBody(Object body) {
 		this.body = body;
+	}
+
+	public String getCookie() {
+		return cookie;
+	}
+
+	public void setCookie(String cookie) {
+		this.cookie = cookie;
 	}	
 }

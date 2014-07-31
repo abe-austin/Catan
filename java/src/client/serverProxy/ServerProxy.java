@@ -117,6 +117,7 @@ public class ServerProxy implements Server{
 		for(Header header : headers) {
 			if(header.getName().equals("Set-cookie")) {
 				String cookie = header.getValue().toString();
+				System.out.println(cookie);
 				String key = cookie.substring(0, cookie.indexOf("="));
 				cookie = cookie.substring(cookie.indexOf("=")+1, cookie.length());
 				if(key.equals("catan.user")) {
