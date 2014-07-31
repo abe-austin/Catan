@@ -61,6 +61,10 @@ public class CatanPanel extends JPanel
                 domesticOverlay.setController(domesticTradeController);
                 acceptOverlay.setController(domesticTradeController);
                 waitView.setController(domesticTradeController);
+                
+                DiscardView discardView = new DiscardView();
+                final DiscardController discardController = new DiscardController(discardView, waitView);
+                
 		JButton testButton = new JButton("Test");
 		testButton.addActionListener(new ActionListener() {
 			

@@ -29,7 +29,6 @@ public class DiscardController extends Controller implements IDiscardController,
 	 * @param waitView View displayed to notify the user that they are waiting for other players to discard
 	 */
 	public DiscardController(IDiscardView view, IWaitView waitView) {
-		
 		super(view);
                 this.view = view;
 		this.waitView = waitView;
@@ -66,9 +65,8 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	@Override
 	public void increaseAmount(ResourceType resource) {
-            	
             for(ResourceType type : ResourceType.values()) {
-                if(facade.increaseAmount(resource, numToDiscard.get(type)))
+                if(facade.increaseAmount(resource, numToDiscard.get(type)) && resource.equals(type))
                     numToDiscard.put(type, numToDiscard.get(type)+1);
             }
             
@@ -79,7 +77,7 @@ public class DiscardController extends Controller implements IDiscardController,
 	public void decreaseAmount(ResourceType resource) {
 		
             for(ResourceType type : ResourceType.values()) {
-                if(facade.decreaseAmount(resource, numToDiscard.get(type)))
+                if(facade.decreaseAmount(resource, numToDiscard.get(type)) && resource.equals(type))
                     numToDiscard.put(type, numToDiscard.get(type)-1);
             }
             
@@ -88,7 +86,7 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	@Override
 	public void discard() {
-            toDiscard.clear();
+            //toDiscard.clear();
             
             // adds all cards to discard list
             for(ResourceType type : ResourceType.values()) {
@@ -96,12 +94,19 @@ public class DiscardController extends Controller implements IDiscardController,
                     toDiscard.add(type);
             }
             
-            if(facade.discard(toDiscard)) {      // only closes if discard was successful
+            
+            
+            if(toDiscard.size() == facade.getClientPlayer().getHandSize()/2)//Just make sure it is successfully sending command to be received later
+            {
+            	ControllerFacade.getSingleton().discard(toDiscard);
+            	toDiscard.clear();
                 for(ResourceType type : ResourceType.values())
                     numToDiscard.put(type, 0);
                 getDiscardView().closeModal();
                 ControllerFacade.getSingleton().getClientPlayer().setDiscarded(false);
             }
+            else
+            	toDiscard.clear();
 	}
         
         /**

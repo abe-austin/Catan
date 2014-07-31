@@ -413,14 +413,19 @@ public class ControllerFacade implements IControllerFacadeListener{
          * @param toDiscard resource list to discard
          * @return true if discard happened, false if not enough cards for discard
 	 */
-	public boolean discard(ArrayList<ResourceType> toDiscard){//DiscardController --goes in GamePlay
+	public void discard(ArrayList<ResourceType> toDiscard){//DiscardController --goes in GamePlay
             switch(gameState){
                 case GamePlay:
-                    return gamePlayController.discard(toDiscard);
+                	serverProxyFacade.discardCards(clientPlayer.getIndex(), toDiscard);
                 default:
-                    return false;
+                	break;
             }
         }
+	
+	//So either we find out how new resources are given to players when the dice roll is in their favor and reverse that for discard
+	//Or we see if changing the serverProxyFacade.discardCards to receiving a list of ResourceTypes is what they want
+	
+	
         /**
 	 * Called by the domestic trade view when the user clicks the domestic trade button.
          * @return 

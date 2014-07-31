@@ -205,7 +205,7 @@ class GamePlayController {
                 return false;
         else {
             for(ResourceType resource : cardsToDiscard)
-                gameModel.getBank().addResourceCard(player.giveResourceCard(resource));
+                gameModel.getBank().addResourceCard(player.giveResourceCard(resource));//Don't need this, should be done on Server side
             
             return true;
         }

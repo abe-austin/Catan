@@ -761,16 +761,21 @@ public class BoardModel {
 	 *      between only ocean tiles)
 	 */
 	public boolean canBuildCity(Corner corner, Player player) {
+		System.out.println("Building city");
 		if (!player.hasAvailableBoardPiece(PieceType.CITY))// First check if
 			return false;									// player has
 															// available city
 															// pieces
+		System.out.println("Check 1");
 		if (!corner.hasStructure())
 			return false;
+		System.out.println("Check 2");
 		if (corner.getStructure().getPieceType() != PieceType.SETTLEMENT)
 			return false;
+		System.out.println("Check 3");
 		if (corner.getStructure().getOwner() != player)
 			return false;
+		System.out.println("Check 4");
 		return true;
 	}// vertex,Player (building type?)
 

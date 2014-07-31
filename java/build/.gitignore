@@ -1,5 +1,7 @@
-/server/
+/client
+/game
+/mainTest
+/player
 /controller
-/client/
-/game/
-/shared/
+/server
+/shared

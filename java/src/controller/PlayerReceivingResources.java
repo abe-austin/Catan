@@ -11,7 +11,7 @@ public class PlayerReceivingResources {
 	int amount;
 	
 	
-	public PlayerReceivingResources(Player p, ResourceType r, int amount2) {
+	public PlayerReceivingResources(Player p, ResourceType r, int amount) {
 		this.player = player;
 		this.resourceType = resourceType;
 		this.amount = amount;

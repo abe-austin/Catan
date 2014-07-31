@@ -590,29 +590,25 @@ public class MapController extends Controller implements IMapController,
 
 		getView().placeRobber(hexLoc);
 
-		ArrayList<RobPlayerInfo> robInfos = ControllerFacade.getSingleton()
-				.placeRobber(hexLoc);
-		RobPlayerInfo[] candidateVictims = robInfos
-				.toArray(new RobPlayerInfo[robInfos.size()]);
+		ArrayList<RobPlayerInfo> robInfos = ControllerFacade.getSingleton().placeRobber(hexLoc);
+		RobPlayerInfo[] candidateVictims = robInfos.toArray(new RobPlayerInfo[robInfos.size()]);
 		getRobView().setPlayers(candidateVictims);
 		getRobView().showModal();
 		lastRobLoc = hexLoc;
+		
 	}
 	
 	/**
 	 * starts the robbing process
 	 */
 	public void beginRobber() {
-		getView().startDrop(PieceType.ROBBER,
-				ControllerFacade.getSingleton().getClientPlayer().getColor(),
-				true);
+		getView().startDrop(PieceType.ROBBER, ControllerFacade.getSingleton().getClientPlayer().getColor(), true);
 	}
 
 	@Override
 	public void startMove(PieceType pieceType, boolean isFree,
 			boolean allowDisconnected) {
-		CatanColor playerColor = ControllerFacade.getSingleton()
-				.getClientPlayer().getColor();
+		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor();
 		getView().startDrop(pieceType, playerColor, allowDisconnected);
 	}
 
