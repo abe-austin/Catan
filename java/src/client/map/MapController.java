@@ -602,14 +602,17 @@ public class MapController extends Controller implements IMapController,
 	 * starts the robbing process
 	 */
 	public void beginRobber() {
-		getView().startDrop(PieceType.ROBBER, ControllerFacade.getSingleton().getClientPlayer().getColor(), true);
+		getView().startDrop(PieceType.ROBBER, ControllerFacade.getSingleton().getClientPlayer().getColor(), false);
 	}
 
 	@Override
-	public void startMove(PieceType pieceType, boolean isFree,
-			boolean allowDisconnected) {
+	public void startMove(PieceType pieceType, boolean isFree,boolean allowDisconnected) {
 		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor();
-		getView().startDrop(pieceType, playerColor, allowDisconnected);
+                boolean canCancel=false;
+                if(ControllerFacade.getSingleton().getGameState()==GameState.GamePlay){
+                    canCancel=true;
+                }
+		getView().startDrop(pieceType, playerColor, canCancel);
 	}
 
 	@Override
