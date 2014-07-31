@@ -1,6 +1,9 @@
 package server;
 
+import client.parse.ParsedChat;
+import controller.ControllerFacade;
 import game.GameModel;
+import game.cards.ResourceCard;
 import player.Player;
 import shared.communication.*;
 import shared.definitions.ResourceType;
@@ -78,13 +81,16 @@ public class MovesHandler implements IHandler {
     /**
      * Sends Chat Message to Other users
      * 
-     * @param parm chat message
+     * @param param chat message
      * @return success or failure
      */
-    public ServerResponse sendChat(SendChatParam parm) {
+    public ServerResponse sendChat(SendChatParam param) {
         ServerResponse response = null;
         
-        
+        GameModel game = controller.getGameModel();
+        Player player = game.getPlayers()[param.getPlayerIndex()];
+        game.getGameHistory().getChatlog().
+                addChatLine(new ParsedChat(player.getUsername(), param.getContent()));
         
         return response;
     }
@@ -120,14 +126,25 @@ public class MovesHandler implements IHandler {
     /**
      * Applies Rob to GameModel
      * 
-     * @param parm rob info
+     * @param param rob info
      * @return success or failure
      * @post resource change from one player to another
      */
-    public ServerResponse robPlayer(RobPlayerParam parm) {
+    public ServerResponse robPlayer(RobPlayerParam param) {
         ServerResponse response = null;
         
+        GameModel game = controller.getGameModel();
+        game.getBoard().getRobber().updateLocation(param.getLocation());
+        Player robber = game.getPlayers()[param.getPlayerIndex()];
+        Player victim = game.getPlayers()[param.getVictimIndex()];
         
+        if(victim.getHandSize() > 0) {
+            int index = (int)(Math.random() * victim.getHandSize());
+            ResourceCard card = (ResourceCard)victim.getResourceCards().toArray()[index];
+            robber.addResourceCard(victim.giveResourceCard(card.getResourceType()));
+        }
+        
+        response = new ServerResponse(200, "Success");
         
         return response;
     }
