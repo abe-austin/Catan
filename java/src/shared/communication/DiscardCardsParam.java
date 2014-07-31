@@ -1,15 +1,15 @@
 package shared.communication;
 
 import java.util.List;
-import game.cards.ResourceCard;
+import shared.definitions.ResourceType;
 
 public class DiscardCardsParam {
 	
 	private String type;
 	private int playerIndex;
-	private List<ResourceCard> discardedCards;
+	private List<ResourceType> discardedCards;
 	
-	public DiscardCardsParam(String type, int playerIndex, List<ResourceCard> discardedCards) {
+	public DiscardCardsParam(String type, int playerIndex, List<ResourceType> discardedCards) {
 		super();
 		this.type = type;
 		this.playerIndex = playerIndex;
@@ -32,11 +32,11 @@ public class DiscardCardsParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public List<ResourceCard> getDiscardedCards() {
+	public List<ResourceType> getDiscardedCards() {
 		return discardedCards;
 	}
 
-	public void setDiscardedCards(List<ResourceCard> discardedCards) {
+	public void setDiscardedCards(List<ResourceType> discardedCards) {
 		this.discardedCards = discardedCards;
 	}
 }

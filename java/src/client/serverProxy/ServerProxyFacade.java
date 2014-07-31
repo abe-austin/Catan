@@ -741,7 +741,7 @@ public class ServerProxyFacade {
      * @param cards 		the <code>List<Card></code> of the cards to discard
      * @return			<code>ServerResponse</code> object    
      */
-	public ServerResponse discardCards(int playerIndex, List<ResourceCard> discardedCards) {
+	public ServerResponse discardCards(int playerIndex, List<ResourceType> discardedCards) {
 		
 		//create param object and convert to json
 		DiscardCardsParam param = new DiscardCardsParam("discardCards", playerIndex, discardedCards);

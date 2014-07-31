@@ -52,11 +52,9 @@ public class AllGamesHandler implements IHandler {
         
         if(gameList == null) {
         	response = new ServerResponse(400, "Failed to get games");
-        }
-        else if(gameList.size() == 0) {
+        } else if(gameList.isEmpty()) {
         	response = new ServerResponse(201, gameList);
-        }
-        else {
+        } else {
         	response = new ServerResponse(200, gameList);
         }
         
