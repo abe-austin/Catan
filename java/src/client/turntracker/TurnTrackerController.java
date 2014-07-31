@@ -11,83 +11,77 @@ import shared.definitions.GameState;
  * Implementation for the turn tracker controller
  */
 public class TurnTrackerController extends Controller implements
-		ITurnTrackerController, IControllerFacadeListener {
-	private boolean firstTurn = true;
-	private int playerNumber = 0;
-        
+        ITurnTrackerController, IControllerFacadeListener {
 
-	public TurnTrackerController(ITurnTrackerView view) {
+    private boolean firstTurn = true;
+    private int playerNumber = 0;
 
-		super(view);
+    public TurnTrackerController(ITurnTrackerView view) {
 
-		initFromModel();
-		ControllerFacade.getSingleton().addListener(this);
-	}
+        super(view);
 
-	@Override
-	public void gameModelChanged(GameModel gameModel) {
-		if (ControllerFacade.getSingleton().getGameState() == GameState.GamePlay) {
-			
-			if ((ControllerFacade.getSingleton().isCurrentTurn())) {
-				if (gameModel.getTurnTracker().getStatus().contains("Playing")) {
-					getView().updateGameState("End Turn", true);
-				} else if (gameModel.getTurnTracker().getStatus()
-						.contains("Robbing")
-						|| gameModel.getTurnTracker().getStatus()
-								.contains("Discard")) {
-					getView().updateGameState("Robbing", true);
-				} else
-					getView().updateGameState("End Turn", true);
-			} else {
-				getView().updateGameState(
-						gameModel.getTurnTracker().getStatus(), false);
-			}
-		}
-                else if(ControllerFacade.getSingleton().getGameState()==GameState.Setup || ControllerFacade.getSingleton().getGameState()==GameState.PlayerWaiting){
-                    if (firstTurn || gameModel.getPlayers().length > playerNumber) {
-                            int i = 0;
-                            for (Player player : gameModel.getPlayers()) {
-                                    if (i >= playerNumber)
-                                            getView().initializePlayer(player.getIndex(),
-                                                            player.toString(), player.getColor());
-                                    i++;
-                                    if(player.getIndex()==ControllerFacade.getSingleton().getClientPlayer().getIndex()){
-                                        getView().setLocalPlayerColor(player.getColor());
-                                    }
-                            }
-                            firstTurn = false;
-                            playerNumber = gameModel.getPlayers().length;
-                    } else {
-                            for (Player player : gameModel.getPlayers()) {
-                                    getView().updatePlayer(
-                                                    player.getIndex(),
-                                                    player.getPoints(),
-                                                    gameModel.getTurnTracker().getCurrentTurn() == player
-                                                                    .getIndex(),
-                                                    player.getIndex() == gameModel.getTurnTracker()
-                                                                    .getLargestArmy(),
-                                                    player.getIndex() == gameModel.getTurnTracker()
-                                                                    .getLongestRoad());
-                            }
-                    }
-                
+        initFromModel();
+        ControllerFacade.getSingleton().addListener(this);
+    }
+
+    @Override
+    public void gameModelChanged(GameModel gameModel) {
+        if (ControllerFacade.getSingleton().getGameState() == GameState.GamePlay) {
+
+            if ((ControllerFacade.getSingleton().isCurrentTurn())) {
+                if (gameModel.getTurnTracker().getStatus().contains("Playing")) {
+                    getView().updateGameState("End Turn", true);
+                } else if (gameModel.getTurnTracker().getStatus().contains("Robbing")
+                        || gameModel.getTurnTracker().getStatus().contains("Discard")) {
+                    getView().updateGameState("Robbing", true);
+                } else {
+                    getView().updateGameState("End Turn", true);
                 }
-	}
+            } else {
+                getView().updateGameState(
+                        gameModel.getTurnTracker().getStatus(), false);
+            }
+        }
+        // else if(ControllerFacade.getSingleton().getGameState()==GameState.Setup || ControllerFacade.getSingleton().getGameState()==GameState.PlayerWaiting){
+        if (firstTurn || gameModel.getPlayers().length > playerNumber) {
+            int i = 0;
+            for (Player player : gameModel.getPlayers()) {
+                if (i >= playerNumber) {
+                    getView().initializePlayer(player.getIndex(),
+                            player.toString(), player.getColor());
+                }
+                i++;
+                if (player.getIndex() == ControllerFacade.getSingleton().getClientPlayer().getIndex()) {
+                    getView().setLocalPlayerColor(player.getColor());
+                }
+            }
+            firstTurn = false;
+            playerNumber = gameModel.getPlayers().length;
+        } else {
+            for (Player player : gameModel.getPlayers()) {
+                getView().updatePlayer(player.getIndex(),player.getPoints(),
+                        gameModel.getTurnTracker().getCurrentTurn() == player.getIndex(),
+                        player.getIndex() == gameModel.getTurnTracker().getLargestArmy(),
+                        player.getIndex() == gameModel.getTurnTracker().getLongestRoad());
+            }
+        }
 
-	@Override
-	public ITurnTrackerView getView() {
+        //}
+    }
 
-		return (ITurnTrackerView) super.getView();
-	}
+    @Override
+    public ITurnTrackerView getView() {
 
-	@Override
-	public void endTurn() {
-		ControllerFacade.getSingleton().endTurn();
-		getView().updateGameState("Waiting for Other Players", false);
-	}
+        return (ITurnTrackerView) super.getView();
+    }
 
-	private void initFromModel() {
+    @Override
+    public void endTurn() {
+        ControllerFacade.getSingleton().endTurn();
+        getView().updateGameState("Waiting for Other Players", false);
+    }
 
-	}
+    private void initFromModel() {
+
+    }
 }
-
