@@ -1,5 +1,6 @@
 package shared.communication;
 
+import java.util.List;
 import java.util.Map;
 import shared.definitions.ResourceType;
 
@@ -8,11 +9,11 @@ import shared.definitions.ResourceType;
  * @author Cory
  */
 public class OfferParam {
-    private int brick;
-    private int ore;
-    private int sheep;
-    private int wheat;
-    private int wood;
+    private int brick=0;
+    private int ore=0;
+    private int sheep=0;
+    private int wheat=0;
+    private int wood=0;
     
     public OfferParam(Map<ResourceType,Integer> offer){
         brick=offer.get(ResourceType.BRICK);
@@ -21,6 +22,25 @@ public class OfferParam {
         wheat=offer.get(ResourceType.WHEAT);
         wood=offer.get(ResourceType.WOOD);
         
+    }
+    public OfferParam(List<ResourceType> resources){
+       for(ResourceType resource:resources){
+           if(resource==ResourceType.BRICK){
+               brick++;
+           }
+           else if(resource==ResourceType.ORE){
+               ore++;
+           }
+           else if(resource==ResourceType.SHEEP){
+               sheep++;
+           }
+           else if(resource==ResourceType.WHEAT){
+               wheat++;
+           }
+           else if(resource==ResourceType.WOOD){
+               wood++;
+           }
+       } 
     }
 
     public int getBrick() {

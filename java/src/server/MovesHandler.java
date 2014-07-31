@@ -333,9 +333,17 @@ public class MovesHandler implements IHandler {
         if(game != null) {
             Player player = game.getPlayers()[param.getPlayerIndex()];
             
-            for(ResourceType resource : param.getDiscardedCards())
-                game.getBank().addResourceCard(player.giveResourceCard(resource));
-            
+            for(int i=0;i<param.getDiscardedCards().getBrick();i++)
+                game.getBank().addResourceCard(player.giveResourceCard(ResourceType.BRICK));
+            for(int i=0;i<param.getDiscardedCards().getOre();i++)
+                game.getBank().addResourceCard(player.giveResourceCard(ResourceType.ORE));
+            for(int i=0;i<param.getDiscardedCards().getSheep();i++)
+                game.getBank().addResourceCard(player.giveResourceCard(ResourceType.SHEEP));
+            for(int i=0;i<param.getDiscardedCards().getWheat();i++)
+                game.getBank().addResourceCard(player.giveResourceCard(ResourceType.WHEAT));
+            for(int i=0;i<param.getDiscardedCards().getWood();i++)
+                game.getBank().addResourceCard(player.giveResourceCard(ResourceType.WOOD));
+                                                
             response = new ServerResponse(200, "Success");
             
         } else {

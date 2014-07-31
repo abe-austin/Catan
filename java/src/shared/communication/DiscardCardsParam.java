@@ -7,13 +7,13 @@ public class DiscardCardsParam {
 	
 	private String type;
 	private int playerIndex;
-	private List<ResourceType> discardedCards;
+	private OfferParam discardedCards;
 	
 	public DiscardCardsParam(String type, int playerIndex, List<ResourceType> discardedCards) {
 		super();
 		this.type = type;
 		this.playerIndex = playerIndex;
-		this.discardedCards = discardedCards;
+		this.discardedCards = new OfferParam(discardedCards);
 	}
 
 	public String getType() {
@@ -32,11 +32,11 @@ public class DiscardCardsParam {
 		this.playerIndex = playerIndex;
 	}
 
-	public List<ResourceType> getDiscardedCards() {
+	public OfferParam getDiscardedCards() {
 		return discardedCards;
 	}
 
-	public void setDiscardedCards(List<ResourceType> discardedCards) {
+	public void setDiscardedCards(OfferParam discardedCards) {
 		this.discardedCards = discardedCards;
 	}
 }
