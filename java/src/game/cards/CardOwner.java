@@ -11,7 +11,26 @@ import shared.definitions.SpecialCardType;
  * @author Kevin MacMaster
  */
 public class CardOwner {
-	protected Set<ResourceCard> resourceCards;
+	
+    /**
+     * This exchanges a Resource between two card owners
+     *
+     * @param receiver
+     * @param giver
+     * @param resource card type
+     * @pre giver has resource card of given type
+     * @post receiver has resource card of given type
+     */
+    public static void changeOwnerResource(CardOwner receiver, CardOwner giver, ResourceType resource) {
+        receiver.addResourceCard(giver.giveResourceCard(resource));
+    }
+    
+    public static void changeOwnerResource(CardOwner receiver, CardOwner giver, ResourceType resource, int amount) {
+    	for(int i = 0; i < amount; i++)
+    		receiver.addResourceCard(giver.giveResourceCard(resource));
+    }
+    
+        protected Set<ResourceCard> resourceCards;
 	protected Set<DevelopmentCard> developmentCards;
 	protected Set<SpecialCard> specialCards;
 

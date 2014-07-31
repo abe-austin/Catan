@@ -1,11 +1,22 @@
 package server;
 
 import client.parse.ParsedChat;
+import controller.ControllerFacade;
+import controller.PlayerReceivingResources;
 import game.GameModel;
+import game.board.Corner;
+import game.board.HexTile;
+import game.board.ResourceTile;
+import game.cards.CardOwner;
 import game.cards.ResourceCard;
+import game.pieces.BoardPiece;
+import java.util.ArrayList;
+import java.util.List;
 import player.Player;
 import shared.communication.*;
 import shared.definitions.DevCardType;
+import shared.definitions.HexType;
+import shared.definitions.PieceType;
 import shared.definitions.ResourceType;
 import shared.definitions.ResourceTypeUtils;
 
@@ -99,15 +110,52 @@ public class MovesHandler implements IHandler {
     /**
      * Applies Roll to GameModel
      * 
-     * @param parm roll info
+     * @param param roll info
      * @return success or failure
      */
-    public ServerResponse rollNumber(RollNumberParam parm) {
-        ServerResponse response = null;
+    public ServerResponse rollNumber(RollNumberParam param) {        
+        List<HexTile> hexes = controller.getGameModel().getBoard().getHexes();
+    	ArrayList<PlayerReceivingResources> resourceChanges = new ArrayList<>();
+    	
+        for(HexTile tile : hexes) {
+            if(tile.getType() != HexType.DESERT && tile.getType() != HexType.WATER && !tile.getHasRobber()) {
+                ResourceTile resourceTile = (ResourceTile)tile;
+                
+                if(!resourceTile.getToken().hitTest(param.getNumber()))
+                    continue;
+                
+                for(Corner corner : resourceTile.getCorners()) {
+                    if(corner.hasStructure()) {
+                        BoardPiece boardPiece = corner.getStructure();
+                        PlayerReceivingResources receiving = getPlayerResources(boardPiece, resourceTile);
+                        resourceChanges.add(receiving);
+                    }
+                }                
+            }
+    	}
+
+    	for(PlayerReceivingResources changes : resourceChanges) {
+    		Player player = changes.getPlayer();
+    		ResourceType type = changes.getResourceType();
+    		int amount = changes.getAmount();
+    		
+                CardOwner.changeOwnerResource(player, controller.getGameModel().getBank(), type, amount);
+    	}
         
         
+        return new ServerResponse(200, "Success");
+    }
+    
+    public PlayerReceivingResources getPlayerResources(BoardPiece boardPiece, ResourceTile resourceTile) {
+    	int amount;
         
-        return response;
+        if(boardPiece.getPieceType() == PieceType.CITY) {
+                amount = 2;
+        } else {
+                amount = 1;
+        }
+        
+        return new PlayerReceivingResources(boardPiece.getOwner(), resourceTile.getResourceType(), amount);
     }
     
     /**
