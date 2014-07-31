@@ -85,12 +85,12 @@ public class CatanServer {
 			byte[] response = new byte[256];
 			
 			String requestBody = getBody(exchange);
-	        	        
 	        ServerResponse serverResponse = controller.handleCommand(exchange.getRequestURI().toString().substring(0),
 	        		requestBody);
 	        
 	        response = JsonUtils.convertToJson(serverResponse.getBody()).getBytes("UTF-8");
 
+	        exchange.getResponseHeaders().set("Set-cookie", "catan.user=%7B%22authentication%22%3A%22-1286879297%22%2C%22name%22%3A%22brent%22%2C%22password%22%3A%22brent%22%2C%22playerID%22%3A12%7D;Path=/;");
 	        exchange.sendResponseHeaders(serverResponse.getCode(), response.length);
 	        exchange.getResponseBody().write(response);
 	        exchange.close();	
