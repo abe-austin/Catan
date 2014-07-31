@@ -39,19 +39,14 @@ public class UserHandler implements IHandler{
      */
     public ServerResponse registerUser(RegisterUserParam parm) {
         ServerResponse response = null;
+        
         if(controller.canCreateUser(parm.getUsername(), parm.getPassword())) {
             User user = controller.createUser(parm.getUsername(), parm.getPassword());
             response = new ServerResponse(200, "Success");
-            response.setCookie("catan.user=%7B%22authentication%22%3A%22-1286879297%22%2C%22name%22%3A%22" +
-            		user.getUsername().getUsername() +
-            		"%22%2C%22password%22%3A%22" +
-            		user.getPassword().getPassword() +
-            		"%22%2C%22playerID%22%3A" +
-            		user.getId() +
-            		"%7D;Path=/;");
-        }
-        else {
-        	response = new ServerResponse(400, "Cannot create user");
+            response.setCookie(controller.createCookie(user.getUsername().getUsername(),
+                                user.getPassword().getPassword(), user.getId()));
+        } else {
+            response = new ServerResponse(400, "Cannot create user");
         }
         
         return response;
@@ -65,19 +60,15 @@ public class UserHandler implements IHandler{
      */
     public ServerResponse loginUser(LoginUserParam parm) {
         ServerResponse response = null;
+        
         User user = controller.loginUser(parm.getUsername(), parm.getPassword());
+        
         if(user != null) {
             response = new ServerResponse(200, "Success");
-            response.setCookie("catan.user=%7B%22authentication%22%3A%22-1286879297%22%2C%22name%22%3A%22" +
-            		user.getUsername().getUsername() +
-            		"%22%2C%22password%22%3A%22" +
-            		user.getPassword().getPassword() +
-            		"%22%2C%22playerID%22%3A" +
-            		user.getId() +
-            		"%7D;Path=/;");
-        }
-        else {
-        	response = new ServerResponse(400, "Login failed");
+            response.setCookie(controller.createCookie(user.getUsername().getUsername(),
+                                user.getPassword().getPassword(), user.getId()));
+        } else {
+            response = new ServerResponse(400, "Login failed");
         }
         
         return response;
