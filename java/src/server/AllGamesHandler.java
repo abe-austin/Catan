@@ -73,7 +73,8 @@ public class AllGamesHandler implements IHandler {
         ServerResponse response = null;   
         if(controller.canCreateGame(param.getName())) {
             GameModel game = controller.createGame(param);
-            response = new ServerResponse(200, "Success");
+            CreateGameRes result = new CreateGameRes(game.getGameName(), game.getGameId());
+            response = new ServerResponse(200, result);
             response.setCookie(controller.createCookie(game.getGameId()));
         } else {
             response = new ServerResponse(400, "Game Already Exists");
