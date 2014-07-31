@@ -107,9 +107,9 @@ public class CatanServer {
 
 			Map<String, List<String>> requestHeaders = exchange.getRequestHeaders();
 			List<String> cookies = requestHeaders.get("Cookie");
+			CookieObject cookieObject = new CookieObject();
 			
 			try {
-				CookieObject cookieObject = new CookieObject();
 				for (String cookie : cookies) {
 					StringBuilder sb = new StringBuilder(cookie);
 					sb.delete(0, 10);
@@ -133,10 +133,11 @@ public class CatanServer {
 					cookieObject.setPassword(password);
 					cookieObject.setID(id);
 				}
+				
 			} catch (Exception e) {
 //				e.printStackTrace();
 			}
-			return null;
+			return cookieObject;
 		}
 	};
 	
