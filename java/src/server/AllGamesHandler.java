@@ -124,14 +124,15 @@ public class AllGamesHandler implements IHandler {
         
         if(game != null) {
              for(Player player : game.getPlayers()) {
-                 if(player.getColor().equals(param.getColor())) {
+                 if(player.getColor().toString().equals(param.getColor())) {
                      response = new ServerResponse(200, "Success");
-                     
+                     response.setCookie(controller.createCookie(game.getGameId()));
+                     break;
                  }
              }
              
              if(response == null && game.getPlayers().length != 4) {
-                 
+                 //create player
              } else if(response == null) {
                  response = new ServerResponse(400, "Game is full");
              }
