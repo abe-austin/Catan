@@ -115,6 +115,7 @@ public class ServerProxy implements Server{
 	
 	private void setCookies(Header[] headers) {
 		for(Header header : headers) {
+//			System.out.println(header.getName());
 			if(header.getName().equals("Set-cookie")) {
 				String cookie = header.getValue().toString();
 				String key = cookie.substring(0, cookie.indexOf("="));

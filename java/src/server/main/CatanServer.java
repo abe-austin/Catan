@@ -2,6 +2,8 @@ package server.main;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.*;
 
 import com.sun.net.httpserver.*;
@@ -85,7 +87,14 @@ public class CatanServer {
 			byte[] response = new byte[256];
 			
 			String requestBody = getBody(exchange);
-	        	        
+			
+			Map<String, List<String>> requestHeaders = exchange.getRequestHeaders();
+			List<String> cookies = requestHeaders.get("Cookie");
+			System.out.println("here");
+			for(String string : cookies) {
+				System.err.println(string);
+			}
+			
 	        ServerResponse serverResponse = controller.handleCommand(exchange.getRequestURI().toString().substring(0),
 	        		requestBody);
 	        
