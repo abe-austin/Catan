@@ -127,7 +127,7 @@ public class HexTile {
 	public void buildRoad(Edge edge, Player player) {
 		BoardPiece theRoad = player.getAvailableBoardPiece(PieceType.ROAD);
 		edge.buildStructure(theRoad);
-		theRoad.setActive(true);
+		//theRoad.setActive(true);
 	}// Build the requested object
 
 	/**
@@ -138,10 +138,9 @@ public class HexTile {
 	 *            players settlement/city to build
 	 */
 	public void buildSettlement(Corner corner, Player player) {
-		BoardPiece theSettlement = player
-				.getAvailableBoardPiece(PieceType.SETTLEMENT);
+		BoardPiece theSettlement = player.getAvailableBoardPiece(PieceType.SETTLEMENT);
 		corner.buildStructure(theSettlement);
-		theSettlement.setActive(true);
+		//theSettlement.setActive(true);
 	}
 
 	/**
@@ -157,7 +156,7 @@ public class HexTile {
 		// theSettlement.setActive(false); had to comment it out, was null from
 		// parsed data
 		corner.buildStructure(theCity);
-		theCity.setActive(true);
+		//theCity.setActive(true);
 	}
 
 	public HexType getType() {

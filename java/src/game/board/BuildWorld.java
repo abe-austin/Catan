@@ -13,25 +13,27 @@ import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 
-
 public class BuildWorld {
-	
+
 	private List<HexTile> tiles;
 	private List<Edge> edges;
 	private List<Corner> corners;
 	private boolean seenDesert;
-	
-	public BuildWorld() {//Perhaps a constructor with a list of hexes, tiles, and vertices. Another that is empty and does lists of each
+
+	public BuildWorld() {// Perhaps a constructor with a list of hexes, tiles,
+							// and vertices. Another that is empty and does
+							// lists of each
 		seenDesert = false;
 		defaultSetup();
 	}
-	
-	//public BuildWorld(List<HexTile> tiles, List<Edge> edges, List<Corner> corners) {
-	//	this.tiles = tiles;
-	//	this.edges = edges;
-	//	this.corners = corners;
-	//}
-	
+
+	// public BuildWorld(List<HexTile> tiles, List<Edge> edges, List<Corner>
+	// corners) {
+	// this.tiles = tiles;
+	// this.edges = edges;
+	// this.corners = corners;
+	// }
+
 	public void defaultSetup() {
 		tiles = new ArrayList<HexTile>();
 		edges = new ArrayList<Edge>();
@@ -41,40 +43,43 @@ public class BuildWorld {
 		addVertices();
 		updateTiles();
 	}
-	
+
 	public List<HexTile> getTiles() {
 		return tiles;
 	}
-	
+
 	/**
 	 * creates the different tiles for the map
 	 */
 	public void createTiles() {
-		//Key
+		// Key
 		// 0 = Wood
 		// 1 = brick
 		// 2 = sheep
 		// 3 = wheat
 		// 4 = ore
 		// 5 = desert
-		ArrayList<Integer> places = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5));
-		
-		//Key
+		ArrayList<Integer> places = new ArrayList<Integer>(Arrays.asList(0, 0,
+				0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5));
+
+		// Key
 		// 0 = threePort
 		// 1 = woodPort
 		// 2 = brickPort
 		// 3 = sheepPort
 		// 4 = wheatPort
 		// 5 = orePort
-		ArrayList<Integer> ports = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 1, 2, 3, 4, 5));
-		
-		ArrayList<Integer> numTokens = new ArrayList<Integer>(Arrays.asList(2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12));
-		
+		ArrayList<Integer> ports = new ArrayList<Integer>(Arrays.asList(0, 0,
+				0, 0, 1, 2, 3, 4, 5));
+
+		ArrayList<Integer> numTokens = new ArrayList<Integer>(Arrays.asList(2,
+				3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12));
+
 		Collections.shuffle(places);
 		Collections.shuffle(ports);
 		Collections.shuffle(numTokens);
-		
-		//Create ocean tiles
+
+		// Create ocean tiles
 		HexTile p0n3 = new OceanTile();
 		p0n3.setCoordinates(0, -3);
 		HexTile p2n3 = new OceanTile();
@@ -93,8 +98,10 @@ public class BuildWorld {
 		n3p1.setCoordinates(-3, 1);
 		HexTile n2n1 = new OceanTile();
 		n2n1.setCoordinates(-2, -1);
-		
-		//Create port tiles...Note, we may need some way to denote when a corner is a port corner, as port hexes do not have all of their corners as ports
+
+		// Create port tiles...Note, we may need some way to denote when a
+		// corner is a port corner, as port hexes do not have all of their
+		// corners as ports
 		HexTile p1n3 = getPortType(ports.get(0));
 		p1n3.setCoordinates(1, -3);
 		HexTile p3n3 = getPortType(ports.get(1));
@@ -113,8 +120,8 @@ public class BuildWorld {
 		n3p0.setCoordinates(-3, 0);
 		HexTile n1n2 = getPortType(ports.get(8));
 		n1n2.setCoordinates(-1, -2);
-		
-		//Create land tiles
+
+		// Create land tiles
 		HexTile p0n2 = getLandType(places.get(0), numTokens, 0);
 		p0n2.setCoordinates(0, -2);
 		HexTile p1n2 = getLandType(places.get(1), numTokens, 1);
@@ -153,8 +160,8 @@ public class BuildWorld {
 		n1p0.setCoordinates(-1, 0);
 		HexTile p0p0 = getLandType(places.get(18), numTokens, 18);
 		p0p0.setCoordinates(0, 0);
-		
-		//Add all tiles to list
+
+		// Add all tiles to list
 		tiles.add(n3p0);
 		tiles.add(n3p1);
 		tiles.add(n3p2);
@@ -193,763 +200,894 @@ public class BuildWorld {
 		tiles.add(p3n1);
 		tiles.add(p3p0);
 	}
-	
+
 	/**
 	 * gets a random port type
+	 * 
 	 * @param number
 	 * @return
 	 */
 	public HexTile getPortType(int number) {
-		switch(number) {
-			case 0: return new PortTile(PortType.THREE);
-			case 1: return new PortTile(PortType.WOOD);
-			case 2: return new PortTile(PortType.BRICK);
-			case 3: return new PortTile(PortType.SHEEP);
-			case 4: return new PortTile(PortType.WHEAT);
-			case 5: return new PortTile(PortType.ORE);
-			default: return null;
+		switch (number) {
+		case 0:
+			return new PortTile(PortType.THREE);
+		case 1:
+			return new PortTile(PortType.WOOD);
+		case 2:
+			return new PortTile(PortType.BRICK);
+		case 3:
+			return new PortTile(PortType.SHEEP);
+		case 4:
+			return new PortTile(PortType.WHEAT);
+		case 5:
+			return new PortTile(PortType.ORE);
+		default:
+			return null;
 		}
 	}
-	
+
 	/**
 	 * gets a random land type based of the number
+	 * 
 	 * @param number
 	 * @param numberTokens
 	 * @param index
 	 * @return
 	 */
-	public HexTile getLandType(int number, ArrayList<Integer> numberTokens, int index) {
+	public HexTile getLandType(int number, ArrayList<Integer> numberTokens,
+			int index) {
 		int theToken = 0;
-		if(seenDesert || index == 18)
-			theToken = numberTokens.get(index-1);
+		if (seenDesert || index == 18)
+			theToken = numberTokens.get(index - 1);
 		else
 			theToken = numberTokens.get(index);
-		switch(number) {
-			case 0: return new ResourceTile(ResourceType.WOOD, new NumberToken(theToken));
-			case 1: return new ResourceTile(ResourceType.BRICK, new NumberToken(theToken));
-			case 2: return new ResourceTile(ResourceType.SHEEP, new NumberToken(theToken));
-			case 3: return new ResourceTile(ResourceType.WHEAT, new NumberToken(theToken));
-			case 4: return new ResourceTile(ResourceType.ORE, new NumberToken(theToken));
-			case 5: seenDesert = true; return new DesertTile();//DESERT
-			default: return null;
+		switch (number) {
+		case 0:
+			return new ResourceTile(ResourceType.WOOD,
+					new NumberToken(theToken));
+		case 1:
+			return new ResourceTile(ResourceType.BRICK, new NumberToken(
+					theToken));
+		case 2:
+			return new ResourceTile(ResourceType.SHEEP, new NumberToken(
+					theToken));
+		case 3:
+			return new ResourceTile(ResourceType.WHEAT, new NumberToken(
+					theToken));
+		case 4:
+			return new ResourceTile(ResourceType.ORE, new NumberToken(theToken));
+		case 5:
+			seenDesert = true;
+			return new DesertTile();// DESERT
+		default:
+			return null;
 		}
 	}
-	
-	/**
-	 * 
-	 */
+
 	public void addEdges() {
-		//0
-		EdgeLocation l1 = new EdgeLocation(new HexLocation(0, -1), EdgeDirection.South);
-		EdgeLocation l2 = new EdgeLocation(new HexLocation(0, 0), EdgeDirection.North);
+		// 0
+		EdgeLocation l1 = new EdgeLocation(new HexLocation(0, -1),
+				EdgeDirection.South);
+		EdgeLocation l2 = new EdgeLocation(new HexLocation(0, 0),
+				EdgeDirection.North);
 		addEdge(l1, l2);
-		
-		//1
+
+		// 1
 		l1 = new EdgeLocation(new HexLocation(1, -1), EdgeDirection.SouthWest);
 		l2 = new EdgeLocation(new HexLocation(0, 0), EdgeDirection.NorthEast);
 		addEdge(l1, l2);
-		
-		//2
+
+		// 2
 		l1 = new EdgeLocation(new HexLocation(1, 0), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(0, 0), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//3
+
+		// 3
 		l1 = new EdgeLocation(new HexLocation(0, 1), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(0, 0), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//4
+
+		// 4
 		l1 = new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(0, 0), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//5
+
+		// 5
 		l1 = new EdgeLocation(new HexLocation(-1, 0), EdgeDirection.SouthEast);
 		l2 = new EdgeLocation(new HexLocation(0, 0), EdgeDirection.NorthWest);
 		addEdge(l1, l2);
-		
-		//6
+
+		// 6
 		l1 = new EdgeLocation(new HexLocation(0, -1), EdgeDirection.SouthWest);
 		l2 = new EdgeLocation(new HexLocation(-1, 0), EdgeDirection.NorthEast);
 		addEdge(l1, l2);
-		
-		//7
+
+		// 7
 		l1 = new EdgeLocation(new HexLocation(0, -1), EdgeDirection.SouthEast);
 		l2 = new EdgeLocation(new HexLocation(1, -1), EdgeDirection.NorthWest);
 		addEdge(l1, l2);
-		
-		//8
+
+		// 8
 		l1 = new EdgeLocation(new HexLocation(1, -1), EdgeDirection.South);
 		l2 = new EdgeLocation(new HexLocation(1, 0), EdgeDirection.North);
 		addEdge(l1, l2);
-		
-		//9
+
+		// 9
 		l1 = new EdgeLocation(new HexLocation(1, 0), EdgeDirection.SouthWest);
 		l2 = new EdgeLocation(new HexLocation(0, 1), EdgeDirection.NorthEast);
 		addEdge(l1, l2);
-		
-		//10
+
+		// 10
 		l1 = new EdgeLocation(new HexLocation(0, 1), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//11
+
+		// 11
 		l1 = new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(-1, 0), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//12
+
+		// 12
 		l1 = new EdgeLocation(new HexLocation(0, -2), EdgeDirection.South);
 		l2 = new EdgeLocation(new HexLocation(0, -1), EdgeDirection.North);
 		addEdge(l1, l2);
-		
-		//13
+
+		// 13
 		l1 = new EdgeLocation(new HexLocation(0, -1), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(1, -2), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//14
+
+		// 14
 		l1 = new EdgeLocation(new HexLocation(1, -2), EdgeDirection.South);
 		l2 = new EdgeLocation(new HexLocation(1, -1), EdgeDirection.North);
 		addEdge(l1, l2);
-		
-		//15
+
+		// 15
 		l1 = new EdgeLocation(new HexLocation(1, -1), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(2, -2), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//16
+
+		// 16
 		l1 = new EdgeLocation(new HexLocation(2, -1), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(1, -1), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//17
+
+		// 17
 		l1 = new EdgeLocation(new HexLocation(1, 0), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(2, -1), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//18
+
+		// 18
 		l1 = new EdgeLocation(new HexLocation(2, 0), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(1, 0), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//19
+
+		// 19
 		l1 = new EdgeLocation(new HexLocation(1, 1), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(1, 0), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//20
+
+		// 20
 		l1 = new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(0, 1), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//21
+
+		// 21
 		l1 = new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(0, 1), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//22
+
+		// 22
 		l1 = new EdgeLocation(new HexLocation(-1, 2), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(0, 1), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//23
+
+		// 23
 		l1 = new EdgeLocation(new HexLocation(-1, 2), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//24
+
+		// 24
 		l1 = new EdgeLocation(new HexLocation(-2, 2), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//25
+
+		// 25
 		l1 = new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//26
+
+		// 26
 		l1 = new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(-1, 0), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//27
+
+		// 27
 		l1 = new EdgeLocation(new HexLocation(-1, 0), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(-2, 0), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//28
+
+		// 28
 		l1 = new EdgeLocation(new HexLocation(-1, 0), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(-1, -1), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//29
+
+		// 29
 		l1 = new EdgeLocation(new HexLocation(0, -1), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(-1, -1), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//30
+
+		// 30
 		l1 = new EdgeLocation(new HexLocation(-1, -1), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(0, -2), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//31
+
+		// 31
 		l1 = new EdgeLocation(new HexLocation(1, -2), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(0, -2), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//32
+
+		// 32
 		l1 = new EdgeLocation(new HexLocation(2, -2), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(1, -2), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//33
+
+		// 33
 		l1 = new EdgeLocation(new HexLocation(2, -1), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(2, -2), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//34
+
+		// 34
 		l1 = new EdgeLocation(new HexLocation(2, 0), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(2, -1), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//35
+
+		// 35
 		l1 = new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(2, 0), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//36
+
+		// 36
 		l1 = new EdgeLocation(new HexLocation(0, 2), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(1, 1), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//37
+
+		// 37
 		l1 = new EdgeLocation(new HexLocation(0, 2), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(-1, 2), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//38
+
+		// 38
 		l1 = new EdgeLocation(new HexLocation(-1, 2), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(-2, 2), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//39
+
+		// 39
 		l1 = new EdgeLocation(new HexLocation(-2, 2), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//40
+
+		// 40
 		l1 = new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(-2, 0), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//41
+
+		// 41
 		l1 = new EdgeLocation(new HexLocation(-2, 0), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(-1, -1), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//42
+
+		// 42
 		l1 = new EdgeLocation(new HexLocation(0, -2), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(0, -3), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//43
+
+		// 43
 		l1 = new EdgeLocation(new HexLocation(0, -2), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(1, -3), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//44
+
+		// 44
 		l1 = new EdgeLocation(new HexLocation(1, -2), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(1, -3), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//45
+
+		// 45
 		l1 = new EdgeLocation(new HexLocation(1, -2), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(2, -3), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//46
+
+		// 46
 		l1 = new EdgeLocation(new HexLocation(2, -2), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(2, -3), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//47
+
+		// 47
 		l1 = new EdgeLocation(new HexLocation(2, -2), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(3, -3), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//48
+
+		// 48
 		l1 = new EdgeLocation(new HexLocation(3, -2), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(2, -2), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//49
+
+		// 49
 		l1 = new EdgeLocation(new HexLocation(2, -1), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(3, -2), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//50
+
+		// 50
 		l1 = new EdgeLocation(new HexLocation(3, -1), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(2, -1), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//51
+
+		// 51
 		l1 = new EdgeLocation(new HexLocation(2, 0), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(3, -1), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//52
+
+		// 52
 		l1 = new EdgeLocation(new HexLocation(3, 0), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(2, 0), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//53
+
+		// 53
 		l1 = new EdgeLocation(new HexLocation(2, 1), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(2, 0), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//54
+
+		// 54
 		l1 = new EdgeLocation(new HexLocation(2, 1), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(1, 1), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//55
+
+		// 55
 		l1 = new EdgeLocation(new HexLocation(1, 2), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(1, 1), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//56
+
+		// 56
 		l1 = new EdgeLocation(new HexLocation(1, 2), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(0, 2), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//57
+
+		// 57
 		l1 = new EdgeLocation(new HexLocation(0, 3), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(0, 2), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//58
+
+		// 58
 		l1 = new EdgeLocation(new HexLocation(-1, 3), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(0, 2), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//59
+
+		// 59
 		l1 = new EdgeLocation(new HexLocation(-1, 3), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(-1, 2), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//60
+
+		// 60
 		l1 = new EdgeLocation(new HexLocation(-2, 3), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(-1, 2), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//61
+
+		// 61
 		l1 = new EdgeLocation(new HexLocation(-2, 3), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(-2, 2), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//62
+
+		// 62
 		l1 = new EdgeLocation(new HexLocation(-3, 3), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(-2, 2), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//63
+
+		// 63
 		l1 = new EdgeLocation(new HexLocation(-2, 2), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(-3, 2), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//64
+
+		// 64
 		l1 = new EdgeLocation(new HexLocation(-3, 2), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//65
+
+		// 65
 		l1 = new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(-3, 1), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//66
+
+		// 66
 		l1 = new EdgeLocation(new HexLocation(-3, 1), EdgeDirection.NorthEast);
 		l2 = new EdgeLocation(new HexLocation(-2, 0), EdgeDirection.SouthWest);
 		addEdge(l1, l2);
-		
-		//67
+
+		// 67
 		l1 = new EdgeLocation(new HexLocation(-2, 0), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(-3, 0), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//68
+
+		// 68
 		l1 = new EdgeLocation(new HexLocation(-2, 0), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(-2, -1), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//69
+
+		// 69
 		l1 = new EdgeLocation(new HexLocation(-1, -1), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(-2, -1), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
-		
-		//70
+
+		// 70
 		l1 = new EdgeLocation(new HexLocation(-1, -1), EdgeDirection.North);
 		l2 = new EdgeLocation(new HexLocation(-1, -2), EdgeDirection.South);
 		addEdge(l1, l2);
-		
-		//71
+
+		// 71
 		l1 = new EdgeLocation(new HexLocation(0, -2), EdgeDirection.NorthWest);
 		l2 = new EdgeLocation(new HexLocation(-1, -2), EdgeDirection.SouthEast);
 		addEdge(l1, l2);
 	}
-	
+
 	public void addEdge(EdgeLocation l1, EdgeLocation l2) {
 		List<EdgeLocation> list = new ArrayList<EdgeLocation>();
 		list.add(l1);
 		list.add(l2);
 		edges.add(new Edge(list));
 	}
-	
+
 	public void addVertices() {
-		//0
-		VertexLocation l1 = new VertexLocation(new HexLocation(0, 0), VertexDirection.NorthWest);
-		VertexLocation l2 = new VertexLocation(new HexLocation(-1, 0), VertexDirection.East);
-		VertexLocation l3 = new VertexLocation(new HexLocation(0, -1), VertexDirection.SouthWest);
+		// 0
+		VertexLocation l1 = new VertexLocation(new HexLocation(0, 0),
+				VertexDirection.NorthWest);
+		VertexLocation l2 = new VertexLocation(new HexLocation(-1, 0),
+				VertexDirection.East);
+		VertexLocation l3 = new VertexLocation(new HexLocation(0, -1),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-				
-		//1
-		l1 = new VertexLocation(new HexLocation(0, 0), VertexDirection.NorthEast);
+
+		// 1
+		l1 = new VertexLocation(new HexLocation(0, 0),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(1, -1), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(0, -1), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(0, -1),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//2
+
+		// 2
 		l1 = new VertexLocation(new HexLocation(0, 0), VertexDirection.East);
-		l2 = new VertexLocation(new HexLocation(1, -1), VertexDirection.SouthWest);
-		l3 = new VertexLocation(new HexLocation(1, 0), VertexDirection.NorthWest);
+		l2 = new VertexLocation(new HexLocation(1, -1),
+				VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(1, 0),
+				VertexDirection.NorthWest);
 		addVertex(l1, l2, l3);
-		
-		//3
-		l1 = new VertexLocation(new HexLocation(0, 0), VertexDirection.SouthEast);
+
+		// 3
+		l1 = new VertexLocation(new HexLocation(0, 0),
+				VertexDirection.SouthEast);
 		l2 = new VertexLocation(new HexLocation(1, 0), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(0, 1), VertexDirection.NorthEast);
+		l3 = new VertexLocation(new HexLocation(0, 1),
+				VertexDirection.NorthEast);
 		addVertex(l1, l2, l3);
-		
-		//4
-		l1 = new VertexLocation(new HexLocation(0, 0), VertexDirection.SouthWest);
-		l2 = new VertexLocation(new HexLocation(0, 1), VertexDirection.NorthWest);
+
+		// 4
+		l1 = new VertexLocation(new HexLocation(0, 0),
+				VertexDirection.SouthWest);
+		l2 = new VertexLocation(new HexLocation(0, 1),
+				VertexDirection.NorthWest);
 		l3 = new VertexLocation(new HexLocation(-1, 1), VertexDirection.East);
 		addVertex(l1, l2, l3);
-		
-		//5
+
+		// 5
 		l1 = new VertexLocation(new HexLocation(0, 0), VertexDirection.West);
-		l2 = new VertexLocation(new HexLocation(-1, 0), VertexDirection.SouthEast);
-		l3 = new VertexLocation(new HexLocation(-1, 1), VertexDirection.NorthEast);
+		l2 = new VertexLocation(new HexLocation(-1, 0),
+				VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(-1, 1),
+				VertexDirection.NorthEast);
 		addVertex(l1, l2, l3);
-		
-		//6
-		l1 = new VertexLocation(new HexLocation(0, -1), VertexDirection.NorthWest);
+
+		// 6
+		l1 = new VertexLocation(new HexLocation(0, -1),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(-1, -1), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(0, -2), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(0, -2),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//7
-		l1 = new VertexLocation(new HexLocation(0, -1), VertexDirection.NorthEast);
+
+		// 7
+		l1 = new VertexLocation(new HexLocation(0, -1),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(1, -2), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(0, -2), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(0, -2),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//8
+
+		// 8
 		l1 = new VertexLocation(new HexLocation(0, -1), VertexDirection.East);
-		l2 = new VertexLocation(new HexLocation(1, -2), VertexDirection.SouthWest);
-		l3 = new VertexLocation(new HexLocation(1, -1), VertexDirection.NorthWest);
+		l2 = new VertexLocation(new HexLocation(1, -2),
+				VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(1, -1),
+				VertexDirection.NorthWest);
 		addVertex(l1, l2, l3);
-		
-		//9
-		l1 = new VertexLocation(new HexLocation(1, -1), VertexDirection.NorthEast);
+
+		// 9
+		l1 = new VertexLocation(new HexLocation(1, -1),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(2, -2), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(1, -2), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(1, -2),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//10
-		l1 = new VertexLocation(new HexLocation(2, -1), VertexDirection.NorthWest);
+
+		// 10
+		l1 = new VertexLocation(new HexLocation(2, -1),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(1, -1), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(2, -2), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(2, -2),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//11
-		l1 = new VertexLocation(new HexLocation(1, 0), VertexDirection.NorthEast);
+
+		// 11
+		l1 = new VertexLocation(new HexLocation(1, 0),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(2, -1), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(1, -1), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(1, -1),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//12
-		l1 = new VertexLocation(new HexLocation(2, 0), VertexDirection.NorthWest);
+
+		// 12
+		l1 = new VertexLocation(new HexLocation(2, 0),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(1, 0), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(2, -1), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(2, -1),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//13
-		l1 = new VertexLocation(new HexLocation(1, 1), VertexDirection.NorthEast);
+
+		// 13
+		l1 = new VertexLocation(new HexLocation(1, 1),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(2, 0), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(1, 0), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(1, 0),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//14
-		l1 = new VertexLocation(new HexLocation(1, 1), VertexDirection.NorthWest);
+
+		// 14
+		l1 = new VertexLocation(new HexLocation(1, 1),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(0, 1), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(1, 0), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(1, 0),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//15
-		l1 = new VertexLocation(new HexLocation(0, 2), VertexDirection.NorthEast);
+
+		// 15
+		l1 = new VertexLocation(new HexLocation(0, 2),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(1, 1), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(0, 1), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(0, 1),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//16
-		l1 = new VertexLocation(new HexLocation(0, 2), VertexDirection.NorthWest);
+
+		// 16
+		l1 = new VertexLocation(new HexLocation(0, 2),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(-1, 2), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(0, 1), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(0, 1),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//17
-		l1 = new VertexLocation(new HexLocation(-1, 2), VertexDirection.NorthEast);
+
+		// 17
+		l1 = new VertexLocation(new HexLocation(-1, 2),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(0, 1), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(-1, 1), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(-1, 1),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//18
-		l1 = new VertexLocation(new HexLocation(-1, 2), VertexDirection.NorthWest);
+
+		// 18
+		l1 = new VertexLocation(new HexLocation(-1, 2),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(-2, 2), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(-1, 1), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(-1, 1),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//19
-		l1 = new VertexLocation(new HexLocation(-2, 2), VertexDirection.NorthEast);
+
+		// 19
+		l1 = new VertexLocation(new HexLocation(-2, 2),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(-1, 1), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(-2, 1), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(-2, 1),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//20
-		l1 = new VertexLocation(new HexLocation(-1, 1), VertexDirection.NorthWest);
+
+		// 20
+		l1 = new VertexLocation(new HexLocation(-1, 1),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(-2, 1), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(-1, 0), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(-1, 0),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//21
-		l1 = new VertexLocation(new HexLocation(-2, 1), VertexDirection.NorthEast);
+
+		// 21
+		l1 = new VertexLocation(new HexLocation(-2, 1),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(-1, 0), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(-2, 0), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(-2, 0),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//22
-		l1 = new VertexLocation(new HexLocation(-1, 0), VertexDirection.NorthWest);
+
+		// 22
+		l1 = new VertexLocation(new HexLocation(-1, 0),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(-2, 0), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(-1, -1), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(-1, -1),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//23
-		l1 = new VertexLocation(new HexLocation(-1, 0), VertexDirection.NorthEast);
+
+		// 23
+		l1 = new VertexLocation(new HexLocation(-1, 0),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(0, -1), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(-1, -1), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(-1, -1),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//24
-		l1 = new VertexLocation(new HexLocation(0, -2), VertexDirection.NorthWest);
+
+		// 24
+		l1 = new VertexLocation(new HexLocation(0, -2),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(-1, -2), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(0, -3), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(0, -3),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//25
-		l1 = new VertexLocation(new HexLocation(0, -2), VertexDirection.NorthEast);
+
+		// 25
+		l1 = new VertexLocation(new HexLocation(0, -2),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(1, -3), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(0, -3), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(0, -3),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//26
-		l1 = new VertexLocation(new HexLocation(1, -2), VertexDirection.NorthWest);
+
+		// 26
+		l1 = new VertexLocation(new HexLocation(1, -2),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(0, -2), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(1, -3), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(1, -3),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//27
-		l1 = new VertexLocation(new HexLocation(1, -2), VertexDirection.NorthEast);
+
+		// 27
+		l1 = new VertexLocation(new HexLocation(1, -2),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(2, -3), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(1, -3), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(1, -3),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//28
-		l1 = new VertexLocation(new HexLocation(2, -2), VertexDirection.NorthWest);
+
+		// 28
+		l1 = new VertexLocation(new HexLocation(2, -2),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(1, -2), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(2, -3), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(2, -3),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//29
-		l1 = new VertexLocation(new HexLocation(2, -2), VertexDirection.NorthEast);
+
+		// 29
+		l1 = new VertexLocation(new HexLocation(2, -2),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(3, -3), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(2, -3), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(2, -3),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//30
-		l1 = new VertexLocation(new HexLocation(3, -2), VertexDirection.NorthWest);
+
+		// 30
+		l1 = new VertexLocation(new HexLocation(3, -2),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(2, -2), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(3, -3), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(3, -3),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//31
-		l1 = new VertexLocation(new HexLocation(2, -1), VertexDirection.NorthEast);
+
+		// 31
+		l1 = new VertexLocation(new HexLocation(2, -1),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(3, -2), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(2, -2), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(2, -2),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//32
-		l1 = new VertexLocation(new HexLocation(3, -1), VertexDirection.NorthWest);
+
+		// 32
+		l1 = new VertexLocation(new HexLocation(3, -1),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(2, -1), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(3, -2), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(3, -2),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//33
-		l1 = new VertexLocation(new HexLocation(2, 0), VertexDirection.NorthEast);
+
+		// 33
+		l1 = new VertexLocation(new HexLocation(2, 0),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(3, -1), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(2, -1), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(2, -1),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//34
-		l1 = new VertexLocation(new HexLocation(3, 0), VertexDirection.NorthWest);
+
+		// 34
+		l1 = new VertexLocation(new HexLocation(3, 0),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(2, 0), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(3, -1), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(3, -1),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//35
-		l1 = new VertexLocation(new HexLocation(2, 1), VertexDirection.NorthEast);
+
+		// 35
+		l1 = new VertexLocation(new HexLocation(2, 1),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(3, 0), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(2, 0), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(2, 0),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//36
-		l1 = new VertexLocation(new HexLocation(2, 1), VertexDirection.NorthWest);
+
+		// 36
+		l1 = new VertexLocation(new HexLocation(2, 1),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(1, 1), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(2, 0), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(2, 0),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//37
-		l1 = new VertexLocation(new HexLocation(1, 2), VertexDirection.NorthEast);
+
+		// 37
+		l1 = new VertexLocation(new HexLocation(1, 2),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(2, 1), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(1, 1), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(1, 1),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//38
-		l1 = new VertexLocation(new HexLocation(1, 2), VertexDirection.NorthWest);
+
+		// 38
+		l1 = new VertexLocation(new HexLocation(1, 2),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(0, 2), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(1, 1), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(1, 1),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//39
-		l1 = new VertexLocation(new HexLocation(0, 3), VertexDirection.NorthEast);
+
+		// 39
+		l1 = new VertexLocation(new HexLocation(0, 3),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(1, 2), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(0, 2), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(0, 2),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//40
-		l1 = new VertexLocation(new HexLocation(0, 3), VertexDirection.NorthWest);
+
+		// 40
+		l1 = new VertexLocation(new HexLocation(0, 3),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(-1, 3), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(0, 2), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(0, 2),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//41
-		l1 = new VertexLocation(new HexLocation(-1, 3), VertexDirection.NorthEast);
+
+		// 41
+		l1 = new VertexLocation(new HexLocation(-1, 3),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(0, 2), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(-1, 2), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(-1, 2),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//42
-		l1 = new VertexLocation(new HexLocation(-1, 3), VertexDirection.NorthWest);
+
+		// 42
+		l1 = new VertexLocation(new HexLocation(-1, 3),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(-2, 3), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(-1, 2), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(-1, 2),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//43
-		l1 = new VertexLocation(new HexLocation(-2, 3), VertexDirection.NorthEast);
+
+		// 43
+		l1 = new VertexLocation(new HexLocation(-2, 3),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(-1, 2), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(-2, 2), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(-2, 2),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//44
-		l1 = new VertexLocation(new HexLocation(-2, 3), VertexDirection.NorthWest);
+
+		// 44
+		l1 = new VertexLocation(new HexLocation(-2, 3),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(-3, 3), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(-2, 2), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(-2, 2),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//45
-		l1 = new VertexLocation(new HexLocation(-3, 3), VertexDirection.NorthEast);
+
+		// 45
+		l1 = new VertexLocation(new HexLocation(-3, 3),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(-2, 2), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(-3, 2), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(-3, 2),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//46
-		l1 = new VertexLocation(new HexLocation(-2, 2), VertexDirection.NorthWest);
+
+		// 46
+		l1 = new VertexLocation(new HexLocation(-2, 2),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(-3, 2), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(-2, 1), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(-2, 1),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//47
-		l1 = new VertexLocation(new HexLocation(-3, 2), VertexDirection.NorthEast);
+
+		// 47
+		l1 = new VertexLocation(new HexLocation(-3, 2),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(-2, 1), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(-3, 1), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(-3, 1),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//48
-		l1 = new VertexLocation(new HexLocation(-2, 1), VertexDirection.NorthWest);
+
+		// 48
+		l1 = new VertexLocation(new HexLocation(-2, 1),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(-3, 1), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(-2, 0), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(-2, 0),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//49
-		l1 = new VertexLocation(new HexLocation(-3, 1), VertexDirection.NorthEast);
+
+		// 49
+		l1 = new VertexLocation(new HexLocation(-3, 1),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(-2, 0), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(-3, 0), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(-3, 0),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//50
-		l1 = new VertexLocation(new HexLocation(-2, 0), VertexDirection.NorthWest);
+
+		// 50
+		l1 = new VertexLocation(new HexLocation(-2, 0),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(-3, 0), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(-2, -1), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(-2, -1),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//51
-		l1 = new VertexLocation(new HexLocation(-2, 0), VertexDirection.NorthEast);
+
+		// 51
+		l1 = new VertexLocation(new HexLocation(-2, 0),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(-1, -1), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(-2, -1), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(-2, -1),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
-		
-		//52
-		l1 = new VertexLocation(new HexLocation(-1, -1), VertexDirection.NorthWest);
+
+		// 52
+		l1 = new VertexLocation(new HexLocation(-1, -1),
+				VertexDirection.NorthWest);
 		l2 = new VertexLocation(new HexLocation(-2, -1), VertexDirection.East);
-		l3 = new VertexLocation(new HexLocation(-1, -2), VertexDirection.SouthWest);
+		l3 = new VertexLocation(new HexLocation(-1, -2),
+				VertexDirection.SouthWest);
 		addVertex(l1, l2, l3);
-		
-		//53
-		l1 = new VertexLocation(new HexLocation(-1, -1), VertexDirection.NorthEast);
+
+		// 53
+		l1 = new VertexLocation(new HexLocation(-1, -1),
+				VertexDirection.NorthEast);
 		l2 = new VertexLocation(new HexLocation(0, -2), VertexDirection.West);
-		l3 = new VertexLocation(new HexLocation(-1, -2), VertexDirection.SouthEast);
+		l3 = new VertexLocation(new HexLocation(-1, -2),
+				VertexDirection.SouthEast);
 		addVertex(l1, l2, l3);
 	}
-	
-	public void addVertex(VertexLocation l1, VertexLocation l2, VertexLocation l3) {
+
+	public void addVertex(VertexLocation l1, VertexLocation l2,
+			VertexLocation l3) {
 		List<VertexLocation> list = new ArrayList<VertexLocation>();
 		list.add(l1);
 		list.add(l2);
 		list.add(l3);
-		corners.add(new Corner(list));		
+		corners.add(new Corner(list));
 	}
-	
+
 	public void updateTiles() {
-		//Add edges
+		// Add edges
 		tiles.get(0).addEdge(edges.get(67), EdgeDirection.SouthEast);
 		tiles.get(1).addEdge(edges.get(66), EdgeDirection.NorthEast);
 		tiles.get(1).addEdge(edges.get(65), EdgeDirection.SouthEast);
 		tiles.get(2).addEdge(edges.get(64), EdgeDirection.NorthEast);
 		tiles.get(2).addEdge(edges.get(63), EdgeDirection.SouthEast);
 		tiles.get(3).addEdge(edges.get(62), EdgeDirection.NorthEast);
-		
+
 		tiles.get(4).addEdge(edges.get(69), EdgeDirection.SouthEast);
 		tiles.get(4).addEdge(edges.get(68), EdgeDirection.South);
 		tiles.get(5).addEdge(edges.get(68), EdgeDirection.North);
@@ -1034,7 +1172,7 @@ public class BuildWorld {
 		tiles.get(20).addEdge(edges.get(58), EdgeDirection.SouthWest);
 		tiles.get(20).addEdge(edges.get(37), EdgeDirection.NorthWest);
 		tiles.get(21).addEdge(edges.get(57), EdgeDirection.North);
-		
+
 		tiles.get(22).addEdge(edges.get(44), EdgeDirection.South);
 		tiles.get(22).addEdge(edges.get(43), EdgeDirection.SouthWest);
 		tiles.get(23).addEdge(edges.get(44), EdgeDirection.North);
@@ -1063,7 +1201,7 @@ public class BuildWorld {
 		tiles.get(26).addEdge(edges.get(20), EdgeDirection.NorthWest);
 		tiles.get(27).addEdge(edges.get(55), EdgeDirection.North);
 		tiles.get(27).addEdge(edges.get(56), EdgeDirection.NorthWest);
-		
+
 		tiles.get(28).addEdge(edges.get(46), EdgeDirection.South);
 		tiles.get(28).addEdge(edges.get(45), EdgeDirection.SouthWest);
 		tiles.get(29).addEdge(edges.get(46), EdgeDirection.North);
@@ -1086,15 +1224,15 @@ public class BuildWorld {
 		tiles.get(31).addEdge(edges.get(18), EdgeDirection.NorthWest);
 		tiles.get(32).addEdge(edges.get(53), EdgeDirection.North);
 		tiles.get(32).addEdge(edges.get(54), EdgeDirection.NorthWest);
-		
+
 		tiles.get(33).addEdge(edges.get(47), EdgeDirection.SouthWest);
 		tiles.get(34).addEdge(edges.get(48), EdgeDirection.NorthWest);
 		tiles.get(34).addEdge(edges.get(49), EdgeDirection.SouthWest);
 		tiles.get(35).addEdge(edges.get(50), EdgeDirection.NorthWest);
 		tiles.get(35).addEdge(edges.get(51), EdgeDirection.SouthWest);
 		tiles.get(36).addEdge(edges.get(52), EdgeDirection.NorthWest);
-		
-		//Add corners
+
+		// Add corners
 		tiles.get(0).addCorner(corners.get(50), VertexDirection.East);
 		tiles.get(0).addCorner(corners.get(49), VertexDirection.SouthEast);
 		tiles.get(1).addCorner(corners.get(49), VertexDirection.NorthEast);
@@ -1105,7 +1243,7 @@ public class BuildWorld {
 		tiles.get(2).addCorner(corners.get(45), VertexDirection.SouthEast);
 		tiles.get(3).addCorner(corners.get(45), VertexDirection.NorthEast);
 		tiles.get(3).addCorner(corners.get(44), VertexDirection.East);
-		
+
 		tiles.get(4).addCorner(corners.get(52), VertexDirection.East);
 		tiles.get(4).addCorner(corners.get(51), VertexDirection.SouthEast);
 		tiles.get(4).addCorner(corners.get(50), VertexDirection.SouthWest);
@@ -1161,7 +1299,7 @@ public class BuildWorld {
 		tiles.get(14).addCorner(corners.get(41), VertexDirection.NorthEast);
 		tiles.get(14).addCorner(corners.get(40), VertexDirection.East);
 		tiles.get(14).addCorner(corners.get(42), VertexDirection.NorthWest);
-		
+
 		tiles.get(15).addCorner(corners.get(25), VertexDirection.SouthEast);
 		tiles.get(15).addCorner(corners.get(24), VertexDirection.SouthWest);
 		tiles.get(16).addCorner(corners.get(25), VertexDirection.NorthEast);
@@ -1196,7 +1334,7 @@ public class BuildWorld {
 		tiles.get(20).addCorner(corners.get(16), VertexDirection.NorthWest);
 		tiles.get(21).addCorner(corners.get(39), VertexDirection.NorthEast);
 		tiles.get(21).addCorner(corners.get(40), VertexDirection.NorthWest);
-		
+
 		tiles.get(22).addCorner(corners.get(27), VertexDirection.SouthEast);
 		tiles.get(22).addCorner(corners.get(26), VertexDirection.SouthWest);
 		tiles.get(22).addCorner(corners.get(25), VertexDirection.West);
@@ -1252,7 +1390,7 @@ public class BuildWorld {
 		tiles.get(32).addCorner(corners.get(35), VertexDirection.NorthEast);
 		tiles.get(32).addCorner(corners.get(37), VertexDirection.West);
 		tiles.get(32).addCorner(corners.get(36), VertexDirection.NorthWest);
-		
+
 		tiles.get(33).addCorner(corners.get(30), VertexDirection.SouthWest);
 		tiles.get(33).addCorner(corners.get(29), VertexDirection.West);
 		tiles.get(34).addCorner(corners.get(32), VertexDirection.SouthWest);

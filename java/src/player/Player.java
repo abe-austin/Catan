@@ -30,11 +30,11 @@ public class Player extends CardOwner {
 	private ArrayList<PortType> playerPorts;
 	private int index;
 	private String username;
-    private boolean discarded = false;
+	private boolean discarded = false;
 
 	public Player(CatanColor color, String username, int index) {
 		this.color = color;
-//		this.user = user;
+		// this.user = user;
 		this.username = username;
 		this.index = index;
 		soldiersPlayed = 0;
@@ -59,7 +59,7 @@ public class Player extends CardOwner {
 
 	public Player(User user) {
 		this.user = user;
-                this.username = user.getUsername().getUsername();
+		this.username = user.getUsername().getUsername();
 
 		soldiersPlayed = 0;
 		points = new Points();
@@ -234,7 +234,7 @@ public class Player extends CardOwner {
 	public void setIndex(int index) {
 		this.index = index;
 	}
-	
+
 	public Set<BoardPiece> getBoardPieces() {
 		return boardPieces;
 	}
@@ -262,25 +262,25 @@ public class Player extends CardOwner {
 	public void setSoldiersPlayed(int soldiersPlayed) {
 		this.soldiersPlayed = soldiersPlayed;
 	}
-	
+
 	public void setResourceCards(HashSet<ResourceCard> resourceCards) {
 		this.resourceCards = resourceCards;
-		
+
 	}
-	
+
 	public void setDevelopmentCards(HashSet<DevelopmentCard> developmentCards) {
 		this.developmentCards = developmentCards;
 	}
-	
+
 	public void setSpecialCards(HashSet<SpecialCard> specialCards) {
 		this.specialCards = specialCards;
-		
+
 	}
 
-    @Override
-    public String toString() {
-        return getUsername();
-    }
+	@Override
+	public String toString() {
+		return getUsername();
+	}
 
 	public boolean equals(Object other) {
 		if (other == this)
@@ -293,35 +293,37 @@ public class Player extends CardOwner {
 		Player p = (Player) other;
 		if (!this.toString().equals(p.toString()))
 			return false;
-                
+
 		return color.equals(p.getColor());
 	}
 
-    /**
-     * @return the username
-     */
-    public String getUsername() {
-        return username;
-    }
+	/**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
 
-    /**
-     * @param username the username to set
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	/**
+	 * @param username
+	 *            the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    /**
-     * @return the discarded
-     */
-    public boolean hasDiscarded() {
-        return discarded;
-    }
+	/**
+	 * @return the discarded
+	 */
+	public boolean hasDiscarded() {
+		return discarded;
+	}
 
-    /**
-     * @param discarded the discarded to set
-     */
-    public void setDiscarded(boolean discarded) {
-        this.discarded = discarded;
-    }
+	/**
+	 * @param discarded
+	 *            the discarded to set
+	 */
+	public void setDiscarded(boolean discarded) {
+		this.discarded = discarded;
+	}
 }

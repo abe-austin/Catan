@@ -1,5 +1,6 @@
 package server;
 
+import game.GameModel;
 import shared.communication.*;
 
 /**
@@ -33,12 +34,17 @@ public class GameHandler implements IHandler {
      * @param param info on game
      * @return GameModel or failure
      */
-    public ServerResponse getGameModel(GetGameModelParam param) {
-        ServerResponse response = null;
-        
-        
-        
-        return response;
+	public ServerResponse getGameModel(GetGameModelParam param) {
+       
+		ServerResponse response = null;
+//		GameModel gameModel = getGameModel(); //get game id from cookie
+//		if(gameModel != null) {
+//			response = new ServerResponse(200, gameModel);
+//    	  
+//		} else {
+//			response = new ServerResponse(400, null);
+//		}      
+			return response;
     }
     
     /**

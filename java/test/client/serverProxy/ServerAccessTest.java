@@ -36,6 +36,7 @@ public class ServerAccessTest {
 	
 	@Test
 	public void test() {
+		this.registerUser();
 //		this.registerUser();
 //		this.createGame();
 //		this.getAllGames();

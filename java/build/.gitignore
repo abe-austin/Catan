@@ -1,5 +1,5 @@
+/server/
+/controller
 /client/
 /game/
-/mainTest/
-/player/
-/server/
+/shared/

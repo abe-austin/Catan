@@ -2,8 +2,12 @@ package server.main;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.URLDecoder;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.*;
 
+import com.google.gson.JsonObject;
 import com.sun.net.httpserver.*;
 
 import server.*;
@@ -85,6 +89,9 @@ public class CatanServer {
 			byte[] response = new byte[256];
 			
 			String requestBody = getBody(exchange);
+			
+			CookieObject cookieObject = createCookieObject(exchange);
+			
 	        ServerResponse serverResponse = controller.handleCommand(exchange.getRequestURI().toString().substring(0),
 	        		requestBody);
 	        
@@ -96,6 +103,43 @@ public class CatanServer {
 	        exchange.sendResponseHeaders(serverResponse.getCode(), response.length);
 	        exchange.getResponseBody().write(response);
 	        exchange.close();	
+		}
+		
+		public CookieObject createCookieObject(HttpExchange exchange) {
+
+			Map<String, List<String>> requestHeaders = exchange.getRequestHeaders();
+			List<String> cookies = requestHeaders.get("Cookie");
+			CookieObject cookieObject = new CookieObject();
+			
+			try {
+				for (String cookie : cookies) {
+					StringBuilder sb = new StringBuilder(cookie);
+					sb.delete(0, 10);
+					String edited = sb.toString();
+					String decoded = URLDecoder.decode(edited);
+					System.out.println(decoded);
+
+					String[] temp = decoded.split(",");
+					String username = temp[0].substring(temp[0].indexOf(":") + 2, temp[0].length() - 1);
+					System.out.println(username);
+					String password = temp[1].substring(temp[1].indexOf(":") + 2, temp[1].length() - 1);
+					System.out.println(password);
+					int id = Integer.parseInt(temp[2].substring(temp[2].indexOf(":") + 1, temp[2].length() - 1));
+					System.out.println(id);
+					if (temp.length == 4) {
+						int gameID = Integer.parseInt(temp[3].substring(temp[3].indexOf(":") + 1,temp[3].length() - 1));
+						System.out.println(gameID);
+						cookieObject.setGameID(gameID);
+					}
+					cookieObject.setUsername(username);
+					cookieObject.setPassword(password);
+					cookieObject.setID(id);
+				}
+				
+			} catch (Exception e) {
+//				e.printStackTrace();
+			}
+			return cookieObject;
 		}
 	};
 	
