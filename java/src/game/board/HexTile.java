@@ -2,15 +2,13 @@ package game.board;
 
 import game.pieces.BoardPiece;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import player.Player;
 import shared.locations.EdgeDirection;
-import shared.locations.EdgeLocation;
 import shared.locations.VertexDirection;
-import shared.locations.VertexLocation;
 import shared.locations.HexLocation;
 
 public class HexTile {
@@ -35,6 +33,32 @@ public class HexTile {
 	public Corner eastCorner;
 	public Corner southEastCorner;
 	public Corner southWestCorner;
+        
+        public ArrayList<Edge> getEdges() {
+            ArrayList<Edge> edges = new ArrayList<>();
+            
+            edges.add(northEdge);
+            edges.add(northWestEdge);
+            edges.add(northEastEdge);
+            edges.add(southEdge);
+            edges.add(southEastEdge);
+            edges.add(southWestEdge);
+            
+            return edges;
+        }
+        
+        public ArrayList<Corner> getCorners() {
+            ArrayList<Corner> corners = new ArrayList<>();
+            
+            corners.add(westCorner);
+            corners.add(northWestCorner);
+            corners.add(northEastCorner);
+            corners.add(eastCorner);
+            corners.add(southEastCorner);
+            corners.add(southWestCorner);
+            
+            return corners;
+        }
 
 	public void setCoordinates(int x, int y) {
 		this.x = x;

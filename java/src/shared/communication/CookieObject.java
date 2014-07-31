@@ -8,7 +8,10 @@ public class CookieObject {
 	private int gameID;
 	
 	public CookieObject() {
-		
+		username = null;
+		password = null;
+		ID = -1;
+		gameID = -1;
 	}
 
 	public CookieObject(String username, String password, int ID, int gameID) {

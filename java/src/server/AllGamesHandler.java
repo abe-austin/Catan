@@ -73,7 +73,8 @@ public class AllGamesHandler implements IHandler {
         ServerResponse response = null;   
         if(controller.canCreateGame(param.getName())) {
             GameModel game = controller.createGame(param);
-            response = new ServerResponse(200, "Success");
+            CreateGameRes result = new CreateGameRes(game.getGameName(), game.getGameId());
+            response = new ServerResponse(200, result);
             response.setCookie(controller.createCookie(game.getGameId()));
         } else {
             response = new ServerResponse(400, "Game Already Exists");
@@ -90,7 +91,12 @@ public class AllGamesHandler implements IHandler {
      */
     public ServerResponse saveGame(SaveGameParam param) {
         ServerResponse response = null;
-        
+        CookieObject cookies = controller.getCookieObject();
+        System.out.println(cookies.getID());
+        System.out.println(cookies.getUsername());
+        System.out.println(cookies.getPassword());
+        System.out.println(cookies.getGameID());
+
         
         
         return response;
@@ -123,14 +129,15 @@ public class AllGamesHandler implements IHandler {
         
         if(game != null) {
              for(Player player : game.getPlayers()) {
-                 if(player.getColor().equals(param.getColor())) {
+                 if(player.getColor().toString().equals(param.getColor())) {
                      response = new ServerResponse(200, "Success");
-                     
+                     response.setCookie(controller.createCookie(game.getGameId()));
+                     break;
                  }
              }
              
              if(response == null && game.getPlayers().length != 4) {
-                 
+                 //create player
              } else if(response == null) {
                  response = new ServerResponse(400, "Game is full");
              }
