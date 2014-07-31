@@ -82,8 +82,8 @@ public class BoardModel {
 						t = new ResourceTile(ResourceType.WOOD,
 								new NumberToken(number));
 					if (type.equals("ore"))
-						t = new ResourceTile(ResourceType.ORE, new NumberToken(
-								number));
+						t = new ResourceTile(ResourceType.ORE, 
+								new NumberToken(number));
 					if (type.equals("sheep"))
 						t = new ResourceTile(ResourceType.SHEEP,
 								new NumberToken(number));
@@ -350,16 +350,19 @@ public class BoardModel {
 	 * @param y
 	 */
 	public void updateRobber(int x, int y) {
+		
 		HexLocation robLoc = rob.getLocation();
 		int robX = robLoc.getX();
 		int robY = robLoc.getY();
 
 		for (int j = 0; j < tiles.size(); j++) {
 			if (tiles.get(j).getX() == x && tiles.get(j).getY() == y)
-				tiles.get(j).setHasRobber(true);
+				getHexTileAt(tiles.get(j).getX(), tiles.get(j).getY()).setHasRobber(true);//This did nothing
+				//tiles.get(j).setHasRobber(true);
 
 			if (tiles.get(j).getX() == robX && tiles.get(j).getY() == robY)
-				tiles.get(j).setHasRobber(false);
+				getHexTileAt(tiles.get(j).getX(), tiles.get(j).getY()).setHasRobber(false);//This did nothing
+				//tiles.get(j).setHasRobber(false);
 		}
 		robLoc = new HexLocation(x, y);
 		rob.updateLocation(robLoc);
@@ -759,22 +762,16 @@ public class BoardModel {
 	 */
 	public boolean canBuildCity(Corner corner, Player player) {
 		if (!player.hasAvailableBoardPiece(PieceType.CITY))// First check if
-															// player has
+			return false;									// player has
 															// available city
 															// pieces
-			return false;
 		if (!corner.hasStructure())
 			return false;
-		else {
-			if (corner.getStructure().getPieceType() != PieceType.SETTLEMENT)
-				return false;
-			else {
-				if (corner.getStructure().getOwner() != player)
-					return false;
-				else
-					return true;
-			}
-		}
+		if (corner.getStructure().getPieceType() != PieceType.SETTLEMENT)
+			return false;
+		if (corner.getStructure().getOwner() != player)
+			return false;
+		return true;
 	}// vertex,Player (building type?)
 
 	public Set<Player> getPlayersOn(HexLocation hexLoc) {

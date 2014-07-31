@@ -285,8 +285,7 @@ public class MapController extends Controller implements IMapController,
 				if (newStructures.get(i).getDirection().equals("NE"))
 					eD = EdgeDirection.NorthEast;
 
-				HexLocation hexLoc = new HexLocation(newStructures.get(i)
-						.getX(), newStructures.get(i).getY());
+				HexLocation hexLoc = new HexLocation(newStructures.get(i).getX(), newStructures.get(i).getY());
 				EdgeLocation e = new EdgeLocation(hexLoc, eD);
 				placeRoad(e, color);
 			}
@@ -306,8 +305,7 @@ public class MapController extends Controller implements IMapController,
 				if (newStructures.get(i).getDirection().equals("W"))
 					vD = VertexDirection.West;
 
-				HexLocation hexLoc = new HexLocation(newStructures.get(i)
-						.getX(), newStructures.get(i).getY());
+				HexLocation hexLoc = new HexLocation(newStructures.get(i).getX(), newStructures.get(i).getY());
 				VertexLocation e = new VertexLocation(hexLoc, vD);
 
 				if (newStructures.get(i).getType().equals("SETTLEMENT"))
@@ -334,8 +332,7 @@ public class MapController extends Controller implements IMapController,
 				placingPiece = false;
 			} else {
 				ControllerFacade.getSingleton().endTurn();
-				ControllerFacade.getSingleton()
-						.setGameState(GameState.GamePlay);
+				ControllerFacade.getSingleton().setGameState(GameState.GamePlay);
 			}
 		}
 	}
@@ -430,36 +427,29 @@ public class MapController extends Controller implements IMapController,
 
 	@Override
 	public void placeSettlement(VertexLocation vertLoc) {
-		CatanColor playerColor = ControllerFacade.getSingleton()
-				.getClientPlayer().getColor();
+		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor();
 		getView().placeSettlement(vertLoc, playerColor);
 
 		int portType = isPort(vertLoc);
 		if (portType != 0)
 			switch (portType) {
 			case 1:
-				ControllerFacade.getSingleton().getClientPlayer()
-						.addPort(PortType.BRICK);
+				ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.BRICK);
 				break;
 			case 2:
-				ControllerFacade.getSingleton().getClientPlayer()
-						.addPort(PortType.WHEAT);
+				ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.WHEAT);
 				break;
 			case 3:
-				ControllerFacade.getSingleton().getClientPlayer()
-						.addPort(PortType.ORE);
+				ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.ORE);
 				break;
 			case 4:
-				ControllerFacade.getSingleton().getClientPlayer()
-						.addPort(PortType.SHEEP);
+				ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.SHEEP);
 				break;
 			case 5:
-				ControllerFacade.getSingleton().getClientPlayer()
-						.addPort(PortType.WOOD);
+				ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.WOOD);
 				break;
 			case 6:
-				ControllerFacade.getSingleton().getClientPlayer()
-						.addPort(PortType.THREE);
+				ControllerFacade.getSingleton().getClientPlayer().addPort(PortType.THREE);
 				break;
 			}
 		ControllerFacade.getSingleton().placeSettlement(vertLoc);
