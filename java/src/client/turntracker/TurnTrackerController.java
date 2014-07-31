@@ -43,34 +43,35 @@ public class TurnTrackerController extends Controller implements
 						gameModel.getTurnTracker().getStatus(), false);
 			}
 		}
-		if (firstTurn || gameModel.getPlayers().length > playerNumber) {
-			int i = 0;
-			for (Player player : gameModel.getPlayers()) {
-				if (i >= playerNumber)
-					getView().initializePlayer(player.getIndex(),
-							player.toString(), player.getColor());
-				i++;
-                                if(player.getIndex()==ControllerFacade.getSingleton().getClientPlayer().getIndex()){
-                                    getView().setLocalPlayerColor(player.getColor());
-                                }
-			}
-			firstTurn = false;
-			playerNumber = gameModel.getPlayers().length;
-		} else {
-			for (Player player : gameModel.getPlayers()) {
-				getView().updatePlayer(
-						player.getIndex(),
-						player.getPoints(),
-						gameModel.getTurnTracker().getCurrentTurn() == player
-								.getIndex(),
-						player.getIndex() == gameModel.getTurnTracker()
-								.getLargestArmy(),
-						player.getIndex() == gameModel.getTurnTracker()
-								.getLongestRoad());
-			}
-		}
+                else if(ControllerFacade.getSingleton().getGameState()==GameState.Setup || ControllerFacade.getSingleton().getGameState()==GameState.PlayerWaiting){
+                    if (firstTurn || gameModel.getPlayers().length > playerNumber) {
+                            int i = 0;
+                            for (Player player : gameModel.getPlayers()) {
+                                    if (i >= playerNumber)
+                                            getView().initializePlayer(player.getIndex(),
+                                                            player.toString(), player.getColor());
+                                    i++;
+                                    if(player.getIndex()==ControllerFacade.getSingleton().getClientPlayer().getIndex()){
+                                        getView().setLocalPlayerColor(player.getColor());
+                                    }
+                            }
+                            firstTurn = false;
+                            playerNumber = gameModel.getPlayers().length;
+                    } else {
+                            for (Player player : gameModel.getPlayers()) {
+                                    getView().updatePlayer(
+                                                    player.getIndex(),
+                                                    player.getPoints(),
+                                                    gameModel.getTurnTracker().getCurrentTurn() == player
+                                                                    .getIndex(),
+                                                    player.getIndex() == gameModel.getTurnTracker()
+                                                                    .getLargestArmy(),
+                                                    player.getIndex() == gameModel.getTurnTracker()
+                                                                    .getLongestRoad());
+                            }
+                    }
                 
-                
+                }
 	}
 
 	@Override

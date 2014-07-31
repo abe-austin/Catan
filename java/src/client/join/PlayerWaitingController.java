@@ -37,7 +37,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
                         getView().closeModal();
                     }
                 }
-            } else {
+            } else if(ControllerFacade.getSingleton().getGameState()==GameState.Setup) {
                 if(gameModel.getPlayers().length == 0)
                     return;
                 

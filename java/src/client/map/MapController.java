@@ -60,8 +60,7 @@ public class MapController extends Controller implements IMapController,
 		} else if (ControllerFacade.getSingleton().getGameState() == GameState.GamePlay) {
 			updateMap(gameModel.getBoard().getHexes());
 			updateStructures(gameModel.getBoard().getStructures());
-			getView().placeRobber(
-					gameModel.getBoard().getRobber().getLocation());
+			getView().placeRobber(gameModel.getBoard().getRobber().getLocation());
 			if (ControllerFacade.getSingleton().isCurrentTurn()) {
 				if (ControllerFacade.getSingleton().getRoll() == 7) {
 					ControllerFacade.getSingleton().clearRoll();
