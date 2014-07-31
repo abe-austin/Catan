@@ -36,14 +36,14 @@ public class ServerAccessTest {
 	
 	@Test
 	public void test() {
-//		this.registerUser();
+		this.registerUser();
 //		this.registerUser();
 		this.createGame();
 //		this.getAllGames();
 //		this.loginUser();
 //		this.joinGame();
 //		this.saveGame();
-//		this.getGameModel();
+		this.getGameModel();
 //		this.resetGame();
 //		this.getGameCommands();
 //		this.doGameCommands();
@@ -71,7 +71,7 @@ public class ServerAccessTest {
 	
 	private void registerUser() {
 		
-		ServerResponse register = server.registerUser("BRent", "brentPassword");
+		ServerResponse register = server.registerUser("Brent", "pass");
 		assertResponseCorrect(register, Integer.class);
 	}
 	
@@ -242,12 +242,12 @@ public class ServerAccessTest {
 		ServerResponse trade = server.maritimeTrade(0, 3, ResourceType.ORE, ResourceType.SHEEP);
 		assertResponseCorrect(trade, GameModel.class);
 	}
-	
-	private void discardCards() {
-		
-		ServerResponse discard = server.discardCards(0, new ArrayList<ResourceCard>());
-		assertResponseCorrect(discard, GameModel.class);
-	}
+//	
+//	private void discardCards() {
+//		
+//		ServerResponse discard = server.discardCards(0, new ArrayList<ResourceCard>());
+//		assertResponseCorrect(discard, GameModel.class);
+//	}
 	
 	private void changeLogLevel() {
 		

@@ -40,15 +40,14 @@ public class GameHandler implements IHandler {
      * @return GameModel or failure
      */
 	public ServerResponse getGameModel(GetGameModelParam param) {       
-            ServerResponse response = null;
-            
-            GameModel model = controller.getGameModel();
+        ServerResponse response = null;
+        GameModel model = controller.getGameModel();
 		if(model != null) {
-                    response = new ServerResponse(200, JsonUtils.convertToJson(model));   	  
+                    response = new ServerResponse(200, model);   	  
 		} else {
                     response = new ServerResponse(400, null);
 		}      
-            return response;
+        return response;
     }
     
     /**
