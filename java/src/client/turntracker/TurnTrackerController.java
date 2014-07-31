@@ -5,7 +5,6 @@ import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
 import player.Player;
-import shared.definitions.CatanColor;
 import shared.definitions.GameState;
 
 /**
@@ -15,6 +14,7 @@ public class TurnTrackerController extends Controller implements
 		ITurnTrackerController, IControllerFacadeListener {
 	private boolean firstTurn = true;
 	private int playerNumber = 0;
+        
 
 	public TurnTrackerController(ITurnTrackerView view) {
 
@@ -27,19 +27,7 @@ public class TurnTrackerController extends Controller implements
 	@Override
 	public void gameModelChanged(GameModel gameModel) {
 		if (ControllerFacade.getSingleton().getGameState() == GameState.GamePlay) {
-			// if(ControllerFacade.getSingleton().isCurrentTurn()){
-			// if(gameModel.getTurnTracker().getStatus().equals("Robbing")){
-			// getView().updateGameState(gameModel.getTurnTracker().getStatus(),
-			// false);
-			// }
-			// else if(!ControllerFacade.getSingleton().isStartTurn()){
-			// getView().updateGameState("End Turn", true);
-			// }
-			// }
-			// else{
-			// getView().updateGameState("Hold your horses! It's not your turn",false
-			// );
-			// }
+			
 			if ((ControllerFacade.getSingleton().isCurrentTurn())) {
 				if (gameModel.getTurnTracker().getStatus().contains("Playing")) {
 					getView().updateGameState("End Turn", true);
@@ -62,6 +50,9 @@ public class TurnTrackerController extends Controller implements
 					getView().initializePlayer(player.getIndex(),
 							player.toString(), player.getColor());
 				i++;
+                                if(player.getIndex()==ControllerFacade.getSingleton().getClientPlayer().getIndex()){
+                                    getView().setLocalPlayerColor(player.getColor());
+                                }
 			}
 			firstTurn = false;
 			playerNumber = gameModel.getPlayers().length;
@@ -78,6 +69,8 @@ public class TurnTrackerController extends Controller implements
 								.getLongestRoad());
 			}
 		}
+                
+                
 	}
 
 	@Override

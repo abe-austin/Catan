@@ -359,34 +359,34 @@ public class MapController extends Controller implements IMapController,
 	public void placeSettlement(VertexLocation vertLoc, CatanColor color) {
 		getView().placeSettlement(vertLoc, color);
 
-		int portType = isPort(vertLoc);
-		if (portType != 0)
-			switch (portType) {
-			case 1:
-				ControllerFacade.getSingleton().getClientPlayer()
-						.addPort(PortType.BRICK);
-				break;
-			case 2:
-				ControllerFacade.getSingleton().getClientPlayer()
-						.addPort(PortType.WHEAT);
-				break;
-			case 3:
-				ControllerFacade.getSingleton().getClientPlayer()
-						.addPort(PortType.ORE);
-				break;
-			case 4:
-				ControllerFacade.getSingleton().getClientPlayer()
-						.addPort(PortType.SHEEP);
-				break;
-			case 5:
-				ControllerFacade.getSingleton().getClientPlayer()
-						.addPort(PortType.WOOD);
-				break;
-			case 6:
-				ControllerFacade.getSingleton().getClientPlayer()
-						.addPort(PortType.THREE);
-				break;
-			}
+		//int portType = isPort(vertLoc);
+		//if (portType != 0)
+		//	switch (portType) {
+		//	case 1:
+		//		ControllerFacade.getSingleton().getClientPlayer()
+		//				.addPort(PortType.BRICK);
+		//		break;
+		//	case 2:
+		//		ControllerFacade.getSingleton().getClientPlayer()
+		//				.addPort(PortType.WHEAT);
+		//		break;
+		//	case 3:
+		//		ControllerFacade.getSingleton().getClientPlayer()
+		//				.addPort(PortType.ORE);
+		//		break;
+		//	case 4:
+		//		ControllerFacade.getSingleton().getClientPlayer()
+		//				.addPort(PortType.SHEEP);
+		//		break;
+		//	case 5:
+		//		ControllerFacade.getSingleton().getClientPlayer()
+		//				.addPort(PortType.WOOD);
+		//		break;
+		//	case 6:
+		//		ControllerFacade.getSingleton().getClientPlayer()
+		//				.addPort(PortType.THREE);
+		//		break;
+		//	}
 		// pieceBuilt();
 	}
 	/**

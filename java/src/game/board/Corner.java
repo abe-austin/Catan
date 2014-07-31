@@ -48,7 +48,7 @@ public class Corner {
 
                 builtStructure = building;
 
-                builtStructure.setActive(true);
+                //builtStructure.setActive(true);  commented out because was throwing null pointer exception
 	}
 	
 	/**

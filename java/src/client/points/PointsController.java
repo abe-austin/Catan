@@ -12,6 +12,7 @@ import game.GameModel;
 public class PointsController extends Controller implements IPointsController, IControllerFacadeListener {
 
 	private IGameFinishedView finishedView;
+        private int winLimit = 3;
 	
 	/**
 	 * PointsController constructor
@@ -32,6 +33,14 @@ public class PointsController extends Controller implements IPointsController, I
 	@Override
         public void gameModelChanged(GameModel gameModel){
             getPointsView().setPoints(ControllerFacade.getSingleton().getPoints());
+            if (gameModel.getWinner()!=-1){
+                if (gameModel.getWinner()==ControllerFacade.getSingleton().getClientPlayer().getIndex()){
+                    getFinishedView().setWinner(ControllerFacade.getSingleton().getClientPlayer().getUsername(), true);
+                }
+                else{
+                    getFinishedView().setWinner(ControllerFacade.getSingleton().getClientPlayer().getUsername(), false);                    
+                }
+            }
         }
          
 	
