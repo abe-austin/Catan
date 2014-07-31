@@ -36,11 +36,8 @@ public class ServerAccessTest {
 	
 	@Test
 	public void test() {
-<<<<<<< HEAD
 		this.registerUser();
-=======
 //		this.registerUser();
->>>>>>> c76a5fc326950f39deacf1f1fa07dd766b2528bd
 //		this.createGame();
 //		this.getAllGames();
 		this.loginUser();
