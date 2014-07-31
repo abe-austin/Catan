@@ -360,7 +360,7 @@ public class MovesHandler implements IHandler {
         player.addResourceCard(game.getBank().giveResourceCard(receive));
         
         for(int i = 0; i < param.getRatio(); i++)
-            game.getBank().giveResourceCard(player.giveResourceCard(give));
+            game.getBank().addResourceCard(player.giveResourceCard(give));
         
         return response;
     }
