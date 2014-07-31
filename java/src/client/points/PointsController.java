@@ -4,6 +4,7 @@ import client.base.*;
 import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
+import player.Player;
 import shared.definitions.GameState;
 
 
@@ -13,7 +14,7 @@ import shared.definitions.GameState;
 public class PointsController extends Controller implements IPointsController, IControllerFacadeListener {
 
 	private IGameFinishedView finishedView;
-        private int winLimit = 3;
+        private int winLimit = 10;
 	
 	/**
 	 * PointsController constructor
@@ -36,11 +37,24 @@ public class PointsController extends Controller implements IPointsController, I
             if(ControllerFacade.getSingleton().getGameState()==GameState.Setup || ControllerFacade.getSingleton().getGameState()==GameState.GamePlay){
                 getPointsView().setPoints(ControllerFacade.getSingleton().getPoints());
                 if (gameModel.getWinner()!=-1){
-                    if (gameModel.getWinner()==ControllerFacade.getSingleton().getClientPlayer().getIndex()){
-                        getFinishedView().setWinner(ControllerFacade.getSingleton().getClientPlayer().getUsername(), true);
-                    }
-                    else{
-                        getFinishedView().setWinner(ControllerFacade.getSingleton().getClientPlayer().getUsername(), false);                    
+                    if( !getFinishedView().isModalShowing()){
+                        //System.out.println("winner "+gameModel.getWinner());
+                        if (gameModel.getWinner()==ControllerFacade.getSingleton().getClientPlayer().getUser().getId()){
+                            //System.out.println("winner "+ControllerFacade.getSingleton().getClientPlayer().getUsername());
+                            getFinishedView().setWinner(ControllerFacade.getSingleton().getClientPlayer().getUsername(), true);
+                            getFinishedView().showModal();
+                        }
+                        else{
+                            String name="Someone other than you";
+                            //System.out.println("loser "+ControllerFacade.getSingleton().getClientPlayer().getUsername());
+                            for(Player player:gameModel.getPlayers()){
+                                if(player.getUser().getId()==gameModel.getWinner()){
+                                    name=player.getUsername();
+                                }
+                            }
+                            getFinishedView().setWinner(name, false);     
+                            getFinishedView().showModal();
+                        }
                     }
                 }
             }

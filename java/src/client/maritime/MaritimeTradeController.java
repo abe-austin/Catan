@@ -79,6 +79,8 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
                 getTradeOverlay().setStateMessage("can't trade yet");
                 if(!controllerFacade.isCurrentTurn()){
                     getTradeOverlay().setStateMessage("Not your turn");
+                    getTradeOverlay().hideGetOptions();
+                    getTradeOverlay().hideGiveOptions();
                 }
                 getTradeOverlay().showModal();
             }
