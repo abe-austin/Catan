@@ -1,12 +1,13 @@
 package server;
 
 import client.parse.ParsedChat;
-import controller.ControllerFacade;
 import game.GameModel;
 import game.cards.ResourceCard;
 import player.Player;
 import shared.communication.*;
+import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
+import shared.definitions.ResourceTypeUtils;
 
 /**
  *
@@ -153,14 +154,21 @@ public class MovesHandler implements IHandler {
      * Applies Purchase of DevCard to GameModel
      * 
      * @pre player can buy DevCard
-     * @param parm purchase info
+     * @param param purchase info
      * @return success or failure
      * @post player has another DevCard
      */
-    public ServerResponse buyDevCard(BuyDevCardParam parm) {
+    public ServerResponse buyDevCard(BuyDevCardParam param) {
         ServerResponse response = null;
         
+        GameModel game = controller.getGameModel();
+        Player player = game.getPlayers()[param.getPlayerIndex()];
         
+        game.getBank().addResourceCard(player.giveResourceCard(ResourceType.WHEAT));
+        game.getBank().addResourceCard(player.giveResourceCard(ResourceType.SHEEP));
+        game.getBank().addResourceCard(player.giveResourceCard(ResourceType.ORE));
+        
+        player.addDevelopmentCard(game.getBank().giveDevelopmentCard(null));
         
         return response;
     }
@@ -169,14 +177,22 @@ public class MovesHandler implements IHandler {
      * Applies Play of Monopoly DevCard to GameModel
      * 
      * @pre player has monopoly card
-     * @param parm play card info
+     * @param param play card info
      * @return success or failure
      * @post player has one less monopoly card
      */
-    public ServerResponse playMonopoly(PlayMonopolyParam parm) {
+    public ServerResponse playMonopoly(PlayMonopolyParam param) {
         ServerResponse response = null;
         
+        GameModel game = controller.getGameModel();
+        Player player = game.getPlayers()[param.getPlayerIndex()];        
+        player.giveDevelopmentCard(DevCardType.MONOPOLY);
+        ResourceType resource = ResourceTypeUtils.getResourceType(param.getResource());
         
+        for(Player person : game.getPlayers()) {
+            while(!person.equals(player) && person.hasResource(resource))
+                player.addResourceCard(person.giveResourceCard(resource));
+        }
         
         return response;
     }
@@ -185,31 +201,34 @@ public class MovesHandler implements IHandler {
      * Applies Play of RoadBuilding DevCard to GameModel
      * 
      * @pre player has two roads available
-     * @param parm play card info
+     * @param param play card info
      * @return success or failure
      * @post player has two more roads built
      */
-    public ServerResponse playRoadBuilding(PlayRoadBuildingParam parm) {
-        ServerResponse response = null;
+    public ServerResponse playRoadBuilding(PlayRoadBuildingParam param) {       
+        Player player = controller.getGameModel().getPlayers()[param.getPlayerIndex()];
+        player.giveDevelopmentCard(DevCardType.ROAD_BUILD);
         
         
-        
-        return response;
+        return new ServerResponse(200, "Success");
     }
     
     /**
      * Applies Play of Soldier DevCard to GameModel
      * 
-     * @param parm play card info
+     * @param param play card info
      * @return success or failure
      * @post robber is moved
      */
-    public ServerResponse playSoldier(PlaySoldierParam parm) {
-        ServerResponse response = null;
+    public ServerResponse playSoldier(PlaySoldierParam param) {
+        Player player = controller.getGameModel().getPlayers()[param.getPlayerIndex()];
+        player.giveDevelopmentCard(DevCardType.SOLDIER);
+        player.setSoldiersPlayed(player.getSoldiersPlayed()+1);
         
+        RobPlayerParam rob = new RobPlayerParam(param.getType(),param.getPlayerIndex(),
+                                            param.getVictimIndex(), param.getLocation());        
         
-        
-        return response;
+        return robPlayer(rob);
     }
     
     /**
@@ -230,14 +249,16 @@ public class MovesHandler implements IHandler {
     /**
      * Applies Play of Monument DevCard to GameModel
      * 
-     * @param parm play card info
+     * @param param play card info
      * @return success or failure
      * @post player has one more point
      */
-    public ServerResponse playMonument(PlayMonumentParam parm) {
+    public ServerResponse playMonument(PlayMonumentParam param) {
         ServerResponse response = null;
         
-        
+        Player player = controller.getGameModel().getPlayers()[param.getPlayerIndex()];
+        player.giveDevelopmentCard(DevCardType.MONUMENT);
+        player.addPoint();
         
         return response;
     }
@@ -330,7 +351,16 @@ public class MovesHandler implements IHandler {
     public ServerResponse maritimeTrade(MaritimeTradeParam param) {
         ServerResponse response = null;
         
+        GameModel game = controller.getGameModel();
         
+        Player player = game.getPlayers()[param.getPlayerIndex()];
+        ResourceType give = ResourceTypeUtils.getResourceType(param.getInputResource());
+        ResourceType receive = ResourceTypeUtils.getResourceType(param.getOutputResource());
+        
+        player.addResourceCard(game.getBank().giveResourceCard(receive));
+        
+        for(int i = 0; i < param.getRatio(); i++)
+            game.getBank().addResourceCard(player.giveResourceCard(give));
         
         return response;
     }
