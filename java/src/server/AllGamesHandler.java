@@ -54,10 +54,10 @@ public class AllGamesHandler implements IHandler {
         	response = new ServerResponse(400, "Failed to get games");
         }
         else if(gameList.size() == 0) {
-        	response = new ServerResponse(201, JsonUtils.convertToJson(gameList));
+        	response = new ServerResponse(201, gameList);
         }
         else {
-        	response = new ServerResponse(200, JsonUtils.convertToJson(gameList));
+        	response = new ServerResponse(200, gameList);
         }
         
         return response;
@@ -76,7 +76,7 @@ public class AllGamesHandler implements IHandler {
         
        // if(controller.canCreateGame(param.getName())) {
         	GameModel game = controller.createGame(param);
-        	response = new ServerResponse(200, JsonUtils.convertToJson(game));
+        	response = new ServerResponse(200, game);
         //}
         //else {
         //	response = new ServerResponse(400, "Cannot create game");
