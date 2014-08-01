@@ -1,9 +1,9 @@
 package server;
 
 import client.parse.ParsedChat;
-import controller.ControllerFacade;
 import controller.PlayerReceivingResources;
 import game.GameModel;
+import game.TradeOffer;
 import game.board.Corner;
 import game.board.HexTile;
 import game.board.ResourceTile;
@@ -361,15 +361,26 @@ public class MovesHandler implements IHandler {
      * Sends Trade Offer
      * 
      * @pre player has resources to trade
-     * @param parm trade info
+     * @param param trade info
      * @return success or failure
      */
-    public ServerResponse offerTrade(OfferTradeParam parm) {
-        ServerResponse response = null;
+    public ServerResponse offerTrade(OfferTradeParam param) {
+        GameModel game = controller.getGameModel();
         
+        OfferParam offer = param.getOffer();
+        TradeOffer trade = new TradeOffer();
         
+        trade.setBrick(offer.getBrick());
+        trade.setOre(offer.getOre());
+        trade.setSheep(offer.getSheep());
+        trade.setWheat(offer.getWheat());
+        trade.setWood(offer.getWood());
+        trade.setReceiverIndex(param.getReceiver());
+        trade.setSenderIndex(param.getPlayerIndex());
         
-        return response;
+        game.setTradeOffer(null);
+        
+        return new ServerResponse(200, "Success");
     }
     
     /**

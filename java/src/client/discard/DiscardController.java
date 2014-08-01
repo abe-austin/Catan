@@ -8,6 +8,7 @@ import game.GameModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import player.Player;
 import shared.definitions.*;
 
 
@@ -41,7 +42,7 @@ public class DiscardController extends Controller implements IDiscardController,
                 for(ResourceType type : ResourceType.values())
                     numToDiscard.put(type, 0);
 	}
-
+        //private boolean discarding=false;
 	@Override
         public void gameModelChanged(GameModel gameModel){
             if(facade.getGameState()==GameState.GamePlay){

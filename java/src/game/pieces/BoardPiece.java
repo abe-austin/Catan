@@ -1,5 +1,6 @@
 package game.pieces;
 
+import controller.ControllerFacade;
 import player.Player;
 import shared.definitions.Cost;
 import shared.definitions.PieceType;
@@ -9,12 +10,12 @@ import shared.definitions.PieceType;
  * @author Kevin MacMaster
  */
 public abstract class BoardPiece {
-	private Player owner;
+	private String player;
 	private boolean active;
 
 	public BoardPiece(Player owner) {
 		active = false;
-		this.owner = owner;
+		this.player = owner.getUsername();
 	}
 
 	/**
@@ -22,7 +23,7 @@ public abstract class BoardPiece {
 	 * @return BoardPiece owner
 	 */
 	public Player getOwner() {
-		return owner;
+		return ControllerFacade.getSingleton().getPlayerByUsername(player);
 	}
 
 	/**

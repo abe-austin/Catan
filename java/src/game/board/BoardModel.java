@@ -16,10 +16,7 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
-import game.GameModel;
 import game.pieces.BoardPiece;
-import game.pieces.City;
-import game.pieces.Road;
 import game.pieces.Robber;
 import shared.definitions.GameState;
 
@@ -31,11 +28,11 @@ public class BoardModel {
 	private List<HexTile> tiles;
 	private BoardPiece[][] pieces;
 	private Robber rob;
-	private GameModel gameModel;
+	private Player[] players;
 	private List<ParsedStructure> theStructures;
 
-	public BoardModel(GameModel gameModel) {
-		this.gameModel = gameModel;
+	public BoardModel(Player[] players) {
+		this.players = players;
 		pieces = new BoardPiece[10][10];
 		BuildWorld worldBuilder = new BuildWorld();
 		tiles = worldBuilder.getTiles();
@@ -185,7 +182,6 @@ public class BoardModel {
 			String type = newStructures.get(i).getType();
 			Player p = null;
 
-			Player[] players = gameModel.getPlayers();
 			for (int j = 0; j < players.length; j++) {
 				if (owner == players[j].getIndex())// Presumably owner's value
 													// is the same as index

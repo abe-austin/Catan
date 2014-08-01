@@ -28,7 +28,7 @@ public class GameModel {
     private String gameName;
 
     public GameModel() {
-        board = new BoardModel(this);
+        board = new BoardModel(this.getPlayers());
         bank = new Bank();
         players = new Player[4];
         gameHistory = new GameHistory();
