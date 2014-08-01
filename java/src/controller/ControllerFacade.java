@@ -201,6 +201,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 	            break;
 	        case Setup:
 	        	serverProxyFacade.sendChat(clientPlayer.getIndex(), message);
+                    break;
 	        case GamePlay:
 	        	serverProxyFacade.sendChat(clientPlayer.getIndex(), message);
 	    }
