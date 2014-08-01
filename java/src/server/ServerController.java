@@ -211,6 +211,7 @@ public class ServerController {
             game.setRandomHexes(param.isRandomHexes());
             game.setRandomNumbers(param.isRandomNumbers());
             game.setRandomPorts(param.isRandomPorts());
+            game.buildBoard();
             game.setGameName(param.getName());
             game.setGameId(lastGameId++);
             
