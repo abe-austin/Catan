@@ -32,9 +32,9 @@ public class Player extends CardOwner {
 	private String username;
 	private boolean discarded = false;
 
-	public Player(CatanColor color, String username, int index) {
+	public Player(CatanColor color, String username, int index, User user) {
 		this.color = color;
-		// this.user = user;
+		 this.user = user;
 		this.username = username;
 		this.index = index;
 		soldiersPlayed = 0;
@@ -82,8 +82,23 @@ public class Player extends CardOwner {
 	}
 
 	public Player() {
-		// TODO Auto-generated constructor stub
-	}
+		soldiersPlayed = 0;
+		points = new Points();
+		playerPorts = new ArrayList<PortType>();
+		boardPieces = new HashSet<BoardPiece>();
+		resourceCards = new HashSet<ResourceCard>();
+		developmentCards = new HashSet<DevelopmentCard>();
+		specialCards = new HashSet<SpecialCard>();
+
+		// initalize board pieces
+		for (int i = 0; i < 5; i++)
+			boardPieces.add(new Settlement(this));
+
+		for (int i = 0; i < 4; i++)
+			boardPieces.add(new City(this));
+
+		for (int i = 0; i < 15; i++)
+			boardPieces.add(new Road(this));	}
 
 	/**
 	 * Returns an available board piece of a given type

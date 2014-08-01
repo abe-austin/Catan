@@ -40,6 +40,9 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
                     }
                     view.setEntries(entries);
                  }
+                 else if(ControllerFacade.getSingleton().getGameState()==GameState.JoinGame){
+                     view.setEntries(new ArrayList<LogEntry>());
+                 }
         }
          
 	@Override

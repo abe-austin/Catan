@@ -26,6 +26,16 @@ public class BuildWorld {
 		seenDesert = false;
 		defaultSetup(randHex, randPort, randNumb);
 	}
+	
+	public BuildWorld(List<HexTile> tiles) {
+		this.tiles = tiles;
+		edges = new ArrayList<Edge>();
+		corners = new ArrayList<Corner>();
+		addEdges();
+		addVertices();
+		updateTiles();
+	}
+	
 
 	// public BuildWorld(List<HexTile> tiles, List<Edge> edges, List<Corner>
 	// corners) {

@@ -79,7 +79,6 @@ public class AllGamesHandler implements IHandler {
             GameModel game = controller.createGame(param);
             CreateGameRes result = new CreateGameRes(game.getGameName(), game.getGameId());
             response = new ServerResponse(200, result);
-            //response.setCookie(controller.createCookie(game.getGameId()));
         } else {
             response = new ServerResponse(400, "Game Already Exists");
         }
@@ -96,7 +95,7 @@ public class AllGamesHandler implements IHandler {
     public ServerResponse saveGame(SaveGameParam param) {
     	
         ServerResponse response = null;
-        CookieObject cookies = controller.getCookieObject();
+        CookieObject cookies = controller.getCurrentCookie();
         System.out.println(cookies.getID());
         System.out.println(cookies.getUsername());
         System.out.println(cookies.getPassword());
@@ -128,47 +127,42 @@ public class AllGamesHandler implements IHandler {
     	
         ServerResponse response = null;
         
-        try{
-	        GameModel game = controller.getGameModel(param.getID());
-	        
-	        if(game != null) {
-	             for(Player player : game.getPlayers()) {
-	            	 if(player != null) {
-		                 if(player.getColor().toString().equals(param.getColor())) {
-		                     response = new ServerResponse(200, "Success");
-		                     response.setCookie(controller.createCookie(game.getGameId()));
-		                     return response;
-		                 }
-	            	 }
-	             }
-	             int playerCount = controller.getPlayerCount(param.getID());
-	             if(playerCount != 4) {
-	                 Player player = new Player(CatanColor.valueOf(param.getColor().toUpperCase()),
-	                         controller.getCookieObject().getUsername(),playerCount);
-	                 
-	                 game.addPlayers(player, player.getIndex());
-	                 response = new ServerResponse(200, "Success");
-	                 response.setCookie(controller.createCookie(param.getID()));
-	                 
-	             } else if(response == null) {
-	                 response = new ServerResponse(400, "Game is full");
-	             }
-	             
-	        } else {
-	            response = new ServerResponse(400, "Game does not exist");
-	        }
-        }
-        catch(Exception e) {
-        	e.printStackTrace();
-        }
-        if(response != null){
-        System.out.println(response.getCode());
-        System.out.println(response.getBody());
-        }
-        else{
-        	System.out.println("RESPONSE IS NULL");
-        }
+        GameModel game = controller.getGameModel(param.getID());
 
+        if(game != null) {          
+        	//rejoining game
+        	for(Player player : game.getPlayers()) {
+        		if(player != null) {
+        			if(player.getUser().getId() == controller.getCurrentCookie().getID()) {
+        				response = new ServerResponse(200, "Success");
+        				response.setCookie(controller.createCookie(game.getGameId()));
+        				return response;
+        			}
+        		}
+        	} 
+        	//joining game for the first time
+        	int playerCount = controller.getPlayerCount(param.getID());
+        	if(playerCount != 4) {
+        		Player player = new Player(CatanColor.valueOf(param.getColor().toUpperCase()),
+        				controller.getCurrentCookie().getUsername(),
+        				playerCount,
+        				controller.getUserByID(controller.getCurrentCookie().getID()));
+
+        		game.addPlayers(player, player.getIndex());
+        		response = new ServerResponse(200, "Success");
+        		response.setCookie(controller.createCookie(param.getID()));
+        		return response;
+        	} 
+        	//game is full
+        	else {
+        		response = new ServerResponse(400, "Game is full");
+        	} 
+        }
+        //game does not exist
+        else {
+        	response = new ServerResponse(400, "Game does not exist");
+        }
+        
         return response;
     }
 }

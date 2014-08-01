@@ -9,7 +9,7 @@ import game.pieces.BoardPiece;
 public class Corner {
 	
 	private List<VertexLocation> location;
-	BoardPiece builtStructure;
+	private BoardPiece builtStructure;
 	
 	/**
 	 * @param loc where on the map the corner is located, comprised of the hex coordinates, and which corner on that hex this comprises

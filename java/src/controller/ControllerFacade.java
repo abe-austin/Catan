@@ -186,6 +186,11 @@ public class ControllerFacade implements IControllerFacadeListener{
     public void setGameState(GameState gameState){
         this.gameState = gameState;
     }
+    public void resetGameId(String gameId){
+        if(gameState==GameState.JoinGame){
+            serverProxyFacade.resetGameId(gameId);
+        }
+    }
     
     public void sendMessage(String message){
 	        switch(gameState){
@@ -197,6 +202,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 	            break;
 	        case Setup:
 	        	serverProxyFacade.sendChat(clientPlayer.getIndex(), message);
+                    break;
 	        case GamePlay:
 	        	serverProxyFacade.sendChat(clientPlayer.getIndex(), message);
 	    }
@@ -700,7 +706,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 //			currentPlayerInfo.setColor(color);
 //			currentPlayerInfo.setId(user.getId());
 //			gameInfo.addPlayer(currentPlayerInfo);
-			clientPlayer = new Player(color, "\""+user.getUsername().getUsername()+"\"", index);
+			clientPlayer = new Player(color, "\""+user.getUsername().getUsername()+"\"", index, user);
                         clientPlayer.setUser(user);
                         
 			PlayerInfo playerInfo = new PlayerInfo();

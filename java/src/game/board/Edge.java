@@ -8,7 +8,7 @@ import game.pieces.BoardPiece;
 public class Edge {
 	
 	private List<EdgeLocation> location;
-	BoardPiece builtStructure;
+	private BoardPiece builtStructure;
 	
 	/**
 	 * @param loc where on the map the edge is located, comprised of the hex coordinates, and which edge on that hex this comprises
