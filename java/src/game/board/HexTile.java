@@ -47,6 +47,25 @@ public class HexTile {
             return edges;
         }
         
+        public Edge getEdge(String direction) {
+            switch(direction.toLowerCase()) {
+                case "N":
+                    return northEdge;
+                case "NW":
+                    return northWestEdge;
+                case "NE":
+                    return northEastEdge;
+                case "S":
+                    return southEdge;
+                case "SE":
+                    return southEastEdge;
+                case "SW":
+                    return southWestEdge;                    
+                default:
+                    return null;
+            }
+        }
+        
         public ArrayList<Corner> getCorners() {
             ArrayList<Corner> corners = new ArrayList<>();
             
@@ -58,6 +77,25 @@ public class HexTile {
             corners.add(southWestCorner);
             
             return corners;
+        }
+        
+        public Corner getCorner(String direction) {
+            switch(direction.toLowerCase()) {
+                case "W":
+                    return westCorner;
+                case "NW":
+                    return northWestCorner;
+                case "NE":
+                    return northEastCorner;
+                case "E":
+                    return eastCorner;
+                case "SW":
+                    return southWestCorner;
+                case "SE":
+                    return southEastCorner;
+                default:
+                    return null;
+            }
         }
 
 	public void setCoordinates(int x, int y) {

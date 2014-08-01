@@ -190,10 +190,6 @@ public class ServerController {
          *          gameName string meets basic requirements
          */
         public boolean canCreateGame (String gameName) {
-            if(gameName.length() < 4 || gameName.length() > 20) {
-                return false;
-            }
-
             return (getGameModel(gameName) == null);
         }
         

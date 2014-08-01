@@ -5,11 +5,15 @@ import controller.PlayerReceivingResources;
 import game.GameModel;
 import game.TradeOffer;
 import game.board.Corner;
+import game.board.Edge;
 import game.board.HexTile;
 import game.board.ResourceTile;
 import game.cards.CardOwner;
 import game.cards.ResourceCard;
 import game.pieces.BoardPiece;
+import game.pieces.City;
+import game.pieces.Road;
+import game.pieces.Settlement;
 import java.util.ArrayList;
 import java.util.List;
 import player.Player;
@@ -140,21 +144,13 @@ public class MovesHandler implements IHandler {
     		int amount = changes.getAmount();
     		
                 CardOwner.changeOwnerResource(player, controller.getGameModel().getBank(), type, amount);
-    	}
-        
+    	}        
         
         return new ServerResponse(200, "Success");
     }
     
-    public PlayerReceivingResources getPlayerResources(BoardPiece boardPiece, ResourceTile resourceTile) {
-    	int amount;
-        
-        if(boardPiece.getPieceType() == PieceType.CITY) {
-                amount = 2;
-        } else {
-                amount = 1;
-        }
-        
+    public PlayerReceivingResources getPlayerResources(BoardPiece boardPiece, ResourceTile resourceTile) {    
+        int amount = (boardPiece.getPieceType() == PieceType.CITY) ? 2 : 1;        
         return new PlayerReceivingResources(boardPiece.getOwner(), resourceTile.getResourceType(), amount);
     }
     
@@ -249,7 +245,21 @@ public class MovesHandler implements IHandler {
         Player player = controller.getGameModel().getPlayers()[param.getPlayerIndex()];
         player.giveDevelopmentCard(DevCardType.ROAD_BUILD);
         
-        // BUILD!!
+        MapLocationParam map1 = param.getSpot1();
+        MapLocationParam map2 = param.getSpot2();
+        GameModel game = controller.getGameModel();        
+        
+        HexTile tile = game.getBoard().getHexTileAt(map1.getX(), map1.getY());
+        Edge edge = tile.getEdge(map1.getDirection());
+        Road road = (Road)player.getAvailableBoardPiece(PieceType.ROAD);
+        edge.buildStructure(road);
+        road.setActive(true);               
+        
+        HexTile tile2 = game.getBoard().getHexTileAt(map2.getX(), map2.getY());
+        Edge edge2 = tile2.getEdge(map2.getDirection());
+        Road road2 = (Road)player.getAvailableBoardPiece(PieceType.ROAD);
+        edge2.buildStructure(road2);
+        road2.setActive(true);
         
         return new ServerResponse(200, "Success");
     }
@@ -310,46 +320,66 @@ public class MovesHandler implements IHandler {
      * Applies Road built to GameModel
      * 
      * @pre player has available road and is connected (if not setup)
-     * @param parm board piece info
+     * @param param board piece info
      * @return success or failure
      */
-    public ServerResponse buildRoad(BuildRoadParam parm) {
-        ServerResponse response = null;
+    public ServerResponse buildRoad(BuildRoadParam param) {
+        MapLocationParam map = param.getRoadLocation();
+        GameModel game = controller.getGameModel();        
+        Player player = game.getPlayers()[param.getPlayerIndex()];
         
+        HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
+        Edge edge = tile.getEdge(map.getDirection());
+        Road road = (Road)player.getAvailableBoardPiece(PieceType.ROAD);
+        edge.buildStructure(road);
+        road.setActive(true);
         
-        
-        return response;
+        return new ServerResponse(200, "Success");
     }
     
     /**
      * Applies Settlement built to GameModel
      * 
      * @pre player has available settlement and is being build in correct place
-     * @param parm board piece info
+     * @param param board piece info
      * @return success or failure
      */
-    public ServerResponse buildSettlement(BuildSettlementParam parm) {
-        ServerResponse response = null;
+    public ServerResponse buildSettlement(BuildSettlementParam param) {
+        MapLocationParam map = param.getVertexLocation();
+        GameModel game = controller.getGameModel();        
+        Player player = game.getPlayers()[param.getPlayerIndex()];
+        player.addPoint();
         
-        parm.getVertexLocation().getDirection();
+        HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
+        Corner corner = tile.getCorner(map.getDirection());
+        Settlement settlement = (Settlement)player.getAvailableBoardPiece(PieceType.SETTLEMENT);
+        corner.buildStructure(settlement);
+        settlement.setActive(true);
         
-        return response;
+        return new ServerResponse(200, "Success");
     }
     
     /**
      * Applies City built to GameModel
      * 
      * @pre player has available city and city is to be built on settlement
-     * @param parm board piece info
+     * @param param board piece info
      * @return success or failure
      * @post player has one less available city and one more settlement
      */
-    public ServerResponse buildCity(BuildCityParam parm) {
-        ServerResponse response = null;
+    public ServerResponse buildCity(BuildCityParam param) {
+        MapLocationParam map = param.getVertexLocation();
+        GameModel game = controller.getGameModel();        
+        Player player = game.getPlayers()[param.getPlayerIndex()];
+        player.addPoint();
         
+        HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
+        Corner corner = tile.getCorner(map.getDirection());
+        City city = (City)player.getAvailableBoardPiece(PieceType.CITY);        
+        corner.buildStructure(city);
+        city.setActive(true);
         
-        
-        return response;
+        return new ServerResponse(200, "Success");
     }
     
     /**
@@ -391,9 +421,7 @@ public class MovesHandler implements IHandler {
             GameModel game = controller.getGameModel();
             TradeOffer offer = game.getTradeOffer();
             Player sender = game.getPlayers()[offer.getSenderIndex()];
-            Player receiver = game.getPlayers()[offer.getReceiverIndex()];
-            
-            // TONS of IF statements because Cory won't let me use a MAP object!
+            Player receiver = game.getPlayers()[offer.getReceiverIndex()];            
             
             if(offer.getBrick() > 0) {
                 for(int i = 0; i < offer.getBrick(); i++)
