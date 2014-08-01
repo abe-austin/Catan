@@ -12,6 +12,7 @@ import game.cards.SpecialCard;
 import game.pieces.BoardPiece;
 import game.pieces.City;
 import game.pieces.Road;
+import game.pieces.Robber;
 import game.pieces.Settlement;
 
 import org.json.*;
@@ -37,6 +38,7 @@ import org.json.*;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
+import shared.locations.HexLocation;
 
 public class JsonParser {
 	
@@ -253,6 +255,9 @@ public class JsonParser {
 		//parseBoard function where we can see every hex.
 		//The only problem, though, is that these objects are showing now builtStructures...Perhaps when we parse pieces we are supposed
 		//to update each hex/corner...but the pieces we are currently getting in the JSON string is just a bunch of nulls.
+		
+		JSONObject robber = jsonObject.getJSONObject("rob");
+		Robber rob = new Robber(new HexLocation(robber.getInt("x"), robber.getInt("y")));
 	}
 	
 	public HexTile parseTile(JSONObject tile) {
