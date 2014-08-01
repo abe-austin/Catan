@@ -134,7 +134,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		ControllerFacade.getSingleton().setCurrentPlayerInfo(playerInfo);
 		getJoinGameView().setGames(gamesTemp, playerInfo);
 		getNewGameView().closeModal();
-                startJoinGame(gamesTemp.get(gamesTemp.size()-1));
+        startJoinGame(gamesTemp.get(gamesTemp.size()-1));
 	}
 
 	@Override

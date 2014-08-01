@@ -219,6 +219,17 @@ public class ServerController {
             
             return game;
         }
+        
+        public int getPlayerCount(int gameID){
+        	int playerCount = 0;
+        	GameModel game = getGameModel(gameID);
+        	Player[] players = game.getPlayers();
+        	for(Player player : players) {
+        		if(player != null)
+        			playerCount++;
+        	}
+        	return playerCount;
+        }
     
         /**
          * Handles a given command

@@ -128,33 +128,47 @@ public class AllGamesHandler implements IHandler {
     	
         ServerResponse response = null;
         
-        GameModel game = controller.getGameModel(param.getID());
-        
-        if(game != null) {
-             for(Player player : game.getPlayers()) {
-                 if(player.getColor().toString().equals(param.getColor())) {
-                     response = new ServerResponse(200, "Success");
-                     response.setCookie(controller.createCookie(game.getGameId()));
-                     return response;
-                 }
-             }
-             
-             if(response == null && game.getPlayers().length != 4) {
-                 Player player = new Player(CatanColor.valueOf(param.getColor().toUpperCase()),
-                         controller.getCookieObject().getUsername(),game.getPlayers().length);
-                 
-                 game.addPlayers(player, player.getIndex());
-                 response = new ServerResponse(200, "Success");
-                 response.setCookie(controller.createCookie(param.getID()));
-                 
-             } else if(response == null) {
-                 response = new ServerResponse(400, "Game is full");
-             }
-             
-        } else {
-            response = new ServerResponse(400, "Game does not exist");
+        try{
+	        GameModel game = controller.getGameModel(param.getID());
+	        
+	        if(game != null) {
+	             for(Player player : game.getPlayers()) {
+	            	 if(player != null) {
+		                 if(player.getColor().toString().equals(param.getColor())) {
+		                     response = new ServerResponse(200, "Success");
+		                     response.setCookie(controller.createCookie(game.getGameId()));
+		                     return response;
+		                 }
+	            	 }
+	             }
+	             int playerCount = controller.getPlayerCount(param.getID());
+	             if(playerCount != 4) {
+	                 Player player = new Player(CatanColor.valueOf(param.getColor().toUpperCase()),
+	                         controller.getCookieObject().getUsername(),playerCount);
+	                 
+	                 game.addPlayers(player, player.getIndex());
+	                 response = new ServerResponse(200, "Success");
+	                 response.setCookie(controller.createCookie(param.getID()));
+	                 
+	             } else if(response == null) {
+	                 response = new ServerResponse(400, "Game is full");
+	             }
+	             
+	        } else {
+	            response = new ServerResponse(400, "Game does not exist");
+	        }
         }
-        
+        catch(Exception e) {
+        	e.printStackTrace();
+        }
+        if(response != null){
+        System.out.println(response.getCode());
+        System.out.println(response.getBody());
+        }
+        else{
+        	System.out.println("RESPONSE IS NULL");
+        }
+
         return response;
     }
 }
