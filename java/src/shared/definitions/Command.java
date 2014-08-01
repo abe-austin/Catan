@@ -21,6 +21,15 @@ public class Command {
      * @return the command
      */
     public String getCommand() {
+        //System.out.println(command);
+        if(command.contains("\\u0027")){
+//            System.out.println("command.split(\\u0027)[0] "+command.split("\\u0027")[0] );
+//            System.out.println("\'");
+            command =command.replace("\\u0027", "\'");
+            //System.out.println(command);
+          //  System.out.println("command.split(\\u0027)[0] "+command.split("\\u0027")[1] );
+            //command=command.split("\\u0027")[0]+"\'"+command.split("\\u0027")[1];
+        }
         return command;
     }
 
