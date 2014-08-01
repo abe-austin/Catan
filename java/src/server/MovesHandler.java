@@ -180,8 +180,6 @@ public class MovesHandler implements IHandler {
      * @post resource change from one player to another
      */
     public ServerResponse robPlayer(RobPlayerParam param) {
-        ServerResponse response = null;
-        
         GameModel game = controller.getGameModel();
         game.getBoard().getRobber().updateLocation(param.getLocation());
         Player robber = game.getPlayers()[param.getPlayerIndex()];
@@ -193,9 +191,7 @@ public class MovesHandler implements IHandler {
             robber.addResourceCard(victim.giveResourceCard(card.getResourceType()));
         }
         
-        response = new ServerResponse(200, "Success");
-        
-        return response;
+        return new ServerResponse(200, "Success");
     }
     
     /**
@@ -207,8 +203,6 @@ public class MovesHandler implements IHandler {
      * @post player has another DevCard
      */
     public ServerResponse buyDevCard(BuyDevCardParam param) {
-        ServerResponse response = null;
-        
         GameModel game = controller.getGameModel();
         Player player = game.getPlayers()[param.getPlayerIndex()];
         
@@ -218,7 +212,7 @@ public class MovesHandler implements IHandler {
         
         player.addDevelopmentCard(game.getBank().giveDevelopmentCard(null));
         
-        return response;
+        return new ServerResponse(200, "Success");
     }
     
     /**
@@ -230,8 +224,6 @@ public class MovesHandler implements IHandler {
      * @post player has one less monopoly card
      */
     public ServerResponse playMonopoly(PlayMonopolyParam param) {
-        ServerResponse response = null;
-        
         GameModel game = controller.getGameModel();
         Player player = game.getPlayers()[param.getPlayerIndex()];        
         player.giveDevelopmentCard(DevCardType.MONOPOLY);
@@ -242,7 +234,7 @@ public class MovesHandler implements IHandler {
                 player.addResourceCard(person.giveResourceCard(resource));
         }
         
-        return response;
+        return new ServerResponse(200, "Success");
     }
     
     /**
@@ -257,6 +249,7 @@ public class MovesHandler implements IHandler {
         Player player = controller.getGameModel().getPlayers()[param.getPlayerIndex()];
         player.giveDevelopmentCard(DevCardType.ROAD_BUILD);
         
+        // BUILD!!
         
         return new ServerResponse(200, "Success");
     }
@@ -282,16 +275,20 @@ public class MovesHandler implements IHandler {
     /**
      * Applies Play of YearOfPlenty DevCard to GameModel
      * 
-     * @param parm play card info
+     * @param param play card info
      * @return success or failure
      * @post player has two more resource cards
      */
-    public ServerResponse playYearOfPlenty(PlayYearOfPlentyParam parm) {
-        ServerResponse response = null;
+    public ServerResponse playYearOfPlenty(PlayYearOfPlentyParam param) {
+        Player player = controller.getGameModel().getPlayers()[param.getPlayerIndex()];
+        player.giveDevelopmentCard(DevCardType.YEAR_OF_PLENTY);
         
+        player.addResourceCard(controller.getGameModel().getBank().giveResourceCard(
+                ResourceTypeUtils.getResourceType(param.getResource1())));
+        player.addResourceCard(controller.getGameModel().getBank().giveResourceCard(
+                ResourceTypeUtils.getResourceType(param.getResource2())));
         
-        
-        return response;
+        return new ServerResponse(200, "Success");
     }
     
     /**
@@ -302,13 +299,11 @@ public class MovesHandler implements IHandler {
      * @post player has one more point
      */
     public ServerResponse playMonument(PlayMonumentParam param) {
-        ServerResponse response = null;
-        
         Player player = controller.getGameModel().getPlayers()[param.getPlayerIndex()];
         player.giveDevelopmentCard(DevCardType.MONUMENT);
         player.addPoint();
         
-        return response;
+        return new ServerResponse(200, "Success");
     }
     
     /**
@@ -336,7 +331,7 @@ public class MovesHandler implements IHandler {
     public ServerResponse buildSettlement(BuildSettlementParam parm) {
         ServerResponse response = null;
         
-        
+        parm.getVertexLocation().getDirection();
         
         return response;
     }
@@ -392,11 +387,58 @@ public class MovesHandler implements IHandler {
      * @post resources are traded
      */
     public ServerResponse acceptTradeOffer(AcceptTradeParam param) {
-        ServerResponse response = null;
-        
-        
-        
-        return response;
+        if(param.isWillAccept()) {            
+            GameModel game = controller.getGameModel();
+            TradeOffer offer = game.getTradeOffer();
+            Player sender = game.getPlayers()[offer.getSenderIndex()];
+            Player receiver = game.getPlayers()[offer.getReceiverIndex()];
+            
+            // TONS of IF statements because Cory won't let me use a MAP object!
+            
+            if(offer.getBrick() > 0) {
+                for(int i = 0; i < offer.getBrick(); i++)
+                    receiver.addResourceCard(sender.giveResourceCard(ResourceType.BRICK));
+            } else {
+                for(int i = 0; i > offer.getBrick(); i--)
+                    receiver.addResourceCard(sender.giveResourceCard(ResourceType.BRICK));
+            }
+            
+            if(offer.getSheep()> 0) {
+                for(int i = 0; i < offer.getSheep(); i++)
+                    receiver.addResourceCard(sender.giveResourceCard(ResourceType.SHEEP));
+            } else {
+                for(int i = 0; i > offer.getSheep(); i--)
+                    receiver.addResourceCard(sender.giveResourceCard(ResourceType.SHEEP));
+            }
+            
+            if(offer.getWheat()> 0) {
+                for(int i = 0; i < offer.getWheat(); i++)
+                    receiver.addResourceCard(sender.giveResourceCard(ResourceType.WHEAT));
+            } else {
+                for(int i = 0; i > offer.getWheat(); i--)
+                    receiver.addResourceCard(sender.giveResourceCard(ResourceType.WHEAT));
+            }
+            
+            if(offer.getWood() > 0) {
+                for(int i = 0; i < offer.getWood(); i++)
+                    receiver.addResourceCard(sender.giveResourceCard(ResourceType.WOOD));
+            } else {
+                for(int i = 0; i > offer.getWood(); i--)
+                    receiver.addResourceCard(sender.giveResourceCard(ResourceType.WOOD));
+            }
+            
+            if(offer.getOre()> 0) {
+                for(int i = 0; i < offer.getOre(); i++)
+                    receiver.addResourceCard(sender.giveResourceCard(ResourceType.ORE));
+            } else {
+                for(int i = 0; i > offer.getOre(); i--)
+                    receiver.addResourceCard(sender.giveResourceCard(ResourceType.ORE));
+            }
+            
+            return new ServerResponse(200, "Accepted");
+        } else {
+            return new ServerResponse(200, "Not Accepted");
+        }
     }
     
     /**
@@ -408,8 +450,6 @@ public class MovesHandler implements IHandler {
      * @post player and bank have new resources
      */
     public ServerResponse maritimeTrade(MaritimeTradeParam param) {
-        ServerResponse response = null;
-        
         GameModel game = controller.getGameModel();
         
         Player player = game.getPlayers()[param.getPlayerIndex()];
@@ -421,7 +461,7 @@ public class MovesHandler implements IHandler {
         for(int i = 0; i < param.getRatio(); i++)
             game.getBank().addResourceCard(player.giveResourceCard(give));
         
-        return response;
+        return new ServerResponse(200, "Success");
     }
     
     /**
