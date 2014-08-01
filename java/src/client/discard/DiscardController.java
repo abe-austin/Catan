@@ -45,14 +45,46 @@ public class DiscardController extends Controller implements IDiscardController,
 	@Override
         public void gameModelChanged(GameModel gameModel){
             if(facade.getGameState()==GameState.GamePlay){
-                if(gameModel.getTurnTracker().getStatus().contains("Discard") && 
-                        !facade.getClientPlayer().hasDiscarded() && facade.getClientPlayer().getHandSize() > 7 
-                        && !getDiscardView().isModalShowing()) {
-                    updateValues();
-                    facade.getClientPlayer().setDiscarded(true);
-                    getDiscardView().showModal();
+                if(gameModel.getTurnTracker().getStatus().contains("Discard")){  
+                    //System.out.println("in discarding");
+                   //System.out.println(facade.getClientPlayer().getUsername()+" "+facade.getClientPlayer().hasDiscarded());
+                    if(!facade.getClientPlayer().hasDiscarded()){//haven't discarded
+                        //System.out.println("has not discarded");
+                        if( facade.getClientPlayer().getHandSize() > 7 ){//need to discard
+                            //System.out.println("hand size more than 7");
+                            if(!getDiscardView().isModalShowing()) {
+                                //System.out.println("modal not showing");
+                                updateValues();
+                                facade.getClientPlayer().setDiscarded(true);
+                                getDiscardView().showModal();
+                            }
+                        }
+                        else{//hand <=7 doesn't actually need to discard
+                            //System.out.println("hand size less than 8");
+                            if(!getWaitView().isModalShowing()){
+                               getWaitView().setMessage("Waiting for others to discard");
+                               getWaitView().showModal();
+                            }
+                        }
+                        
+                    }
+                    else{//have discarded
+                        //System.out.println("waiting");
+                        if(!getWaitView().isModalShowing()){
+                               getWaitView().setMessage("Waiting for others to discard");
+                               getWaitView().showModal();
+                           }
+                        }
+                        
+                             
+                    }
+                else{//aren't waiting, close the waiting view if open
+                   if(getWaitView().isModalShowing()){
+                       getWaitView().closeModal();
+                   }
                 }
             }
+            
         }
          
 	public IDiscardView getDiscardView() {
