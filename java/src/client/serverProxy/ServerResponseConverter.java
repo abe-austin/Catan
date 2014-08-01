@@ -3,6 +3,7 @@ package client.serverProxy;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.parse.DoParse;
+import client.parseGameModel.JsonParser;
 
 import com.google.gson.Gson;
 
@@ -38,8 +39,9 @@ public class ServerResponseConverter {
 //                     return;
 //		}
     		if(response.getCode() == 200) {
-    			response.setBody(gson.fromJson((String)response.getBody(), GameModel.class));
-                return;
+//    			response.setBody(gson.fromJson((String)response.getBody(), GameModel.class));
+//                return;
+    			JsonParser parser = new JsonParser();
     		}
 	}
 	
