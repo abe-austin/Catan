@@ -21,9 +21,6 @@ public class GameModel {
     private int version;
     private int winner;
     private int id;
-    private boolean randomHexes;
-    private boolean randomNumbers;
-    private boolean randomPorts;
     private boolean checkDiscard;
     private String gameName;
 
@@ -39,6 +36,10 @@ public class GameModel {
         checkDiscard = false;
         gameName = "";
         id = -1;
+    }
+    
+    public void buildBoard() {
+    	board.constructWorld();
     }
     
     public void setGameName(String name) {
@@ -166,27 +167,27 @@ public class GameModel {
 	}
 
 	public boolean isRandomHexes() {
-		return randomHexes;
+		return board.isRandomHexes();
 	}
 
 	public void setRandomHexes(boolean randomHexes) {
-		this.randomHexes = randomHexes;
+		board.setRandomHexes(randomHexes);
 	}
 
 	public boolean isRandomNumbers() {
-		return randomNumbers;
+		return board.isRandomNumbers();
 	}
 
 	public void setRandomNumbers(boolean randomNumbers) {
-		this.randomNumbers = randomNumbers;
+		board.setRandomNumbers(randomNumbers);
 	}
 
 	public boolean isRandomPorts() {
-		return randomPorts;
+		return board.isRandomPorts();
 	}
 
 	public void setRandomPorts(boolean randomPorts) {
-		this.randomPorts = randomPorts;
+		board.setRandomNumbers(randomPorts);
 	}
 
     /**

@@ -30,14 +30,44 @@ public class BoardModel {
 	private Robber rob;
 	private Player[] players;
 	private List<ParsedStructure> theStructures;
+	private boolean randomHexes;
+	private boolean randomPorts;
+	private boolean randomNumbers;
 
 	public BoardModel(Player[] players) {
 		this.players = players;
 		pieces = new BoardPiece[10][10];
-		BuildWorld worldBuilder = new BuildWorld();
-		tiles = worldBuilder.getTiles();
-		rob = new Robber(new HexLocation(0, 0));
 		theStructures = null;
+	}
+	
+	public void constructWorld() {
+		BuildWorld worldBuilder = new BuildWorld(randomHexes, randomPorts, randomNumbers);//Take in booleans
+		tiles = worldBuilder.getTiles();
+		rob = new Robber(new HexLocation(0, 0));//Actually make this go in right place
+	}
+	
+	public boolean isRandomHexes() {
+		return randomHexes;
+	}
+
+	public void setRandomHexes(boolean randomHexes) {
+		this.randomHexes = randomHexes;
+	}
+
+	public boolean isRandomNumbers() {
+		return randomNumbers;
+	}
+
+	public void setRandomNumbers(boolean randomNumbers) {
+		this.randomNumbers = randomNumbers;
+	}
+
+	public boolean isRandomPorts() {
+		return randomPorts;
+	}
+
+	public void setRandomPorts(boolean randomPorts) {
+		this.randomPorts = randomPorts;
 	}
 
 	/**
@@ -45,7 +75,7 @@ public class BoardModel {
 	 * @param newTiles
 	 */
 	public void updateBoardResources(ArrayList<ParsedTile> newTiles) {
-		BuildWorld worldBuilder = new BuildWorld();// Should now be empty of any
+		BuildWorld worldBuilder = new BuildWorld(randomHexes, randomPorts, randomNumbers);// Should now be empty of any
 													// pieces
 		tiles = worldBuilder.getTiles();
 		for (int i = 0; i < newTiles.size(); i++) {

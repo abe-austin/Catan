@@ -134,7 +134,7 @@ public class ControllerFacade implements IControllerFacadeListener{
             for(int i =0; i <game.getPlayers().length;i++){
                if(clientPlayer.toString().equals(game.getPlayers()[i].toString())){
                    clientPlayer.setIndex(i);
-               }                 
+               }      
            }
         }
         gamePlayController.setPlayer(clientPlayer);
@@ -144,6 +144,7 @@ public class ControllerFacade implements IControllerFacadeListener{
     public void updateClientPlayer(GameModel gameModel) {
     
 		for (Player modelPlayer : gameModel.getPlayers()) {
+			System.out.println(modelPlayer);
 			if (modelPlayer.getIndex() == clientPlayer.getIndex()) {
 				clientPlayer = modelPlayer;
 			}
@@ -709,7 +710,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 			playerInfo.setId(user.getId());
 			gameInfo.addPlayer(playerInfo);
 			ServerResponse response = serverProxyFacade.joinGame(gameInfo.getId(), color);
-                        resetClientPlayer();
+            resetClientPlayer();
 			currentGameModel.getPlayers();
 			return response;	
 		case PlayerWaiting:

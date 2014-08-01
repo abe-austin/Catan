@@ -12,7 +12,9 @@ import game.pieces.BoardPiece;
 import game.pieces.City;
 import game.pieces.Road;
 import game.pieces.Settlement;
+
 import org.json.*;
+
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
@@ -21,7 +23,21 @@ import player.Player;
 import game.TradeOffer;
 import game.TurnTracker;
 import game.bank.Bank;
+import game.board.DesertTile;
 import game.board.HexTile;
+<<<<<<< HEAD
+=======
+import game.board.NumberToken;
+import game.board.OceanTile;
+import game.board.PortTile;
+import game.board.ResourceTile;
+
+import org.json.*;
+
+import shared.definitions.HexType;
+import shared.definitions.PortType;
+import shared.definitions.ResourceType;
+>>>>>>> da4087135b339e676c4d31f327e499e0d122d94b
 
 public class JsonParser {
 	
@@ -30,7 +46,11 @@ public class JsonParser {
 	
 	public JsonParser(String jsonString) {
 		
+<<<<<<< HEAD
 		this.jsonObject = new JSONObject(jsonString);
+=======
+		this.jsonObject = new JSONObject(jsonString);	
+>>>>>>> da4087135b339e676c4d31f327e499e0d122d94b
 	}
 	
 	public GameModel doParse() {
@@ -203,8 +223,15 @@ public class JsonParser {
 	public void parsePlayers() {
 		
 		JSONArray players = jsonObject.getJSONArray("players");
-		Player[] gamePlayers = new Player[players.length()];
 		
+		int playerCount = 0;
+		for(int i=0; i<players.length(); i++) {
+			if(!players.isNull(i))
+				playerCount++;
+		}
+
+		Player[] gamePlayers = new Player[playerCount];
+		Player[] test = new Player[4];
 		for(int i=0; i<players.length(); i++) {
 			if(!players.isNull(i)) {
 				gamePlayers[i] = parsePlayer(players.getJSONObject(i));
@@ -223,15 +250,62 @@ public class JsonParser {
 			JSONObject tile = tiles.getJSONObject(i);
 			parseTile(tile);
 		}
+		
+		//Not sure why for pieces we are getting a sequence of objects that have nothing but null objects
 	}
 	
 	public void parseTile(JSONObject tile) {
 		HexTile newTile;
+		String type = "ocean";
 		
 		//Some tiles have
 		if(tile.has("type")) {
-			String type = tile.getString("type");
+			type = tile.getString("type");
+			
+			if(tile.getInt("x") == -3 || tile.getInt("x") == 3 || tile.getInt("y") == -3 || tile.getInt("y") == 3 ||
+				(tile.getInt("x") + tile.getInt("y") == 3) || (tile.getInt("x") + tile.getInt("y") == -3)) {//Is port
+				
+				if(type.equals("THREE"))
+					newTile = new PortTile(PortType.THREE);		
+				else if(type.equals("WOOD"))
+					newTile = new PortTile(PortType.WOOD);
+				else if(type.equals("WHEAT"))
+					newTile = new PortTile(PortType.WHEAT);
+				else if(type.equals("ORE"))
+					newTile = new PortTile(PortType.ORE);
+				else if(type.equals("BRICK"))
+					newTile = new PortTile(PortType.BRICK);
+				else
+					newTile = new PortTile(PortType.SHEEP);
+			}
+			
+			else { 
+				JSONObject number = tile.getJSONObject("token");
+				if(type.equals("WOOD"))
+					newTile = new ResourceTile(ResourceType.WOOD, new NumberToken(number.getInt("value")));
+				else if(type.equals("ORE"))
+					newTile = new ResourceTile(ResourceType.ORE, new NumberToken(number.getInt("value")));
+				else if(type.equals("WHEAT"))
+					newTile = new ResourceTile(ResourceType.WHEAT, new NumberToken(number.getInt("value")));
+				else if(type.equals("BRICK"))
+					newTile = new ResourceTile(ResourceType.BRICK, new NumberToken(number.getInt("value")));
+				else
+					newTile = new ResourceTile(ResourceType.SHEEP, new NumberToken(number.getInt("value")));
+			}
 		}
+		else {//is ocean or desert
+			if(tile.getInt("x") == -3 || tile.getInt("x") == 3 || tile.getInt("y") == -3 || tile.getInt("y") == 3 ||
+					(tile.getInt("x") + tile.getInt("y") == 3) || (tile.getInt("x") + tile.getInt("y") == -3)) 
+				newTile = new OceanTile();
+			else 
+				newTile = new DesertTile();
+		}
+		
+		newTile.setCoordinates(tile.getInt("x"), tile.getInt("x"));
+		newTile.setHasRobber(tile.getBoolean("hasRobber"));
+		
+		//Now need to add to newTile the edges/corners
+		//Add each tile to a list of tiles to be stored in our board object
 	}
 	
 	public void parseBank() {
