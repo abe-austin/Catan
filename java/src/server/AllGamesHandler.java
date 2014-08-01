@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import player.Player;
 
 import shared.communication.*;
+import shared.definitions.CatanColor;
 
 /**
  *
@@ -117,7 +118,7 @@ public class AllGamesHandler implements IHandler {
     }
     
     /**
-     * Adds Player to game
+     * Adds Player to game or re-join
      * 
      * @param param info on game and player
      * @return success or failure
@@ -132,12 +133,18 @@ public class AllGamesHandler implements IHandler {
                  if(player.getColor().toString().equals(param.getColor())) {
                      response = new ServerResponse(200, "Success");
                      response.setCookie(controller.createCookie(game.getGameId()));
-                     break;
+                     return response;
                  }
              }
              
              if(response == null && game.getPlayers().length != 4) {
-                 //create player
+                 Player player = new Player(CatanColor.valueOf(param.getColor().toUpperCase()),
+                         controller.getCookieObject().getUsername(),game.getPlayers().length);
+                 
+                 game.addPlayers(player, player.getIndex());
+                 response = new ServerResponse(200, "Success");
+                 response.setCookie(controller.createCookie(param.getID()));
+                 
              } else if(response == null) {
                  response = new ServerResponse(400, "Game is full");
              }
