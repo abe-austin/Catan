@@ -1016,7 +1016,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 	                        }
 	                	return robInfos;
 	                	
-	                	//Find all the players on that hexLoc...create RobPlayerInfos off of that and then  store them in the robView
+	                	//Find all the players on that hexLoc... RobPlayerInfos off of that and then  store them in the robView
 	                	//ServerProxy does not have a method to move the robber
 	                default:
 	                	return null;

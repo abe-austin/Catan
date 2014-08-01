@@ -20,6 +20,7 @@ public class AllGamesHandler implements IHandler {
     
     @Override
     public ServerResponse handle(String command, Object Json) {
+    	
         switch(command) {
             case "/games/list":
             	return getAllGames();
@@ -69,7 +70,8 @@ public class AllGamesHandler implements IHandler {
      * @return GameModel or failure
      * @post new GameModel added and returned
      */
-    public ServerResponse createGame(CreateGameParam param) {    	
+    public ServerResponse createGame(CreateGameParam param) { 
+    	
         ServerResponse response = null;   
         if(controller.canCreateGame(param.getName())) {
             GameModel game = controller.createGame(param);
@@ -90,6 +92,7 @@ public class AllGamesHandler implements IHandler {
      * @return success or failure
      */
     public ServerResponse saveGame(SaveGameParam param) {
+    	
         ServerResponse response = null;
         CookieObject cookies = controller.getCookieObject();
         System.out.println(cookies.getID());
@@ -97,8 +100,6 @@ public class AllGamesHandler implements IHandler {
         System.out.println(cookies.getPassword());
         System.out.println(cookies.getGameID());
 
-        
-        
         return response;
     }
     
@@ -109,9 +110,8 @@ public class AllGamesHandler implements IHandler {
      * @return GameModel or failure
      */
     public ServerResponse loadGame(LoadGameParam param) {
+    	
         ServerResponse response = null;
-        
-        
         
         return response;
     }
@@ -123,6 +123,7 @@ public class AllGamesHandler implements IHandler {
      * @return success or failure
      */
     public ServerResponse joinGame(JoinGameParam param) {
+    	
         ServerResponse response = null;
         
         GameModel game = controller.getGameModel(param.getID());
@@ -148,5 +149,4 @@ public class AllGamesHandler implements IHandler {
         
         return response;
     }
-    
 }
