@@ -38,7 +38,6 @@ public class JsonParser {
 	public JsonParser(String jsonString) {
 		
 		this.jsonObject = new JSONObject(jsonString);	
-		doParse();
 	}
 	
 	public GameModel doParse() {
@@ -206,8 +205,15 @@ public class JsonParser {
 	public void parsePlayers() {
 		
 		JSONArray players = jsonObject.getJSONArray("players");
-		Player[] gamePlayers = new Player[players.length()];
 		
+		int playerCount = 0;
+		for(int i=0; i<players.length(); i++) {
+			if(!players.isNull(i))
+				playerCount++;
+		}
+
+		Player[] gamePlayers = new Player[playerCount];
+		Player[] test = new Player[4];
 		for(int i=0; i<players.length(); i++) {
 			if(!players.isNull(i)) {
 				gamePlayers[i] = parsePlayer(players.getJSONObject(i));
