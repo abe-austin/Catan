@@ -44,6 +44,10 @@ public class MapController extends Controller implements IMapController,
 	private boolean secondRoad = true;
 	private boolean placingPiece = false;
 	private HexLocation lastRobLoc;
+        private EdgeLocation firstRoadLocation;
+        private EdgeLocation secondRoadLocation;
+        private boolean roadBuilder=false;
+        
 
 	@Override
 	public void gameModelChanged(GameModel gameModel) {
@@ -416,13 +420,25 @@ public class MapController extends Controller implements IMapController,
 
 	@Override
 	public void placeRoad(EdgeLocation edgeLoc) {
-		CatanColor playerColor = ControllerFacade.getSingleton()
-				.getClientPlayer().getColor(); // Assume this is proper method
+		CatanColor playerColor = ControllerFacade.getSingleton().getClientPlayer().getColor(); // Assume this is proper method
 												// to determine the color
 		getView().placeRoad(edgeLoc, playerColor);
-		// System.out.println("placeRoad mapcontroller");
-		ControllerFacade.getSingleton().placeRoad(edgeLoc);
-		pieceBuilt();
+                if( roadBuilder){
+                    if(firstRoadLocation==null){
+                        firstRoadLocation=edgeLoc;
+                        getView().startDrop(PieceType.ROAD, ControllerFacade.getSingleton().getClientPlayer().getColor(), true);
+                    }
+                    else if(secondRoadLocation==null){
+                        secondRoadLocation=edgeLoc;
+                        ControllerFacade.getSingleton().playRoadBuildingCard(firstRoadLocation, secondRoadLocation);
+                        roadBuilder=false;
+                    }
+                }
+                else{
+                    // System.out.println("placeRoad mapcontroller");
+                    ControllerFacade.getSingleton().placeRoad(edgeLoc);
+                    pieceBuilt();
+                }
 	}
 
 	@Override
@@ -630,7 +646,10 @@ public class MapController extends Controller implements IMapController,
 
 	@Override
 	public void playRoadBuildingCard() {
-
+            roadBuilder=true;
+            firstRoadLocation=null;
+            secondRoadLocation=null;
+            getView().startDrop(PieceType.ROAD, ControllerFacade.getSingleton().getClientPlayer().getColor(), true);
 	}
 
 	@Override
