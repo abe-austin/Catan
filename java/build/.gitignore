@@ -1,8 +1,4 @@
 /client
-/controller
 /game
-/org
-/player
-/server
-/JSON-java-master
 /mainTest
+/player

@@ -256,8 +256,9 @@ public class JsonParser {
 		//The only problem, though, is that these objects are showing now builtStructures...Perhaps when we parse pieces we are supposed
 		//to update each hex/corner...but the pieces we are currently getting in the JSON string is just a bunch of nulls.
 		
-		JSONObject robber = jsonObject.getJSONObject("rob");
-		Robber rob = new Robber(new HexLocation(robber.getInt("x"), robber.getInt("y")));
+		JSONObject robber = board.getJSONObject("rob");
+		JSONObject loc = robber.getJSONObject("location");
+		Robber rob = new Robber(new HexLocation(loc.getInt("x"), loc.getInt("y")));
 	}
 	
 	public HexTile parseTile(JSONObject tile) {
