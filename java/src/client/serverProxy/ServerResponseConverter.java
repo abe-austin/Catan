@@ -42,7 +42,7 @@ public class ServerResponseConverter {
     		if(response.getCode() == 200) {
 //    			response.setBody(gson.fromJson((String)response.getBody(), GameModel.class));
 //                return;
-    			JsonParser parser = new JsonParser();
+    			JsonParser parser = new JsonParser((String)response.getBody());
     		}
 	}
 	
