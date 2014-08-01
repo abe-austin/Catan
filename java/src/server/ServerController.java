@@ -3,9 +3,12 @@ package server;
 import game.GameModel;
 
 import java.util.ArrayList;
+
+import player.Player;
+import client.data.GameInfo;
+import client.data.PlayerInfo;
 import shared.communication.CookieObject;
 import shared.communication.CreateGameParam;
-
 import shared.communication.ServerResponse;
 import system.Password;
 import system.User;
@@ -97,8 +100,31 @@ public class ServerController {
      * 
      * @return list of games
      */
-    public ArrayList<GameModel> getAllGames() {
-        return model.getGames();
+    public ArrayList<GameInfo> getAllGames() {
+    	try{
+    	ArrayList<GameModel> games = model.getGames();
+    	ArrayList<GameInfo> gameInfo = new ArrayList<GameInfo>();
+    	for(GameModel game : games) {
+    		Player[] players = game.getPlayers();
+    		ArrayList<PlayerInfo> playerList = new ArrayList<PlayerInfo>();
+    		for(Player player : players) {
+    			if(player != null) {
+	    			PlayerInfo playerInfo = new PlayerInfo();
+	    			playerInfo.setCatanColor(player.getColor());
+	    			playerInfo.setName(player.getUsername());
+	    			playerInfo.setId(player.getUser().getId());
+	    			playerList.add(playerInfo);
+    			}
+    		}
+    		GameInfo info = new GameInfo(game.getGameId(), game.getGameName(), playerList);
+    		gameInfo.add(info);
+    	}
+        return gameInfo;
+    	}
+    	catch(Exception e) {
+    		e.printStackTrace();
+    		return null;
+    	}
     }
     
     /**
@@ -150,7 +176,10 @@ public class ServerController {
         }
         
         public GameModel getGameModel() {
-            return getGameModel(currentCookie.getGameID());
+        	if(currentCookie.getGameID() != -1){
+        		return getGameModel(currentCookie.getGameID());
+        	}
+        	return null;
         }
         
         /**
