@@ -29,6 +29,8 @@ public class BuildWorld {
 	
 	public BuildWorld(List<HexTile> tiles) {
 		this.tiles = tiles;
+		edges = new ArrayList<Edge>();
+		corners = new ArrayList<Corner>();
 		addEdges();
 		addVertices();
 		updateTiles();
