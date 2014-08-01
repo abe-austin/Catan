@@ -57,9 +57,9 @@ public class JsonParser {
 		parseVersion();
 		parseWinner();
 		parseId();
-		parseRandomHexes();
-		parseRandomNumbers();
-		parseRandomPorts();
+		//parseRandomHexes();
+		//parseRandomNumbers();
+		//parseRandomPorts();
 		parseCheckDiscard();
 		parseGameName();
 		
