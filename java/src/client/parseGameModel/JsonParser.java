@@ -2,6 +2,7 @@ package client.parseGameModel;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import game.GameModel;
@@ -23,6 +24,7 @@ import player.Player;
 import game.TradeOffer;
 import game.TurnTracker;
 import game.bank.Bank;
+import game.board.BuildWorld;
 import game.board.DesertTile;
 import game.board.HexTile;
 import game.board.NumberToken;
@@ -231,24 +233,34 @@ public class JsonParser {
 	
 	public void parseBoard() {
 		JSONObject board = jsonObject.getJSONObject("board");
+		List<HexTile> hexTiles = new ArrayList<HexTile>();
 		
 		//parse all tiles
 		JSONArray tiles = board.getJSONArray("tiles");
 		for(int i=0; i<tiles.length(); i++) {
 			JSONObject tile = tiles.getJSONObject(i);
-			parseTile(tile);
+			HexTile hTile = parseTile(tile);
+			hexTiles.add(hTile);
 		}
 		
+		BuildWorld build = new BuildWorld(hexTiles);
+		hexTiles = build.getTiles();
+		
 		//Not sure why for pieces we are getting a sequence of objects that have nothing but null objects
+		//Add each tile to a list of tiles to be stored in our board object
+		//So I'm thinking placing the roads/corners can be done by calling just the same function as in generating the world.
+		//We want to create all the edges/corners, then assign each hex to them and them to each hex. So probably do it from the 
+		//parseBoard function where we can see every hex.
+		//The only problem, though, is that these objects are showing now builtStructures...Perhaps when we parse pieces we are supposed
+		//to update each hex/corner...but the pieces we are currently getting in the JSON string is just a bunch of nulls.
 	}
 	
-	public void parseTile(JSONObject tile) {
+	public HexTile parseTile(JSONObject tile) {
 		HexTile newTile;
-		String type = "ocean";
 		
 		//Some tiles have
 		if(tile.has("type")) {
-			type = tile.getString("type");
+			String type = tile.getString("type");
 			
 			if(tile.getInt("x") == -3 || tile.getInt("x") == 3 || tile.getInt("y") == -3 || tile.getInt("y") == 3 ||
 				(tile.getInt("x") + tile.getInt("y") == 3) || (tile.getInt("x") + tile.getInt("y") == -3)) {//Is port
@@ -281,6 +293,7 @@ public class JsonParser {
 					newTile = new ResourceTile(ResourceType.SHEEP, new NumberToken(number.getInt("value")));
 			}
 		}
+		
 		else {//is ocean or desert
 			if(tile.getInt("x") == -3 || tile.getInt("x") == 3 || tile.getInt("y") == -3 || tile.getInt("y") == 3 ||
 					(tile.getInt("x") + tile.getInt("y") == 3) || (tile.getInt("x") + tile.getInt("y") == -3)) 
@@ -292,8 +305,7 @@ public class JsonParser {
 		newTile.setCoordinates(tile.getInt("x"), tile.getInt("x"));
 		newTile.setHasRobber(tile.getBoolean("hasRobber"));
 		
-		//Now need to add to newTile the edges/corners
-		//Add each tile to a list of tiles to be stored in our board object
+		return newTile;
 	}
 	
 	public void parseBank() {
