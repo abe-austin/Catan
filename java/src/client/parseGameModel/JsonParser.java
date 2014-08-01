@@ -22,13 +22,6 @@ import game.TradeOffer;
 import game.TurnTracker;
 import game.bank.Bank;
 import game.board.HexTile;
-import game.board.NumberToken;
-import game.board.PortTile;
-import game.board.ResourceTile;
-import org.json.*;
-import shared.definitions.HexType;
-import shared.definitions.PortType;
-import shared.definitions.ResourceType;
 
 public class JsonParser {
 	
@@ -37,8 +30,7 @@ public class JsonParser {
 	
 	public JsonParser(String jsonString) {
 		
-		this.jsonObject = new JSONObject(jsonString);	
-		doParse();
+		this.jsonObject = new JSONObject(jsonString);
 	}
 	
 	public GameModel doParse() {
@@ -102,16 +94,16 @@ public class JsonParser {
 		if(card.get("resourceType").equals("BRICK")) {
 			resourceCard = new ResourceCard(ResourceType.BRICK);
 		}
-		if(card.get("resourceType").equals("WHEAT")) {
+		else if(card.get("resourceType").equals("WHEAT")) {
 			resourceCard = new ResourceCard(ResourceType.WHEAT);
 		}
-		if(card.get("resourceType").equals("SHEEP")) {
+		else if(card.get("resourceType").equals("SHEEP")) {
 			resourceCard = new ResourceCard(ResourceType.SHEEP);
 		}
-		if(card.get("resourceType").equals("ORE")) {
+		else if(card.get("resourceType").equals("ORE")) {
 			resourceCard = new ResourceCard(ResourceType.ORE);
 		}
-		if(card.get("resourceType").equals("WOOD")) {
+		else if(card.get("resourceType").equals("WOOD")) {
 			resourceCard = new ResourceCard(ResourceType.WOOD);
 		}
 		
@@ -125,16 +117,16 @@ public class JsonParser {
 		if(card.get("developmentType").equals("YEAR_OF_PLENTY")) {
 			developmentCard = new DevelopmentCard(DevCardType.YEAR_OF_PLENTY);
 		}
-		if(card.get("developmentType").equals("MONOPOLY")) {
+		else if(card.get("developmentType").equals("MONOPOLY")) {
 			developmentCard = new DevelopmentCard(DevCardType.MONOPOLY);
 		}
-		if(card.get("developmentType").equals("MONUMENT")) {
+		else if(card.get("developmentType").equals("MONUMENT")) {
 			developmentCard = new DevelopmentCard(DevCardType.MONUMENT);
 		}
-		if(card.get("developmentType").equals("SOLDIER")) {
+		else if(card.get("developmentType").equals("SOLDIER")) {
 			developmentCard = new DevelopmentCard(DevCardType.SOLDIER);
 		}
-		if(card.get("developmentType").equals("ROAD_BUILDER")) {
+		else if(card.get("developmentType").equals("ROAD_BUILDER")) {
 			developmentCard = new DevelopmentCard(DevCardType.ROAD_BUILD);
 		}
 		
@@ -145,11 +137,11 @@ public class JsonParser {
 		
 		SpecialCard specialCard = null;
 		
-//		if() {
-//		developmentCard = new DevelopmentCard(DevCardType.SOLDIER);
+//		if(card.get("specialType").equals("")) {
+//			specialCard.add();
 //		}
-//		if() {
-//		developmentCard = new DevelopmentCard(DevCardType.ROAD_BUILD);
+//		if(card.get("specialType").equals("")) {
+//			specialCard.add();
 //		}
 		return specialCard;
 	}
@@ -193,12 +185,17 @@ public class JsonParser {
 				developmentCards.add(developmentCard);
 			}
 		}
+		newPlayer.setDevelopmentCards(developmentCards);
 	
-//		HashSet<SpecialCard> specialCards = new HashSet<SpecialCard>();
-//		for(int i=0; i<player.getJSONArray("specialCards").length(); i++) {
-//			parseSpecialCards();
-//			//specialCards.add();
-//		}
+		HashSet<SpecialCard> specialCards = new HashSet<SpecialCard>();
+		JSONArray specials = player.getJSONArray("specialCards");
+		for(int i=0; i<specials.length(); i++) {
+			if(specials.isNull(i)) {
+				SpecialCard specialCard = parseSpecialCards(specials.getJSONObject(i));
+				specialCards.add(specialCard);
+			}
+		}
+		newPlayer.setSpecialCards(specialCards);
 		
 		return newPlayer;
 	}
