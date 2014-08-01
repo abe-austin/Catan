@@ -3,9 +3,12 @@ package server;
 import game.GameModel;
 
 import java.util.ArrayList;
+
+import player.Player;
+import client.data.GameInfo;
+import client.data.PlayerInfo;
 import shared.communication.CookieObject;
 import shared.communication.CreateGameParam;
-
 import shared.communication.ServerResponse;
 import system.Password;
 import system.User;
@@ -97,8 +100,31 @@ public class ServerController {
      * 
      * @return list of games
      */
-    public ArrayList<GameModel> getAllGames() {
-        return model.getGames();
+    public ArrayList<GameInfo> getAllGames() {
+    	try{
+    	ArrayList<GameModel> games = model.getGames();
+    	ArrayList<GameInfo> gameInfo = new ArrayList<GameInfo>();
+    	for(GameModel game : games) {
+    		Player[] players = game.getPlayers();
+    		ArrayList<PlayerInfo> playerList = new ArrayList<PlayerInfo>();
+    		for(Player player : players) {
+    			if(player != null) {
+	    			PlayerInfo playerInfo = new PlayerInfo();
+	    			playerInfo.setCatanColor(player.getColor());
+	    			playerInfo.setName(player.getUsername());
+	    			playerInfo.setId(player.getUser().getId());
+	    			playerList.add(playerInfo);
+    			}
+    		}
+    		GameInfo info = new GameInfo(game.getGameId(), game.getGameName(), playerList);
+    		gameInfo.add(info);
+    	}
+        return gameInfo;
+    	}
+    	catch(Exception e) {
+    		e.printStackTrace();
+    		return null;
+    	}
     }
     
     /**
@@ -142,7 +168,7 @@ public class ServerController {
          */        
         public GameModel getGameModel(int id) {
             for(GameModel game : model.getGames()) {
-                if(game.getVersion() == id)
+                if(game.getGameId() == id)
                     return game;
             }
             
@@ -150,7 +176,10 @@ public class ServerController {
         }
         
         public GameModel getGameModel() {
-            return getGameModel(currentCookie.getGameID());
+        	if(currentCookie.getGameID() != -1){
+        		return getGameModel(currentCookie.getGameID());
+        	}
+        	return null;
         }
         
         /**
@@ -182,6 +211,7 @@ public class ServerController {
             game.setRandomHexes(param.isRandomHexes());
             game.setRandomNumbers(param.isRandomNumbers());
             game.setRandomPorts(param.isRandomPorts());
+            game.buildBoard();
             game.setGameName(param.getName());
             game.setGameId(lastGameId++);
             
@@ -189,6 +219,25 @@ public class ServerController {
             currentCookie.setGameID(game.getGameId());
             
             return game;
+        }
+        
+        public int getPlayerCount(int gameID){
+        	int playerCount = 0;
+        	GameModel game = getGameModel(gameID);
+        	Player[] players = game.getPlayers();
+        	for(Player player : players) {
+        		if(player != null)
+        			playerCount++;
+        	}
+        	return playerCount;
+        }
+        
+        public User getUserByID(int userID) {
+        	for(User user :model.getUsers()) {
+        		if(user.getId() == userID)
+        			return user;
+        	}
+        	return null;
         }
     
         /**
@@ -210,11 +259,7 @@ public class ServerController {
                 	return response;
             }
             return new ServerResponse(400, "Command not supported");
-        }
-        
-        public CookieObject getCookieObject() {
-            return currentCookie;
-        }        
+        }     
         
         /**
          * Creates Cookie String

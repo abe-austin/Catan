@@ -3,8 +3,11 @@ package client.serverProxy;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.parse.DoParse;
+import client.parseGameModel.JsonParser;
 
 import com.google.gson.Gson;
+
+import game.GameModel;
 
 import java.util.ArrayList;
 
@@ -28,13 +31,20 @@ public class ServerResponseConverter {
         
         public void convertGameModel(ServerResponse response) {
 		
-		if(response.getCode() == 200) {
-			//response.setBody(gson.fromJson((String)response.getBody(), type));
-                    DoParse parser =new DoParse();
-                    parser.process((String)response.getBody());
-                    response.setBody(parser.getGameModel());
-                        return;
-		}
+//		if(response.getCode() == 200) {
+//			//response.setBody(gson.fromJson((String)response.getBody(), type));
+//                    DoParse parser =new DoParse();
+//                    parser.process((String)response.getBody());
+//                    response.setBody(parser.getGameModel());
+//                     return;
+//		}
+			//System.out.println((String)response.getBody());
+    		if(response.getCode() == 200) {
+//    			response.setBody(gson.fromJson((String)response.getBody(), GameModel.class));
+//                return;
+    			JsonParser parser = new JsonParser((String)response.getBody());
+    			response.setBody(parser.doParse());
+    		}
 	}
 	
 	public void convertGameInfo(ServerResponse response) {

@@ -99,8 +99,7 @@ public class ServerProxy implements Server{
 			HttpEntity entity = response.getEntity();
 			
 			this.setCookies(response.getAllHeaders());
-			
-			responseOb = (Object)EntityUtils.toString(entity);
+			responseOb = EntityUtils.toString(entity);
 			
 			serverResponse = new ServerResponse(response.getStatusLine().getStatusCode(),
 					responseOb);

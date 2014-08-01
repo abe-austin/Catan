@@ -20,12 +20,22 @@ public class BuildWorld {
 	private List<Corner> corners;
 	private boolean seenDesert;
 
-	public BuildWorld() {// Perhaps a constructor with a list of hexes, tiles,
+	public BuildWorld(boolean randHex, boolean randPort, boolean randNumb) {// Perhaps a constructor with a list of hexes, tiles,
 							// and vertices. Another that is empty and does
 							// lists of each
 		seenDesert = false;
-		defaultSetup();
+		defaultSetup(randHex, randPort, randNumb);
 	}
+	
+	public BuildWorld(List<HexTile> tiles) {
+		this.tiles = tiles;
+		edges = new ArrayList<Edge>();
+		corners = new ArrayList<Corner>();
+		addEdges();
+		addVertices();
+		updateTiles();
+	}
+	
 
 	// public BuildWorld(List<HexTile> tiles, List<Edge> edges, List<Corner>
 	// corners) {
@@ -34,11 +44,11 @@ public class BuildWorld {
 	// this.corners = corners;
 	// }
 
-	public void defaultSetup() {
+	public void defaultSetup(boolean randHex, boolean randPort, boolean randNumb) {
 		tiles = new ArrayList<HexTile>();
 		edges = new ArrayList<Edge>();
 		corners = new ArrayList<Corner>();
-		createTiles();
+		createTiles(randHex, randPort, randNumb);
 		addEdges();
 		addVertices();
 		updateTiles();
@@ -51,7 +61,7 @@ public class BuildWorld {
 	/**
 	 * creates the different tiles for the map
 	 */
-	public void createTiles() {
+	public void createTiles(boolean randHex, boolean randPort, boolean randNumb) {
 		// Key
 		// 0 = Wood
 		// 1 = brick
@@ -60,7 +70,7 @@ public class BuildWorld {
 		// 4 = ore
 		// 5 = desert
 		ArrayList<Integer> places = new ArrayList<Integer>(Arrays.asList(0, 0,
-				0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5));
+				0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5));//Reorganize these to be default setup
 
 		// Key
 		// 0 = threePort
@@ -70,14 +80,17 @@ public class BuildWorld {
 		// 4 = wheatPort
 		// 5 = orePort
 		ArrayList<Integer> ports = new ArrayList<Integer>(Arrays.asList(0, 0,
-				0, 0, 1, 2, 3, 4, 5));
+				0, 0, 1, 2, 3, 4, 5));//Reorganize these to be default setup
 
 		ArrayList<Integer> numTokens = new ArrayList<Integer>(Arrays.asList(2,
-				3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12));
+				3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12));//Reorganize these to be default setup
 
-		Collections.shuffle(places);
-		Collections.shuffle(ports);
-		Collections.shuffle(numTokens);
+		if(randHex)
+			Collections.shuffle(places);
+		if(randPort)
+			Collections.shuffle(ports);
+		if(randNumb)
+			Collections.shuffle(numTokens);
 
 		// Create ocean tiles
 		HexTile p0n3 = new OceanTile();

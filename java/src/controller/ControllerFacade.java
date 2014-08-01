@@ -134,7 +134,7 @@ public class ControllerFacade implements IControllerFacadeListener{
             for(int i =0; i <game.getPlayers().length;i++){
                if(clientPlayer.toString().equals(game.getPlayers()[i].toString())){
                    clientPlayer.setIndex(i);
-               }                 
+               }      
            }
         }
         gamePlayController.setPlayer(clientPlayer);
@@ -144,6 +144,7 @@ public class ControllerFacade implements IControllerFacadeListener{
     public void updateClientPlayer(GameModel gameModel) {
     
 		for (Player modelPlayer : gameModel.getPlayers()) {
+			System.out.println(modelPlayer);
 			if (modelPlayer.getIndex() == clientPlayer.getIndex()) {
 				clientPlayer = modelPlayer;
 			}
@@ -705,7 +706,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 //			currentPlayerInfo.setColor(color);
 //			currentPlayerInfo.setId(user.getId());
 //			gameInfo.addPlayer(currentPlayerInfo);
-			clientPlayer = new Player(color, "\""+user.getUsername().getUsername()+"\"", index);
+			clientPlayer = new Player(color, "\""+user.getUsername().getUsername()+"\"", index, user);
                         clientPlayer.setUser(user);
                         
 			PlayerInfo playerInfo = new PlayerInfo();
@@ -715,7 +716,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 			playerInfo.setId(user.getId());
 			gameInfo.addPlayer(playerInfo);
 			ServerResponse response = serverProxyFacade.joinGame(gameInfo.getId(), color);
-                        resetClientPlayer();
+            resetClientPlayer();
 			currentGameModel.getPlayers();
 			return response;	
 		case PlayerWaiting:
@@ -1022,7 +1023,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 	                        }
 	                	return robInfos;
 	                	
-	                	//Find all the players on that hexLoc...create RobPlayerInfos off of that and then  store them in the robView
+	                	//Find all the players on that hexLoc... RobPlayerInfos off of that and then  store them in the robView
 	                	//ServerProxy does not have a method to move the robber
 	                default:
 	                	return null;

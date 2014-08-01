@@ -12,12 +12,16 @@ import shared.definitions.PieceType;
 public abstract class BoardPiece {
 	private String player;
 	private boolean active;
+	
+	public BoardPiece(){
+		
+	}
 
 	public BoardPiece(Player owner) {
 		active = false;
 		this.player = owner.getUsername();
 	}
-
+	
 	/**
 	 * 
 	 * @return BoardPiece owner
@@ -41,6 +45,10 @@ public abstract class BoardPiece {
 	 */
 	public void setActive(boolean set) {
 		active = set;
+	}
+	
+	public void setPlayer(String player) {
+		this.player = player;
 	}
 
 	/**
