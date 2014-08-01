@@ -3,6 +3,7 @@ package client.parseGameModel;
 import game.GameModel;
 import game.TradeOffer;
 import game.TurnTracker;
+import game.bank.Bank;
 import game.board.HexTile;
 import game.board.NumberToken;
 import game.board.PortTile;
@@ -78,7 +79,82 @@ public class JsonParser {
 	}
 	
 	public void parseBank() {
+		JSONObject bankJson = jsonObject.getJSONObject("bank");
+		Bank bank = new Bank();
+	
+		JSONArray resourceCards = bankJson.getJSONArray("resourceCards");
+		int brick = 0;
+		int ore = 0;
+		int sheep = 0;
+		int wheat = 0;
+		int wood = 0;
+		for(int i=0; i<resourceCards.length(); i++) {
+			String resource = resourceCards.getString(i);
+			switch(resource) {
+				case "BRICK":
+					brick++;
+					break;
+				case "ORE":
+					ore++;
+					break;
+				case "SHEEP":
+					sheep++;
+					break;
+				case "WHEAT":
+					wheat++;
+					break;
+				case "WOOD":
+					wood++;
+					break;
+			}
+		}
+		bank.setResources(brick, ore, sheep, wheat, wood);
+
+		JSONArray devCards = bankJson.getJSONArray("developmentCards");
+		int soldier = 0;
+		int yearOfPlenty = 0;
+		int monopoly = 0;
+		int roadBuild = 0;
+		int monument = 0;
+		for(int i=0; i<devCards.length(); i++) {
+			String dev = devCards.getString(i);
+			switch(dev) {
+				case "SOLDIER":
+					soldier++;
+					break;
+				case "YEAR_OF_PLENTY":
+					yearOfPlenty++;
+					break;
+				case "MONOPOLY":
+					monopoly++;
+					break;
+				case "ROAD_BUILD":
+					roadBuild++;
+					break;
+				case "MONUMENT":
+					monument++;
+					break;
+			}
+		}
+		bank.setDevCards(monopoly, roadBuild, yearOfPlenty, monument, soldier);
 		
+		JSONArray specialCards = bankJson.getJSONArray("specialCards");
+		boolean longestRoad = false;
+		boolean largestArmy = false;
+		for(int i=0; i<specialCards.length(); i++) {
+			String special = specialCards.getString(i);
+			switch(special) {
+				case "LONGEST_ROAD":
+					longestRoad = true;
+					break;
+				case "LARGEST_ARMY":
+					largestArmy = true;
+					break;
+			}
+		}
+		bank.setSpecialCards(largestArmy, longestRoad);
+		
+		game.setBank(bank);
 	}
 	
 	public void parseGameHistory() {
