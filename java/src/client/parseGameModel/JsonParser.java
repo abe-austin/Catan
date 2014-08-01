@@ -107,35 +107,35 @@ public class JsonParser {
 	}
 	
 	public void parseVersion() {
-		
+		game.setVersion(jsonObject.getInt("version"));
 	}
 	
 	public void parseWinner() {
-		
+		game.setWinner(jsonObject.getInt("winner"));
 	}
 	
 	public void parseId() {
-		
+		game.setGameId(jsonObject.getInt("id"));
 	}
 	
 	public void parseRandomHexes() {
-		
+		game.setRandomHexes(jsonObject.getBoolean("randomHexes"));
 	}
 	
 	public void parseRandomNumbers() {
-		
+		game.setRandomNumbers(jsonObject.getBoolean("randomNumbers"));
 	}
 	
 	public void parseRandomPorts() {
-		
+		game.setRandomPorts(jsonObject.getBoolean("randomPorts"));
 	}
 	
 	public void parseCheckDiscard() {
-		
+		game.setCheckDiscard(jsonObject.getBoolean("checkDiscard"));
 	}
 	
 	public void parseGameName() {
-		
+		game.setGameName(jsonObject.getString("gameName"));
 	}
 }
 
