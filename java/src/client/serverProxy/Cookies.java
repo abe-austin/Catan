@@ -55,4 +55,7 @@ public class Cookies {
 		}
 		return -1;
 	}
+        public void setGameID(String gameId){
+            cookies.put("catan.game",gameId);
+        }
 }

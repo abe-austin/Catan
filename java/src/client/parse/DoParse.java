@@ -261,8 +261,10 @@ public class DoParse
 		for(ParsedPlayer parsedPlayer : players) 
 		{
 			Player player = new Player(parsedPlayer.getColor(), parsedPlayer.getName(), parsedPlayer.getPlayedIndex());
+
 			//System.out.println(player.getUsername()+" "+player.hasDiscarded());
                         player.setDiscarded(parsedPlayer.getDiscarded());
+
                         player.setSoldiersPlayed(parsedPlayer.getSoldiers());
 			for(int i = 0; i<parsedPlayer.getVictoryPoints(); i++) {
 				player.addPoint();

@@ -15,6 +15,7 @@ public class PointsController extends Controller implements IPointsController, I
 
 	private IGameFinishedView finishedView;
         private int winLimit = 10;
+        private boolean backToBeginning=false;
 	
 	/**
 	 * PointsController constructor
@@ -38,11 +39,16 @@ public class PointsController extends Controller implements IPointsController, I
                 getPointsView().setPoints(ControllerFacade.getSingleton().getPoints());
                 if (gameModel.getWinner()!=-1){
                     if( !getFinishedView().isModalShowing()){
+                        if(backToBeginning){
+                            //already showed the finishedView, so send back to game hub
+                            ControllerFacade.getSingleton().setGameState(GameState.JoinGame);
+                        }
                         //System.out.println("winner "+gameModel.getWinner());
-                        if (gameModel.getWinner()==ControllerFacade.getSingleton().getClientPlayer().getUser().getId()){
+                        else if (gameModel.getWinner()==ControllerFacade.getSingleton().getClientPlayer().getUser().getId()){
                             //System.out.println("winner "+ControllerFacade.getSingleton().getClientPlayer().getUsername());
                             getFinishedView().setWinner(ControllerFacade.getSingleton().getClientPlayer().getUsername(), true);
                             getFinishedView().showModal();
+                            backToBeginning=true;
                         }
                         else{
                             String name="Someone other than you";
@@ -54,9 +60,13 @@ public class PointsController extends Controller implements IPointsController, I
                             }
                             getFinishedView().setWinner(name, false);     
                             getFinishedView().showModal();
+                            backToBeginning=true;
                         }
                     }
                 }
+            }
+            if (ControllerFacade.getSingleton().getGameState()==GameState.JoinGame){
+                initFromModel();
             }
         }
          

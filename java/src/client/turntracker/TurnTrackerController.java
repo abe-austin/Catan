@@ -5,6 +5,7 @@ import controller.ControllerFacade;
 import controller.IControllerFacadeListener;
 import game.GameModel;
 import player.Player;
+import shared.definitions.CatanColor;
 import shared.definitions.GameState;
 
 /**
@@ -63,6 +64,13 @@ public class TurnTrackerController extends Controller implements
                         gameModel.getTurnTracker().getCurrentTurn() == player.getIndex(),
                         player.getIndex() == gameModel.getTurnTracker().getLargestArmy(),
                         player.getIndex() == gameModel.getTurnTracker().getLongestRoad());
+            }
+        }
+        if(ControllerFacade.getSingleton().getGameState()==GameState.JoinGame){
+            for (Player player : gameModel.getPlayers()) {
+                getView().updatePlayer(player.getIndex(),0,false,false,false);
+                getView().initializePlayer(player.getIndex(), "", CatanColor.WHITE);
+                firstTurn=true;
             }
         }
 

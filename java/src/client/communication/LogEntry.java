@@ -30,6 +30,9 @@ public class LogEntry {
 		this.color = color;
 	}
 	public String getMessage() {
+            if(message.contains("\\u0027")){
+                message =message.replace("\\u0027", "\'");
+            }
 		return message;
 	}
 	public void setMessage(String message) {
