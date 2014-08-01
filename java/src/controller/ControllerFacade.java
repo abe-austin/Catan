@@ -700,7 +700,7 @@ public class ControllerFacade implements IControllerFacadeListener{
 //			currentPlayerInfo.setColor(color);
 //			currentPlayerInfo.setId(user.getId());
 //			gameInfo.addPlayer(currentPlayerInfo);
-			clientPlayer = new Player(color, "\""+user.getUsername().getUsername()+"\"", index);
+			clientPlayer = new Player(color, "\""+user.getUsername().getUsername()+"\"", index, user);
                         clientPlayer.setUser(user);
                         
 			PlayerInfo playerInfo = new PlayerInfo();

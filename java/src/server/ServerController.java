@@ -168,7 +168,7 @@ public class ServerController {
          */        
         public GameModel getGameModel(int id) {
             for(GameModel game : model.getGames()) {
-                if(game.getVersion() == id)
+                if(game.getGameId() == id)
                     return game;
             }
             
@@ -231,6 +231,14 @@ public class ServerController {
         	}
         	return playerCount;
         }
+        
+        public User getUserByID(int userID) {
+        	for(User user :model.getUsers()) {
+        		if(user.getId() == userID)
+        			return user;
+        	}
+        	return null;
+        }
     
         /**
          * Handles a given command
@@ -251,11 +259,7 @@ public class ServerController {
                 	return response;
             }
             return new ServerResponse(400, "Command not supported");
-        }
-        
-        public CookieObject getCookieObject() {
-            return currentCookie;
-        }        
+        }     
         
         /**
          * Creates Cookie String

@@ -32,9 +32,9 @@ public class Player extends CardOwner {
 	private String username;
 	private boolean discarded = false;
 
-	public Player(CatanColor color, String username, int index) {
+	public Player(CatanColor color, String username, int index, User user) {
 		this.color = color;
-		// this.user = user;
+		 this.user = user;
 		this.username = username;
 		this.index = index;
 		soldiersPlayed = 0;

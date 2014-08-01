@@ -62,7 +62,7 @@ public class DoParse
 	        	String i = scan.nextLine();
 	        	i = parseDeck(i);
 	        	i = parseMap(i);
-	        	i = parsePlayers(i);
+//	        	i = parsePlayers(i);
 	        	i = parseLog(i);
 	        	i = parseChat(i);
 	        	i = parseBank(i);
@@ -241,91 +241,91 @@ public class DoParse
 	}
 	
 	
-	public String parsePlayers(String input)
-	{
-		String[] divide = input.split("log\":");
-		input = divide[1];
-		String allPlayers = divide[0];
-		String[] thePlayers = allPlayers.split("resources\":");
-		
-		ArrayList<ParsedPlayer> players = new ArrayList<ParsedPlayer>();
-		
-		for(int i = 1; i < thePlayers.length; i++)
-		{
-			ParsedPlayer pP = parsePlayer(thePlayers[i],i-1);
-			players.add(pP);
-		}
-		
-		int j = 0;
-		Player[] modelPlayers = new Player[players.size()];
-		for(ParsedPlayer parsedPlayer : players) 
-		{
-			Player player = new Player(parsedPlayer.getColor(), parsedPlayer.getName(), parsedPlayer.getPlayedIndex());
-			//System.out.println(player.getUsername()+" "+player.hasDiscarded());
-                        player.setDiscarded(parsedPlayer.getDiscarded());
-                        player.setSoldiersPlayed(parsedPlayer.getSoldiers());
-			for(int i = 0; i<parsedPlayer.getVictoryPoints(); i++) {
-				player.addPoint();
-			}
-			//boardPieces
-			Set<BoardPiece> boardPieces = new HashSet<BoardPiece>();
-			for(int i = 0; i < parsedPlayer.getSettlements(); i++) {
-				boardPieces.add(new Settlement(player));
-			}
-			for(int i = 0; i < parsedPlayer.getCities(); i++) {
-				boardPieces.add(new City(player));
-			}
-                        int roadCount=0;
-			for(int i = 0; i < parsedPlayer.getRoads(); i++) {
-				boardPieces.add(new Road(player));roadCount++;
-			}
-			player.setBoardPieces(boardPieces);
-                        
-                //System.out.println("doParse setBoardPieces roads "+ roadCount);
-			//resourceCards
-			HashSet<ResourceCard> resourceCards = new HashSet<ResourceCard>();
-			for(int i = 0; i< parsedPlayer.getPlayerResources().getBrick(); i++) {
-				resourceCards.add(new ResourceCard(ResourceType.BRICK));
-			}
-			for(int i = 0; i< parsedPlayer.getPlayerResources().getWheat(); i++) {
-				resourceCards.add(new ResourceCard(ResourceType.WHEAT));
-			}
-			for(int i = 0; i< parsedPlayer.getPlayerResources().getSheep(); i++) {
-				resourceCards.add(new ResourceCard(ResourceType.SHEEP));
-			}
-			for(int i = 0; i< parsedPlayer.getPlayerResources().getOre(); i++) {
-				resourceCards.add(new ResourceCard(ResourceType.ORE));
-			}
-			for(int i = 0; i< parsedPlayer.getPlayerResources().getWood(); i++) {
-				resourceCards.add(new ResourceCard(ResourceType.WOOD));
-			}
-			player.setResourceCards(resourceCards);
-			//developmentCards
-			HashSet<DevelopmentCard> developmentCards = new HashSet<DevelopmentCard>();
-			for(int i = 0; i< parsedPlayer.getOldCards().getYearOfPlenty(); i++) {
-				developmentCards.add(new DevelopmentCard(DevCardType.YEAR_OF_PLENTY));
-			}
-			for(int i = 0; i< parsedPlayer.getOldCards().getMonopoly(); i++) {
-				developmentCards.add(new DevelopmentCard(DevCardType.MONOPOLY));
-			}
-			for(int i = 0; i< parsedPlayer.getOldCards().getMonument(); i++) {
-				developmentCards.add(new DevelopmentCard(DevCardType.MONUMENT));
-			}
-			for(int i = 0; i< parsedPlayer.getOldCards().getSoldier(); i++) {
-				developmentCards.add(new DevelopmentCard(DevCardType.SOLDIER));
-			}
-			for(int i = 0; i< parsedPlayer.getOldCards().getRoadBuilding(); i++) {
-				developmentCards.add(new DevelopmentCard(DevCardType.ROAD_BUILD));
-			}
-			player.setDevelopmentCards(developmentCards);
-                        User user = new User(new Username(parsedPlayer.getName()),new Password(""),parsedPlayer.getPlayedID());
-			player.setUser(user);
-			modelPlayers[j] = player;
-			j++;
-		}
-		gameModel.setPlayers(modelPlayers);
-		return input;
-	}
+//	public String parsePlayers(String input)
+//	{
+//		String[] divide = input.split("log\":");
+//		input = divide[1];
+//		String allPlayers = divide[0];
+//		String[] thePlayers = allPlayers.split("resources\":");
+//		
+//		ArrayList<ParsedPlayer> players = new ArrayList<ParsedPlayer>();
+//		
+//		for(int i = 1; i < thePlayers.length; i++)
+//		{
+//			ParsedPlayer pP = parsePlayer(thePlayers[i],i-1);
+//			players.add(pP);
+//		}
+//		
+//		int j = 0;
+//		Player[] modelPlayers = new Player[players.size()];
+//		for(ParsedPlayer parsedPlayer : players) 
+//		{
+//			Player player = new Player(parsedPlayer.getColor(), parsedPlayer.getName(), parsedPlayer.getPlayedIndex());
+//			//System.out.println(player.getUsername()+" "+player.hasDiscarded());
+//                        player.setDiscarded(parsedPlayer.getDiscarded());
+//                        player.setSoldiersPlayed(parsedPlayer.getSoldiers());
+//			for(int i = 0; i<parsedPlayer.getVictoryPoints(); i++) {
+//				player.addPoint();
+//			}
+//			//boardPieces
+//			Set<BoardPiece> boardPieces = new HashSet<BoardPiece>();
+//			for(int i = 0; i < parsedPlayer.getSettlements(); i++) {
+//				boardPieces.add(new Settlement(player));
+//			}
+//			for(int i = 0; i < parsedPlayer.getCities(); i++) {
+//				boardPieces.add(new City(player));
+//			}
+//                        int roadCount=0;
+//			for(int i = 0; i < parsedPlayer.getRoads(); i++) {
+//				boardPieces.add(new Road(player));roadCount++;
+//			}
+//			player.setBoardPieces(boardPieces);
+//                        
+//                //System.out.println("doParse setBoardPieces roads "+ roadCount);
+//			//resourceCards
+//			HashSet<ResourceCard> resourceCards = new HashSet<ResourceCard>();
+//			for(int i = 0; i< parsedPlayer.getPlayerResources().getBrick(); i++) {
+//				resourceCards.add(new ResourceCard(ResourceType.BRICK));
+//			}
+//			for(int i = 0; i< parsedPlayer.getPlayerResources().getWheat(); i++) {
+//				resourceCards.add(new ResourceCard(ResourceType.WHEAT));
+//			}
+//			for(int i = 0; i< parsedPlayer.getPlayerResources().getSheep(); i++) {
+//				resourceCards.add(new ResourceCard(ResourceType.SHEEP));
+//			}
+//			for(int i = 0; i< parsedPlayer.getPlayerResources().getOre(); i++) {
+//				resourceCards.add(new ResourceCard(ResourceType.ORE));
+//			}
+//			for(int i = 0; i< parsedPlayer.getPlayerResources().getWood(); i++) {
+//				resourceCards.add(new ResourceCard(ResourceType.WOOD));
+//			}
+//			player.setResourceCards(resourceCards);
+//			//developmentCards
+//			HashSet<DevelopmentCard> developmentCards = new HashSet<DevelopmentCard>();
+//			for(int i = 0; i< parsedPlayer.getOldCards().getYearOfPlenty(); i++) {
+//				developmentCards.add(new DevelopmentCard(DevCardType.YEAR_OF_PLENTY));
+//			}
+//			for(int i = 0; i< parsedPlayer.getOldCards().getMonopoly(); i++) {
+//				developmentCards.add(new DevelopmentCard(DevCardType.MONOPOLY));
+//			}
+//			for(int i = 0; i< parsedPlayer.getOldCards().getMonument(); i++) {
+//				developmentCards.add(new DevelopmentCard(DevCardType.MONUMENT));
+//			}
+//			for(int i = 0; i< parsedPlayer.getOldCards().getSoldier(); i++) {
+//				developmentCards.add(new DevelopmentCard(DevCardType.SOLDIER));
+//			}
+//			for(int i = 0; i< parsedPlayer.getOldCards().getRoadBuilding(); i++) {
+//				developmentCards.add(new DevelopmentCard(DevCardType.ROAD_BUILD));
+//			}
+//			player.setDevelopmentCards(developmentCards);
+//                        User user = new User(new Username(parsedPlayer.getName()),new Password(""),parsedPlayer.getPlayedID());
+//			player.setUser(user);
+//			modelPlayers[j] = player;
+//			j++;
+//		}
+//		gameModel.setPlayers(modelPlayers);
+//		return input;
+//	}
 	
 	public ParsedPlayer parsePlayer(String input, int index)
 	{
