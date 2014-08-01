@@ -775,4 +775,7 @@ public class ServerProxyFacade {
 		converter.convert(response, String.class);
 		return response;
 	}
+        public void resetGameId(String gameId){
+            server.getCookies().setGameID(gameId);
+        }
 }

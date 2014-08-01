@@ -72,6 +72,9 @@ public class MapController extends Controller implements IMapController,
 				}
 			}
 		}
+                else if (ControllerFacade.getSingleton().getGameState()==GameState.JoinGame){
+                    initFromModel();
+                }
 
 	}
 	

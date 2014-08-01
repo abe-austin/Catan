@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import shared.communication.ServerResponse;
 import shared.definitions.CatanColor;
+import shared.definitions.GameState;
 
 
 /**
@@ -22,6 +23,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private ISelectColorView selectColorView;
 	private IMessageView messageView;
 	private IAction joinAction;
+        private boolean restarting=false;
 	
 	/**
 	 * JoinGameController constructor
@@ -43,7 +45,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	
 	@Override
         public void gameModelChanged(GameModel gameModel){
-            
+            if(ControllerFacade.getSingleton().getGameState()==GameState.JoinGame){
+                if(!restarting){
+                    ControllerFacade.getSingleton().resetGameId("-1");
+                    restarting=true;
+                    getJoinGameView().showModal();
+                }
+            }
         }
          
 	public IJoinGameView getJoinGameView() {
@@ -186,7 +194,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
                     
                     if(getJoinGameView().isModalShowing())
 			getJoinGameView().closeModal();
-                    
+                    restarting=false;
                     joinAction.execute();
 		}
 		else {

@@ -185,6 +185,11 @@ public class ControllerFacade implements IControllerFacadeListener{
     public void setGameState(GameState gameState){
         this.gameState = gameState;
     }
+    public void resetGameId(String gameId){
+        if(gameState==GameState.JoinGame){
+            serverProxyFacade.resetGameId(gameId);
+        }
+    }
     
     public void sendMessage(String message){
 	        switch(gameState){
