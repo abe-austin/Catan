@@ -88,6 +88,9 @@ public class CatanServer {
 		public void handle(com.sun.net.httpserver.HttpExchange exchange) throws IOException {
 			byte[] response = new byte[256];
 			
+			//Uncomment to output the current command to terminal
+//			System.out.println(exchange.getRequestURI().toString().substring(0));
+			
 			String requestBody = getBody(exchange);
 			
 			CookieObject cookieObject = createCookieObject(exchange);

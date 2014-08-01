@@ -6,6 +6,8 @@ import client.parse.DoParse;
 
 import com.google.gson.Gson;
 
+import game.GameModel;
+
 import java.util.ArrayList;
 
 import shared.communication.ServerResponse;
@@ -28,13 +30,17 @@ public class ServerResponseConverter {
         
         public void convertGameModel(ServerResponse response) {
 		
-		if(response.getCode() == 200) {
-			//response.setBody(gson.fromJson((String)response.getBody(), type));
-                    DoParse parser =new DoParse();
-                    parser.process((String)response.getBody());
-                    response.setBody(parser.getGameModel());
-                        return;
-		}
+//		if(response.getCode() == 200) {
+//			//response.setBody(gson.fromJson((String)response.getBody(), type));
+//                    DoParse parser =new DoParse();
+//                    parser.process((String)response.getBody());
+//                    response.setBody(parser.getGameModel());
+//                     return;
+//		}
+    		if(response.getCode() == 200) {
+    			response.setBody(gson.fromJson((String)response.getBody(), GameModel.class));
+                return;
+    		}
 	}
 	
 	public void convertGameInfo(ServerResponse response) {
