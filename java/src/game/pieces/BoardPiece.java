@@ -21,7 +21,7 @@ public abstract class BoardPiece {
 		active = false;
 		this.player = owner.getUsername();
 	}
-
+	
 	/**
 	 * 
 	 * @return BoardPiece owner
@@ -45,6 +45,10 @@ public abstract class BoardPiece {
 	 */
 	public void setActive(boolean set) {
 		active = set;
+	}
+	
+	public void setPlayer(String player) {
+		this.player = player;
 	}
 
 	/**

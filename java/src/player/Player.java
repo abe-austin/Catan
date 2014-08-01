@@ -81,6 +81,10 @@ public class Player extends CardOwner {
 			boardPieces.add(new Road(this));
 	}
 
+	public Player() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * Returns an available board piece of a given type
 	 * 

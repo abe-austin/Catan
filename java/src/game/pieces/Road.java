@@ -11,6 +11,10 @@ public class Road extends BoardPiece {
 		super(owner);
 		cost = Cost.ROAD;
 	}
+	
+	public Road() {
+		
+	}
 
 	@Override
 	public PieceType getPieceType() {
