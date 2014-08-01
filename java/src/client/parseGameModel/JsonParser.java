@@ -89,7 +89,8 @@ public class JsonParser {
 		int wheat = 0;
 		int wood = 0;
 		for(int i=0; i<resourceCards.length(); i++) {
-			String resource = resourceCards.getString(i);
+			JSONObject resourceCard = resourceCards.getJSONObject(i);
+			String resource = resourceCard.getString("resourceType");
 			switch(resource) {
 				case "BRICK":
 					brick++;
@@ -117,7 +118,8 @@ public class JsonParser {
 		int roadBuild = 0;
 		int monument = 0;
 		for(int i=0; i<devCards.length(); i++) {
-			String dev = devCards.getString(i);
+			JSONObject devCard = devCards.getJSONObject(i);
+			String dev = devCard.getString("developmentType");
 			switch(dev) {
 				case "SOLDIER":
 					soldier++;
@@ -142,7 +144,8 @@ public class JsonParser {
 		boolean longestRoad = false;
 		boolean largestArmy = false;
 		for(int i=0; i<specialCards.length(); i++) {
-			String special = specialCards.getString(i);
+			JSONObject specialCard = specialCards.getJSONObject(i);
+			String special = specialCard.getString("special");
 			switch(special) {
 				case "LONGEST_ROAD":
 					longestRoad = true;
