@@ -1,6 +1,7 @@
 package client.parseGameModel;
 
 import game.GameModel;
+import game.TradeOffer;
 import game.TurnTracker;
 import game.board.HexTile;
 import game.board.NumberToken;
@@ -94,7 +95,15 @@ public class JsonParser {
 	}
 	
 	public void parseTradeOffer() {
-		
+		JSONObject tradeOfferJson = jsonObject.getJSONObject("tradeOffer");
+		TradeOffer tradeOffer = new TradeOffer(tradeOfferJson.getInt("senderIndex"),
+				tradeOfferJson.getInt("receiverIndex"),
+				tradeOfferJson.getInt("brick"),
+				tradeOfferJson.getInt("ore"),
+				tradeOfferJson.getInt("sheep"),
+				tradeOfferJson.getInt("wood"),
+				tradeOfferJson.getInt("wheat"));
+		game.setTradeOffer(tradeOffer);
 	}
 	
 	public void parseVersion() {
