@@ -1,9 +1,1 @@
-/client
-/game
-/mainTest
-/player
-/controller
-/server
-/shared
-/jsonJava/
-/org/
+/client/
