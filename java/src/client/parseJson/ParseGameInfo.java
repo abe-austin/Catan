@@ -1,11 +1,8 @@
 package client.parseJson;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import shared.definitions.CatanColor;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
@@ -18,8 +15,7 @@ public class ParseGameInfo {
 	
 	public ParseGameInfo(String jsonString) {
 		
-		if(!jsonString.equals("[]")){
-//            jsonString = jsonString.substring(1, jsonString.length()-1);
+		if(!jsonString.equals("[]")) {
             this.jsonArray = new JSONArray(jsonString);
             gameInfo = new GameInfo();    
         }	
@@ -64,9 +60,10 @@ public class ParseGameInfo {
 		PlayerInfo playerInfo = new PlayerInfo();
 		playerInfo.setId(player.getInt("id"));
 		playerInfo.setPlayerIndex(index);
+		playerInfo.setName(player.getString("name"));
 		playerInfo.setCatanColor(CatanColor.valueOf(player.getString("catanColor")));
-		playerInfo.setColor(player.getString("color").toLowerCase());
-		
+		playerInfo.setColor(player.getString("catanColor").toLowerCase());
+	
 		return playerInfo;
 	}
 	
