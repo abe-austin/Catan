@@ -20,6 +20,10 @@ public class GameInfo {
 	private String title;
 	private List<PlayerInfo> players;
 
+        public GameInfo(){
+            players = new ArrayList<>();
+        }
+        
 	public GameInfo(int id, String title) {
 		this.id = id;
 		this.title = title;
