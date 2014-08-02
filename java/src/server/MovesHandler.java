@@ -4,6 +4,8 @@ import client.parse.ParsedChat;
 import controller.PlayerReceivingResources;
 import game.GameModel;
 import game.TradeOffer;
+import game.TurnTracker;
+import game.bank.Bank;
 import game.board.Corner;
 import game.board.Edge;
 import game.board.HexTile;
@@ -23,6 +25,7 @@ import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.definitions.ResourceType;
 import shared.definitions.ResourceTypeUtils;
+import shared.definitions.SpecialCardType;
 
 /**
  *
@@ -149,6 +152,13 @@ public class MovesHandler implements IHandler {
         return new ServerResponse(200, "Success");
     }
     
+    /**
+     * Sets up resource distribution for a given hex
+     * 
+     * @param boardPiece
+     * @param resourceTile
+     * @return 
+     */
     public PlayerReceivingResources getPlayerResources(BoardPiece boardPiece, ResourceTile resourceTile) {    
         int amount = (boardPiece.getPieceType() == PieceType.CITY) ? 2 : 1;        
         return new PlayerReceivingResources(boardPiece.getOwner(), resourceTile.getResourceType(), amount);
@@ -157,15 +167,74 @@ public class MovesHandler implements IHandler {
     /**
      * Applies End of Turn to GameModel
      * 
-     * @param parm end of turn info
+     * @param param end of turn info
      * @return success or failure
      */
-    public ServerResponse finishTurn(FinishTurnParam parm) {
-        ServerResponse response = null;
+    public ServerResponse finishTurn(FinishTurnParam param) {
+        GameModel game = controller.getGameModel();
         
+        if(game.getPlayers()[param.getPlayerIndex()].getPoints() == 1)
+            firstTurn(param, game);
+        else if(game.getPlayers()[param.getPlayerIndex()].getPoints() == 2)
+            secondTurn(param, game);
+        else
+            regularTurn(param, game);
         
+        return new ServerResponse(200, "Success");
+    }
+    
+    /**
+     * First Turn end turn
+     * 
+     * @param param
+     * @param game 
+     */
+    public void firstTurn(FinishTurnParam param, GameModel game) {
+        TurnTracker tracker = game.getTurnTracker();    
+        tracker.setStatus("First Turn");
         
-        return response;
+            if(param.getPlayerIndex() < 3)
+                tracker.setCurrentTurn(param.getPlayerIndex()+1);
+            else
+                tracker.setCurrentTurn(param.getPlayerIndex());
+    }
+    
+    /**
+     * Second turn handler
+     * 
+     * @param param
+     * @param game 
+     */
+    public void secondTurn(FinishTurnParam param, GameModel game) {
+        TurnTracker tracker = game.getTurnTracker();
+        
+        boolean isSecond = false;
+        for(Player player : game.getPlayers()) {
+            if(player.getPoints() < 2)
+                isSecond = true;
+        }
+        
+        if(isSecond) {            
+            tracker.setStatus("Second Turn");
+            if(param.getPlayerIndex() > 0)
+                tracker.setCurrentTurn(param.getPlayerIndex()-1);
+            else
+                tracker.setCurrentTurn(param.getPlayerIndex()+1);
+        } else {
+            regularTurn(param, game);
+        }
+    }
+    
+    /**
+     * Regular end turn
+     * 
+     * @param param
+     * @param game 
+     */
+    public void regularTurn(FinishTurnParam param, GameModel game) {
+        TurnTracker tracker = game.getTurnTracker();        
+        tracker.setStatus("Waiting for other Players");        
+        tracker.setCurrentTurn(param.getPlayerIndex()+1);        
     }
     
     /**
@@ -261,6 +330,8 @@ public class MovesHandler implements IHandler {
         edge2.buildStructure(road2);
         road2.setActive(true);
         
+        checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
+        
         return new ServerResponse(200, "Success");
     }
     
@@ -277,9 +348,35 @@ public class MovesHandler implements IHandler {
         player.setSoldiersPlayed(player.getSoldiersPlayed()+1);
         
         RobPlayerParam rob = new RobPlayerParam(param.getType(),param.getPlayerIndex(),
-                                            param.getVictimIndex(), param.getLocation());        
+                                            param.getVictimIndex(), param.getLocation());   
+        
+        checkLargestArmy(player);
         
         return robPlayer(rob);
+    }
+    
+    /**
+     * Checks largest army and changes owner of card if needed
+     * 
+     * @param challenger 
+     */
+    public void checkLargestArmy(Player challenger) {
+        Bank bank = controller.getGameModel().getBank();
+        
+        if(bank.hasLargestArmy()&& challenger.getSoldiersPlayed() > 2) {
+            challenger.addSpecialCard(bank.giveSpecialCard(SpecialCardType.LARGEST_ARMY));
+            controller.getGameModel().getTurnTracker().setLongestRoad(challenger.getIndex());
+            return;
+        }    
+        
+        for(Player player : controller.getGameModel().getPlayers()) {
+            if(player.hasLargestArmy() && !player.equals(challenger)) {
+                if(player.getSoldiersPlayed() < challenger.getSoldiersPlayed()) {
+                    challenger.addSpecialCard(bank.giveSpecialCard(SpecialCardType.LARGEST_ARMY));
+                    controller.getGameModel().getTurnTracker().setLongestRoad(challenger.getIndex());
+                }
+            }
+        }
     }
     
     /**
@@ -328,13 +425,42 @@ public class MovesHandler implements IHandler {
         GameModel game = controller.getGameModel();        
         Player player = game.getPlayers()[param.getPlayerIndex()];
         
+        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
+        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
+        
         HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
         Edge edge = tile.getEdge(map.getDirection());
         Road road = (Road)player.getAvailableBoardPiece(PieceType.ROAD);
         edge.buildStructure(road);
         road.setActive(true);
         
+        checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
+        
         return new ServerResponse(200, "Success");
+    }
+    
+    /**
+     * Checks for most roads, changes owner of longest road if needed
+     * 
+     * @param challenger 
+     */
+    public void checkMostRoads(Player challenger) {
+        Bank bank = controller.getGameModel().getBank();
+        
+        if(bank.hasLongestRoad() && challenger.getNumOfRoadsPlayed() > 4) {
+            challenger.addSpecialCard(bank.giveSpecialCard(SpecialCardType.LONGEST_ROAD));
+            controller.getGameModel().getTurnTracker().setLongestRoad(challenger.getIndex());
+            return;
+        }            
+        
+        for(Player player : controller.getGameModel().getPlayers()) {
+            if(player.hasLongestRoad() && !player.equals(challenger)) {
+                if(player.getNumOfRoadsPlayed() < challenger.getNumOfRoadsPlayed()) {
+                    challenger.addSpecialCard(player.giveSpecialCard(SpecialCardType.LONGEST_ROAD));
+                    controller.getGameModel().getTurnTracker().setLongestRoad(challenger.getIndex());
+                }                    
+            }
+        }
     }
     
     /**
@@ -349,6 +475,11 @@ public class MovesHandler implements IHandler {
         GameModel game = controller.getGameModel();        
         Player player = game.getPlayers()[param.getPlayerIndex()];
         player.addPoint();
+        
+        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT);
+        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.SHEEP);
+        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
+        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
         
         HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
         Corner corner = tile.getCorner(map.getDirection());
@@ -372,6 +503,9 @@ public class MovesHandler implements IHandler {
         GameModel game = controller.getGameModel();        
         Player player = game.getPlayers()[param.getPlayerIndex()];
         player.addPoint();
+        
+        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.ORE, 3);
+        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT, 2);
         
         HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
         Corner corner = tile.getCorner(map.getDirection());
