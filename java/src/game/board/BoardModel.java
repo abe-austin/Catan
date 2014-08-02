@@ -38,6 +38,7 @@ public class BoardModel {
 		this.players = players;
 		pieces = new BoardPiece[10][10];
 		theStructures = null;
+		constructWorld();
 	}
 	
 	public void constructWorld() {
