@@ -1,4 +1,4 @@
-package client.parseGameModel;
+package client.parseJson;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,12 +41,12 @@ import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.HexLocation;
 
-public class JsonParser {
+public class ParseGameModel {
 	
 	JSONObject jsonObject;
 	GameModel game = new GameModel();
 	
-	public JsonParser(String jsonString) {
+	public ParseGameModel(String jsonString) {
 		this.jsonObject = new JSONObject(jsonString);	
 	}
 	
