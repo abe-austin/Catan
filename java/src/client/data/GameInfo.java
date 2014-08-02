@@ -21,6 +21,7 @@ public class GameInfo {
 	private List<PlayerInfo> players;
 
         public GameInfo(){
+            id=-1;
             players = new ArrayList<>();
         }
         
