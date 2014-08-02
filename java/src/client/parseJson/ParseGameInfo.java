@@ -1,4 +1,4 @@
-package client.parseGameModel;
+package client.parseJson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,10 @@ public class ParseGameInfo {
 	private GameInfo gameInfo;
 	
 	public ParseGameInfo(String jsonString) {
-		jsonString = jsonString.substring(1,jsonString.length()-1);
+		
+		jsonString = jsonString.substring(1, jsonString.length()-1);
 		this.jsonObject = new JSONObject(jsonString);
+		gameInfo = new GameInfo() = new GameInfo();;
 	}
 	
 	public GameInfo doParse() {
@@ -25,7 +27,7 @@ public class ParseGameInfo {
 		parseId();
 		parseTitle();
 		parsePlayerInfos();
-	
+		
 		return gameInfo;
 	}
 	
