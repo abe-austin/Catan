@@ -206,15 +206,15 @@ public class JsonParser {
 		
 		newPlayer.setSoldiersPlayed(player.getInt("soldiersPlayed"));
 	
-		ArrayList<PortType> playerPorts = new ArrayList<PortType>();
-		JSONArray ports = player.getJSONArray("ports");
-		for(int i=0; i<ports.length(); i++) {
-			if(!ports.isNull(i)) {
-				PortType port = parsePorts(ports.getJSONObject(i));
-				playerPorts.add(port);	
-			}
-		}
-		newPlayer.setPlayerPorts(playerPorts);
+//		ArrayList<PortType> playerPorts = new ArrayList<PortType>();
+//		JSONArray ports = player.getJSONArray("ports");
+//		for(int i=0; i<ports.length(); i++) {
+//			if(!ports.isNull(i)) {
+//				PortType port = parsePorts(ports.getJSONObject(i));
+//				playerPorts.add(port);	
+//			}
+//		}
+//		newPlayer.setPlayerPorts(playerPorts);
 		
 		newPlayer.setIndex(player.getInt("index"));
 		newPlayer.setUsername(player.getString("username"));
