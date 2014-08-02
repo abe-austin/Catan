@@ -37,12 +37,13 @@ public class BoardModel {
 	public BoardModel(Player[] players) {
 		this.players = players;
 		pieces = new BoardPiece[10][10];
-		theStructures = null;
+		theStructures = new ArrayList<ParsedStructure>();
 		constructWorld();
 	}
 	
 	public void constructWorld() {
 		BuildWorld worldBuilder = new BuildWorld(randomHexes, randomPorts, randomNumbers);//Take in booleans
+		theStructures = new ArrayList<ParsedStructure>();
 		tiles = worldBuilder.getTiles();
 		rob = new Robber(new HexLocation(0, 0));//Actually make this go in right place
 	}
