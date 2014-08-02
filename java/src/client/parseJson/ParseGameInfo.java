@@ -16,14 +16,18 @@ public class ParseGameInfo {
 	private GameInfo gameInfo;
 	
 	public ParseGameInfo(String jsonString) {
+		if(!jsonString.equals("[]")){
+                    jsonString = jsonString.substring(1, jsonString.length()-1);
+                    this.jsonObject = new JSONObject(jsonString);
+                    gameInfo = new GameInfo();    
+                }
 		
-		jsonString = jsonString.substring(1, jsonString.length()-1);
-		this.jsonObject = new JSONObject(jsonString);
-		gameInfo = new GameInfo();
 	}
 	
 	public GameInfo doParse() {
-		
+		if(jsonObject==null){
+                    return new GameInfo();
+                }
 		parseId();
 		parseTitle();
 		parsePlayerInfos();
