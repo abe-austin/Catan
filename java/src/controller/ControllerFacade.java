@@ -699,7 +699,15 @@ public class ControllerFacade implements IControllerFacadeListener{
 		case Login:
 			break;
 		case JoinGame:
-			int index = gameInfo.getPlayers().size() + 1;
+			int index = gameInfo.getPlayers().size();
+                        if(gameInfo.getPlayers().size()>0){
+                            for(PlayerInfo player: gameInfo.getPlayers()){
+                                if(player.getCatanColor()==color){
+                                    index=player.getPlayerIndex();
+                                    break;
+                                }
+                            }
+                        }
                         
 //			clientPlayer = new Player(color, user.getUsername().getUsername(), index);
 //			currentPlayerInfo.setPlayerIndex(index);
