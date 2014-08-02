@@ -295,6 +295,10 @@ public class Player extends CardOwner {
 		this.specialCards = specialCards;
 
 	}
+	
+	public void setPorts(ArrayList<PortType> playerPorts) {
+		this.playerPorts = playerPorts;
+	}
 
 	@Override
 	public String toString() {

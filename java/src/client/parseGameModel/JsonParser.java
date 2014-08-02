@@ -21,6 +21,7 @@ import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
+import shared.definitions.SpecialCardType;
 import player.Player;
 import game.TradeOffer;
 import game.TurnTracker;
@@ -32,7 +33,9 @@ import game.board.NumberToken;
 import game.board.OceanTile;
 import game.board.PortTile;
 import game.board.ResourceTile;
+
 import org.json.*;
+
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -97,28 +100,54 @@ public class JsonParser {
 		return pieces;
 	}
 	
-	public void parsePorts() {
+	public PortType parsePorts(JSONObject port) {
 		
+		PortType portType = null;
+	
+		switch(port.getString("portType")) {
+				case "WOOD":
+					portType = PortType.WOOD;
+					break;
+				case "BRICK":
+					portType = PortType.BRICK;
+					break;
+				case "SHEEP":
+					portType = PortType.SHEEP;
+					break;
+				case "WHEAT":
+					portType = PortType.WHEAT;
+					break;
+				case "ORE":
+					portType = PortType.ORE;
+					break;
+				case "THREE":
+					portType = PortType.THREE;
+					break;
+		}
+		
+		return portType;	
 	}
 	
 	public ResourceCard parseResourceCards(JSONObject card) {
 		
 		ResourceCard resourceCard = null;
 		
-		if(card.get("resourceType").equals("BRICK")) {
-			resourceCard = new ResourceCard(ResourceType.BRICK);
-		}
-		else if(card.get("resourceType").equals("WHEAT")) {
-			resourceCard = new ResourceCard(ResourceType.WHEAT);
-		}
-		else if(card.get("resourceType").equals("SHEEP")) {
-			resourceCard = new ResourceCard(ResourceType.SHEEP);
-		}
-		else if(card.get("resourceType").equals("ORE")) {
-			resourceCard = new ResourceCard(ResourceType.ORE);
-		}
-		else if(card.get("resourceType").equals("WOOD")) {
-			resourceCard = new ResourceCard(ResourceType.WOOD);
+		switch(card.getString("resourceType")) {
+				case "BRICK":
+					resourceCard = new ResourceCard(ResourceType.BRICK);
+					break;
+				case "WHEAT":
+					resourceCard = new ResourceCard(ResourceType.WHEAT);
+					break;
+				case "SHEEP":
+					resourceCard = new ResourceCard(ResourceType.SHEEP);
+					break;
+				case "ORE":
+					resourceCard = new ResourceCard(ResourceType.ORE);
+					break;
+				case "WOOD":
+					resourceCard = new ResourceCard(ResourceType.WOOD);
+					break;
 		}
 		
 		return resourceCard;
@@ -128,20 +157,22 @@ public class JsonParser {
 		
 		DevelopmentCard developmentCard = null;
 		
-		if(card.get("developmentType").equals("YEAR_OF_PLENTY")) {
-			developmentCard = new DevelopmentCard(DevCardType.YEAR_OF_PLENTY);
-		}
-		else if(card.get("developmentType").equals("MONOPOLY")) {
-			developmentCard = new DevelopmentCard(DevCardType.MONOPOLY);
-		}
-		else if(card.get("developmentType").equals("MONUMENT")) {
-			developmentCard = new DevelopmentCard(DevCardType.MONUMENT);
-		}
-		else if(card.get("developmentType").equals("SOLDIER")) {
-			developmentCard = new DevelopmentCard(DevCardType.SOLDIER);
-		}
-		else if(card.get("developmentType").equals("ROAD_BUILDER")) {
-			developmentCard = new DevelopmentCard(DevCardType.ROAD_BUILD);
+		switch(card.getString("developmentType")) {
+				case "YEAR_OF_PLENTY":
+					developmentCard = new DevelopmentCard(DevCardType.YEAR_OF_PLENTY);
+					break;
+				case "MONOPOLY":
+					developmentCard = new DevelopmentCard(DevCardType.MONOPOLY);
+					break;
+				case "MONUMENT":
+					developmentCard = new DevelopmentCard(DevCardType.MONUMENT);
+					break;
+				case "SOLDIER":
+					developmentCard = new DevelopmentCard(DevCardType.SOLDIER);
+					break;
+				case "ROAD_BUILDER":
+					developmentCard = new DevelopmentCard(DevCardType.ROAD_BUILD);
+					break;
 		}
 		
 		return developmentCard;
@@ -151,12 +182,13 @@ public class JsonParser {
 		
 		SpecialCard specialCard = null;
 		
-//		if(card.get("specialType").equals("")) {
-//			specialCard.add();
-//		}
-//		if(card.get("specialType").equals("")) {
-//			specialCard.add();
-//		}
+		if(card.get("specialType").equals("LARGEST_ARMY")) {
+			specialCard = new SpecialCard(SpecialCardType.LARGEST_ARMY);
+		}
+		else if(card.get("specialType").equals("LONGEST_ROAD")) {
+			specialCard = new SpecialCard(SpecialCardType.LONGEST_ROAD);
+		}
+		
 		return specialCard;
 	}
 	
@@ -175,7 +207,14 @@ public class JsonParser {
 		newPlayer.setSoldiersPlayed(player.getInt("soldiersPlayed"));
 	
 		ArrayList<PortType> playerPorts = new ArrayList<PortType>();
-		//for each port
+		JSONArray ports = player.getJSONArray("ports");
+		for(int i=0; i<ports.length(); i++) {
+			if(!ports.isNull(i)) {
+				PortType port = parsePorts(ports.getJSONObject(i));
+				playerPorts.add(port);	
+			}
+		}
+		newPlayer.setPlayerPorts(playerPorts);
 		
 		newPlayer.setIndex(player.getInt("index"));
 		newPlayer.setUsername(player.getString("username"));
@@ -455,6 +494,3 @@ public class JsonParser {
 		game.setGameName(jsonObject.getString("gameName"));
 	}
 }
-
-
-
