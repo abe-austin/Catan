@@ -23,33 +23,33 @@ public class CatanServer {
 	private ServerController controller;
 	private HttpServer server;
 
-	static {
-		try {
-			initLog();
-		}
-		catch (IOException e) {
-			System.out.println("Could not initialize log: " + e.getMessage());
-		}
-	}
-
-	/**
-	 * creates a log and sets the level
-	 * 
-	 * @throws IOException
-	 */
-	private static void initLog() throws IOException {
-
-		Level logLevel = Level.FINE;
-
-
-		Handler consoleHandler = new ConsoleHandler();
-		consoleHandler.setLevel(logLevel);
-		consoleHandler.setFormatter(new SimpleFormatter());
-
-		FileHandler fileHandler = new FileHandler("log.txt", false);
-		fileHandler.setLevel(logLevel);
-		fileHandler.setFormatter(new SimpleFormatter());
-	}
+//	static {
+//		try {
+//			initLog();
+//		}
+//		catch (IOException e) {
+//			System.out.println("Could not initialize log: " + e.getMessage());
+//		}
+//	}
+//
+//	/**
+//	 * creates a log and sets the level
+//	 * 
+//	 * @throws IOException
+//	 */
+//	private static void initLog() throws IOException {
+//
+//		Level logLevel = Level.FINE;
+//
+//
+//		Handler consoleHandler = new ConsoleHandler();
+//		consoleHandler.setLevel(logLevel);
+//		consoleHandler.setFormatter(new SimpleFormatter());
+//
+//		FileHandler fileHandler = new FileHandler("log.txt", false);
+//		fileHandler.setLevel(logLevel);
+//		fileHandler.setFormatter(new SimpleFormatter());
+//	}
 
 	private CatanServer() {
 		controller = new ServerController();
