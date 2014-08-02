@@ -36,6 +36,9 @@ import game.board.ResourceTile;
 
 import org.json.*;
 
+import client.parse.ParsedPort;
+import client.parse.ParsedStructure;
+import client.parse.ParsedTile;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -300,6 +303,57 @@ public class ParseGameModel {
 		JSONObject robber = board.getJSONObject("rob");
 		JSONObject loc = robber.getJSONObject("location");
 		Robber rob = new Robber(new HexLocation(loc.getInt("x"), loc.getInt("y")));
+		
+		ArrayList<ParsedTile> parsedTiles= new ArrayList<ParsedTile>();
+		ArrayList<ParsedPort> parsedPorts = new ArrayList<ParsedPort>();
+		
+		for(int j = 0; j < hexTiles.size(); j++) {
+			//See what hexTile this location is, determine if port or mainland
+			int x = hexTiles.get(j).getX();
+			int y = hexTiles.get(j).getY();
+			
+			if( (x == 1 && y == -3) || (x == 3 && y == -3)  || (x == 3 && y == -1) || (x == 2 && y == 1) || (x == 0 && y == 3) ||
+				(x == -2 && y == 3)	|| (x == -3 && y == 2) || (x == -3 && y == 0) || (x == -1 && y == -2)) {
+				
+				String type = "";
+				int ratio = 2;
+				switch(((PortTile)hexTiles.get(j)).getPortType()) {
+					case THREE: type = "three"; ratio = 3; break;
+					case WHEAT: type = "wheat"; break;
+					case ORE: type = "ore"; break;
+					case WOOD: type = "wood"; break;
+					case SHEEP: type = "sheep"; break;
+					case BRICK: type = "brick"; break;
+				}
+				
+				ParsedPort parsedPort = new ParsedPort(type, ratio, x, y, "");
+				parsedPorts.add(parsedPort);
+			}
+			
+			else if( (x == 0 || y == -3) && (x == 2 || y == -3) && (x == 3 || y == -2) && (x == 3 || y == 0) && (x == 1 || y == 2)
+				  && (x == -1 || y == 3) && (x == -3 || y == 3) && (x == -3 || y == 1) && (x == -2 || y == -1)) {
+				
+				String type = "DESERT";
+				int number = -1;
+				
+				if(!hexTiles.get(j).getType().equals(HexType.DESERT)) {
+					switch(((ResourceTile)hexTiles.get(j)).getResourceType()) {
+						case WHEAT: type = "wheat"; break;
+						case ORE: type = "ore"; break;
+						case WOOD: type = "wood"; break;
+						case SHEEP: type = "sheep"; break;
+						case BRICK: type = "brick"; break;
+						default: break;
+					}
+					number = ((ResourceTile)hexTiles.get(j)).getToken().getValue();
+				}
+				ParsedTile parsedTile = new ParsedTile(x, y, type, number);
+				parsedTiles.add(parsedTile);
+			}	
+		}
+		
+		game.getBoard().updateBoardResources(parsedTiles);
+		game.getBoard().updateBoardPorts(parsedPorts);
 	}
 	
 	public HexTile parseTile(JSONObject tile) {
