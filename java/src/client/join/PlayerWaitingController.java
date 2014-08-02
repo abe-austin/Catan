@@ -37,7 +37,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
                         getView().closeModal();
                     }
                 }
-            } else if(ControllerFacade.getSingleton().getGameState()==GameState.Setup) {
+            } else if(ControllerFacade.getSingleton().getGameState()==GameState.PlayerWaiting) {
                 if(gameModel.getPlayers().length == 0)
                     return;
                 
@@ -47,10 +47,10 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
                 for(int i = 0; i < gameModel.getPlayers().length; i++) {
                     PlayerInfo playerInfo = new PlayerInfo();
                     current = gameModel.getPlayers()[i];
-                    playerInfo.setId(current.getUser().getId());
+                    //playerInfo.setId(current.getUser().getId());
                     
                     playerInfo.setPlayerIndex(current.getIndex());
-                    playerInfo.setName(current.getUser().getUsername().getUsername());
+                    playerInfo.setName(current.getUsername());
                     playerInfo.setCatanColor(current.getColor());
                     info[i] = playerInfo;
                 }
