@@ -72,9 +72,9 @@ public class AllGamesHandler implements IHandler {
      * @return GameModel or failure
      * @post new GameModel added and returned
      */
-    public ServerResponse createGame(CreateGameParam param) { 
-    	
-        ServerResponse response = null;   
+    public ServerResponse createGame(CreateGameParam param) {     	
+        ServerResponse response;   
+        
         if(controller.canCreateGame(param.getName())) {
             GameModel game = controller.createGame(param);
             CreateGameRes result = new CreateGameRes(game.getGameName(), game.getGameId());

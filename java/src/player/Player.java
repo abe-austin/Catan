@@ -121,13 +121,22 @@ public class Player extends CardOwner {
 	 * @return true if player has available piece of type
 	 */
 	public boolean hasAvailableBoardPiece(PieceType type) {
-		for (BoardPiece piece : boardPieces) {
-			if (piece.getPieceType().equals(type) && !piece.isActive())
-				return true;
-		}
-
-		return false;
+            return getAvailableBoardPiece(type) != null;
 	}
+        
+        /**
+         * @return number of roads on the board
+         */
+        public int getNumOfRoadsPlayed() {
+            int number = 0;
+            
+            for(BoardPiece piece : boardPieces) {
+                if (piece.getPieceType().equals(PieceType.ROAD) && piece.isActive())
+                    number++;
+            }
+            
+            return number;
+        }
 
 	/**
 	 * In addition to Card Owner functionality this keeps track of soldier cards
