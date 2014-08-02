@@ -436,7 +436,7 @@ public class MovesHandler implements IHandler {
         
         checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -471,23 +471,32 @@ public class MovesHandler implements IHandler {
      * @return success or failure
      */
     public ServerResponse buildSettlement(BuildSettlementParam param) {
+    	try{
         MapLocationParam map = param.getVertexLocation();
         GameModel game = controller.getGameModel();        
         Player player = game.getPlayers()[param.getPlayerIndex()];
         player.addPoint();
-        
-        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT);
-        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.SHEEP);
-        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
-        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
+		if(!param.isFree()) {
+	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT);
+	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.SHEEP);
+	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
+	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
+		}
         
         HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
         Corner corner = tile.getCorner(map.getDirection());
         Settlement settlement = (Settlement)player.getAvailableBoardPiece(PieceType.SETTLEMENT);
+        System.out.println("Settlement: "+settlement);
+        System.out.println("Corner: "+corner);
         corner.buildStructure(settlement);
         settlement.setActive(true);
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
+    	}
+    	catch(Exception e) {
+    		e.printStackTrace();
+    		return new ServerResponse(400, "Failed");
+    	}
     }
     
     /**

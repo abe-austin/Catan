@@ -109,8 +109,9 @@ public class Player extends CardOwner {
 	 */
 	public BoardPiece getAvailableBoardPiece(PieceType type) {
 		for (BoardPiece piece : boardPieces) {
-			if (piece.getPieceType().equals(type) && !piece.isActive())
+			if (piece.getPieceType().equals(type) && !piece.isActive()){
 				return piece;
+			}
 		}
 		return null;
 	}
