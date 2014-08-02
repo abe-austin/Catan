@@ -12,27 +12,35 @@ import client.data.PlayerInfo;
 
 public class ParseGameInfo {
 
-	private JSONObject jsonObject;
+	private JSONArray jsonArray;
 	private GameInfo gameInfo;
+	private JSONObject jsonObject;
 	
 	public ParseGameInfo(String jsonString) {
-		if(!jsonString.equals("[]")){
-                    jsonString = jsonString.substring(1, jsonString.length()-1);
-                    this.jsonObject = new JSONObject(jsonString);
-                    gameInfo = new GameInfo();    
-                }
 		
+		if(!jsonString.equals("[]")){
+//            jsonString = jsonString.substring(1, jsonString.length()-1);
+            this.jsonArray = new JSONArray(jsonString);
+            gameInfo = new GameInfo();    
+        }	
 	}
 	
-	public GameInfo doParse() {
-		if(jsonObject==null){
-                    return new GameInfo();
-                }
-		parseId();
-		parseTitle();
-		parsePlayerInfos();
+	public ArrayList<GameInfo> doParse() {
 		
-		return gameInfo;
+		ArrayList<GameInfo> gameInfos = new ArrayList<GameInfo>();
+		
+		if(jsonArray == null){
+			return gameInfos;
+        }
+		
+		for(int i=0; i<jsonArray.length(); i++) {
+			jsonObject = jsonArray.getJSONObject(i);
+			parseId();
+			parseTitle();
+			parsePlayerInfos();
+		}
+		
+		return gameInfos;
 	}
 	
 	public void parseId() {
@@ -73,5 +81,6 @@ public class ParseGameInfo {
 		}
 		gameInfo.setPlayerInfo(playersInfos);
 	}
+	
 }
 
