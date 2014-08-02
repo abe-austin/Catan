@@ -100,33 +100,33 @@ public class JsonParser {
 		return pieces;
 	}
 	
-	public PortType parsePorts(JSONObject port) {
-		
-		PortType portType = null;
-	
-		switch(port.getString("portType")) {
-				case "WOOD":
-					portType = PortType.WOOD;
-					break;
-				case "BRICK":
-					portType = PortType.BRICK;
-					break;
-				case "SHEEP":
-					portType = PortType.SHEEP;
-					break;
-				case "WHEAT":
-					portType = PortType.WHEAT;
-					break;
-				case "ORE":
-					portType = PortType.ORE;
-					break;
-				case "THREE":
-					portType = PortType.THREE;
-					break;
-		}
-		
-		return portType;	
-	}
+//	public PortType parsePorts(JSONObject port) {
+//		
+//		PortType portType = null;
+//	
+//		switch(port.getString("portType")) {
+//				case "WOOD":
+//					portType = PortType.WOOD;
+//					break;
+//				case "BRICK":
+//					portType = PortType.BRICK;
+//					break;
+//				case "SHEEP":
+//					portType = PortType.SHEEP;
+//					break;
+//				case "WHEAT":
+//					portType = PortType.WHEAT;
+//					break;
+//				case "ORE":
+//					portType = PortType.ORE;
+//					break;
+//				case "THREE":
+//					portType = PortType.THREE;
+//					break;
+//		}
+//		
+//		return portType;	
+//	}
 	
 	public ResourceCard parseResourceCards(JSONObject card) {
 		
