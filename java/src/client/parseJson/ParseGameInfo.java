@@ -19,7 +19,7 @@ public class ParseGameInfo {
 		
 		jsonString = jsonString.substring(1, jsonString.length()-1);
 		this.jsonObject = new JSONObject(jsonString);
-		gameInfo = new GameInfo() = new GameInfo();;
+		gameInfo = new GameInfo();
 	}
 	
 	public GameInfo doParse() {
