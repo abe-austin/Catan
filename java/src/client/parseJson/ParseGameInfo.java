@@ -34,10 +34,12 @@ public class ParseGameInfo {
         }
 		
 		for(int i=0; i<jsonArray.length(); i++) {
+                        gameInfo= new GameInfo();
 			jsonObject = jsonArray.getJSONObject(i);
 			parseId();
 			parseTitle();
 			parsePlayerInfos();
+                        gameInfos.add(gameInfo);
 		}
 		
 		return gameInfos;
