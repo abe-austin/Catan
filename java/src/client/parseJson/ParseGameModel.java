@@ -51,6 +51,7 @@ public class ParseGameModel {
 	
 	public ParseGameModel(String jsonString) {
 		this.jsonObject = new JSONObject(jsonString);	
+		System.out.println(jsonString.toString());
 	}
 	
 	public GameModel doParse() {
@@ -314,7 +315,6 @@ public class ParseGameModel {
 			
 			if( (x == 1 && y == -3) || (x == 3 && y == -3)  || (x == 3 && y == -1) || (x == 2 && y == 1) || (x == 0 && y == 3) ||
 				(x == -2 && y == 3)	|| (x == -3 && y == 2) || (x == -3 && y == 0) || (x == -1 && y == -2)) {
-				
 				String type = "";
 				int ratio = 2;
 				switch(((PortTile)hexTiles.get(j)).getPortType()) {
@@ -330,8 +330,8 @@ public class ParseGameModel {
 				parsedPorts.add(parsedPort);
 			}
 			
-			else if( (x == 0 || y == -3) && (x == 2 || y == -3) && (x == 3 || y == -2) && (x == 3 || y == 0) && (x == 1 || y == 2)
-				  && (x == -1 || y == 3) && (x == -3 || y == 3) && (x == -3 || y == 1) && (x == -2 || y == -1)) {
+			else if( (x != 0 || y != -3) && (x != 2 || y != -3) && (x != 3 || y != -2) && (x != 3 || y != 0) && (x != 1 || y != 2)
+				  && (x != -1 || y != 3) && (x != -3 || y != 3) && (x != -3 || y != 1) && (x != -2 || y != -1)) {
 				
 				String type = "DESERT";
 				int number = -1;
@@ -382,7 +382,7 @@ public class ParseGameModel {
 			
 			else { 
 				JSONObject number = tile.getJSONObject("token");
-				if(type.equals("WOOD"))
+				if(type.equals("WOOD")) 
 					newTile = new ResourceTile(ResourceType.WOOD, new NumberToken(number.getInt("value")));
 				else if(type.equals("ORE"))
 					newTile = new ResourceTile(ResourceType.ORE, new NumberToken(number.getInt("value")));
@@ -403,7 +403,7 @@ public class ParseGameModel {
 				newTile = new DesertTile();
 		}
 		
-		newTile.setCoordinates(tile.getInt("x"), tile.getInt("x"));
+		newTile.setCoordinates(tile.getInt("x"), tile.getInt("y"));
 		newTile.setHasRobber(tile.getBoolean("hasRobber"));
 		
 		return newTile;
