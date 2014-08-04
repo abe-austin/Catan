@@ -48,7 +48,7 @@ public class HexTile {
         }
         
         public Edge getEdge(String direction) {
-            switch(direction.toLowerCase()) {
+            switch(direction.toUpperCase()) {
                 case "N":
                     return northEdge;
                 case "NW":

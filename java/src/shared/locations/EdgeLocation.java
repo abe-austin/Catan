@@ -7,15 +7,35 @@ package shared.locations;
 public class EdgeLocation {
 
 	private HexLocation hexLoc;
+	private int x;
+	private int y;
 	private EdgeDirection dir;
 	
 	public EdgeLocation(HexLocation hexLoc, EdgeDirection dir) {
 		setHexLoc(hexLoc);
+		setX(hexLoc.getX());
+		setY(hexLoc.getY());
 		setDir(dir);
 	}
 	
 	public HexLocation getHexLoc() {
 		return hexLoc;
+	}
+	
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 	
 	private void setHexLoc(HexLocation hexLoc) {
