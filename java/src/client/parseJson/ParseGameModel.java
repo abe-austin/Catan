@@ -294,17 +294,6 @@ public class ParseGameModel {
 		BuildWorld build = new BuildWorld(hexTiles);
 		hexTiles = build.getTiles();
 		
-		//Not sure why for pieces we are getting a sequence of objects that have nothing but null objects
-		//Add each tile to a list of tiles to be stored in our board object
-		//So I'm thinking placing the roads/corners can be done by calling just the same function as in generating the world.
-		//We want to create all the edges/corners, then assign each hex to them and them to each hex. So probably do it from the 
-		//parseBoard function where we can see every hex.
-		//The only problem, though, is that these objects are showing now builtStructures...Perhaps when we parse pieces we are supposed
-		//to update each hex/corner...but the pieces we are currently getting in the JSON string is just a bunch of nulls.
-		
-		JSONObject robber = board.getJSONObject("rob");
-		JSONObject loc = robber.getJSONObject("location");
-		Robber rob = new Robber(new HexLocation(loc.getInt("x"), loc.getInt("y")));
 		
 		ArrayList<ParsedTile> parsedTiles= new ArrayList<ParsedTile>();
 		ArrayList<ParsedPort> parsedPorts = new ArrayList<ParsedPort>();
@@ -353,9 +342,28 @@ public class ParseGameModel {
 			}	
 		}
 		
+		
 		game.getBoard().updateBoardResources(parsedTiles);
 		game.getBoard().updateBoardPorts(parsedPorts);
+		
+		//Parse robber
+		JSONObject robber = board.getJSONObject("rob");
+		JSONObject loc = robber.getJSONObject("location");
+		Robber rob = new Robber(new HexLocation(loc.getInt("x"), loc.getInt("y")));
+		
+		
+		//Parse structures
+		ArrayList<ParsedStructure> parsedStructures = new ArrayList<ParsedStructure>();
+		JSONArray structures = board.getJSONArray("theStructures");
+		for(int i=0; i<structures.length(); i++) {
+			JSONObject structure = structures.getJSONObject(i);
+			ParsedStructure parsedStructure = new ParsedStructure(structure.getInt("owner"), structure.getInt("x"),
+					structure.getInt("y"), structure.getString("direction"), structure.getString("type"));
+			parsedStructures.add(parsedStructure);
+		}
+		game.getBoard().updateStructures(parsedStructures);
 	}
+	
 	
 	public HexTile parseTile(JSONObject tile) {
 		HexTile newTile;
@@ -409,6 +417,7 @@ public class ParseGameModel {
 		
 		return newTile;
 	}
+
 	
 	public void parseBank() {
 		JSONObject bankJson = jsonObject.getJSONObject("bank");

@@ -199,8 +199,9 @@ public class HexTile {
 	 * @param p
 	 *            players settlement/city to build
 	 */
-	public void buildSettlement(Corner corner, Player player) {
+	public void buildSettlement(Corner corner, Player player) {	
 		BoardPiece theSettlement = player.getAvailableBoardPiece(PieceType.SETTLEMENT);
+		theSettlement.setPlayer(player.getUsername());
 		corner.buildStructure(theSettlement);
 		//theSettlement.setActive(true);
 	}

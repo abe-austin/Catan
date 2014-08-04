@@ -1,6 +1,7 @@
 package server;
 
 import client.parse.ParsedChat;
+import client.parse.ParsedStructure;
 import controller.PlayerReceivingResources;
 import game.GameModel;
 import game.TradeOffer;
@@ -16,8 +17,10 @@ import game.pieces.BoardPiece;
 import game.pieces.City;
 import game.pieces.Road;
 import game.pieces.Settlement;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import player.Player;
 import shared.communication.*;
 import shared.definitions.DevCardType;
@@ -473,35 +476,32 @@ public class MovesHandler implements IHandler {
      */
     public ServerResponse buildSettlement(BuildSettlementParam param) {
     	try{
-            MapLocationParam map = param.getVertexLocation();
-            GameModel game = controller.getGameModel();        
-            Player player = game.getPlayers()[param.getPlayerIndex()];
-            player.addPoint();		
-
-            HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
-            Corner corner = tile.getCorner(map.getDirection());   
-            Settlement settlement = (Settlement)player.getAvailableBoardPiece(PieceType.SETTLEMENT);
-            System.out.println("Settlement: "+settlement);
-            System.out.println("Corner: "+corner);
-            corner.buildStructure(settlement);
-            settlement.setActive(true);
-
-            if(!param.isFree()) {
-                        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT);
-                        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.SHEEP);
-                        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
-                        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
-                    } else {
-                        // Get resource hexes adjacent and give player resources
-                        for(VertexLocation locs : corner.getLocations()) {
-                            HexTile nextTo = game.getBoard().getHexTileAt(locs.getX(), locs.getY());
-                            if(!nextTo.getType().equals(HexType.DESERT) && !nextTo.getType().equals(HexType.WATER)) {
-                                CardOwner.changeOwnerResource(player, game.getBank(), ((ResourceTile)nextTo).getResourceType());
-                            }
-                        }
-                    }
-
-            return new ServerResponse(200, controller.getGameModel());
+        MapLocationParam map = param.getVertexLocation();
+        GameModel game = controller.getGameModel();
+        //So from here we could probably update the BoardModel with the structure info and extract it over on the client side
+        //So it should include probably just the ParsedStructure
+        Player player = game.getPlayers()[param.getPlayerIndex()];
+        player.addPoint();
+		if(!param.isFree()) {
+	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT);
+	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.SHEEP);
+	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
+	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
+		}
+        
+        HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
+        Corner corner = tile.getCorner(map.getDirection());
+        Settlement settlement = (Settlement)player.getAvailableBoardPiece(PieceType.SETTLEMENT);
+        System.out.println("Settlement: "+settlement);
+        System.out.println("Corner: "+corner);
+        corner.buildStructure(settlement);
+        settlement.setActive(true);
+        
+        
+        ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map.getX(), map.getY(), map.getDirection(), "SETTLEMENT");
+        controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
+        
+        return new ServerResponse(200, controller.getGameModel());
     	}
     	catch(Exception e) {
     		e.printStackTrace();
