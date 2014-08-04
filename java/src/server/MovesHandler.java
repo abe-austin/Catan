@@ -429,8 +429,10 @@ public class MovesHandler implements IHandler {
         GameModel game = controller.getGameModel();        
         Player player = game.getPlayers()[param.getPlayerIndex()];
         
-        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
-        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
+        if(!param.isFree()) {
+            CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
+            CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
+        }
         
         HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
         Edge edge = tile.getEdge(map.getDirection());
@@ -482,12 +484,6 @@ public class MovesHandler implements IHandler {
         //So it should include probably just the ParsedStructure
         Player player = game.getPlayers()[param.getPlayerIndex()];
         player.addPoint();
-		if(!param.isFree()) {
-	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT);
-	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.SHEEP);
-	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
-	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
-		}
         
         HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
         Corner corner = tile.getCorner(map.getDirection());
@@ -497,7 +493,21 @@ public class MovesHandler implements IHandler {
         corner.buildStructure(settlement);
         settlement.setActive(true);
         
-        
+        if(!param.isFree()) {
+            CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT);
+            CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.SHEEP);
+            CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
+            CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
+        } else {
+            // Get resource hexes adjacent and give player resources
+            for(VertexLocation locs : corner.getLocations()) {
+                HexTile nextTo = game.getBoard().getHexTileAt(locs.getX(), locs.getY());
+                if(!nextTo.getType().equals(HexType.DESERT) && !nextTo.getType().equals(HexType.WATER)) {
+                    CardOwner.changeOwnerResource(player, game.getBank(), ((ResourceTile)nextTo).getResourceType());
+                }
+            }
+        }
+
         ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map.getX(), map.getY(), map.getDirection(), "SETTLEMENT");
         controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
         
