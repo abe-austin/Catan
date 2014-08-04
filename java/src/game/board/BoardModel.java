@@ -48,6 +48,11 @@ public class BoardModel {
 		rob = new Robber(new HexLocation(0, 0));//Actually make this go in right place
 	}
 	
+	public void setPlayers(Player[] players) {
+		this.players = players;
+	}
+	
+	
 	public boolean isRandomHexes() {
 		return randomHexes;
 	}
@@ -200,6 +205,10 @@ public class BoardModel {
 			}
 		}
 	}
+	
+	public void addStructure(ParsedStructure p) {
+		theStructures.add(p);
+	}
 
 	/**
 	 * updates the layout of roads, settlements, and cities
@@ -215,10 +224,12 @@ public class BoardModel {
 			Player p = null;
 
 			for (int j = 0; j < players.length; j++) {
-				if (owner == players[j].getIndex())// Presumably owner's value
-													// is the same as index
-					p = players[j];
+				if (owner == players[j].getIndex()){// Presumably owner's value is the same as index
+					System.out.println("Found player " + j + ":" + players[j].getUsername());
+					p = players[j];//these all seem to be null though
+				}
 			}
+			
 
 			if (type.equals("ROAD")) {
 				Edge edge = null;
@@ -261,7 +272,7 @@ public class BoardModel {
 
 			if (type.equals("SETTLEMENT")) {
 				Corner corner = null;
-				if (direction.equals("NW"))
+				if (direction.equals("NW")) 
 					corner = getHexTileAt(x, y).northWestCorner;
 				if (direction.equals("NE"))
 					corner = getHexTileAt(x, y).northEastCorner;
@@ -274,6 +285,7 @@ public class BoardModel {
 				if (direction.equals("W"))
 					corner = getHexTileAt(x, y).westCorner;
 				getHexTileAt(x, y).buildSettlement(corner, p);
+				
 
 				PortType port = checkPort(x, y, direction);
 				if (port != null)
@@ -789,21 +801,16 @@ public class BoardModel {
 	 *      between only ocean tiles)
 	 */
 	public boolean canBuildCity(Corner corner, Player player) {
-		System.out.println("Building city");
 		if (!player.hasAvailableBoardPiece(PieceType.CITY))// First check if
 			return false;									// player has
 															// available city
 															// pieces
-		System.out.println("Check 1");
 		if (!corner.hasStructure())
 			return false;
-		System.out.println("Check 2");
 		if (corner.getStructure().getPieceType() != PieceType.SETTLEMENT)
 			return false;
-		System.out.println("Check 3");
 		if (corner.getStructure().getOwner() != player)
 			return false;
-		System.out.println("Check 4");
 		return true;
 	}// vertex,Player (building type?)
 

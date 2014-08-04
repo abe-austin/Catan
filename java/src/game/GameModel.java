@@ -38,6 +38,7 @@ public class GameModel {
         id = -1;
     }
     
+    
     public void buildBoard() {
     	board.constructWorld();
     }
@@ -152,6 +153,7 @@ public class GameModel {
 
 	public void setPlayers(Player[] players) {
 		this.players = players;
+		board.setPlayers(players);
 	}
 
 	public void setBank(Bank bank) {
