@@ -80,7 +80,7 @@ public class HexTile {
         }
         
         public Corner getCorner(String direction) {
-            switch(direction.toLowerCase()) {
+            switch(direction.toUpperCase()) {
                 case "W":
                     return westCorner;
                 case "NW":

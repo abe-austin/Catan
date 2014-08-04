@@ -12,10 +12,6 @@ import shared.definitions.PieceType;
 public abstract class BoardPiece {
 	private String player;
 	private boolean active;
-	
-	public BoardPiece(){
-		
-	}
 
 	public BoardPiece(Player owner) {
 		active = false;
