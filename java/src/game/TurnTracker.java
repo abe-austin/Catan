@@ -17,6 +17,8 @@ public class TurnTracker {
     public TurnTracker() {
         status = "Setup";
         currentTurn = 0;
+        longestRoad=-1;
+        largestArmy=-1;
     }
 
     public TurnTracker(String status, int currentTurn, int longestRoad, int largestArmy) {

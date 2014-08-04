@@ -1,6 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
+import org.json.JSONStringer;
 
 /**
  *
@@ -28,6 +29,9 @@ public class JsonUtils {
      * @return Json String
      */
     public static String convertToJson(Object toConvert) {
+//        JSONStringer jw=new JSONStringer();
+//        jw.value(toConvert);
+//        System.out.println(jw.toString());
         return new Gson().toJson(toConvert);
     }
 }
