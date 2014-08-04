@@ -26,6 +26,7 @@ import shared.definitions.PieceType;
 import shared.definitions.ResourceType;
 import shared.definitions.ResourceTypeUtils;
 import shared.definitions.SpecialCardType;
+import shared.locations.VertexLocation;
 
 /**
  *
@@ -472,26 +473,35 @@ public class MovesHandler implements IHandler {
      */
     public ServerResponse buildSettlement(BuildSettlementParam param) {
     	try{
-        MapLocationParam map = param.getVertexLocation();
-        GameModel game = controller.getGameModel();        
-        Player player = game.getPlayers()[param.getPlayerIndex()];
-        player.addPoint();
-		if(!param.isFree()) {
-	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT);
-	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.SHEEP);
-	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
-	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
-		}
-        
-        HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
-        Corner corner = tile.getCorner(map.getDirection());
-        Settlement settlement = (Settlement)player.getAvailableBoardPiece(PieceType.SETTLEMENT);
-        System.out.println("Settlement: "+settlement);
-        System.out.println("Corner: "+corner);
-        corner.buildStructure(settlement);
-        settlement.setActive(true);
-        
-        return new ServerResponse(200, controller.getGameModel());
+            MapLocationParam map = param.getVertexLocation();
+            GameModel game = controller.getGameModel();        
+            Player player = game.getPlayers()[param.getPlayerIndex()];
+            player.addPoint();		
+
+            HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
+            Corner corner = tile.getCorner(map.getDirection());   
+            Settlement settlement = (Settlement)player.getAvailableBoardPiece(PieceType.SETTLEMENT);
+            System.out.println("Settlement: "+settlement);
+            System.out.println("Corner: "+corner);
+            corner.buildStructure(settlement);
+            settlement.setActive(true);
+
+            if(!param.isFree()) {
+                        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT);
+                        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.SHEEP);
+                        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
+                        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
+                    } else {
+                        // Get resource hexes adjacent and give player resources
+                        for(VertexLocation locs : corner.getLocations()) {
+                            HexTile nextTo = game.getBoard().getHexTileAt(locs.getX(), locs.getY());
+                            if(!nextTo.getType().equals(HexType.DESERT) && !nextTo.getType().equals(HexType.WATER)) {
+                                CardOwner.changeOwnerResource(player, game.getBank(), ((ResourceTile)nextTo).getResourceType());
+                            }
+                        }
+                    }
+
+            return new ServerResponse(200, controller.getGameModel());
     	}
     	catch(Exception e) {
     		e.printStackTrace();
