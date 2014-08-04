@@ -1257,7 +1257,7 @@ public class ControllerFacade implements IControllerFacadeListener{
         }
 		
 		public Player getPlayerByUsername(String username){
-			username = "\"" + username + "\"";
+//			username = "\"" + username + "\"";
         	Player[] players = currentGameModel.getPlayers();
         	for(Player player : players) {
         		if(player.getUsername().equals(username)) {
