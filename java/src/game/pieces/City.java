@@ -11,10 +11,6 @@ public class City extends BoardPiece {
 		super(owner);
 		cost = Cost.CITY;
 	}
-	
-	public City() {
-		
-	}
 
 	@Override
 	public PieceType getPieceType() {

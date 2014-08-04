@@ -39,6 +39,7 @@ import org.json.*;
 import client.parse.ParsedPort;
 import client.parse.ParsedStructure;
 import client.parse.ParsedTile;
+import controller.ControllerFacade;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -77,17 +78,17 @@ public class ParseGameModel {
 	public BoardPiece parseBoardPiece(JSONObject boardPiece) {
 		
 		BoardPiece piece = null;
+                Player player = ControllerFacade.getSingleton().getPlayerByUsername(boardPiece.getString("player"));
 		if(boardPiece.getString("cost").equals("CITY")) {
-			piece = new City();
+			piece = new City(player);
 		}
 		if(boardPiece.getString("cost").equals("SETTLEMENT")) {
-			piece = new Settlement();
+			piece = new Settlement(player);
 		}
 		if(boardPiece.getString("cost").equals("ROAD")) {
-			piece = new Road();
+			piece = new Road(player);
 		}
 		piece.setActive(boardPiece.getBoolean("active"));
-		piece.setPlayer(boardPiece.getString("player"));
 		
 		return piece;
 	}
