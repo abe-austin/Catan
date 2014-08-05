@@ -511,6 +511,8 @@ public class ParseGameModel {
 				turnTrackerJson.getInt("currentTurn"),
 				turnTrackerJson.getInt("longestRoad"),
 				turnTrackerJson.getInt("largestArmy"));
+                                turnTracker.setSetup(turnTrackerJson.getBoolean("setup"));
+                                turnTracker.setFirstTurn(turnTrackerJson.getBoolean("firstTurn"));
 		game.setTurnTracker(turnTracker);
 	}
 	

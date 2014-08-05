@@ -178,9 +178,34 @@ public class MovesHandler implements IHandler {
     public ServerResponse finishTurn(FinishTurnParam param) {
         GameModel game = controller.getGameModel();
         
-        if(game.getPlayers()[param.getPlayerIndex()].getPoints() == 1)
+        boolean isFirst = false;
+        boolean isSecond = false;
+        
+        for(Player player : game.getPlayers()) {            
+            if(player.getPoints() < 2)
+                isSecond = true;
+            if(player.getPoints() < 1)
+                isFirst = true;
+        }
+        
+        if(param.getPlayerIndex() == 3 && isSecond && game.getPlayers()[3].getPoints() == 1)
+            isFirst = true;
+        
+        if(isFirst || isSecond) {
+            game.getTurnTracker().setSetup(true);
+        } else if(game.getTurnTracker().isSetup() && param.getPlayerIndex() == 0) {
+          if(!game.getTurnTracker().isFirstTurn())  
+              game.getTurnTracker().setFirstTurn(true);
+          else {
+              game.getTurnTracker().setSetup(false);
+          }
+        } else {
+            game.getTurnTracker().setSetup(false);
+        }
+            
+        if(isFirst)
             firstTurn(param, game);
-        else if(game.getPlayers()[param.getPlayerIndex()].getPoints() == 2)
+        else if(isSecond)
             secondTurn(param, game);
         else
             regularTurn(param, game);
@@ -211,23 +236,9 @@ public class MovesHandler implements IHandler {
      * @param game 
      */
     public void secondTurn(FinishTurnParam param, GameModel game) {
-        TurnTracker tracker = game.getTurnTracker();
-        
-        boolean isSecond = false;
-        for(Player player : game.getPlayers()) {
-            if(player.getPoints() < 2)
-                isSecond = true;
-        }
-        
-        if(isSecond) {            
-            tracker.setStatus("Second Turn");
-            if(param.getPlayerIndex() > 0)
-                tracker.setCurrentTurn(param.getPlayerIndex()-1);
-            else
-                tracker.setCurrentTurn(param.getPlayerIndex()+1);
-        } else {
-            regularTurn(param, game);
-        }
+        TurnTracker tracker = game.getTurnTracker();                         
+        tracker.setStatus("Second Turn");        
+        tracker.setCurrentTurn(param.getPlayerIndex()-1);
     }
     
     /**
@@ -237,9 +248,15 @@ public class MovesHandler implements IHandler {
      * @param game 
      */
     public void regularTurn(FinishTurnParam param, GameModel game) {
-        TurnTracker tracker = game.getTurnTracker();        
-        tracker.setStatus("Waiting for other Players");        
-        tracker.setCurrentTurn(param.getPlayerIndex()+1);        
+        TurnTracker tracker = game.getTurnTracker();                
+        
+        if(!tracker.isSetup())
+            tracker.setCurrentTurn(param.getPlayerIndex()+1);   
+        
+        if(tracker.getCurrentTurn() > 3)
+            tracker.setCurrentTurn(0);
+        
+        tracker.setStatus("Rolling");
     }
     
     /**

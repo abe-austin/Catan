@@ -1,7 +1,5 @@
 package game;
 
-import shared.definitions.GameState;
-
 /**
  *
  * @author Kevin MacMaster
@@ -11,7 +9,8 @@ public class TurnTracker {
     private int currentTurn;
     private int longestRoad;
     private int largestArmy;
-
+    private boolean setup;
+    private boolean firstTurn;
     
 
     public TurnTracker() {
@@ -19,6 +18,8 @@ public class TurnTracker {
         currentTurn = 0;
         longestRoad=-1;
         largestArmy=-1;
+        setup = false;
+        firstTurn = false;
     }
 
     public TurnTracker(String status, int currentTurn, int longestRoad, int largestArmy) {
@@ -79,6 +80,34 @@ public class TurnTracker {
 
         if(currentTurn > 3)
             currentTurn = 0;
+    }
+
+    /**
+     * @return the setup
+     */
+    public boolean isSetup() {
+        return setup;
+    }
+
+    /**
+     * @param setup the setup to set
+     */
+    public void setSetup(boolean setup) {
+        this.setup = setup;
+    }
+
+    /**
+     * @return the firstTurn
+     */
+    public boolean isFirstTurn() {
+        return firstTurn;
+    }
+
+    /**
+     * @param firstTurn the firstTurn to set
+     */
+    public void setFirstTurn(boolean firstTurn) {
+        this.firstTurn = firstTurn;
     }
 
 }
