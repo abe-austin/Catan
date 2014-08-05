@@ -27,6 +27,10 @@ public class GameHistory{
 	public List<Command> getCommands() {
 		return gameCommands;
 	}
+	
+	public void setChatlog(ChatLog chatlog) {
+		this.chatlog = chatlog;
+	}
 
     /**
      * @return the chatlog

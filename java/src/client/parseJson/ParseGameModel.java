@@ -23,6 +23,8 @@ import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.definitions.SpecialCardType;
 import player.Player;
+import game.ChatLog;
+import game.GameHistory;
 import game.TradeOffer;
 import game.TurnTracker;
 import game.bank.Bank;
@@ -36,6 +38,7 @@ import game.board.ResourceTile;
 
 import org.json.*;
 
+import client.parse.ParsedChat;
 import client.parse.ParsedPort;
 import client.parse.ParsedStructure;
 import client.parse.ParsedTile;
@@ -502,7 +505,26 @@ public class ParseGameModel {
 	}
 	
 	public void parseGameHistory() {
+		GameHistory gameHistory = new GameHistory();
+		JSONObject gameHistoryJson = jsonObject.getJSONObject("gameHistory");
 		
+		if(!gameHistoryJson.isNull("chatLog")) {
+			ChatLog chatlog = parseChat(gameHistoryJson.getJSONObject("chatLog"));
+			gameHistory.setChatlog(chatlog);
+		}
+		
+		game.setGameHistory(gameHistory);
+	}
+	
+	public ChatLog parseChat(JSONObject chatLogJson) {
+		ChatLog chatlog = new ChatLog();
+		JSONArray linesJson = chatLogJson.getJSONArray("lines");
+		for(int i=0; i<linesJson.length(); i++) {
+			JSONObject lineJson = linesJson.getJSONObject(i);
+			ParsedChat chatLine = new ParsedChat(lineJson.getString("source"), lineJson.getString("message"));
+			chatlog.addChatLine(chatLine);
+		}
+		return chatlog;
 	}
 	
 	public void parseTurnTracker() {
@@ -511,6 +533,8 @@ public class ParseGameModel {
 				turnTrackerJson.getInt("currentTurn"),
 				turnTrackerJson.getInt("longestRoad"),
 				turnTrackerJson.getInt("largestArmy"));
+                                turnTracker.setSetup(turnTrackerJson.getBoolean("setup"));
+                                turnTracker.setFirstTurn(turnTrackerJson.getBoolean("firstTurn"));
 		game.setTurnTracker(turnTracker);
 	}
 	
