@@ -457,7 +457,7 @@ public class DoParse
 		}
 		//CALL FUNCTIONS TO SET parsedLogs TO THE gameModel
                 for(ParsedLog log:parsedLogs){
-                    gameModel.getGameHistory().addCommand(new Command(log.source,log.message));
+                    gameModel.getGameHistory().addGameCommand(new Command(log.source,log.message));
                 }
 		return input;
 	}

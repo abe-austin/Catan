@@ -17,14 +17,17 @@ public class GameHistory{
 	/**
 	 * @param command the next command to be executed by the game model
 	 */
-	public void addCommand(Command command) {
+	public void addGameCommand(Command command) {
 		gameCommands.add(command);
 	}
 	
+	public void setGameCommands(List<Command> gameCommands) {
+		this.gameCommands = gameCommands;
+	}
 	/**
 	 * @return the list of commands made to the game model thus far
 	 */
-	public List<Command> getCommands() {
+	public List<Command> getGameCommands() {
 		return gameCommands;
 	}
 	

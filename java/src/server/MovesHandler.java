@@ -23,6 +23,7 @@ import java.util.List;
 
 import player.Player;
 import shared.communication.*;
+import shared.definitions.Command;
 import shared.definitions.DevCardType;
 import shared.definitions.HexType;
 import shared.definitions.PieceType;
@@ -116,6 +117,10 @@ public class MovesHandler implements IHandler {
         game.getGameHistory().getChatlog().
                 addChatLine(new ParsedChat(player.getUsername(), param.getContent()));
       
+        game.getGameHistory().getGameCommands().add(new Command(
+        		controller.getCurrentCookie().getUsername(),
+        		"Sent a chat message."));
+        
         game.incrementVersion();
    
         return response;
@@ -127,8 +132,9 @@ public class MovesHandler implements IHandler {
      * @param param roll info
      * @return success or failure
      */
-    public ServerResponse rollNumber(RollNumberParam param) {        
-        List<HexTile> hexes = controller.getGameModel().getBoard().getHexes();
+    public ServerResponse rollNumber(RollNumberParam param) {
+        GameModel game = controller.getGameModel();
+        List<HexTile> hexes = game.getBoard().getHexes();
     	ArrayList<PlayerReceivingResources> resourceChanges = new ArrayList<>();
     	
         for(HexTile tile : hexes) {
@@ -153,12 +159,16 @@ public class MovesHandler implements IHandler {
     		ResourceType type = changes.getResourceType();
     		int amount = changes.getAmount();
     		
-                CardOwner.changeOwnerResource(player, controller.getGameModel().getBank(), type, amount);
+                CardOwner.changeOwnerResource(player, game.getBank(), type, amount);
     	}        
         
     	controller.getGameModel().incrementVersion();
     	
-        return new ServerResponse(200, controller.getGameModel());
+        game.getGameHistory().getGameCommands().add(new Command(
+        		controller.getCurrentCookie().getUsername(), 
+        		"Rolled a " + param.getNumber() + "."));
+
+        return new ServerResponse(200, game);
     }
     
     /**
@@ -216,6 +226,10 @@ public class MovesHandler implements IHandler {
             regularTurn(param, game);
         
         controller.getGameModel().incrementVersion();
+        
+        game.getGameHistory().getGameCommands().add(new Command(
+        		controller.getCurrentCookie().getUsername(), 
+        		"Finished their turn."));
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -313,6 +327,10 @@ public class MovesHandler implements IHandler {
         
         game.incrementVersion();
         
+        game.getGameHistory().getGameCommands().add(new Command(
+        		controller.getCurrentCookie().getUsername(), 
+        		"Robbed " + victim.getUsername() + "."));
+        
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -335,6 +353,10 @@ public class MovesHandler implements IHandler {
         player.addDevelopmentCard(game.getBank().giveDevelopmentCard(null));
         
         game.incrementVersion();
+        
+        game.getGameHistory().getGameCommands().add(new Command(
+        		controller.getCurrentCookie().getUsername(), 
+        		"Bought a Development Card."));
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -359,6 +381,10 @@ public class MovesHandler implements IHandler {
         }
         
         game.incrementVersion();
+        
+        game.getGameHistory().getGameCommands().add(new Command(
+        		controller.getCurrentCookie().getUsername(), 
+        		"Played a " + param.getResource() + " Monopoly Card."));
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -394,6 +420,10 @@ public class MovesHandler implements IHandler {
         checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
         game.incrementVersion();
         
+        game.getGameHistory().getGameCommands().add(new Command(
+        		controller.getCurrentCookie().getUsername(), 
+        		"Played a Road Building Card."));
+        
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -405,7 +435,8 @@ public class MovesHandler implements IHandler {
      * @post robber is moved
      */
     public ServerResponse playSoldier(PlaySoldierParam param) {
-        Player player = controller.getGameModel().getPlayers()[param.getPlayerIndex()];
+        GameModel game = controller.getGameModel();        
+        Player player = game.getPlayers()[param.getPlayerIndex()];
         player.giveDevelopmentCard(DevCardType.SOLDIER);
         player.setSoldiersPlayed(player.getSoldiersPlayed()+1);
         
@@ -413,7 +444,11 @@ public class MovesHandler implements IHandler {
                                             param.getVictimIndex(), param.getLocation());   
         
         checkLargestArmy(player);
-        controller.getGameModel().incrementVersion();
+        game.incrementVersion();
+        
+        game.getGameHistory().getGameCommands().add(new Command(
+        		controller.getCurrentCookie().getUsername(), 
+        		"Played a Soldier Card."));
         
         return robPlayer(rob);
     }
@@ -453,15 +488,20 @@ public class MovesHandler implements IHandler {
      * @post player has two more resource cards
      */
     public ServerResponse playYearOfPlenty(PlayYearOfPlentyParam param) {
-        Player player = controller.getGameModel().getPlayers()[param.getPlayerIndex()];
+        GameModel game = controller.getGameModel();        
+        Player player = game.getPlayers()[param.getPlayerIndex()];
         player.giveDevelopmentCard(DevCardType.YEAR_OF_PLENTY);
         
-        player.addResourceCard(controller.getGameModel().getBank().giveResourceCard(
+        player.addResourceCard(game.getBank().giveResourceCard(
                 ResourceTypeUtils.getResourceType(param.getResource1())));
-        player.addResourceCard(controller.getGameModel().getBank().giveResourceCard(
+        player.addResourceCard(game.getBank().giveResourceCard(
                 ResourceTypeUtils.getResourceType(param.getResource2())));
         
-        controller.getGameModel().incrementVersion();
+        game.incrementVersion();
+        
+        game.getGameHistory().getGameCommands().add(new Command(
+        		controller.getCurrentCookie().getUsername(), 
+        		"Played a Year of Plenty Card."));
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -474,11 +514,16 @@ public class MovesHandler implements IHandler {
      * @post player has one more point
      */
     public ServerResponse playMonument(PlayMonumentParam param) {
-        Player player = controller.getGameModel().getPlayers()[param.getPlayerIndex()];
+        GameModel game = controller.getGameModel();        
+        Player player = game.getPlayers()[param.getPlayerIndex()];
         player.giveDevelopmentCard(DevCardType.MONUMENT);
         player.addPoint();
         
-        controller.getGameModel().incrementVersion();
+        game.incrementVersion();
+        
+        game.getGameHistory().getGameCommands().add(new Command(
+        		controller.getCurrentCookie().getUsername(), 
+        		"Played a Monument Card."));
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -512,6 +557,11 @@ public class MovesHandler implements IHandler {
 	        controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
 	        
 	        controller.getGameModel().incrementVersion();
+	        
+	        game.getGameHistory().getGameCommands().add(new Command(
+	        		controller.getCurrentCookie().getUsername(), 
+	        		"Built a Road."));
+	        
 		    return new ServerResponse(200, controller.getGameModel());
         }
     	catch(Exception e) {
@@ -589,6 +639,10 @@ public class MovesHandler implements IHandler {
 	        controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
 	        controller.getGameModel().incrementVersion();
 	        
+	        game.getGameHistory().getGameCommands().add(new Command(
+	        		controller.getCurrentCookie().getUsername(), 
+	        		"Built a Settlement."));
+	        
 	        return new ServerResponse(200, controller.getGameModel());
     	}
     	catch(Exception e) {
@@ -623,6 +677,10 @@ public class MovesHandler implements IHandler {
         ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map.getX(), map.getY(), map.getDirection(), "CITY");
         controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
         controller.getGameModel().incrementVersion();
+        
+        game.getGameHistory().getGameCommands().add(new Command(
+        		controller.getCurrentCookie().getUsername(), 
+        		"Built a City."));
         
         return new ServerResponse(200, controller.getGameModel());
 
