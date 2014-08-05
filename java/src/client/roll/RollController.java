@@ -39,11 +39,14 @@ public class RollController extends Controller implements IRollController,
 
 	@Override
 	public void gameModelChanged(GameModel gameModel) {
-		if (facade.getGameState().equals(GameState.GamePlay))
+		if (facade.getGameState().equals(GameState.GamePlay)){
+                    System.out.println("waitingOnTimer "+waitingOnTimer);
+                    System.out.println("isStartTurn "+facade.isStartTurn());
 			if (!waitingOnTimer && facade.isStartTurn()) {
 				getRollView().showModal();
 				start();
 			}
+                }
 	}
 
 	public IRollResultView getResultView() {

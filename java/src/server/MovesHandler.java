@@ -153,7 +153,7 @@ public class MovesHandler implements IHandler {
                 CardOwner.changeOwnerResource(player, controller.getGameModel().getBank(), type, amount);
     	}        
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -184,7 +184,7 @@ public class MovesHandler implements IHandler {
         else
             regularTurn(param, game);
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -260,7 +260,7 @@ public class MovesHandler implements IHandler {
             robber.addResourceCard(victim.giveResourceCard(card.getResourceType()));
         }
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -281,7 +281,7 @@ public class MovesHandler implements IHandler {
         
         player.addDevelopmentCard(game.getBank().giveDevelopmentCard(null));
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -303,7 +303,7 @@ public class MovesHandler implements IHandler {
                 player.addResourceCard(person.giveResourceCard(resource));
         }
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -336,7 +336,7 @@ public class MovesHandler implements IHandler {
         
         checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -399,7 +399,7 @@ public class MovesHandler implements IHandler {
         player.addResourceCard(controller.getGameModel().getBank().giveResourceCard(
                 ResourceTypeUtils.getResourceType(param.getResource2())));
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -414,7 +414,7 @@ public class MovesHandler implements IHandler {
         player.giveDevelopmentCard(DevCardType.MONUMENT);
         player.addPoint();
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -542,7 +542,7 @@ public class MovesHandler implements IHandler {
         corner.buildStructure(city);
         city.setActive(true);
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -568,7 +568,7 @@ public class MovesHandler implements IHandler {
         
         game.setTradeOffer(null);
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -626,7 +626,7 @@ public class MovesHandler implements IHandler {
                     receiver.addResourceCard(sender.giveResourceCard(ResourceType.ORE));
             }
             
-            return new ServerResponse(200, "Accepted");
+            return new ServerResponse(200, controller.getGameModel());
         } else {
             return new ServerResponse(200, "Not Accepted");
         }
@@ -652,7 +652,7 @@ public class MovesHandler implements IHandler {
         for(int i = 0; i < param.getRatio(); i++)
             game.getBank().addResourceCard(player.giveResourceCard(give));
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -681,7 +681,7 @@ public class MovesHandler implements IHandler {
             for(int i=0;i<param.getDiscardedCards().getWood();i++)
                 game.getBank().addResourceCard(player.giveResourceCard(ResourceType.WOOD));
                                                 
-            response = new ServerResponse(200, "Success");
+            response = new ServerResponse(200, controller.getGameModel());
             
         } else {
             response = new ServerResponse(400, "No game of that type");
