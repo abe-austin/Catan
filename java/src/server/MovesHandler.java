@@ -248,9 +248,7 @@ public class MovesHandler implements IHandler {
         TurnTracker tracker = game.getTurnTracker();                         
         tracker.setStatus("Second Turn");        
         tracker.setCurrentTurn(param.getPlayerIndex()-1);
-
-        TurnTracker tracker = game.getTurnTracker();
-        
+   
         boolean isSecond = false;
         for(Player player : game.getPlayers()) {
             if(player.getPoints() < 2)
