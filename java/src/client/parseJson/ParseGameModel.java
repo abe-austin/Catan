@@ -354,7 +354,8 @@ public class ParseGameModel {
 		//Parse robber
 		JSONObject robber = board.getJSONObject("rob");
 		JSONObject loc = robber.getJSONObject("location");
-		Robber rob = new Robber(new HexLocation(loc.getInt("x"), loc.getInt("y")));
+		game.getBoard().updateRobber(loc.getInt("x"), loc.getInt("y"));
+		//Do we need to get the view updated
 		
 		
 		//Parse structures
