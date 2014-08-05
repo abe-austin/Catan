@@ -31,6 +31,7 @@ public class Player extends CardOwner {
 	private int index;
 	private String username;
 	private boolean discarded = false;
+        private boolean needsToDiscard = false;
 
 	public Player(CatanColor color, String username, int index, User user) {
 		this.color = color;
@@ -359,4 +360,15 @@ public class Player extends CardOwner {
 	public void setDiscarded(boolean discarded) {
 		this.discarded = discarded;
 	}
+
+        public boolean getNeedsToDiscard() {
+            return needsToDiscard;
+        }
+
+        public void setNeedsToDiscard(boolean needsToDiscard) {
+            this.needsToDiscard = needsToDiscard;
+        }
+        
+        
+        
 }

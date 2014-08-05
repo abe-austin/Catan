@@ -134,31 +134,51 @@ public class MovesHandler implements IHandler {
         GameModel game = controller.getGameModel();
         List<HexTile> hexes = game.getBoard().getHexes();
     	ArrayList<PlayerReceivingResources> resourceChanges = new ArrayList<>();
-    	
-        for(HexTile tile : hexes) {
-            if(tile.getType() != HexType.DESERT && tile.getType() != HexType.WATER && !tile.getHasRobber()) {
-                ResourceTile resourceTile = (ResourceTile)tile;
-                
-                if(!resourceTile.getToken().hitTest(param.getNumber()))
-                    continue;
-                
-                for(Corner corner : resourceTile.getCorners()) {
-                    if(corner.hasStructure()) {
-                        BoardPiece boardPiece = corner.getStructure();
-                        PlayerReceivingResources receiving = getPlayerResources(boardPiece, resourceTile);
-                        resourceChanges.add(receiving);
-                    }
-                }                
-            }
-    	}
+    	if( param.getNumber()!= 7){
+            for(HexTile tile : hexes) {
+                if(tile.getType() != HexType.DESERT && tile.getType() != HexType.WATER && !tile.getHasRobber()) {
+                    ResourceTile resourceTile = (ResourceTile)tile;
 
-    	for(PlayerReceivingResources changes : resourceChanges) {
-    		Player player = changes.getPlayer();
-    		ResourceType type = changes.getResourceType();
-    		int amount = changes.getAmount();
-    		
-                CardOwner.changeOwnerResource(player, game.getBank(), type, amount);
-    	}        
+                    if(!resourceTile.getToken().hitTest(param.getNumber()))
+                        continue;
+
+                    for(Corner corner : resourceTile.getCorners()) {
+                        if(corner.hasStructure()) {
+                            BoardPiece boardPiece = corner.getStructure();
+                            PlayerReceivingResources receiving = getPlayerResources(boardPiece, resourceTile);
+                            resourceChanges.add(receiving);
+                        }
+                    }                
+                }
+            }
+
+            for(PlayerReceivingResources changes : resourceChanges) {
+                    Player player = changes.getPlayer();
+                    ResourceType type = changes.getResourceType();
+                    int amount = changes.getAmount();
+
+                    CardOwner.changeOwnerResource(player, game.getBank(), type, amount);
+            }     
+            game.getTurnTracker().setStatus("Playing");
+        }
+        else{
+            boolean needToDiscard=false;
+            for(Player player:game.getPlayers()){
+                if( player.getHandSize()>7){
+                    needToDiscard=true;
+                    player.setNeedsToDiscard(true);
+                }
+                else{
+                    player.setNeedsToDiscard(false);
+                }
+            }
+            if(needToDiscard){
+                game.getTurnTracker().setStatus("Discarding");
+            }
+            else{
+                game.getTurnTracker().setStatus("Robbing");
+            }
+        }
         
     	controller.getGameModel().incrementVersion();
     	
@@ -328,7 +348,7 @@ public class MovesHandler implements IHandler {
             ResourceCard card = (ResourceCard)victim.getResourceCards().toArray()[index];
             robber.addResourceCard(victim.giveResourceCard(card.getResourceType()));
         }
-        
+        game.getTurnTracker().setStatus("Playing");
         game.incrementVersion();
         
         game.getGameHistory().getGameCommands().add(new Command(
@@ -828,8 +848,21 @@ public class MovesHandler implements IHandler {
                 game.getBank().addResourceCard(player.giveResourceCard(ResourceType.WHEAT));
             for(int i=0;i<param.getDiscardedCards().getWood();i++)
                 game.getBank().addResourceCard(player.giveResourceCard(ResourceType.WOOD));
-             
+            
+            player.setDiscarded(true);
             //controller.getGameModel().incrementVersion();
+            boolean discardingDone = true;
+            for(Player p: game.getPlayers()){
+                if(p.getNeedsToDiscard() && !p.hasDiscarded())
+                    discardingDone = false;
+            }
+            if(discardingDone){
+                game.getTurnTracker().setStatus("Robbing");
+            }
+            else{
+                game.getTurnTracker().setStatus("Discarding");
+            }
+            
             response = new ServerResponse(200, controller.getGameModel());
             
         } else {
