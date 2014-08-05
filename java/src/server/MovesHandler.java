@@ -223,9 +223,13 @@ public class MovesHandler implements IHandler {
             tracker.setStatus("Second Turn");
             if(param.getPlayerIndex() > 0)
                 tracker.setCurrentTurn(param.getPlayerIndex()-1);
-            else
-                tracker.setCurrentTurn(param.getPlayerIndex()+1);
-        } else {
+           
+        } 
+        else if(tracker.getStatus().equals("Second Turn")){
+            tracker.setStatus("Rolling");
+            tracker.setCurrentTurn(param.getPlayerIndex());
+        }
+        else {
             regularTurn(param, game);
         }
     }
