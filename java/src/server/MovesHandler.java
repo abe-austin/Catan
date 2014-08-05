@@ -120,8 +120,6 @@ public class MovesHandler implements IHandler {
         game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(),
         		"Sent a chat message."));
-        
-        game.incrementVersion();
    
         return response;
     }
@@ -255,7 +253,7 @@ public class MovesHandler implements IHandler {
             else
                 tracker.setCurrentTurn(param.getPlayerIndex());
             
-        game.incrementVersion();
+        //game.incrementVersion();
     }
     
     /**
@@ -289,7 +287,7 @@ public class MovesHandler implements IHandler {
             regularTurn(param, game);
         }
 
-        game.incrementVersion();
+        //game.incrementVersion();
     }
     
     /**
@@ -309,7 +307,7 @@ public class MovesHandler implements IHandler {
         
         tracker.setStatus("Rolling");
         
-        game.incrementVersion();
+        //game.incrementVersion();
     }
     
     /**
@@ -777,7 +775,7 @@ public class MovesHandler implements IHandler {
             return new ServerResponse(200, controller.getGameModel());
         } else {
         	controller.getGameModel().incrementVersion();
-            return new ServerResponse(200, "Not Accepted");
+            return new ServerResponse(200, controller.getGameModel());
         }
     }
     
@@ -800,7 +798,7 @@ public class MovesHandler implements IHandler {
         
         for(int i = 0; i < param.getRatio(); i++)
             game.getBank().addResourceCard(player.giveResourceCard(give));
-        controller.getGameModel().incrementVersion();
+        //controller.getGameModel().incrementVersion();
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -831,7 +829,7 @@ public class MovesHandler implements IHandler {
             for(int i=0;i<param.getDiscardedCards().getWood();i++)
                 game.getBank().addResourceCard(player.giveResourceCard(ResourceType.WOOD));
              
-            controller.getGameModel().incrementVersion();
+            //controller.getGameModel().incrementVersion();
             response = new ServerResponse(200, controller.getGameModel());
             
         } else {
