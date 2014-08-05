@@ -43,6 +43,16 @@ public class GameModel {
     	board.constructWorld();
     }
     
+
+    /**
+     *
+     * @param user to check for
+     * @return true if user is in game
+     */
+    public boolean hasUser(User user) {
+        return false;
+    }
+
     public void setGameName(String name) {
         gameName = name;
     }
@@ -58,16 +68,7 @@ public class GameModel {
     public int getGameId() {
         return id;
     }
-
-    /**
-     *
-     * @param user to check for
-     * @return true if user is in game
-     */
-    public boolean hasUser(User user) {
-        return false;
-    }
-
+    
     /**
      * @return the board
      */
@@ -141,6 +142,10 @@ public class GameModel {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	public void incrementVersion() {
+		this.version++;
 	}
 
 	public int getWinner() {

@@ -115,7 +115,9 @@ public class MovesHandler implements IHandler {
         Player player = game.getPlayers()[param.getPlayerIndex()];
         game.getGameHistory().getChatlog().
                 addChatLine(new ParsedChat(player.getUsername(), param.getContent()));
-        
+      
+        game.incrementVersion();
+   
         return response;
     }
     
@@ -154,6 +156,8 @@ public class MovesHandler implements IHandler {
                 CardOwner.changeOwnerResource(player, controller.getGameModel().getBank(), type, amount);
     	}        
         
+    	controller.getGameModel().incrementVersion();
+    	
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -165,7 +169,8 @@ public class MovesHandler implements IHandler {
      * @return 
      */
     public PlayerReceivingResources getPlayerResources(BoardPiece boardPiece, ResourceTile resourceTile) {    
-        int amount = (boardPiece.getPieceType() == PieceType.CITY) ? 2 : 1;        
+        int amount = (boardPiece.getPieceType() == PieceType.CITY) ? 2 : 1;    
+        controller.getGameModel().incrementVersion();
         return new PlayerReceivingResources(boardPiece.getOwner(), resourceTile.getResourceType(), amount);
     }
     
@@ -210,6 +215,8 @@ public class MovesHandler implements IHandler {
         else
             regularTurn(param, game);
         
+        controller.getGameModel().incrementVersion();
+        
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -227,6 +234,8 @@ public class MovesHandler implements IHandler {
                 tracker.setCurrentTurn(param.getPlayerIndex()+1);
             else
                 tracker.setCurrentTurn(param.getPlayerIndex());
+            
+        game.incrementVersion();
     }
     
     /**
@@ -239,6 +248,8 @@ public class MovesHandler implements IHandler {
         TurnTracker tracker = game.getTurnTracker();                         
         tracker.setStatus("Second Turn");        
         tracker.setCurrentTurn(param.getPlayerIndex()-1);
+        
+        game.incrementVersion();
     }
     
     /**
@@ -257,6 +268,8 @@ public class MovesHandler implements IHandler {
             tracker.setCurrentTurn(0);
         
         tracker.setStatus("Rolling");
+        
+        game.incrementVersion();
     }
     
     /**
@@ -277,6 +290,8 @@ public class MovesHandler implements IHandler {
             ResourceCard card = (ResourceCard)victim.getResourceCards().toArray()[index];
             robber.addResourceCard(victim.giveResourceCard(card.getResourceType()));
         }
+        
+        game.incrementVersion();
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -299,6 +314,8 @@ public class MovesHandler implements IHandler {
         
         player.addDevelopmentCard(game.getBank().giveDevelopmentCard(null));
         
+        game.incrementVersion();
+        
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -320,6 +337,8 @@ public class MovesHandler implements IHandler {
             while(!person.equals(player) && person.hasResource(resource))
                 player.addResourceCard(person.giveResourceCard(resource));
         }
+        
+        game.incrementVersion();
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -353,6 +372,7 @@ public class MovesHandler implements IHandler {
         road2.setActive(true);
         
         checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
+        game.incrementVersion();
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -373,6 +393,7 @@ public class MovesHandler implements IHandler {
                                             param.getVictimIndex(), param.getLocation());   
         
         checkLargestArmy(player);
+        controller.getGameModel().incrementVersion();
         
         return robPlayer(rob);
     }
@@ -388,6 +409,8 @@ public class MovesHandler implements IHandler {
         if(bank.hasLargestArmy()&& challenger.getSoldiersPlayed() > 2) {
             challenger.addSpecialCard(bank.giveSpecialCard(SpecialCardType.LARGEST_ARMY));
             controller.getGameModel().getTurnTracker().setLongestRoad(challenger.getIndex());
+            controller.getGameModel().incrementVersion();
+            
             return;
         }    
         
@@ -396,6 +419,7 @@ public class MovesHandler implements IHandler {
                 if(player.getSoldiersPlayed() < challenger.getSoldiersPlayed()) {
                     challenger.addSpecialCard(bank.giveSpecialCard(SpecialCardType.LARGEST_ARMY));
                     controller.getGameModel().getTurnTracker().setLongestRoad(challenger.getIndex());
+                    controller.getGameModel().incrementVersion();
                 }
             }
         }
@@ -417,6 +441,8 @@ public class MovesHandler implements IHandler {
         player.addResourceCard(controller.getGameModel().getBank().giveResourceCard(
                 ResourceTypeUtils.getResourceType(param.getResource2())));
         
+        controller.getGameModel().incrementVersion();
+        
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -431,6 +457,8 @@ public class MovesHandler implements IHandler {
         Player player = controller.getGameModel().getPlayers()[param.getPlayerIndex()];
         player.giveDevelopmentCard(DevCardType.MONUMENT);
         player.addPoint();
+        
+        controller.getGameModel().incrementVersion();
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -462,7 +490,8 @@ public class MovesHandler implements IHandler {
 	        checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
 	        ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map.getX(), map.getY(), map.getDirection(), "ROAD");
 	        controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
-		     
+	        
+	        controller.getGameModel().incrementVersion();
 		    return new ServerResponse(200, controller.getGameModel());
         }
     	catch(Exception e) {
@@ -482,6 +511,7 @@ public class MovesHandler implements IHandler {
         if(bank.hasLongestRoad() && challenger.getNumOfRoadsPlayed() > 4) {
             challenger.addSpecialCard(bank.giveSpecialCard(SpecialCardType.LONGEST_ROAD));
             controller.getGameModel().getTurnTracker().setLongestRoad(challenger.getIndex());
+            controller.getGameModel().incrementVersion();
             return;
         }            
         
@@ -490,6 +520,7 @@ public class MovesHandler implements IHandler {
                 if(player.getNumOfRoadsPlayed() < challenger.getNumOfRoadsPlayed()) {
                     challenger.addSpecialCard(player.giveSpecialCard(SpecialCardType.LONGEST_ROAD));
                     controller.getGameModel().getTurnTracker().setLongestRoad(challenger.getIndex());
+                    controller.getGameModel().incrementVersion();
                 }                    
             }
         }
@@ -536,6 +567,7 @@ public class MovesHandler implements IHandler {
 	
 	        ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map.getX(), map.getY(), map.getDirection(), "SETTLEMENT");
 	        controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
+	        controller.getGameModel().incrementVersion();
 	        
 	        return new ServerResponse(200, controller.getGameModel());
     	}
@@ -570,7 +602,8 @@ public class MovesHandler implements IHandler {
         
         ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map.getX(), map.getY(), map.getDirection(), "CITY");
         controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
-       
+        controller.getGameModel().incrementVersion();
+        
         return new ServerResponse(200, controller.getGameModel());
 
     }
@@ -597,6 +630,7 @@ public class MovesHandler implements IHandler {
         trade.setSenderIndex(param.getPlayerIndex());
         
         game.setTradeOffer(null);
+        controller.getGameModel().incrementVersion();
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -655,9 +689,10 @@ public class MovesHandler implements IHandler {
                 for(int i = 0; i > offer.getOre(); i--)
                     receiver.addResourceCard(sender.giveResourceCard(ResourceType.ORE));
             }
-            
+            controller.getGameModel().incrementVersion();
             return new ServerResponse(200, controller.getGameModel());
         } else {
+        	controller.getGameModel().incrementVersion();
             return new ServerResponse(200, "Not Accepted");
         }
     }
@@ -681,6 +716,7 @@ public class MovesHandler implements IHandler {
         
         for(int i = 0; i < param.getRatio(); i++)
             game.getBank().addResourceCard(player.giveResourceCard(give));
+        controller.getGameModel().incrementVersion();
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -710,7 +746,8 @@ public class MovesHandler implements IHandler {
                 game.getBank().addResourceCard(player.giveResourceCard(ResourceType.WHEAT));
             for(int i=0;i<param.getDiscardedCards().getWood();i++)
                 game.getBank().addResourceCard(player.giveResourceCard(ResourceType.WOOD));
-                                                
+             
+            controller.getGameModel().incrementVersion();
             response = new ServerResponse(200, controller.getGameModel());
             
         } else {
