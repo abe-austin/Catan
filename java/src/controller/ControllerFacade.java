@@ -105,8 +105,8 @@ public class ControllerFacade implements IControllerFacadeListener{
                         gameModelChanged(currentGameModel);
 //                    }
                 }
-                else
-                    System.out.println("server game model null"+" game state "+gameState);
+//                else
+//                    System.out.println("server game model null"+" game state "+gameState);
                 //updateGui();
             }
         }, 1000, 1000);//timer to execute poll every second
@@ -144,7 +144,7 @@ public class ControllerFacade implements IControllerFacadeListener{
     public void updateClientPlayer(GameModel gameModel) {
     
 		for (Player modelPlayer : gameModel.getPlayers()) {
-			System.out.println(modelPlayer);
+//			System.out.println(modelPlayer);
 			if (modelPlayer.getIndex() == clientPlayer.getIndex()) {
 				clientPlayer = modelPlayer;
 			}
@@ -522,9 +522,9 @@ public class ControllerFacade implements IControllerFacadeListener{
                 case Setup:
                     break;
                 case GamePlay:
-                    System.out.println("sender index "+ clientPlayer.getIndex());
-                    System.out.println("trading offer map "+tradingOffer);
-                    System.out.println("receiver index "+receiverIndex);
+//                    System.out.println("sender index "+ clientPlayer.getIndex());
+//                    System.out.println("trading offer map "+tradingOffer);
+//                    System.out.println("receiver index "+receiverIndex);
                     serverProxyFacade.offerTrade(clientPlayer.getIndex(), tradingOffer, receiverIndex);
                     break;
             }
@@ -953,12 +953,12 @@ public class ControllerFacade implements IControllerFacadeListener{
 	public void placeRoad(EdgeLocation edgeLoc){//MapController --goes in GamePlay
             switch(gameState){
                 case Setup:
-                    System.out.println("placeRoad facade setup");
+//                    System.out.println("placeRoad facade setup");
                 	gamePlayController.placeRoad(edgeLoc);
                 	serverProxyFacade.buildRoad(gamePlayController.getPlayer().getIndex(), edgeLoc, true);
                 	break;
                 case GamePlay:
-                    System.out.println("placeRoad facade gameplay");
+//                    System.out.println("placeRoad facade gameplay");
                 	gamePlayController.placeRoad(edgeLoc);
                 	serverProxyFacade.buildRoad(gamePlayController.getPlayer().getIndex(), edgeLoc, false);
                 	break;
@@ -1159,7 +1159,7 @@ public class ControllerFacade implements IControllerFacadeListener{
             case GamePlay:
                 int roll = gamePlayController.rollDice();
                 lastRoll = roll;
-                serverProxyFacade.rollNumber(clientPlayer.getIndex(), roll);                    
+                serverProxyFacade.rollNumber(clientPlayer.getIndex(), 8);                    
                 return roll;
             default:
                 return -1;
@@ -1268,7 +1268,7 @@ public class ControllerFacade implements IControllerFacadeListener{
         }
 
         public String[] getAIList() {
-            System.out.println(serverProxyFacade.getAIList().getBody());
+//            System.out.println(serverProxyFacade.getAIList().getBody());
             return new String[] {"LARGEST_ARMY"};
         }
         

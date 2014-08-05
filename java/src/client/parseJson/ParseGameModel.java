@@ -55,7 +55,7 @@ public class ParseGameModel {
 	
 	public ParseGameModel(String jsonString) {
 		this.jsonObject = new JSONObject(jsonString);	
-		System.out.println(jsonString.toString());
+		//System.out.println(jsonString);
 	}
 	
 	public GameModel doParse() {
@@ -507,9 +507,10 @@ public class ParseGameModel {
 	public void parseGameHistory() {
 		GameHistory gameHistory = new GameHistory();
 		JSONObject gameHistoryJson = jsonObject.getJSONObject("gameHistory");
-		
-		if(!gameHistoryJson.isNull("chatLog")) {
-			ChatLog chatlog = parseChat(gameHistoryJson.getJSONObject("chatLog"));
+				
+		if(!gameHistoryJson.isNull("chatlog")) {
+			System.out.println("Chat log is not null");
+			ChatLog chatlog = parseChat(gameHistoryJson.getJSONObject("chatlog"));
 			gameHistory.setChatlog(chatlog);
 		}
 		
@@ -521,6 +522,11 @@ public class ParseGameModel {
 		JSONArray linesJson = chatLogJson.getJSONArray("lines");
 		for(int i=0; i<linesJson.length(); i++) {
 			JSONObject lineJson = linesJson.getJSONObject(i);
+			System.out.println("Line Number: " + i);
+			
+			System.out.println(lineJson.getString("source"));
+			System.out.println(lineJson.getString("message"));
+
 			ParsedChat chatLine = new ParsedChat(lineJson.getString("source"), lineJson.getString("message"));
 			chatlog.addChatLine(chatLine);
 		}
