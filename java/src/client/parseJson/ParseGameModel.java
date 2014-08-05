@@ -78,18 +78,18 @@ public class ParseGameModel {
 	public BoardPiece parseBoardPiece(JSONObject boardPiece) {
 		
 		BoardPiece piece = null;
-                Player player = ControllerFacade.getSingleton().getPlayerByUsername(boardPiece.getString("player"));
 		if(boardPiece.getString("cost").equals("CITY")) {
-			piece = new City(player);
+			piece = new City();
 		}
 		if(boardPiece.getString("cost").equals("SETTLEMENT")) {
-			piece = new Settlement(player);
+			piece = new Settlement();
 		}
 		if(boardPiece.getString("cost").equals("ROAD")) {
-			piece = new Road(player);
+			piece = new Road();
 		}
 		piece.setActive(boardPiece.getBoolean("active"));
-		
+		piece.setPlayer(boardPiece.getString("player"));
+                
 		return piece;
 	}
 	

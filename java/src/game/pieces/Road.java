@@ -6,6 +6,10 @@ import shared.definitions.PieceType;
 
 public class Road extends BoardPiece {
 	private Cost cost;
+        
+        public Road() {
+            
+        }
 
 	public Road(Player owner) {
 		super(owner);

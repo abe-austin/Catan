@@ -1295,10 +1295,10 @@ public class ControllerFacade implements IControllerFacadeListener{
            // System.out.println("getAvaliable \n");
             for(BoardPiece piece : clientPlayer.getBoardPieces()){
                // System.out.println(piece.getPieceType()+" piece of "+piece.getOwner()+" is active "+piece.isActive());
-               // if(!piece.isActive() && piece.getPieceType() == type){
+                if(!piece.isActive() && piece.getPieceType() == type){
                 //had to comment this out because the parser only recieves the inactive piece as
                 //part of the player's available stuff
-                if(piece.getPieceType()==type){
+                //if(piece.getPieceType()==type){
                     amount++;
                 }
             }

@@ -6,6 +6,10 @@ import shared.definitions.PieceType;
 
 public class City extends BoardPiece {
 	private Cost cost;
+        
+        public City() {
+            
+        }
 
 	public City(Player owner) {
 		super(owner);

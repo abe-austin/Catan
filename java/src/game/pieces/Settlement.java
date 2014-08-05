@@ -6,6 +6,10 @@ import shared.definitions.PieceType;
 
 public class Settlement extends BoardPiece {
 	private Cost cost;
+        
+        public Settlement() {
+            
+        }
 
 	public Settlement(Player owner) {
 		super(owner);

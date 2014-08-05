@@ -207,7 +207,9 @@ public class BoardModel {
 	}
 	
 	public void addStructure(ParsedStructure p) {
+		System.out.println(theStructures.size() + ": before");
 		theStructures.add(p);
+		System.out.println(theStructures.size() + ": after");
 	}
 
 	/**
@@ -225,7 +227,6 @@ public class BoardModel {
 
 			for (int j = 0; j < players.length; j++) {
 				if (owner == players[j].getIndex()){// Presumably owner's value is the same as index
-					System.out.println("Found player " + j + ":" + players[j].getUsername());
 					p = players[j];//these all seem to be null though
 				}
 			}

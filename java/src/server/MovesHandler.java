@@ -29,6 +29,7 @@ import shared.definitions.PieceType;
 import shared.definitions.ResourceType;
 import shared.definitions.ResourceTypeUtils;
 import shared.definitions.SpecialCardType;
+import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
 
 /**
@@ -153,7 +154,7 @@ public class MovesHandler implements IHandler {
                 CardOwner.changeOwnerResource(player, controller.getGameModel().getBank(), type, amount);
     	}        
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -184,7 +185,7 @@ public class MovesHandler implements IHandler {
         else
             regularTurn(param, game);
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -260,7 +261,7 @@ public class MovesHandler implements IHandler {
             robber.addResourceCard(victim.giveResourceCard(card.getResourceType()));
         }
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -281,7 +282,7 @@ public class MovesHandler implements IHandler {
         
         player.addDevelopmentCard(game.getBank().giveDevelopmentCard(null));
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -303,7 +304,7 @@ public class MovesHandler implements IHandler {
                 player.addResourceCard(person.giveResourceCard(resource));
         }
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -336,7 +337,7 @@ public class MovesHandler implements IHandler {
         
         checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -399,7 +400,7 @@ public class MovesHandler implements IHandler {
         player.addResourceCard(controller.getGameModel().getBank().giveResourceCard(
                 ResourceTypeUtils.getResourceType(param.getResource2())));
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -414,7 +415,7 @@ public class MovesHandler implements IHandler {
         player.giveDevelopmentCard(DevCardType.MONUMENT);
         player.addPoint();
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -425,22 +426,32 @@ public class MovesHandler implements IHandler {
      * @return success or failure
      */
     public ServerResponse buildRoad(BuildRoadParam param) {
-        MapLocationParam map = param.getRoadLocation();
-        GameModel game = controller.getGameModel();        
-        Player player = game.getPlayers()[param.getPlayerIndex()];
-        
-        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
-        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
-        
-        HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
-        Edge edge = tile.getEdge(map.getDirection());
-        Road road = (Road)player.getAvailableBoardPiece(PieceType.ROAD);
-        edge.buildStructure(road);
-        road.setActive(true);
-        
-        checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
-        
-        return new ServerResponse(200, controller.getGameModel());
+        try {
+	        MapLocationParam map = param.getRoadLocation();
+	        GameModel game = controller.getGameModel();        
+	        Player player = game.getPlayers()[param.getPlayerIndex()];
+	        
+	        HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
+	        Edge edge = tile.getEdge(map.getDirection());
+	        Road road = (Road)player.getAvailableBoardPiece(PieceType.ROAD);
+	        edge.buildStructure(road);
+	        road.setActive(true);
+	        
+	        if(!param.isFree()) {
+	            CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
+	            CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
+	        }
+	        
+	        checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
+	        ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map.getX(), map.getY(), map.getDirection(), "ROAD");
+	        controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
+		     
+		    return new ServerResponse(200, controller.getGameModel());
+        }
+    	catch(Exception e) {
+    		e.printStackTrace();
+			return new ServerResponse(400, "Failed");
+    	}	
     }
     
     /**
@@ -476,32 +487,40 @@ public class MovesHandler implements IHandler {
      */
     public ServerResponse buildSettlement(BuildSettlementParam param) {
     	try{
-        MapLocationParam map = param.getVertexLocation();
-        GameModel game = controller.getGameModel();
-        //So from here we could probably update the BoardModel with the structure info and extract it over on the client side
-        //So it should include probably just the ParsedStructure
-        Player player = game.getPlayers()[param.getPlayerIndex()];
-        player.addPoint();
-		if(!param.isFree()) {
-	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT);
-	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.SHEEP);
-	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
-	        CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
-		}
-        
-        HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
-        Corner corner = tile.getCorner(map.getDirection());
-        Settlement settlement = (Settlement)player.getAvailableBoardPiece(PieceType.SETTLEMENT);
-        System.out.println("Settlement: "+settlement);
-        System.out.println("Corner: "+corner);
-        corner.buildStructure(settlement);
-        settlement.setActive(true);
-        
-        
-        ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map.getX(), map.getY(), map.getDirection(), "SETTLEMENT");
-        controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
-        
-        return new ServerResponse(200, controller.getGameModel());
+	        MapLocationParam map = param.getVertexLocation();
+	        GameModel game = controller.getGameModel();
+	        //So from here we could probably update the BoardModel with the structure info and extract it over on the client side
+	        //So it should include probably just the ParsedStructure
+	        Player player = game.getPlayers()[param.getPlayerIndex()];
+	        player.addPoint();
+	        
+	        HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
+	        Corner corner = tile.getCorner(map.getDirection());
+	        Settlement settlement = (Settlement)player.getAvailableBoardPiece(PieceType.SETTLEMENT);
+	        System.out.println("Settlement: "+settlement);
+	        System.out.println("Corner: "+corner);
+	        corner.buildStructure(settlement);
+	        settlement.setActive(true);
+	        
+	        if(!param.isFree()) {
+	            CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT);
+	            CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.SHEEP);
+	            CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.BRICK);
+	            CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WOOD);
+	        } else {
+	            // Get resource hexes adjacent and give player resources
+	            for(VertexLocation locs : corner.getLocations()) {
+	                HexTile nextTo = game.getBoard().getHexTileAt(locs.getX(), locs.getY());
+	                if(!nextTo.getType().equals(HexType.DESERT) && !nextTo.getType().equals(HexType.WATER)) {
+	                    CardOwner.changeOwnerResource(player, game.getBank(), ((ResourceTile)nextTo).getResourceType());
+	                }
+	            }
+	        }
+	
+	        ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map.getX(), map.getY(), map.getDirection(), "SETTLEMENT");
+	        controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
+	        
+	        return new ServerResponse(200, controller.getGameModel());
     	}
     	catch(Exception e) {
     		e.printStackTrace();
@@ -532,7 +551,11 @@ public class MovesHandler implements IHandler {
         corner.buildStructure(city);
         city.setActive(true);
         
-        return new ServerResponse(200, "Success");
+        ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map.getX(), map.getY(), map.getDirection(), "CITY");
+        controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
+       
+        return new ServerResponse(200, controller.getGameModel());
+
     }
     
     /**
@@ -558,7 +581,7 @@ public class MovesHandler implements IHandler {
         
         game.setTradeOffer(null);
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -616,7 +639,7 @@ public class MovesHandler implements IHandler {
                     receiver.addResourceCard(sender.giveResourceCard(ResourceType.ORE));
             }
             
-            return new ServerResponse(200, "Accepted");
+            return new ServerResponse(200, controller.getGameModel());
         } else {
             return new ServerResponse(200, "Not Accepted");
         }
@@ -642,7 +665,7 @@ public class MovesHandler implements IHandler {
         for(int i = 0; i < param.getRatio(); i++)
             game.getBank().addResourceCard(player.giveResourceCard(give));
         
-        return new ServerResponse(200, "Success");
+        return new ServerResponse(200, controller.getGameModel());
     }
     
     /**
@@ -671,7 +694,7 @@ public class MovesHandler implements IHandler {
             for(int i=0;i<param.getDiscardedCards().getWood();i++)
                 game.getBank().addResourceCard(player.giveResourceCard(ResourceType.WOOD));
                                                 
-            response = new ServerResponse(200, "Success");
+            response = new ServerResponse(200, controller.getGameModel());
             
         } else {
             response = new ServerResponse(400, "No game of that type");
