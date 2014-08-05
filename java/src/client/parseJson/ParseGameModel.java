@@ -525,15 +525,12 @@ public class ParseGameModel {
 	
 	public List<Command> parseGameCommands(JSONArray commandsJson) {
 		List<Command> commands = new ArrayList<Command>();
+		
 		for(int i=0; i<commandsJson.length(); i++) {
 			JSONObject commandJson = commandsJson.getJSONObject(i);
 			Command command = new Command(
 					commandJson.getString("source"),
 					commandJson.getString("command"));
-			
-			System.out.println(command.getSource());
-			System.out.println(command.getCommand());
-			
 			commands.add(command);
 		}
 		
@@ -542,6 +539,7 @@ public class ParseGameModel {
 	public ChatLog parseChat(JSONObject chatLogJson) {
 		ChatLog chatlog = new ChatLog();
 		JSONArray linesJson = chatLogJson.getJSONArray("lines");
+		
 		for(int i=0; i<linesJson.length(); i++) {
 			JSONObject lineJson = linesJson.getJSONObject(i);			
 			ParsedChat chatLine = new ParsedChat(
@@ -549,6 +547,7 @@ public class ParseGameModel {
 					lineJson.getString("message"));
 			chatlog.addChatLine(chatLine);
 		}
+		
 		return chatlog;
 	}
 	
