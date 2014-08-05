@@ -504,7 +504,7 @@ public class MovesHandler implements IHandler {
         
         if(bank.hasLargestArmy()&& challenger.getSoldiersPlayed() > 2) {
             challenger.addSpecialCard(bank.giveSpecialCard(SpecialCardType.LARGEST_ARMY));
-            controller.getGameModel().getTurnTracker().setLongestRoad(challenger.getIndex());
+            controller.getGameModel().getTurnTracker().setLargestArmy(challenger.getIndex());
             controller.getGameModel().incrementVersion();
             
             return;
@@ -514,7 +514,7 @@ public class MovesHandler implements IHandler {
             if(player.hasLargestArmy() && !player.equals(challenger)) {
                 if(player.getSoldiersPlayed() < challenger.getSoldiersPlayed()) {
                     challenger.addSpecialCard(bank.giveSpecialCard(SpecialCardType.LARGEST_ARMY));
-                    controller.getGameModel().getTurnTracker().setLongestRoad(challenger.getIndex());
+                    controller.getGameModel().getTurnTracker().setLargestArmy(challenger.getIndex());
                     controller.getGameModel().incrementVersion();
                 }
             }
