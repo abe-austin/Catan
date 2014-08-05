@@ -56,7 +56,7 @@ public class ParseGameModel {
 	
 	public ParseGameModel(String jsonString) {
 		this.jsonObject = new JSONObject(jsonString);	
-		System.out.println(jsonString.toString());
+		//System.out.println(jsonString.toString());
 	}
 	
 	public GameModel doParse() {

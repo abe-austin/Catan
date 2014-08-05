@@ -11,6 +11,7 @@ import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.data.RobPlayerInfo;
 import client.map.MapController;
+import client.parse.ParsedStructure;
 import client.serverProxy.ServerPoller;
 import client.serverProxy.ServerProxyFacade;
 import game.GameModel;
@@ -1292,16 +1293,33 @@ public class ControllerFacade implements IControllerFacadeListener{
          */
         public int getNumAvaliableBoardPieces(PieceType type) {
             int amount = 0;
-           // System.out.println("getAvaliable \n");
-            for(BoardPiece piece : clientPlayer.getBoardPieces()){
-               // System.out.println(piece.getPieceType()+" piece of "+piece.getOwner()+" is active "+piece.isActive());
-                if(!piece.isActive() && piece.getPieceType() == type){
-                //had to comment this out because the parser only recieves the inactive piece as
-                //part of the player's available stuff
-                //if(piece.getPieceType()==type){
-                    amount++;
+//           // System.out.println("getAvaliable \n");
+//            for(BoardPiece piece : clientPlayer.getBoardPieces()){
+//                System.out.println(piece.getPieceType()+" piece of "+piece.getOwnerName()+" is active "+piece.isActive());
+//                if(!piece.isActive() && piece.getPieceType() == type){
+//                //had to comment this out because the parser only recieves the inactive piece as
+//                //part of the player's available stuff
+//                //if(piece.getPieceType()==type){
+//                    amount++;
+//                }
+//            }
+            if(type == PieceType.CITY) amount=4;
+            else if(type == PieceType.SETTLEMENT) amount=5;
+            else if(type == PieceType.ROAD) amount=15;
+            
+            for(ParsedStructure piece : currentGameModel.getBoard().getStructures()){
+                String pieceType = piece.getType();
+                PieceType pType;
+                if(pieceType.equals("CITY")) pType=PieceType.CITY;
+                else if(pieceType.equals("SETTLEMENT")) pType=PieceType.SETTLEMENT;
+                else pType=PieceType.ROAD;
+                
+                if( piece.getOwner() == clientPlayer.getIndex() && pType == type){
+                    amount--;
                 }
             }
+            
+          //  System.out.println("\n"+"\n");
             return amount;
         }
 }
