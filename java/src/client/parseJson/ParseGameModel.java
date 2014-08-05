@@ -56,7 +56,7 @@ public class ParseGameModel {
 	
 	public ParseGameModel(String jsonString) {
 		this.jsonObject = new JSONObject(jsonString);	
-//		System.out.println(jsonString.toString());
+		System.out.println(jsonString.toString());
 	}
 	
 	public GameModel doParse() {
@@ -183,7 +183,8 @@ public class ParseGameModel {
 					developmentCard = new DevelopmentCard(DevCardType.ROAD_BUILD);
 					break;
 		}
-		
+		boolean old = card.getBoolean("old");
+                developmentCard.setOld(old);
 		return developmentCard;
 	}
 	

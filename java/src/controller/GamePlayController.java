@@ -86,8 +86,11 @@ class GamePlayController {
     public ArrayList<DevCardType> startPlayCard() {
         ArrayList<DevCardType> cards = new ArrayList<>();
         
-        for(DevelopmentCard card : player.getDevelopmentCards())
-            cards.add(card.getDevelopmentType());
+        for(DevelopmentCard card : player.getDevelopmentCards()){
+            if(card.isOld()){
+                cards.add(card.getDevelopmentType());
+            }
+        }
         
         return cards;
     }
@@ -417,7 +420,7 @@ class GamePlayController {
             int number = 0;
             
             for(DevelopmentCard card : player.getDevelopmentCards())
-                if(card.getDevelopmentType().equals(type))
+                if(card.getDevelopmentType().equals(type) && card.isOld())
                     number++;
             
             return number;

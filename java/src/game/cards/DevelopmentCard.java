@@ -9,6 +9,7 @@ import shared.definitions.DevCardType;
  */
 public class DevelopmentCard {
 	private DevCardType developmentType;
+        private boolean old = false;
 
 	public DevelopmentCard(DevCardType development) {
 		this.developmentType = development;
@@ -24,4 +25,14 @@ public class DevelopmentCard {
 	public DevCardType getDevelopmentType() {
 		return developmentType;
 	}
+
+        public boolean isOld() {
+            return old;
+        }
+
+        public void setOld(boolean old) {
+            this.old = old;
+        }
+        
+        
 }

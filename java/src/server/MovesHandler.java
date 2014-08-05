@@ -12,6 +12,7 @@ import game.board.Edge;
 import game.board.HexTile;
 import game.board.ResourceTile;
 import game.cards.CardOwner;
+import game.cards.DevelopmentCard;
 import game.cards.ResourceCard;
 import game.pieces.BoardPiece;
 import game.pieces.City;
@@ -325,9 +326,18 @@ public class MovesHandler implements IHandler {
         if(tracker.getCurrentTurn() > 3)
             tracker.setCurrentTurn(0);
         
+        setDevCardsToOld(param.getPlayerIndex());
+        
         tracker.setStatus("Rolling");
         
         //game.incrementVersion();
+    }
+    
+    private void setDevCardsToOld(int playerIndex){
+        Player player= controller.getGameModel().getPlayers()[playerIndex];
+        for(DevelopmentCard card:player.getDevelopmentCards()){
+            card.setOld(true);
+        }
     }
     
     /**
@@ -374,7 +384,14 @@ public class MovesHandler implements IHandler {
         game.getBank().addResourceCard(player.giveResourceCard(ResourceType.SHEEP));
         game.getBank().addResourceCard(player.giveResourceCard(ResourceType.ORE));
         
-        player.addDevelopmentCard(game.getBank().giveDevelopmentCard(null));
+        DevelopmentCard devCard = game.getBank().giveDevelopmentCard(null);
+        if( devCard.getDevelopmentType()== DevCardType.MONUMENT){
+            devCard.setOld(true);
+        }
+        else{
+            devCard.setOld(false);
+        }
+        player.addDevelopmentCard(devCard);
         
         game.incrementVersion();
         
