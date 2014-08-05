@@ -165,8 +165,14 @@ public class MovesHandler implements IHandler {
      * @return 
      */
     public PlayerReceivingResources getPlayerResources(BoardPiece boardPiece, ResourceTile resourceTile) {    
-        int amount = (boardPiece.getPieceType() == PieceType.CITY) ? 2 : 1;        
-        return new PlayerReceivingResources(boardPiece.getOwner(), resourceTile.getResourceType(), amount);
+        int amount = (boardPiece.getPieceType() == PieceType.CITY) ? 2 : 1;  
+        String name = boardPiece.getOwnerName();
+        Player player = null;
+        for (Player p:controller.getGameModel().getPlayers()){
+            if( p.getUsername().equals(name))
+                player=p;
+        }
+        return new PlayerReceivingResources(player, resourceTile.getResourceType(), amount);
     }
     
     /**

@@ -144,7 +144,7 @@ public class ControllerFacade implements IControllerFacadeListener{
     public void updateClientPlayer(GameModel gameModel) {
     
 		for (Player modelPlayer : gameModel.getPlayers()) {
-			System.out.println(modelPlayer);
+			//System.out.println(modelPlayer);
 			if (modelPlayer.getIndex() == clientPlayer.getIndex()) {
 				clientPlayer = modelPlayer;
 			}

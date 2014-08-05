@@ -29,6 +29,10 @@ public abstract class BoardPiece {
 	public Player getOwner() {
 		return ControllerFacade.getSingleton().getPlayerByUsername(player);
 	}
+        
+        public String getOwnerName(){
+            return player;
+        }
 
 	/**
 	 *
