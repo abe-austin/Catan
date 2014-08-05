@@ -18,6 +18,7 @@ import game.pieces.Settlement;
 import org.json.*;
 
 import shared.definitions.CatanColor;
+import shared.definitions.Command;
 import shared.definitions.DevCardType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -55,7 +56,7 @@ public class ParseGameModel {
 	
 	public ParseGameModel(String jsonString) {
 		this.jsonObject = new JSONObject(jsonString);	
-		//System.out.println(jsonString.toString());
+//		System.out.println(jsonString.toString());
 	}
 	
 	public GameModel doParse() {
@@ -507,23 +508,46 @@ public class ParseGameModel {
 	public void parseGameHistory() {
 		GameHistory gameHistory = new GameHistory();
 		JSONObject gameHistoryJson = jsonObject.getJSONObject("gameHistory");
-		
-		if(!gameHistoryJson.isNull("chatLog")) {
-			ChatLog chatlog = parseChat(gameHistoryJson.getJSONObject("chatLog"));
+				
+		if(!gameHistoryJson.isNull("chatlog")) {
+			ChatLog chatlog = parseChat(gameHistoryJson.getJSONObject("chatlog"));
 			gameHistory.setChatlog(chatlog);
+		}
+		
+		if(!gameHistoryJson.isNull("gameCommands")) {
+			List<Command> commands = parseGameCommands(
+					gameHistoryJson.getJSONArray("gameCommands"));
+			gameHistory.setGameCommands(commands);
 		}
 		
 		game.setGameHistory(gameHistory);
 	}
 	
+	public List<Command> parseGameCommands(JSONArray commandsJson) {
+		List<Command> commands = new ArrayList<Command>();
+		
+		for(int i=0; i<commandsJson.length(); i++) {
+			JSONObject commandJson = commandsJson.getJSONObject(i);
+			Command command = new Command(
+					commandJson.getString("source"),
+					commandJson.getString("command"));
+			commands.add(command);
+		}
+		
+		return commands;
+	}
 	public ChatLog parseChat(JSONObject chatLogJson) {
 		ChatLog chatlog = new ChatLog();
 		JSONArray linesJson = chatLogJson.getJSONArray("lines");
+		
 		for(int i=0; i<linesJson.length(); i++) {
-			JSONObject lineJson = linesJson.getJSONObject(i);
-			ParsedChat chatLine = new ParsedChat(lineJson.getString("source"), lineJson.getString("message"));
+			JSONObject lineJson = linesJson.getJSONObject(i);			
+			ParsedChat chatLine = new ParsedChat(
+					lineJson.getString("source"), 
+					lineJson.getString("message"));
 			chatlog.addChatLine(chatLine);
 		}
+		
 		return chatlog;
 	}
 	
