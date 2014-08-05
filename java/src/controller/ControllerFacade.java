@@ -1159,7 +1159,7 @@ public class ControllerFacade implements IControllerFacadeListener{
             case GamePlay:
                 int roll = gamePlayController.rollDice();
                 lastRoll = roll;
-                serverProxyFacade.rollNumber(clientPlayer.getIndex(), 8);                    
+                serverProxyFacade.rollNumber(clientPlayer.getIndex(), roll);                    
                 return roll;
             default:
                 return -1;
