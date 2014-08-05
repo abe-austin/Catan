@@ -207,9 +207,7 @@ public class BoardModel {
 	}
 	
 	public void addStructure(ParsedStructure p) {
-		System.out.println(theStructures.size() + ": before");
 		theStructures.add(p);
-		System.out.println(theStructures.size() + ": after");
 	}
 
 	/**
