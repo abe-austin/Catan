@@ -236,9 +236,29 @@ public class MovesHandler implements IHandler {
      * @param game 
      */
     public void secondTurn(FinishTurnParam param, GameModel game) {
-        TurnTracker tracker = game.getTurnTracker();                         
-        tracker.setStatus("Second Turn");        
-        tracker.setCurrentTurn(param.getPlayerIndex()-1);
+
+        TurnTracker tracker = game.getTurnTracker();
+        
+        boolean isSecond = false;
+        for(Player player : game.getPlayers()) {
+            if(player.getPoints() < 2)
+                isSecond = true;
+        }
+        
+        if(isSecond) {            
+            tracker.setStatus("Second Turn");
+            if(param.getPlayerIndex() > 0)
+                tracker.setCurrentTurn(param.getPlayerIndex()-1);
+           
+        } 
+        else if(tracker.getStatus().equals("Second Turn")){
+            tracker.setStatus("Rolling");
+            tracker.setCurrentTurn(param.getPlayerIndex());
+        }
+        else {
+            regularTurn(param, game);
+        }
+
     }
     
     /**
