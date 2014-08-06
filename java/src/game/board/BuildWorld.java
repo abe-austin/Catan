@@ -247,8 +247,7 @@ public class BuildWorld {
 	 * @param index
 	 * @return
 	 */
-	public HexTile getLandType(int number, ArrayList<Integer> numberTokens,
-			int index) {
+	public HexTile getLandType(int number, ArrayList<Integer> numberTokens, int index) {
 		int theToken = 0;
 		if (seenDesert || index == 18)
 			theToken = numberTokens.get(index - 1);
@@ -256,17 +255,13 @@ public class BuildWorld {
 			theToken = numberTokens.get(index);
 		switch (number) {
 		case 0:
-			return new ResourceTile(ResourceType.WOOD,
-					new NumberToken(theToken));
+			return new ResourceTile(ResourceType.WOOD, new NumberToken(theToken));
 		case 1:
-			return new ResourceTile(ResourceType.BRICK, new NumberToken(
-					theToken));
+			return new ResourceTile(ResourceType.BRICK, new NumberToken(theToken));
 		case 2:
-			return new ResourceTile(ResourceType.SHEEP, new NumberToken(
-					theToken));
+			return new ResourceTile(ResourceType.SHEEP, new NumberToken(theToken));
 		case 3:
-			return new ResourceTile(ResourceType.WHEAT, new NumberToken(
-					theToken));
+			return new ResourceTile(ResourceType.WHEAT, new NumberToken(theToken));
 		case 4:
 			return new ResourceTile(ResourceType.ORE, new NumberToken(theToken));
 		case 5:

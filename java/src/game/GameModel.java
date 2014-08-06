@@ -194,7 +194,7 @@ public class GameModel {
 	}
 
 	public void setRandomPorts(boolean randomPorts) {
-		board.setRandomNumbers(randomPorts);
+		board.setRandomPorts(randomPorts);
 	}
 
     /**
