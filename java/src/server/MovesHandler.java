@@ -748,7 +748,7 @@ public class MovesHandler implements IHandler {
         trade.setReceiverIndex(param.getReceiver());
         trade.setSenderIndex(param.getPlayerIndex());
         
-        game.setTradeOffer(null);
+        game.setTradeOffer(trade);
         controller.getGameModel().incrementVersion();
         
         return new ServerResponse(200, controller.getGameModel());
