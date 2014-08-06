@@ -327,6 +327,10 @@ public class MovesHandler implements IHandler {
             tracker.setCurrentTurn(0);
         
         setDevCardsToOld(param.getPlayerIndex());
+        for(Player player:game.getPlayers()){
+            player.setDiscarded(false);
+            player.setNeedsToDiscard(false);
+        }
         
         tracker.setStatus("Rolling");
         
@@ -886,6 +890,9 @@ public class MovesHandler implements IHandler {
             }
             if(discardingDone){
                 game.getTurnTracker().setStatus("Robbing");
+                for(Player p: game.getPlayers()){
+                    p.setNeedsToDiscard(false);
+                }
             }
             else{
                 game.getTurnTracker().setStatus("Discarding");
