@@ -483,7 +483,7 @@ public class MovesHandler implements IHandler {
         GameModel game = controller.getGameModel();        
         Player player = game.getPlayers()[param.getPlayerIndex()];
         player.giveDevelopmentCard(DevCardType.SOLDIER);
-        player.setSoldiersPlayed(player.getSoldiersPlayed()+1);
+        //player.setSoldiersPlayed(player.getSoldiersPlayed()+1);
         
         RobPlayerParam rob = new RobPlayerParam(param.getType(),param.getPlayerIndex(),
                                             param.getVictimIndex(), param.getLocation());   
