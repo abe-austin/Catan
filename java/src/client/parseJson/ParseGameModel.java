@@ -1,31 +1,13 @@
 package client.parseJson;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import game.GameModel;
-import game.cards.DevelopmentCard;
-import game.cards.ResourceCard;
-import game.cards.SpecialCard;
-import game.pieces.BoardPiece;
-import game.pieces.City;
-import game.pieces.Road;
-import game.pieces.Robber;
-import game.pieces.Settlement;
-
-import org.json.*;
-
-import shared.definitions.CatanColor;
-import shared.definitions.Command;
-import shared.definitions.DevCardType;
-import shared.definitions.PortType;
-import shared.definitions.ResourceType;
-import shared.definitions.SpecialCardType;
-import player.Player;
+import client.parse.ParsedChat;
+import client.parse.ParsedPort;
+import client.parse.ParsedStructure;
+import client.parse.ParsedTile;
+import controller.ControllerFacade;
 import game.ChatLog;
 import game.GameHistory;
+import game.GameModel;
 import game.TradeOffer;
 import game.TurnTracker;
 import game.bank.Bank;
@@ -36,18 +18,36 @@ import game.board.NumberToken;
 import game.board.OceanTile;
 import game.board.PortTile;
 import game.board.ResourceTile;
+import game.cards.DevelopmentCard;
+import game.cards.ResourceCard;
+import game.cards.SpecialCard;
+import game.pieces.BoardPiece;
+import game.pieces.City;
+import game.pieces.Road;
+import game.pieces.Robber;
+import game.pieces.Settlement;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.json.*;
 
-import client.parse.ParsedChat;
-import client.parse.ParsedPort;
-import client.parse.ParsedStructure;
-import client.parse.ParsedTile;
-import controller.ControllerFacade;
+
+import org.json.*;
+
+import player.Player;
+import shared.definitions.CatanColor;
+import shared.definitions.Command;
+import shared.definitions.DevCardType;
 import shared.definitions.HexType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
+import shared.definitions.SpecialCardType;
 import shared.locations.HexLocation;
+import system.Password;
+import system.User;
+import system.Username;
 
 public class ParseGameModel {
 	
@@ -201,7 +201,13 @@ public class ParseGameModel {
 		
 		return specialCard;
 	}
-	
+	public User parseUser(JSONObject user){
+            Username username = new Username(user.getJSONObject("username").getString("username"));
+            Password password = new Password(user.getJSONObject("password").getString("password"));
+            int index = user.getInt("id");
+            User u = new User(username,password,index);
+            return u;
+        }
 	public Player parsePlayer(JSONObject player) {
 		
 		Player newPlayer = new Player();
@@ -215,7 +221,7 @@ public class ParseGameModel {
 		}
 		
 		newPlayer.setSoldiersPlayed(player.getInt("soldiersPlayed"));
-	
+                newPlayer.setUser(parseUser(player.getJSONObject("user")));
 //		ArrayList<PortType> playerPorts = new ArrayList<PortType>();
 //		JSONArray ports = player.getJSONArray("ports");
 //		for(int i=0; i<ports.length(); i++) {
