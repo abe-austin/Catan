@@ -17,49 +17,49 @@ public class SQLDataAccess implements IDataAccess {
 
 	@Override
 	public User createUser(RegisterUserParam param) {
-		// TODO Auto-generated method stub
+		// TODO check if user exists, create user, add user, return user
 		return null;
 	}
 
 	@Override
 	public User getUser(LoginUserParam param) {
-		// TODO Auto-generated method stub
+		// TODO get user from database and return it
 		return null;
 	}
 
 	@Override
 	public GameModel createGame(CreateGameParam param) {
-		// TODO Auto-generated method stub
+		// TODO check if game exists, create game, add game, return game
 		return null;
 	}
 
 	@Override
 	public void deleteGame(String gameName) {
-		// TODO Auto-generated method stub
+		// TODO delete game
 		
 	}
 
 	@Override
 	public GameModel getGame(GetGameModelParam param) {
-		// TODO Auto-generated method stub
+		// TODO get game from database and return it
 		return null;
 	}
 
 	@Override
 	public void addCommand(Command command) {
-		// TODO Auto-generated method stub
+		// TODO add command to database
 		
 	}
 
 	@Override
 	public List<Command> getCommands(String gameName) {
-		// TODO Auto-generated method stub
+		// TODO get a list of all commands from database and return it
 		return null;
 	}
 
 	@Override
 	public List<GameInfo> getAllGames(User user) {
-		// TODO Auto-generated method stub
+		// TODO get a list of all games from database that user can join, create GameInfo for each, return list of GameInfo
 		return null;
 	}
 
