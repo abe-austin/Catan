@@ -823,10 +823,13 @@ public class MovesHandler implements IHandler {
                 for(int i = 0; i > offer.getOre(); i--)
                     receiver.addResourceCard(sender.giveResourceCard(ResourceType.ORE));
             }
+            controller.getGameModel().setTradeOffer(new TradeOffer());
             controller.getGameModel().incrementVersion();
             return new ServerResponse(200, controller.getGameModel());
         } else {
-        	controller.getGameModel().incrementVersion();
+            
+            controller.getGameModel().setTradeOffer(new TradeOffer());
+            controller.getGameModel().incrementVersion();
             return new ServerResponse(200, controller.getGameModel());
         }
     }
