@@ -717,12 +717,9 @@ public class BoardModel {
 	 *            player to check
 	 * @return true if Player p can build a road on Edge e false otherwise
 	 */
-	public boolean canBuildRoad(Edge edge, Player player,
-			Boolean allowDisconnected) {
-		if (!player.hasAvailableBoardPiece(PieceType.ROAD))// First check if
-															// player has
-															// available road
-															// pieces
+	public boolean canBuildRoad(Edge edge, Player player, Boolean allowDisconnected) {
+		
+		if (!player.hasAvailableBoardPiece(PieceType.ROAD))// First check if player has available road pieces
 			return false;
 		if (edge == null)
 			return false;

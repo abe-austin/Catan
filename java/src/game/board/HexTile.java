@@ -188,6 +188,7 @@ public class HexTile {
 	 */
 	public void buildRoad(Edge edge, Player player) {
 		BoardPiece theRoad = player.getAvailableBoardPiece(PieceType.ROAD);
+		theRoad.setPlayer(player.getUsername());
 		edge.buildStructure(theRoad);
 		//theRoad.setActive(true);
 	}// Build the requested object
@@ -215,6 +216,7 @@ public class HexTile {
 	 */
 	public void buildCity(Corner corner, Player player) {
 		BoardPiece theCity = player.getAvailableBoardPiece(PieceType.CITY);
+		theCity.setPlayer(player.getUsername());
 		//BoardPiece theSettlement = corner.getStructure();
 		// theSettlement.setActive(false); had to comment it out, was null from
 		// parsed data
