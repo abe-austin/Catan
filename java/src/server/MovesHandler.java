@@ -327,6 +327,10 @@ public class MovesHandler implements IHandler {
             tracker.setCurrentTurn(0);
         
         setDevCardsToOld(param.getPlayerIndex());
+        for(Player player:game.getPlayers()){
+            player.setDiscarded(false);
+            player.setNeedsToDiscard(false);
+        }
         
         tracker.setStatus("Rolling");
         
@@ -505,8 +509,10 @@ public class MovesHandler implements IHandler {
         if(bank.hasLargestArmy()&& challenger.getSoldiersPlayed() > 2) {
             challenger.addSpecialCard(bank.giveSpecialCard(SpecialCardType.LARGEST_ARMY));
             controller.getGameModel().getTurnTracker().setLargestArmy(challenger.getIndex());
-            controller.getGameModel().incrementVersion();
-            
+            //controller.getGameModel().incrementVersion();
+            if(challenger.isVictory()){
+                controller.getGameModel().setWinner(challenger.getIndex());
+            }
             return;
         }    
         
@@ -515,7 +521,10 @@ public class MovesHandler implements IHandler {
                 if(player.getSoldiersPlayed() < challenger.getSoldiersPlayed()) {
                     challenger.addSpecialCard(bank.giveSpecialCard(SpecialCardType.LARGEST_ARMY));
                     controller.getGameModel().getTurnTracker().setLargestArmy(challenger.getIndex());
-                    controller.getGameModel().incrementVersion();
+                    //controller.getGameModel().incrementVersion();
+                    if(challenger.isVictory()){
+                        controller.getGameModel().setWinner(challenger.getIndex());
+                    }
                 }
             }
         }
@@ -558,7 +567,7 @@ public class MovesHandler implements IHandler {
         GameModel game = controller.getGameModel();        
         Player player = game.getPlayers()[param.getPlayerIndex()];
         player.giveDevelopmentCard(DevCardType.MONUMENT);
-        player.addPoint();
+        addPoint(player);
         
         game.incrementVersion();
         
@@ -622,7 +631,10 @@ public class MovesHandler implements IHandler {
         if(bank.hasLongestRoad() && challenger.getNumOfRoadsPlayed() > 4) {
             challenger.addSpecialCard(bank.giveSpecialCard(SpecialCardType.LONGEST_ROAD));
             controller.getGameModel().getTurnTracker().setLongestRoad(challenger.getIndex());
-            controller.getGameModel().incrementVersion();
+            //controller.getGameModel().incrementVersion();
+            if(challenger.isVictory()){
+                controller.getGameModel().setWinner(challenger.getIndex());
+            }
             return;
         }            
         
@@ -631,7 +643,10 @@ public class MovesHandler implements IHandler {
                 if(player.getNumOfRoadsPlayed() < challenger.getNumOfRoadsPlayed()) {
                     challenger.addSpecialCard(player.giveSpecialCard(SpecialCardType.LONGEST_ROAD));
                     controller.getGameModel().getTurnTracker().setLongestRoad(challenger.getIndex());
-                    controller.getGameModel().incrementVersion();
+                    if(challenger.isVictory()){
+                        controller.getGameModel().setWinner(challenger.getIndex());
+                    }
+                    //controller.getGameModel().incrementVersion();
                 }                    
             }
         }
@@ -651,7 +666,7 @@ public class MovesHandler implements IHandler {
 	        //So from here we could probably update the BoardModel with the structure info and extract it over on the client side
 	        //So it should include probably just the ParsedStructure
 	        Player player = game.getPlayers()[param.getPlayerIndex()];
-	        player.addPoint();
+	        addPoint(player);
 	        
 	        HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
 	        Corner corner = tile.getCorner(map.getDirection());
@@ -704,7 +719,7 @@ public class MovesHandler implements IHandler {
         MapLocationParam map = param.getVertexLocation();
         GameModel game = controller.getGameModel();        
         Player player = game.getPlayers()[param.getPlayerIndex()];
-        player.addPoint();
+       addPoint(player);
         
         CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.ORE, 3);
         CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT, 2);
@@ -808,10 +823,13 @@ public class MovesHandler implements IHandler {
                 for(int i = 0; i > offer.getOre(); i--)
                     receiver.addResourceCard(sender.giveResourceCard(ResourceType.ORE));
             }
+            controller.getGameModel().setTradeOffer(new TradeOffer());
             controller.getGameModel().incrementVersion();
             return new ServerResponse(200, controller.getGameModel());
         } else {
-        	controller.getGameModel().incrementVersion();
+            
+            controller.getGameModel().setTradeOffer(new TradeOffer());
+            controller.getGameModel().incrementVersion();
             return new ServerResponse(200, controller.getGameModel());
         }
     }
@@ -875,6 +893,9 @@ public class MovesHandler implements IHandler {
             }
             if(discardingDone){
                 game.getTurnTracker().setStatus("Robbing");
+                for(Player p: game.getPlayers()){
+                    p.setNeedsToDiscard(false);
+                }
             }
             else{
                 game.getTurnTracker().setStatus("Discarding");
@@ -887,5 +908,11 @@ public class MovesHandler implements IHandler {
         }
         
         return response;
+    }
+    private void addPoint(Player player){
+        player.addPoint();
+        if (player.isVictory()){
+            controller.getGameModel().setWinner(player.getIndex());
+        }
     }
 }
