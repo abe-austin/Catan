@@ -120,7 +120,7 @@ public class MovesHandler implements IHandler {
       
         game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(),
-        		"Sent a chat message."));
+        		"sent a chat message."));
    
         return response;
     }
@@ -160,7 +160,7 @@ public class MovesHandler implements IHandler {
 
                     CardOwner.changeOwnerResource(player, game.getBank(), type, amount);
             }     
-            game.getTurnTracker().setStatus("Playing");
+            game.getTurnTracker().setStatus("playing");
         }
         else{
             boolean needToDiscard=false;
@@ -174,10 +174,10 @@ public class MovesHandler implements IHandler {
                 }
             }
             if(needToDiscard){
-                game.getTurnTracker().setStatus("Discarding");
+                game.getTurnTracker().setStatus("discarding");
             }
             else{
-                game.getTurnTracker().setStatus("Robbing");
+                game.getTurnTracker().setStatus("robbing");
             }
         }
         
@@ -254,7 +254,7 @@ public class MovesHandler implements IHandler {
         
         game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
-        		"Finished their turn."));
+        		"finished their turn."));
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -267,14 +267,12 @@ public class MovesHandler implements IHandler {
      */
     public void firstTurn(FinishTurnParam param, GameModel game) {
         TurnTracker tracker = game.getTurnTracker();    
-        tracker.setStatus("First Turn");
+        tracker.setStatus("first Turn");
         
             if(param.getPlayerIndex() < 3)
                 tracker.setCurrentTurn(param.getPlayerIndex()+1);
             else
                 tracker.setCurrentTurn(param.getPlayerIndex());
-            
-        //game.incrementVersion();
     }
     
     /**
@@ -285,7 +283,7 @@ public class MovesHandler implements IHandler {
      */
     public void secondTurn(FinishTurnParam param, GameModel game) {
         TurnTracker tracker = game.getTurnTracker();                         
-        tracker.setStatus("Second Turn");        
+        tracker.setStatus("second Turn");        
         tracker.setCurrentTurn(param.getPlayerIndex()-1);
    
         boolean isSecond = false;
@@ -295,13 +293,13 @@ public class MovesHandler implements IHandler {
         }
         
         if(isSecond) {            
-            tracker.setStatus("Second Turn");
+            tracker.setStatus("second Turn");
             if(param.getPlayerIndex() > 0)
                 tracker.setCurrentTurn(param.getPlayerIndex()-1);
            
         } 
-        else if(tracker.getStatus().equals("Second Turn")){
-            tracker.setStatus("Rolling");
+        else if(tracker.getStatus().equals("second Turn")){
+            tracker.setStatus("rolling");
             tracker.setCurrentTurn(param.getPlayerIndex());
         }
         else {
@@ -332,7 +330,7 @@ public class MovesHandler implements IHandler {
             player.setNeedsToDiscard(false);
         }
         
-        tracker.setStatus("Rolling");
+        tracker.setStatus("rolling");
         
         //game.incrementVersion();
     }
@@ -369,14 +367,13 @@ public class MovesHandler implements IHandler {
         else{
             victimName = "no one";
         }
-        game.getTurnTracker().setStatus("Playing");
+        game.getTurnTracker().setStatus("playing");
         game.incrementVersion();
 
         game.getGameHistory().getGameCommands().add(new Command(
                         controller.getCurrentCookie().getUsername(), 
                         "moved the robber and robbed " + victimName + "."));
 
-        
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -409,7 +406,7 @@ public class MovesHandler implements IHandler {
         
         game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
-        		"Bought a Development Card."));
+        		"bought a development card."));
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -437,7 +434,7 @@ public class MovesHandler implements IHandler {
         
         game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
-        		"Played a " + param.getResource() + " Monopoly Card."));
+        		"played a " + param.getResource() + " monopoly card."));
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -464,7 +461,7 @@ public class MovesHandler implements IHandler {
         edge.buildStructure(road);
         road.setActive(true);
         ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map1.getX(), map1.getY(), map1.getDirection(), "ROAD");
-	controller.getGameModel().getBoard().addStructure(parsedStruct);
+        controller.getGameModel().getBoard().addStructure(parsedStruct);
         
         HexTile tile2 = game.getBoard().getHexTileAt(map2.getX(), map2.getY());
         Edge edge2 = tile2.getEdge(map2.getDirection());
@@ -472,14 +469,14 @@ public class MovesHandler implements IHandler {
         edge2.buildStructure(road2);
         road2.setActive(true);
         ParsedStructure parsedStruct2 = new ParsedStructure(param.getPlayerIndex(), map2.getX(), map2.getY(), map2.getDirection(), "ROAD");
-	controller.getGameModel().getBoard().addStructure(parsedStruct2);
+        controller.getGameModel().getBoard().addStructure(parsedStruct2);
         
         checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
         game.incrementVersion();
         
         game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
-        		"Played a Road Building Card."));
+        		"played a road building card."));
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -505,7 +502,7 @@ public class MovesHandler implements IHandler {
         
         game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
-        		"Played a Soldier Card."));
+        		"played a soldier card."));
         
         return robPlayer(rob);
     }
@@ -563,7 +560,7 @@ public class MovesHandler implements IHandler {
         
         game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
-        		"Played a Year of Plenty Card."));
+        		"played a year of plenty card."));
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -585,7 +582,7 @@ public class MovesHandler implements IHandler {
         
         game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
-        		"Played a Monument Card."));
+        		"played a monument card."));
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -709,7 +706,7 @@ public class MovesHandler implements IHandler {
 	        
 	        game.getGameHistory().getGameCommands().add(new Command(
 	        		controller.getCurrentCookie().getUsername(), 
-	        		"Built a Settlement."));
+	        		"built a settlement."));
 	        
 	        return new ServerResponse(200, controller.getGameModel());
     	}
@@ -748,7 +745,7 @@ public class MovesHandler implements IHandler {
         
         game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
-        		"Built a City."));
+        		"built a city."));
         
         return new ServerResponse(200, controller.getGameModel());
 
@@ -904,13 +901,13 @@ public class MovesHandler implements IHandler {
                     discardingDone = false;
             }
             if(discardingDone){
-                game.getTurnTracker().setStatus("Robbing");
+                game.getTurnTracker().setStatus("robbing");
                 for(Player p: game.getPlayers()){
                     p.setNeedsToDiscard(false);
                 }
             }
             else{
-                game.getTurnTracker().setStatus("Discarding");
+                game.getTurnTracker().setStatus("discarding");
             }
             
             response = new ServerResponse(200, controller.getGameModel());
