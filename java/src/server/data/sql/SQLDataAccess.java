@@ -11,20 +11,38 @@ import shared.communication.GetGameModelParam;
 import shared.communication.LoginUserParam;
 import shared.communication.RegisterUserParam;
 import shared.definitions.Command;
+import system.Password;
 import system.User;
+import system.Username;
 
 public class SQLDataAccess implements IDataAccess {
+	
+	private SQLUser sqlUser;
+	private SQLGameModel sqlGameModel;
+	private SQLCommand sqlCommand;
+	
+	public SQLDataAccess() {
+		this.sqlUser = new SQLUser();
+		this.sqlGameModel = new SQLGameModel();
+		this.sqlCommand = new SQLCommand();
+	}
 
 	@Override
 	public User createUser(RegisterUserParam param) {
-		// TODO check if user exists, create user, add user, return user
-		return null;
+		
+		User user = new User(
+				new Username(param.getUsername()), 
+				new Password(param.getPassword()), 
+				sqlUser.getNextUserID());
+		
+		user = sqlUser.addUser(user);
+		return user;
 	}
 
 	@Override
 	public User getUser(LoginUserParam param) {
-		// TODO get user from database and return it
-		return null;
+		User user = sqlUser.getUser(param.getUsername(), param.getPassword());
+		return user;
 	}
 
 	@Override

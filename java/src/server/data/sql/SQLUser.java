@@ -1,19 +1,54 @@
 package server.data.sql;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
+import system.Password;
 import system.User;
+import system.Username;
 
 public class SQLUser {
 	
 	public User addUser(User user) {
-		// TODO add user to database
-		return null;
+		Connection conn = startTransaction();
+		try {
+			PreparedStatement statement = conn.prepareStatement("INSERT INTO User(UserID, Username, Password) VALUES(?,?,?);");
+			statement.setInt(1, user.getId());
+			statement.setString(2, user.getUsername().getUsername());
+			statement.setString(3, user.getPassword().getPassword());
+			statement.executeUpdate();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return user = null;
+		}
+		finally {
+			endTransaction(true, conn);
+		}
+		return user;
 	}
 	
-	public User getUser(String username) {
-		// TODO get specified user
-		return null;
+	public User getUser(String username, String password) {
+		User user = null;
+		Connection conn = startTransaction();
+		try {
+			PreparedStatement statement = conn.prepareStatement("SELECT * FROM User WHERE Username = ? AND Password = ?;");
+			statement.setString(1, username);
+			statement.setString(2, password);
+			ResultSet rs = statement.executeQuery();
+			user = new User();
+			user.setId(rs.getInt(1));
+			user.setUsername(new Username(rs.getString(2)));
+			user.setPassword(new Password(rs.getString(3)));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			user = null;
+		}
+		return user;
 	}
 	
 	public List<User> getAllUsers() {
@@ -26,7 +61,49 @@ public class SQLUser {
 	}
 	
 	public int getNextUserID() {
-		// TODO get the next available id for user
-		return -1;
+		int nextID = -1;
+		Connection conn = startTransaction();
+		try {
+			PreparedStatement statement = conn.prepareStatement("SELECT MAX(UserID) FROM User");
+			ResultSet rs = statement.executeQuery();
+			nextID = rs.getInt(1) + 1;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			nextID = -1;
+		}
+		finally {
+			endTransaction(true, conn);
+		}
+		return nextID;
+	}
+	
+	private Connection startTransaction() {
+		Connection conn = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+			conn = DriverManager.getConnection("jdbc:sqlite:database/CatanData.sqlite");
+			conn.setAutoCommit(false);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return conn;
+	}
+	
+	private void endTransaction(boolean commit, Connection conn) {
+		try {
+			if(commit) {
+				conn.commit();
+			}
+			else {
+				conn.rollback();
+			}
+			conn.close();
+		}
+		catch (Exception e) {
+			System.out.println("Connection failed");
+		}
 	}
 }
