@@ -249,9 +249,7 @@ public class MapController extends Controller implements IMapController,
 			HexType hexType = newMap.get(i).getType();
 			getView().addHex(hexLoc, hexType);
 			if (hexType == HexType.DESERT)
-				getView().placeRobber(
-						new HexLocation(newMap.get(i).getX(), newMap.get(i)
-								.getY()));
+				getView().placeRobber(new HexLocation(newMap.get(i).getX(), newMap.get(i).getY()));
 
 			else if (hexType != HexType.WATER) {
 				ResourceTile resourceTile = (ResourceTile) newMap.get(i);

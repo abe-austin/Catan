@@ -10,6 +10,7 @@ import client.parse.ParsedStructure;
 import client.parse.ParsedTile;
 import controller.ControllerFacade;
 import player.Player;
+import shared.definitions.HexType;
 import shared.definitions.PieceType;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -42,10 +43,13 @@ public class BoardModel {
 	}
 	
 	public void constructWorld() {
-		BuildWorld worldBuilder = new BuildWorld(randomHexes, randomPorts, randomNumbers);//Take in booleans
+		BuildWorld worldBuilder = new BuildWorld(randomHexes, randomPorts, randomNumbers);
 		theStructures = new ArrayList<ParsedStructure>();
 		tiles = worldBuilder.getTiles();
-		rob = new Robber(new HexLocation(0, 0));//Actually make this go in right place
+		for(HexTile t : tiles) {
+			if(t.getType().equals(HexType.DESERT))
+				rob = new Robber(new HexLocation(t.getX(), t.getY()));
+		}
 	}
 	
 	public void setPlayers(Player[] players) {
@@ -717,12 +721,9 @@ public class BoardModel {
 	 *            player to check
 	 * @return true if Player p can build a road on Edge e false otherwise
 	 */
-	public boolean canBuildRoad(Edge edge, Player player,
-			Boolean allowDisconnected) {
-		if (!player.hasAvailableBoardPiece(PieceType.ROAD))// First check if
-															// player has
-															// available road
-															// pieces
+	public boolean canBuildRoad(Edge edge, Player player, Boolean allowDisconnected) {
+		
+		if (!player.hasAvailableBoardPiece(PieceType.ROAD))// First check if player has available road pieces
 			return false;
 		if (edge == null)
 			return false;
