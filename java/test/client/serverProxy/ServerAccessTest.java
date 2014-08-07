@@ -2,19 +2,12 @@ package client.serverProxy;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 import junit.framework.Assert;
 import game.GameModel;
-import game.board.Corner;
-import game.board.Edge;
-import game.board.HexTile;
-import game.cards.ResourceCard;
 
 import org.junit.Test;
 
-import cs340.model.hexgrid.vertex.VertexDirection;
-import client.data.GameInfo;
 import shared.communication.CreateGameRes;
 import shared.communication.ServerResponse;
 import shared.definitions.CatanColor;
@@ -24,7 +17,6 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
-import shared.locations.VertexLocation;
 
 public class ServerAccessTest {
 
