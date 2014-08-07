@@ -76,7 +76,12 @@ public interface IDomesticTradeOverlay extends IOverlayView {
 	 */
 	void setCancelEnabled(boolean enabled);
 	
-	
+	/**
+	 * Enables the Domestic Trade controller to check of players has already been set. 
+	 * 
+	 * @return the currently set player infos
+	 */
+	PlayerInfo[] getPlayers();
 	
 }
 

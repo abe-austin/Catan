@@ -24,6 +24,7 @@ public class GameHistory{
 	public void setGameCommands(List<Command> gameCommands) {
 		this.gameCommands = gameCommands;
 	}
+	
 	/**
 	 * @return the list of commands made to the game model thus far
 	 */

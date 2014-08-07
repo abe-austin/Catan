@@ -23,5 +23,4 @@ public abstract class Controller implements IController
 	{
 		return this.view;
 	}
-	
 }

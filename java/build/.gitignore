@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /client/
 /controller/
 /game/
@@ -8,14 +7,3 @@
 /server/
 /shared/
 /system/
-=======
-/client
-/controller
-/game
-/org
-/player
-/server
-/shared
-/system
-/mainTest
->>>>>>> 62b739494d6af9cdb053f3e6c3f380c05c3fce33

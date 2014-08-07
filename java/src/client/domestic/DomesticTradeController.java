@@ -250,7 +250,9 @@ public class DomesticTradeController extends Controller implements
                 givingResource = new ArrayList<ResourceType>();
                 playerResources = controllerFacade.getPlayerResources();
                 PlayerInfo[] players = controllerFacade.getPlayerInfo();
-                getTradeOverlay().setPlayers(players);
+                if(getTradeOverlay().getPlayers() == null)
+                	getTradeOverlay().setPlayers(players);
+                
                 getTradeOverlay().setPlayerSelectionEnabled(true);
                 getTradeOverlay().setStateMessage("can't trade yet");
             } else {
@@ -410,7 +412,7 @@ public class DomesticTradeController extends Controller implements
 
     @Override
     public void cancelTrade() {
-
+    	
         getTradeOverlay().closeModal();
     }
 
