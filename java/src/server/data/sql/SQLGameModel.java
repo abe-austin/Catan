@@ -1,24 +1,76 @@
 package server.data.sql;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.rowset.serial.SerialBlob;
 
 import game.GameModel;
 
-public class SQLGameModel {
+public class SQLGameModel extends SQLTable {
 	
-	public GameModel addGameModel(GameModel gameModel) {
-		// TODO add GameModel to database
-		return null;
+	public String addGameModel(int gameID, String game, String name) {
+		Connection conn = startTransaction();
+		try {
+			PreparedStatement statement = conn.prepareStatement("INSERT INTO GameModel(GameID, Model, name) VALUES(?, ?, ?);");
+			statement.setInt(1, gameID);
+			statement.setBytes(2, game.getBytes());
+			statement.setString(3, name);
+			statement.executeUpdate();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			game = null;
+		}
+		finally {
+			endTransaction(true, conn);
+		}
+		return game;
 	}
 	
-	public GameModel getGameModel(int gameID) {
-		// TODO get specified GameModel
-		return null;
+	public String getGameModel(String name) {
+		String gameModel = null;
+		Connection conn = startTransaction();
+		try {
+			PreparedStatement statement = conn.prepareStatement("SELECT Model FROM GameModel WHERE Name = ?;");
+			statement.setString(1, name);
+			ResultSet rs = statement.executeQuery();
+			if(rs.next()) {
+				gameModel = rs.getString(1);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			gameModel = null;
+		}
+		finally {
+			endTransaction(true, conn);
+		}
+		return gameModel;
+
 	}
 	
-	public List<GameModel> getAllGameModels() {
-		// TODO get a list of all GameModels
-		return null;
+	public List<String> getAllGameModels() {
+		List<String> gameModels = new ArrayList<String>();
+		Connection conn = startTransaction();
+		try {
+			PreparedStatement statement = conn.prepareStatement("SELECT * FROM GameModel;");
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				String gameModel = rs.getString(3);
+				gameModels.add(gameModel);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			endTransaction(true, conn);
+		}
+		return gameModels;
 	}
 	
 	public void deleteGameModel(int gameID) {
@@ -26,7 +78,20 @@ public class SQLGameModel {
 	}
 	
 	public int getNextGameModelID() {
-		// TODO get the next available GameModel id
-		return -1;
+		int nextID = -1;
+		Connection conn = startTransaction();
+		try {
+			PreparedStatement statement = conn.prepareStatement("SELECT MAX(GameID) FROM GameModel");
+			ResultSet rs = statement.executeQuery();
+			nextID = rs.getInt(1) + 1;
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			nextID = -1;
+		}
+		finally {
+			endTransaction(true, conn);
+		}
+		return nextID;
 	}
 }
