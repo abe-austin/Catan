@@ -1089,7 +1089,9 @@ public class ControllerFacade implements IControllerFacadeListener{
 	public void robPlayer(RobPlayerInfo victim, HexLocation location){//MapController --goes in GamePlay
             switch(gameState){
                 case GamePlay:
-                    gamePlayController.robPlayer(victim);
+                    if(victim.getPlayerIndex()!=-1){
+                        gamePlayController.robPlayer(victim);
+                    }
                     serverProxyFacade.robPlayer(clientPlayer.getIndex(), victim.getPlayerIndex(), location);
                 default:
             }

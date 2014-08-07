@@ -662,6 +662,8 @@ public class MapController extends Controller implements IMapController,
 			ControllerFacade.getSingleton().playSoldierCard(victim, lastRobLoc);
 			soldier = false;
 		} else {
+                    System.out.println("victim name " + victim.getName() + " id "
+					+ victim.getId());
 			ControllerFacade.getSingleton().robPlayer(victim, lastRobLoc);
 		}
 	}

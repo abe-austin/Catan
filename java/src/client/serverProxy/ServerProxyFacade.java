@@ -354,7 +354,7 @@ public class ServerProxyFacade {
 	}
 	
 	public ServerResponse robPlayer(int playerIndex, int victimIndex, HexLocation location) {
-		//System.out.println("in server robPlayer  playerIndex"+playerIndex+"victimIndex"+victimIndex);
+		System.out.println("in server robPlayer  playerIndex"+playerIndex+"victimIndex"+victimIndex);
 		//create param object and convert to json
 		RobPlayerParam param = new RobPlayerParam("robPlayer", playerIndex, victimIndex, location);
 		
@@ -490,7 +490,7 @@ public class ServerProxyFacade {
      * @return					<code>ServerResponse</code> object
      */
 	public ServerResponse playSoldier(int playerIndex, int victimIndex, HexLocation location) {
-		//System.out.println("in server soldier playerIndex "+playerIndex+"victim "+victimIndex);
+		System.out.println("in server soldier playerIndex "+playerIndex+"victim "+victimIndex);
 		//create param object and convert to json
 		PlaySoldierParam param = new PlaySoldierParam("Soldier", playerIndex, victimIndex, location);
 		

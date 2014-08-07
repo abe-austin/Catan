@@ -355,19 +355,27 @@ public class MovesHandler implements IHandler {
         GameModel game = controller.getGameModel();
         game.getBoard().getRobber().updateLocation(param.getLocation());
         Player robber = game.getPlayers()[param.getPlayerIndex()];
-        Player victim = game.getPlayers()[param.getVictimIndex()];
-        
-        if(victim.getHandSize() > 0) {
-            int index = (int)(Math.random() * victim.getHandSize());
-            ResourceCard card = (ResourceCard)victim.getResourceCards().toArray()[index];
-            robber.addResourceCard(victim.giveResourceCard(card.getResourceType()));
+        String victimName;
+        if (param.getVictimIndex()!=-1){
+            Player victim = game.getPlayers()[param.getVictimIndex()];
+
+            if(victim.getHandSize() > 0) {
+                int index = (int)(Math.random() * victim.getHandSize());
+                ResourceCard card = (ResourceCard)victim.getResourceCards().toArray()[index];
+                robber.addResourceCard(victim.giveResourceCard(card.getResourceType()));
+            }
+            victimName= victim.getUsername();
+        }
+        else{
+            victimName = "no one";
         }
         game.getTurnTracker().setStatus("Playing");
         game.incrementVersion();
-        
+
         game.getGameHistory().getGameCommands().add(new Command(
-        		controller.getCurrentCookie().getUsername(), 
-        		"Robbed " + victim.getUsername() + "."));
+                        controller.getCurrentCookie().getUsername(), 
+                        "moved the robber and robbed " + victimName + "."));
+
         
         return new ServerResponse(200, controller.getGameModel());
     }
