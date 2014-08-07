@@ -47,60 +47,66 @@ public class MovesHandler implements IHandler {
 
     @Override
     public ServerResponse handle(String command, Object Json) {
-        switch(command) {
-            case "/moves/sendChat":
-                return sendChat((SendChatParam)JsonUtils.convertFromJson(
-                        SendChatParam.class, (String)Json));
-            case "/moves/rollNumber":
-                return rollNumber((RollNumberParam)JsonUtils.convertFromJson(
-                        RollNumberParam.class, (String)Json));   
-            case "/moves/robPlayer":
-                return robPlayer((RobPlayerParam)JsonUtils.convertFromJson(
-                        RobPlayerParam.class, (String)Json));      
-            case "/moves/finishTurn":
-                return finishTurn((FinishTurnParam)JsonUtils.convertFromJson(
-                        FinishTurnParam.class, (String)Json));      
-            case "/moves/buyDevCard":
-                return buyDevCard((BuyDevCardParam)JsonUtils.convertFromJson(
-                        BuyDevCardParam.class, (String)Json));   
-            case "/moves/Year_Of_Plenty":
-                return playYearOfPlenty((PlayYearOfPlentyParam)JsonUtils.convertFromJson(
-                        PlayYearOfPlentyParam.class, (String)Json));   
-            case "/moves/Road_Building":
-                return playRoadBuilding((PlayRoadBuildingParam)JsonUtils.convertFromJson(
-                        PlayRoadBuildingParam.class, (String)Json));   
-            case "/moves/Soldier":
-                return playSoldier((PlaySoldierParam)JsonUtils.convertFromJson(
-                        PlaySoldierParam.class, (String)Json));   
-            case "/moves/Monopoly":
-                return playMonopoly((PlayMonopolyParam)JsonUtils.convertFromJson(
-                        PlayMonopolyParam.class, (String)Json));   
-            case "/moves/Monument":
-                return playMonument((PlayMonumentParam)JsonUtils.convertFromJson(
-                        PlayMonumentParam.class, (String)Json));   
-            case "/moves/buildRoad":
-                return buildRoad((BuildRoadParam)JsonUtils.convertFromJson(
-                        BuildRoadParam.class, (String)Json));   
-            case "/moves/buildSettlement":
-                return buildSettlement((BuildSettlementParam)JsonUtils.convertFromJson(
-                        BuildSettlementParam.class, (String)Json));   
-            case "/moves/buildCity":
-                return buildCity((BuildCityParam)JsonUtils.convertFromJson(
-                        BuildCityParam.class, (String)Json));   
-            case "/moves/offerTrade":
-                return offerTrade((OfferTradeParam)JsonUtils.convertFromJson(
-                        OfferTradeParam.class, (String)Json));   
-            case "/moves/acceptTrade":
-                return acceptTradeOffer((AcceptTradeParam)JsonUtils.convertFromJson(
-                        AcceptTradeParam.class, (String)Json));   
-            case "/moves/maritimeTrade":
-                return maritimeTrade((MaritimeTradeParam)JsonUtils.convertFromJson(
-                        MaritimeTradeParam.class, (String)Json));   
-            case "/moves/discardCards":
-                return discardCards((DiscardCardsParam)JsonUtils.convertFromJson(
-                        DiscardCardsParam.class, (String)Json));   
-            default:
-                return null;
+        try{
+            switch(command) {
+                case "/moves/sendChat":
+                    return sendChat((SendChatParam)JsonUtils.convertFromJson(
+                            SendChatParam.class, (String)Json));
+                case "/moves/rollNumber":
+                    return rollNumber((RollNumberParam)JsonUtils.convertFromJson(
+                            RollNumberParam.class, (String)Json));   
+                case "/moves/robPlayer":
+                    return robPlayer((RobPlayerParam)JsonUtils.convertFromJson(
+                            RobPlayerParam.class, (String)Json));      
+                case "/moves/finishTurn":
+                    return finishTurn((FinishTurnParam)JsonUtils.convertFromJson(
+                            FinishTurnParam.class, (String)Json));      
+                case "/moves/buyDevCard":
+                    return buyDevCard((BuyDevCardParam)JsonUtils.convertFromJson(
+                            BuyDevCardParam.class, (String)Json));   
+                case "/moves/Year_Of_Plenty":
+                    return playYearOfPlenty((PlayYearOfPlentyParam)JsonUtils.convertFromJson(
+                            PlayYearOfPlentyParam.class, (String)Json));   
+                case "/moves/Road_Building":
+                    return playRoadBuilding((PlayRoadBuildingParam)JsonUtils.convertFromJson(
+                            PlayRoadBuildingParam.class, (String)Json));   
+                case "/moves/Soldier":
+                    return playSoldier((PlaySoldierParam)JsonUtils.convertFromJson(
+                            PlaySoldierParam.class, (String)Json));   
+                case "/moves/Monopoly":
+                    return playMonopoly((PlayMonopolyParam)JsonUtils.convertFromJson(
+                            PlayMonopolyParam.class, (String)Json));   
+                case "/moves/Monument":
+                    return playMonument((PlayMonumentParam)JsonUtils.convertFromJson(
+                            PlayMonumentParam.class, (String)Json));   
+                case "/moves/buildRoad":
+                    return buildRoad((BuildRoadParam)JsonUtils.convertFromJson(
+                            BuildRoadParam.class, (String)Json));   
+                case "/moves/buildSettlement":
+                    return buildSettlement((BuildSettlementParam)JsonUtils.convertFromJson(
+                            BuildSettlementParam.class, (String)Json));   
+                case "/moves/buildCity":
+                    return buildCity((BuildCityParam)JsonUtils.convertFromJson(
+                            BuildCityParam.class, (String)Json));   
+                case "/moves/offerTrade":
+                    return offerTrade((OfferTradeParam)JsonUtils.convertFromJson(
+                            OfferTradeParam.class, (String)Json));   
+                case "/moves/acceptTrade":
+                    return acceptTradeOffer((AcceptTradeParam)JsonUtils.convertFromJson(
+                            AcceptTradeParam.class, (String)Json));   
+                case "/moves/maritimeTrade":
+                    return maritimeTrade((MaritimeTradeParam)JsonUtils.convertFromJson(
+                            MaritimeTradeParam.class, (String)Json));   
+                case "/moves/discardCards":
+                    return discardCards((DiscardCardsParam)JsonUtils.convertFromJson(
+                            DiscardCardsParam.class, (String)Json));   
+                default:
+                    return null;
+            }
+        }
+        catch(Exception e){
+            System.out.println(e);
+            return null;
         }
     }
     
