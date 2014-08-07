@@ -38,12 +38,10 @@ public class GameModel {
         id = -1;
     }
     
-    
     public void buildBoard() {
     	board.constructWorld();
     }
-    
-
+   
     /**
      *
      * @param user to check for
