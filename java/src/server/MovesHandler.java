@@ -106,6 +106,7 @@ public class MovesHandler implements IHandler {
         }
         catch(Exception e){
             System.out.println(e);
+            e.printStackTrace();
             return null;
         }
     }
