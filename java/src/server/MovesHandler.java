@@ -166,7 +166,7 @@ public class MovesHandler implements IHandler {
 
                     CardOwner.changeOwnerResource(player, game.getBank(), type, amount);
             }     
-            game.getTurnTracker().setStatus("playing");
+            game.getTurnTracker().setStatus("Playing");
         }
         else{
             boolean needToDiscard=false;
@@ -180,10 +180,10 @@ public class MovesHandler implements IHandler {
                 }
             }
             if(needToDiscard){
-                game.getTurnTracker().setStatus("discarding");
+                game.getTurnTracker().setStatus("Discarding");
             }
             else{
-                game.getTurnTracker().setStatus("robbing");
+                game.getTurnTracker().setStatus("Robbing");
             }
         }
         
@@ -191,7 +191,7 @@ public class MovesHandler implements IHandler {
     	
         game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
-        		"Rolled a " + param.getNumber() + "."));
+        		"rolled a " + param.getNumber() + "."));
 
         return new ServerResponse(200, game);
     }
@@ -273,7 +273,7 @@ public class MovesHandler implements IHandler {
      */
     public void firstTurn(FinishTurnParam param, GameModel game) {
         TurnTracker tracker = game.getTurnTracker();    
-        tracker.setStatus("first Turn");
+        tracker.setStatus("First Turn");
         
             if(param.getPlayerIndex() < 3)
                 tracker.setCurrentTurn(param.getPlayerIndex()+1);
@@ -289,7 +289,7 @@ public class MovesHandler implements IHandler {
      */
     public void secondTurn(FinishTurnParam param, GameModel game) {
         TurnTracker tracker = game.getTurnTracker();                         
-        tracker.setStatus("second Turn");        
+        tracker.setStatus("Second Turn");        
         tracker.setCurrentTurn(param.getPlayerIndex()-1);
    
         boolean isSecond = false;
@@ -299,13 +299,13 @@ public class MovesHandler implements IHandler {
         }
         
         if(isSecond) {            
-            tracker.setStatus("second Turn");
+            tracker.setStatus("Second Turn");
             if(param.getPlayerIndex() > 0)
                 tracker.setCurrentTurn(param.getPlayerIndex()-1);
            
         } 
-        else if(tracker.getStatus().equals("second Turn")){
-            tracker.setStatus("rolling");
+        else if(tracker.getStatus().equals("Second Turn")){
+            tracker.setStatus("Rolling");
             tracker.setCurrentTurn(param.getPlayerIndex());
         }
         else {
@@ -336,7 +336,7 @@ public class MovesHandler implements IHandler {
             player.setNeedsToDiscard(false);
         }
         
-        tracker.setStatus("rolling");
+        tracker.setStatus("Rolling");
         
         //game.incrementVersion();
     }
@@ -373,7 +373,7 @@ public class MovesHandler implements IHandler {
         else{
             victimName = "no one";
         }
-        game.getTurnTracker().setStatus("playing");
+        game.getTurnTracker().setStatus("Playing");
         game.incrementVersion();
 
         game.getGameHistory().getGameCommands().add(new Command(
@@ -907,13 +907,13 @@ public class MovesHandler implements IHandler {
                     discardingDone = false;
             }
             if(discardingDone){
-                game.getTurnTracker().setStatus("robbing");
+                game.getTurnTracker().setStatus("Robbing");
                 for(Player p: game.getPlayers()){
                     p.setNeedsToDiscard(false);
                 }
             }
             else{
-                game.getTurnTracker().setStatus("discarding");
+                game.getTurnTracker().setStatus("Discarding");
             }
             
             response = new ServerResponse(200, controller.getGameModel());
