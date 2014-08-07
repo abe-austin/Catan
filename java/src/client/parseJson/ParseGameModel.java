@@ -165,7 +165,6 @@ public class ParseGameModel {
 	public DevelopmentCard parseDevelopmentCards(JSONObject card) {
 		
 		DevelopmentCard developmentCard = null;
-		
 		switch(card.getString("developmentType")) {
 				case "YEAR_OF_PLENTY":
 					developmentCard = new DevelopmentCard(DevCardType.YEAR_OF_PLENTY);
@@ -179,7 +178,7 @@ public class ParseGameModel {
 				case "SOLDIER":
 					developmentCard = new DevelopmentCard(DevCardType.SOLDIER);
 					break;
-				case "ROAD_BUILDER":
+				case "ROAD_BUILD":
 					developmentCard = new DevelopmentCard(DevCardType.ROAD_BUILD);
 					break;
 		}

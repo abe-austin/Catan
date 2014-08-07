@@ -68,7 +68,7 @@ public class MovesHandler implements IHandler {
                         PlayYearOfPlentyParam.class, (String)Json));   
             case "/moves/Road_Building":
                 return playRoadBuilding((PlayRoadBuildingParam)JsonUtils.convertFromJson(
-                        RollNumberParam.class, (String)Json));   
+                        PlayRoadBuildingParam.class, (String)Json));   
             case "/moves/Soldier":
                 return playSoldier((PlaySoldierParam)JsonUtils.convertFromJson(
                         PlaySoldierParam.class, (String)Json));   
@@ -454,13 +454,17 @@ public class MovesHandler implements IHandler {
         Edge edge = tile.getEdge(map1.getDirection());
         Road road = (Road)player.getAvailableBoardPiece(PieceType.ROAD);
         edge.buildStructure(road);
-        road.setActive(true);               
+        road.setActive(true);
+        ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map1.getX(), map1.getY(), map1.getDirection(), "ROAD");
+	controller.getGameModel().getBoard().addStructure(parsedStruct);
         
         HexTile tile2 = game.getBoard().getHexTileAt(map2.getX(), map2.getY());
         Edge edge2 = tile2.getEdge(map2.getDirection());
         Road road2 = (Road)player.getAvailableBoardPiece(PieceType.ROAD);
         edge2.buildStructure(road2);
         road2.setActive(true);
+        ParsedStructure parsedStruct2 = new ParsedStructure(param.getPlayerIndex(), map2.getX(), map2.getY(), map2.getDirection(), "ROAD");
+	controller.getGameModel().getBoard().addStructure(parsedStruct2);
         
         checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
         game.incrementVersion();
