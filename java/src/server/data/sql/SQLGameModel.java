@@ -15,7 +15,8 @@ public class SQLGameModel extends SQLTable {
 	public String addGameModel(int gameID, String game, String name) {
 		Connection conn = startTransaction();
 		try {
-			PreparedStatement statement = conn.prepareStatement("INSERT INTO GameModel(GameID, Model, name) VALUES(?, ?, ?);");
+			PreparedStatement statement = conn.prepareStatement(
+					"INSERT INTO GameModel(GameID, Model, name) VALUES(?, ?, ?);");
 			statement.setInt(1, gameID);
 			statement.setBytes(2, game.getBytes());
 			statement.setString(3, name);
@@ -35,7 +36,8 @@ public class SQLGameModel extends SQLTable {
 		String gameModel = null;
 		Connection conn = startTransaction();
 		try {
-			PreparedStatement statement = conn.prepareStatement("SELECT Model FROM GameModel WHERE Name = ?;");
+			PreparedStatement statement = conn.prepareStatement(
+					"SELECT Model FROM GameModel WHERE Name = ?;");
 			statement.setString(1, name);
 			ResultSet rs = statement.executeQuery();
 			if(rs.next()) {
@@ -57,7 +59,8 @@ public class SQLGameModel extends SQLTable {
 		List<String> gameModels = new ArrayList<String>();
 		Connection conn = startTransaction();
 		try {
-			PreparedStatement statement = conn.prepareStatement("SELECT * FROM GameModel;");
+			PreparedStatement statement = conn.prepareStatement(
+					"SELECT * FROM GameModel;");
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
 				String gameModel = rs.getString(3);
@@ -81,7 +84,8 @@ public class SQLGameModel extends SQLTable {
 		int nextID = -1;
 		Connection conn = startTransaction();
 		try {
-			PreparedStatement statement = conn.prepareStatement("SELECT MAX(GameID) FROM GameModel");
+			PreparedStatement statement = conn.prepareStatement(
+					"SELECT MAX(GameID) FROM GameModel");
 			ResultSet rs = statement.executeQuery();
 			nextID = rs.getInt(1) + 1;
 		}

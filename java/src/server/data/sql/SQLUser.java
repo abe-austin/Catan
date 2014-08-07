@@ -15,7 +15,8 @@ public class SQLUser extends SQLTable {
 	public User addUser(User user) {
 		Connection conn = startTransaction();
 		try {
-			PreparedStatement statement = conn.prepareStatement("INSERT INTO User(UserID, Username, Password) VALUES(?,?,?);");
+			PreparedStatement statement = conn.prepareStatement(
+					"INSERT INTO User(UserID, Username, Password) VALUES(?,?,?);");
 			statement.setInt(1, user.getId());
 			statement.setString(2, user.getUsername().getUsername());
 			statement.setString(3, user.getPassword().getPassword());
@@ -23,7 +24,7 @@ public class SQLUser extends SQLTable {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-			return user = null;
+			user = null;
 		}
 		finally {
 			endTransaction(true, conn);
@@ -35,7 +36,8 @@ public class SQLUser extends SQLTable {
 		User user = null;
 		Connection conn = startTransaction();
 		try {
-			PreparedStatement statement = conn.prepareStatement("SELECT * FROM User WHERE Username = ? AND Password = ?;");
+			PreparedStatement statement = conn.prepareStatement(
+					"SELECT * FROM User WHERE Username = ? AND Password = ?;");
 			statement.setString(1, username);
 			statement.setString(2, password);
 			ResultSet rs = statement.executeQuery();
@@ -70,7 +72,8 @@ public class SQLUser extends SQLTable {
 		int nextID = -1;
 		Connection conn = startTransaction();
 		try {
-			PreparedStatement statement = conn.prepareStatement("SELECT MAX(UserID) FROM User");
+			PreparedStatement statement = conn.prepareStatement(
+					"SELECT MAX(UserID) FROM User");
 			ResultSet rs = statement.executeQuery();
 			nextID = rs.getInt(1) + 1;
 		}

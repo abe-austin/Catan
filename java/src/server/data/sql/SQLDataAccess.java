@@ -100,14 +100,18 @@ public class SQLDataAccess implements IDataAccess {
 
 	@Override
 	public void addCommand(Command command) {
-		// TODO add command to database
-		
+		sqlCommand.addCommand(toXML(command));
 	}
 
 	@Override
 	public List<Command> getCommands(String gameName) {
-		// TODO get a list of all commands from database and return it
-		return null;
+		List<String> commandsString = sqlCommand.getAllCommands();
+		List<Command> commands = new ArrayList<Command>();
+		for(String commandString : commandsString) {
+			Command command = (Command)fromXML(commandString);
+			commands.add(command);
+		}
+		return commands;
 	}
 
 	@Override
