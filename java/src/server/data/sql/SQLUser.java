@@ -10,7 +10,7 @@ import system.Password;
 import system.User;
 import system.Username;
 
-public class SQLUser {
+public class SQLUser extends SQLTable {
 	
 	public User addUser(User user) {
 		Connection conn = startTransaction();
@@ -39,14 +39,20 @@ public class SQLUser {
 			statement.setString(1, username);
 			statement.setString(2, password);
 			ResultSet rs = statement.executeQuery();
-			user = new User();
-			user.setId(rs.getInt(1));
-			user.setUsername(new Username(rs.getString(2)));
-			user.setPassword(new Password(rs.getString(3)));
+			if(rs.next()) {
+				user = new User();
+				user.setId(rs.getInt(1));
+				user.setUsername(new Username(rs.getString(2)));
+				user.setPassword(new Password(rs.getString(3)));
+			}
 		}
+		
 		catch(Exception e) {
 			e.printStackTrace();
 			user = null;
+		}
+		finally {
+			endTransaction(true, conn);
 		}
 		return user;
 	}
@@ -76,34 +82,5 @@ public class SQLUser {
 			endTransaction(true, conn);
 		}
 		return nextID;
-	}
-	
-	private Connection startTransaction() {
-		Connection conn = null;
-		try {
-			Class.forName("org.sqlite.JDBC");
-			conn = DriverManager.getConnection("jdbc:sqlite:database/CatanData.sqlite");
-			conn.setAutoCommit(false);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		return conn;
-	}
-	
-	private void endTransaction(boolean commit, Connection conn) {
-		try {
-			if(commit) {
-				conn.commit();
-			}
-			else {
-				conn.rollback();
-			}
-			conn.close();
-		}
-		catch (Exception e) {
-			System.out.println("Connection failed");
-		}
 	}
 }

@@ -2,9 +2,16 @@ package server.data.sql;
 
 import game.GameModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import player.Player;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 import client.data.GameInfo;
+import client.data.PlayerInfo;
 import server.data.IDataAccess;
 import shared.communication.CreateGameParam;
 import shared.communication.GetGameModelParam;
@@ -47,8 +54,27 @@ public class SQLDataAccess implements IDataAccess {
 
 	@Override
 	public GameModel createGame(CreateGameParam param) {
-		// TODO check if game exists, create game, add game, return game
-		return null;
+		GameModel gameModel = new GameModel();
+		gameModel.setRandomHexes(param.isRandomHexes());
+		gameModel.setRandomNumbers(param.isRandomNumbers());
+		gameModel.setRandomPorts(param.isRandomPorts());
+		gameModel.buildBoard();
+		gameModel.setGameName(param.getName());
+		gameModel.setGameId(sqlGameModel.getNextGameModelID());
+		
+		String gameAsString = sqlGameModel.addGameModel(
+				sqlGameModel.getNextGameModelID(), 
+				toXML(gameModel),
+				param.getName());
+		
+		if(gameAsString != null) {
+			gameModel = (GameModel)fromXML(gameAsString);
+		}
+		else {
+			gameModel = null;
+		}
+		
+		return gameModel;
 	}
 
 	@Override
@@ -59,8 +85,17 @@ public class SQLDataAccess implements IDataAccess {
 
 	@Override
 	public GameModel getGame(GetGameModelParam param) {
-		// TODO get game from database and return it
-		return null;
+		GameModel gameModel;
+		String game = sqlGameModel.getGameModel(param.getName());
+		
+		if(game != null) {
+			gameModel = (GameModel)fromXML(game);
+		}
+		else {
+			gameModel = null;
+		}
+
+		return gameModel;
 	}
 
 	@Override
@@ -77,8 +112,43 @@ public class SQLDataAccess implements IDataAccess {
 
 	@Override
 	public List<GameInfo> getAllGames(User user) {
-		// TODO get a list of all games from database that user can join, create GameInfo for each, return list of GameInfo
-		return null;
+		List<String> modelsAsString = sqlGameModel.getAllGameModels();
+		List<GameInfo> gameInfo = new ArrayList<GameInfo>();
+		
+    	for(String gameString : modelsAsString) {
+    		
+    		GameModel game = (GameModel)fromXML(gameString);
+    		Player[] players = game.getPlayers();
+    		ArrayList<PlayerInfo> playerList = new ArrayList<PlayerInfo>();
+    		
+    		for(Player player : players) {
+    			
+    			if(player != null) {
+	    			PlayerInfo playerInfo = new PlayerInfo();
+	    			playerInfo.setCatanColor(player.getColor());
+	    			playerInfo.setName(player.getUsername());
+	    			playerInfo.setId(player.getUser().getId());
+	    			playerList.add(playerInfo);
+    			}
+    			
+    		}
+    		
+    		GameInfo info = new GameInfo(game.getGameId(), game.getGameName(), playerList);
+    		gameInfo.add(info);
+    	}
+    	
+		return gameInfo;
 	}
 
+	private String toXML(Object toConvert) {
+		XStream xstream = new XStream(new DomDriver());
+		String converted = xstream.toXML(toConvert);
+		return converted;
+	}
+	
+	private Object fromXML(String xml) {
+		XStream xstream = new XStream(new DomDriver());
+		Object converted = xstream.fromXML(xml);
+		return converted;
+	}
 }

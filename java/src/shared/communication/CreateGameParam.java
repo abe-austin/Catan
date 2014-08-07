@@ -3,16 +3,18 @@ package shared.communication;
 public class CreateGameParam {
 	
 	private String name;
-        private boolean randomHexes, randomNumbers, randomPorts;
+    private boolean randomHexes;
+    private boolean randomNumbers;
+    private boolean randomPorts;
 
 	public CreateGameParam(String name, boolean randomHexes,
 			boolean randomNumbers, boolean randomPorts) {
 		super();
 		
 		this.name = name;
-                this.randomHexes = randomHexes;
-                this.randomNumbers = randomNumbers;
-                this.randomPorts = randomPorts;
+        this.randomHexes = randomHexes;
+        this.randomNumbers = randomNumbers;
+        this.randomPorts = randomPorts;
 	}
 
 	public String getName() {
