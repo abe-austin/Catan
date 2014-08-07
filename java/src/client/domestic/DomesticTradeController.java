@@ -122,8 +122,9 @@ public class DomesticTradeController extends Controller implements
         System.out.println("wheat " + wheat);
         if (brick != 0) {
             if (brick < 0) {
+                brick = brick * -1;
                 getAcceptOverlay().addGiveResource(ResourceType.BRICK,
-                        brick * -1);
+                        brick);
                 if (!gameModel.getPlayers()[receiverIndex].hasResource(
                         ResourceType.BRICK, brick)) {
                     // doesn't have enough of this resource to trade
@@ -135,8 +136,9 @@ public class DomesticTradeController extends Controller implements
         }
         if (ore != 0) {
             if (ore < 0) {
+                ore = ore * -1;
                 getAcceptOverlay().addGiveResource(ResourceType.ORE,
-                        ore * -1);
+                        ore);
                 if (!gameModel.getPlayers()[receiverIndex].hasResource(
                         ResourceType.ORE, ore)) {
                     // doesn't have enough of this resource to trade
@@ -148,8 +150,9 @@ public class DomesticTradeController extends Controller implements
         }
         if (sheep != 0) {
             if (sheep < 0) {
+                sheep = sheep * -1;
                 getAcceptOverlay().addGiveResource(ResourceType.SHEEP,
-                        sheep * -1);
+                        sheep);
                 if (!gameModel.getPlayers()[receiverIndex].hasResource(
                         ResourceType.SHEEP, sheep)) {
                     // doesn't have enough of this resource to trade
@@ -161,8 +164,9 @@ public class DomesticTradeController extends Controller implements
         }
         if (wood != 0) {
             if (wood < 0) {
+                wood = wood * -1;
                 getAcceptOverlay().addGiveResource(ResourceType.WOOD,
-                        wood * -1);
+                        wood);
                 if (!gameModel.getPlayers()[receiverIndex].hasResource(
                         ResourceType.WOOD, wood)) {
                     // doesn't have enough of this resource to trade
@@ -174,8 +178,9 @@ public class DomesticTradeController extends Controller implements
         }
         if (wheat != 0) {
             if (wheat < 0) {
+                wheat = wheat * -1;
                 getAcceptOverlay().addGiveResource(ResourceType.WHEAT,
-                        wheat * -1);
+                        wheat);
                 if (!gameModel.getPlayers()[receiverIndex].hasResource(
                         ResourceType.WHEAT, wheat)) {
                     // doesn't have enough of this resource to trade
@@ -224,31 +229,40 @@ public class DomesticTradeController extends Controller implements
             if (controllerFacade.isCurrentTurn()) {// if( currentPlayers turn){
 
                 // set the enabled resources for the player
-                ArrayList<ResourceType> playerResourceType = controllerFacade
-                        .domesticStartTrade();
+                ArrayList<ResourceType> playerResourceType = controllerFacade.domesticStartTrade();
                 // if (cards==null)System.out.println("cards is empty");
-                ResourceType[] playerResourceTypes = new ResourceType[playerResourceType
-                        .size()];
+                ResourceType[] playerResourceTypes = new ResourceType[playerResourceType.size()];
                 for (int i = 0; i < playerResourceType.size(); i++) {
                     playerResourceTypes[i] = playerResourceType.get(i);
                 }
-                getTradeOverlay().setResourceAmountChangeEnabled(
-                        ResourceType.BRICK, true, false);
-                getTradeOverlay().setResourceAmountChangeEnabled(
-                        ResourceType.ORE, true, false);
-                getTradeOverlay().setResourceAmountChangeEnabled(
-                        ResourceType.SHEEP, true, false);
-                getTradeOverlay().setResourceAmountChangeEnabled(
-                        ResourceType.WHEAT, true, false);
-                getTradeOverlay().setResourceAmountChangeEnabled(
-                        ResourceType.WOOD, true, false);
-
+                playerResources = controllerFacade.getPlayerResources();
+                if (playerResources.get(ResourceType.BRICK)!=0)
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, true, false);
+                else
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.BRICK, false, false);
+                if (playerResources.get(ResourceType.ORE)!=0)
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, true, false);
+                else
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.ORE, false, false);
+                if(playerResources.get(ResourceType.SHEEP)!=0)
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, true, false);
+                else
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.SHEEP, false, false);
+                if(playerResources.get(ResourceType.WHEAT)!=0)
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, true, false);
+                else
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WHEAT, false, false);
+                if(playerResources.get(ResourceType.WOOD)!=0)
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, true, false);
+                else
+                    getTradeOverlay().setResourceAmountChangeEnabled(ResourceType.WOOD, false, false);
+                
                 tradePartnerIndex = -1;
                 giveValue = 0;
                 getValue = 0;
                 gettingResource = new ArrayList<ResourceType>();
                 givingResource = new ArrayList<ResourceType>();
-                playerResources = controllerFacade.getPlayerResources();
+                
                 PlayerInfo[] players = controllerFacade.getPlayerInfo();
                 if(getTradeOverlay().getPlayers() == null)
                 	getTradeOverlay().setPlayers(players);
@@ -273,8 +287,7 @@ public class DomesticTradeController extends Controller implements
         int amount = resourceTradeAmount.get(resource);
         if (amount > 1) {
             resourceTradeAmount.put(resource, amount - 1);
-            getTradeOverlay().setResourceAmountChangeEnabled(resource, true,
-                    true);
+            getTradeOverlay().setResourceAmountChangeEnabled(resource, true,true);
             if (givingResource.contains(resource)) {
                 giveValue--;
             } else {
@@ -282,8 +295,7 @@ public class DomesticTradeController extends Controller implements
             }
         } else if (amount == 1) {
             resourceTradeAmount.put(resource, amount - 1);
-            getTradeOverlay().setResourceAmountChangeEnabled(resource, true,
-                    false);
+            getTradeOverlay().setResourceAmountChangeEnabled(resource, true,false);
             if (givingResource.contains(resource)) {
                 giveValue--;
             } else {
@@ -303,8 +315,7 @@ public class DomesticTradeController extends Controller implements
     @Override
     public void increaseResourceAmount(ResourceType resource) {
         int amount = resourceTradeAmount.get(resource);
-        if (amount < playerResources.get(resource) - 1
-                || gettingResource.contains(resource)) {
+        if (amount < playerResources.get(resource) - 1 || gettingResource.contains(resource)) {
             resourceTradeAmount.put(resource, amount + 1);
             getTradeOverlay().setResourceAmountChangeEnabled(resource, true,
                     true);

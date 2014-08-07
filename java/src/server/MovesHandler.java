@@ -124,9 +124,9 @@ public class MovesHandler implements IHandler {
         game.getGameHistory().getChatlog().
                 addChatLine(new ParsedChat(player.getUsername(), param.getContent()));
       
-        game.getGameHistory().getGameCommands().add(new Command(
-        		controller.getCurrentCookie().getUsername(),
-        		"sent a chat message."));
+//        game.getGameHistory().getGameCommands().add(new Command(
+//        		controller.getCurrentCookie().getUsername(),
+//        		"sent a chat message."));
    
         return response;
     }
@@ -260,7 +260,7 @@ public class MovesHandler implements IHandler {
         
         game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
-        		"finished their turn."));
+        		"\'s turn ended."));
         
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -625,7 +625,7 @@ public class MovesHandler implements IHandler {
 	        
 	        game.getGameHistory().getGameCommands().add(new Command(
 	        		controller.getCurrentCookie().getUsername(), 
-	        		"Built a Road."));
+	        		"built a road."));
 	        
 		    return new ServerResponse(200, controller.getGameModel());
         }
@@ -793,12 +793,11 @@ public class MovesHandler implements IHandler {
      * @post resources are traded
      */
     public ServerResponse acceptTradeOffer(AcceptTradeParam param) {
-        if(param.isWillAccept()) {            
-            GameModel game = controller.getGameModel();
-            TradeOffer offer = game.getTradeOffer();
-            Player sender = game.getPlayers()[offer.getSenderIndex()];
-            Player receiver = game.getPlayers()[offer.getReceiverIndex()];            
-            
+        GameModel game = controller.getGameModel();
+        TradeOffer offer = game.getTradeOffer();
+        Player sender = game.getPlayers()[offer.getSenderIndex()];
+        Player receiver = game.getPlayers()[offer.getReceiverIndex()];      
+        if(param.isWillAccept()) {     
             if(offer.getBrick() > 0) {
                 for(int i = 0; i < offer.getBrick(); i++)
                     receiver.addResourceCard(sender.giveResourceCard(ResourceType.BRICK));
@@ -840,11 +839,15 @@ public class MovesHandler implements IHandler {
             }
             controller.getGameModel().setTradeOffer(new TradeOffer());
             controller.getGameModel().incrementVersion();
+            game.getGameHistory().getGameCommands().add(new Command(
+                        receiver.getUsername()," accepted "+sender.getUsername()+"\'s trade offer"));
             return new ServerResponse(200, controller.getGameModel());
-        } else {
-            
-            controller.getGameModel().setTradeOffer(new TradeOffer());
+        } 
+        else {
+            game.setTradeOffer(new TradeOffer());
             controller.getGameModel().incrementVersion();
+            controller.getGameModel().getGameHistory().getGameCommands().add(new Command(
+                        receiver.getUsername()," rejected "+sender.getUsername()+"\'s trade offer"));
             return new ServerResponse(200, controller.getGameModel());
         }
     }
