@@ -26,15 +26,18 @@ public class LogEntry {
 	public CatanColor getColor() {
 		return color;
 	}
+	
 	public void setColor(CatanColor color) {
 		this.color = color;
 	}
+	
 	public String getMessage() {
-            if(message.contains("\\u0027")){
-                message =message.replace("\\u0027", "\'");
-            }
+	    if(message.contains("\\u0027")){
+	        message = message.replace("\\u0027", "\'");
+	    }
 		return message;
 	}
+	
 	public void setMessage(String message) {
 		this.message = message;
 	}

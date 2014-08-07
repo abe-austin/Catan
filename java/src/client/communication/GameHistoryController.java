@@ -31,11 +31,9 @@ public class GameHistoryController extends Controller implements
 				|| ControllerFacade.getSingleton().getGameState() == GameState.GamePlay) {
 			List<LogEntry> entries = new ArrayList<LogEntry>();
 			for (Command command : gameModel.getGameHistory().getGameCommands()) {
-				Player player = ControllerFacade.getSingleton()
-						.getPlayerByUsername(command.getSource());
+				Player player = ControllerFacade.getSingleton().getPlayerByUsername(command.getSource());
 				if (player != null) {
-					LogEntry entry = new LogEntry(player.getColor(),
-							command.getCommand());
+					LogEntry entry = new LogEntry(player.getColor(), command.getSource() + " " + command.getCommand());
 					entries.add(entry);
 				}
 			}
