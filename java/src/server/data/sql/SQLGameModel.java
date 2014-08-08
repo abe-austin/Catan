@@ -32,6 +32,25 @@ public class SQLGameModel extends SQLTable {
 		return game;
 	}
 	
+	public String updateGameModel(int gameID, String game) {
+		Connection conn = startTransaction();
+		try {
+			PreparedStatement statement = conn.prepareStatement(
+					"UPDATE GameModel SET Model = ? WHERE GameID = ?;");
+			statement.setBytes(1, game.getBytes());
+			statement.setInt(2, gameID);
+			statement.executeUpdate();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			game = null;
+		}
+		finally {
+			endTransaction(true, conn);
+		}
+		return game;
+	}
+	
 	public String getGameModel(String name) {
 		String gameModel = null;
 		Connection conn = startTransaction();

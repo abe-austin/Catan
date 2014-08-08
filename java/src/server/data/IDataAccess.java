@@ -17,8 +17,8 @@ public interface IDataAccess {
     public void createGame(GameModel game);
     public void updateGame(GameModel game);
     public GameModel getGame(GetGameModelParam param);
-    public void addCommand(Command command, int id);
-    public List<Command> getCommands(int id);
+    public void addCommand(Command command, int gameID);
+    public List<Command> getCommands(int gameID);
     public List<GameInfo> getAllGames(User user);
     public List<GameModel> getAllGames();
     public List<User> getAllUsers();    

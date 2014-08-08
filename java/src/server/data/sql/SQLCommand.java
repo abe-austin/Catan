@@ -10,13 +10,14 @@ import shared.definitions.Command;
 
 public class SQLCommand extends SQLTable {
 	
-	public String addCommand(String command) {
+	public String addCommand(String command, int commandID, int gameID) {
 		Connection conn = startTransaction();
 		try {
 			PreparedStatement statement = conn.prepareStatement(
-					"INSERT INTO Command(CommandID, Command) VALUES(?,?);");
-			statement.setInt(1, getNextCommandID());
-			statement.setBytes(2, command.getBytes());
+					"INSERT INTO Command(CommandID, GameID, Command) VALUES(?,?,?);");
+			statement.setInt(1, commandID);
+			statement.setInt(2, gameID);
+			statement.setBytes(3, command.getBytes());
 			statement.executeUpdate();
 		}
 		catch(Exception e) {
@@ -34,12 +35,13 @@ public class SQLCommand extends SQLTable {
 		return null;
 	}
 	
-	public List<String> getAllCommands() {
+	public List<String> getAllCommands(int gameID) {
 		List<String> commands = new ArrayList<String>();
 		Connection conn = startTransaction();
 		try {
 			PreparedStatement statement = conn.prepareStatement(
-					"SELECT * FROM Command;");
+					"SELECT * FROM Command WHERE GameID = ?;");
+			statement.setInt(1, gameID);
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
 				String command = rs.getString(2);

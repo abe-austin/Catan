@@ -57,6 +57,11 @@ public class SQLDataAccess implements IDataAccess {
 				toXML(game),
 				game.getGameName());
 	}
+	
+    @Override
+    public void updateGame(GameModel game) {
+        sqlGameModel.updateGameModel(game.getGameId(), toXML(game));
+    }
 
 	@Override
 	public GameModel getGame(GetGameModelParam param) {
@@ -74,13 +79,13 @@ public class SQLDataAccess implements IDataAccess {
 	}
 
 	@Override
-	public void addCommand(Command command, int id) {
-		sqlCommand.addCommand(toXML(command));
+	public void addCommand(Command command, int gameID) {
+		sqlCommand.addCommand(toXML(command), command.getCommandId(), gameID);
 	}
 
 	@Override
 	public List<Command> getCommands(int id) {
-		List<String> commandsString = sqlCommand.getAllCommands();
+		List<String> commandsString = sqlCommand.getAllCommands(id);
 		List<Command> commands = new ArrayList<Command>();
 		for(String commandString : commandsString) {
 			Command command = (Command)fromXML(commandString);
@@ -141,9 +146,4 @@ public class SQLDataAccess implements IDataAccess {
 		Object converted = xstream.fromXML(xml);
 		return converted;
 	}
-
-    @Override
-    public void updateGame(GameModel game) {
-        
-    }
 }
