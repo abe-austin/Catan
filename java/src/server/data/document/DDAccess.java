@@ -47,20 +47,21 @@ public class DDAccess implements IDataAccess {
 
     @Override
     public void addCommand(Command command, int id) {
-        saveFile(CMD_PATH, "game" + String.valueOf(id) + "_" + "1", command);
+        saveFile(CMD_PATH, "game" + String.valueOf(id) + "_command" + String.valueOf(
+                command.getCommandId()), command);
     }
 
     @Override
     public List<Command> getCommands(int id) {
         ArrayList<Command> commands = new ArrayList<>();
         
-        for(File file : new File(GAME_PATH).listFiles()) {
-            if(file.getName().contains(String.valueOf(id)))
+        for(File file : new File(CMD_PATH).listFiles()) {
+            if(file.getName().matches("game" + String.valueOf(id) + ".*"))
                 commands.add((Command)new XStream(new DomDriver()).fromXML(file));
         }
         
         return commands;
-    }
+    }       
 
     @Override
     public List<GameModel> getAllGames() {
@@ -91,7 +92,12 @@ public class DDAccess implements IDataAccess {
     
     @Override
     public void updateGame(GameModel game) {
+        createGame(game);
         
+        for(File file : new File(CMD_PATH).listFiles()) {
+            if(file.getName().contains(String.valueOf(game.getGameId())))
+                file.delete();
+        }
     }
     
     // FOR TESTING PURPOSES
