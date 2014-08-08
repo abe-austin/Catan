@@ -20,4 +20,6 @@ public interface IDataAccess {
     public void addCommand(Command command);
     public List<Command> getCommands(String gameName);
     public List<GameInfo> getAllGames(User user);
+    public List<GameModel> getAllGames();
+    public List<User> getAllUsers();    
 }

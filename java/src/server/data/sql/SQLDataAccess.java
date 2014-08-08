@@ -155,4 +155,14 @@ public class SQLDataAccess implements IDataAccess {
 		Object converted = xstream.fromXML(xml);
 		return converted;
 	}
+
+    @Override
+    public List<GameModel> getAllGames() {
+        return null;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return null;
+    }
 }

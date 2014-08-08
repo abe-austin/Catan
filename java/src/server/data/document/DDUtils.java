@@ -12,9 +12,9 @@ import system.User;
  * @author Kevin MacMaster
  */
 public class DDUtils {    
-    protected final static String USER_PATH = ".\\database\\Document\\user\\";
-    protected final static String CMD_PATH = ".\\database\\Document\\command\\";
-    protected final static String GAME_PATH = ".\\database\\Document\\game\\";    
+    protected final static String USER_PATH = ".\\database\\document\\user\\";
+    protected final static String CMD_PATH = ".\\database\\document\\command\\";
+    protected final static String GAME_PATH = ".\\database\\document\\game\\";    
 
     /**
      * Returns object from file

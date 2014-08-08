@@ -76,9 +76,19 @@ public class DDAccess implements IDataAccess {
     }
 
     @Override
-    public List<GameInfo> getAllGames(User user) {
+    public List<GameModel> getAllGames() {
         return null;
     }    
+    
+    @Override
+    public List<User> getAllUsers() {
+        return null;
+    }
+    
+    @Override
+    public List<GameInfo> getAllGames(User user) {
+        return null;
+    }
     
     // FOR TESTING PURPOSES
     public static void main(String[] args) {
