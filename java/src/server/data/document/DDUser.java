@@ -29,6 +29,7 @@ public class DDUser {
             user.setId((int)collection.count());
             
             collection.insert(user);
+            
             return user;
         } else {
             return null;   

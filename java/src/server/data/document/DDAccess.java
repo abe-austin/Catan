@@ -1,11 +1,7 @@
 package server.data.document;
 
 import client.data.GameInfo;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
 import game.GameModel;
-import java.net.UnknownHostException;
 import java.util.List;
 import server.data.IDataAccess;
 import static server.data.document.DDUtils.*;
@@ -17,28 +13,26 @@ import system.*;
  *
  * @author Kevin MacMaster
  */
-public class DDAccess implements IDataAccess {   
-    private DB db = null;
+public class DDAccess implements IDataAccess {        
     
-    protected DBCollection startTransaction(String type) {
-        try {
-            if(db == null) {
-                MongoClient mongoClient = new MongoClient();
-                db = mongoClient.getDB("catan");
-            }                        
-            return db.getCollection(type);            
-        } catch (UnknownHostException e) {}
-        return null;
-     }
-       
     @Override
     public User createUser(RegisterUserParam param) {
-        return new DDUser(startTransaction("user")).createUser(param);
+        int next = findLast(USER_PATH, param.getUsername());
+        
+        if(next != -1) {
+            User user = new User(new Username(param.getUsername()),
+                                 new Password(param.getPassword()),
+                                 next + 1);
+            saveFile(USER_PATH, user.getUsername().getUsername(), user);
+            return user;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public User getUser(LoginUserParam param) {
-        return new DDUser(startTransaction("user")).getUser(param);
+        return (User)findMatch(USER_PATH, param.getUsername(), param.getPassword());
     }
 
     @Override
@@ -88,14 +82,13 @@ public class DDAccess implements IDataAccess {
     
     // FOR TESTING PURPOSES
     public static void main(String[] args) {
-        DDAccess dd = new DDAccess();
-        RegisterUserParam param = new RegisterUserParam("kevin", "kevin");
+//        DDAccess dd = new DDAccess();
+//        RegisterUserParam param = new RegisterUserParam("kevin", "kevin");
 //        LoginUserParam param = new LoginUserParam("kevin","kevin");
 //        CreateGameParam param = new CreateGameParam("cool",true,true,true);
 //        GetGameModelParam param = new GetGameModelParam(0);
-//        param.setName("coo");
+//        param.setName("cool");
 //        System.out.println(dd.getGame(param));
 //        dd.createGame(param);
-        System.out.println(dd.createUser(param));
     }
 }
