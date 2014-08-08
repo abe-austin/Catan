@@ -21,10 +21,7 @@ public class DDAccess implements IDataAccess {
     
     @Override
     public void createUser(User user) {
-        Object next = findMatch(USER_PATH, user.getUsername().getUsername());
-        
-        if(next != null)
-            saveFile(USER_PATH, user.getUsername().getUsername(), user);
+        saveFile(USER_PATH, user.getUsername().getUsername(), user);
     }
 
     @Override
@@ -33,16 +30,13 @@ public class DDAccess implements IDataAccess {
     }
 
     @Override
-    public void createGame(GameModel game) {
-        Object next = findMatch(GAME_PATH, game.getGameName());
-        
-        if(next != null)
-            saveFile(GAME_PATH, "game" + game.getGameId(), game);
+    public void createGame(GameModel game) {        
+        saveFile(GAME_PATH, "game" + game.getGameId(), game);             
     }
 
     @Override
     public GameModel getGame(GetGameModelParam param) {
-        return (GameModel)findMatch(GAME_PATH, param.getName());
+        return null; //(GameModel)findMatch(GAME_PATH, param.getName());
     }
 
     @Override
@@ -95,20 +89,17 @@ public class DDAccess implements IDataAccess {
         createGame(game);
         
         for(File file : new File(CMD_PATH).listFiles()) {
-            if(file.getName().contains(String.valueOf(game.getGameId())))
+            if(file.getName().matches("game" + String.valueOf(game.getGameId()) + ".*"))
                 file.delete();
         }
     }
     
     // FOR TESTING PURPOSES
     public static void main(String[] args) {
-//        DDAccess dd = new DDAccess();
-//        RegisterUserParam param = new RegisterUserParam("kevin", "kevin");
-//        LoginUserParam param = new LoginUserParam("kevin","kevin");
-//        CreateGameParam param = new CreateGameParam("cool",true,true,true);
-//        GetGameModelParam param = new GetGameModelParam(0);
-//        param.setName("cool");
-//        System.out.println(dd.getGame(param));
-//        dd.createGame(param);
+        DDAccess dd = new DDAccess();
+        User user = new User(new Username("kevin"), new Password("kevin"), 1);
+        dd.createUser(user);
+        LoginUserParam param = new LoginUserParam("kevin", "kevin");
+        System.out.println(dd.getUser(param));
     }
 }

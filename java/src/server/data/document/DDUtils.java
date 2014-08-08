@@ -72,6 +72,9 @@ public class DDUtils {
         try {
             File file = new File(source + name + ".catan");
             
+            if(file.exists())
+                file.delete();
+            
             FileOutputStream out = new FileOutputStream(file);
             XStream xmlStream = new XStream(new DomDriver());
             
