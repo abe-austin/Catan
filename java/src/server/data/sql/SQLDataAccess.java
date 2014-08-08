@@ -35,13 +35,7 @@ public class SQLDataAccess implements IDataAccess {
 	}
 
 	@Override
-	public User createUser(RegisterUserParam param) {
-		
-		User user = new User(
-				new Username(param.getUsername()), 
-				new Password(param.getPassword()), 
-				sqlUser.getNextUserID());
-		
+	public User createUser(User user) {
 		user = sqlUser.addUser(user);
 		return user;
 	}
@@ -51,30 +45,28 @@ public class SQLDataAccess implements IDataAccess {
 		User user = sqlUser.getUser(param.getUsername(), param.getPassword());
 		return user;
 	}
+	
+    @Override
+    public List<User> getAllUsers() {
+        return sqlUser.getAllUsers();
+    }
 
 	@Override
-	public GameModel createGame(CreateGameParam param) {
-		GameModel gameModel = new GameModel();
-		gameModel.setRandomHexes(param.isRandomHexes());
-		gameModel.setRandomNumbers(param.isRandomNumbers());
-		gameModel.setRandomPorts(param.isRandomPorts());
-		gameModel.buildBoard();
-		gameModel.setGameName(param.getName());
-		gameModel.setGameId(sqlGameModel.getNextGameModelID());
+	public GameModel createGame(GameModel game) {
 		
 		String gameAsString = sqlGameModel.addGameModel(
-				sqlGameModel.getNextGameModelID(), 
-				toXML(gameModel),
-				param.getName());
+				game.getGameId(), 
+				toXML(game),
+				game.getGameName());
 		
 		if(gameAsString != null) {
-			gameModel = (GameModel)fromXML(gameAsString);
+			game = (GameModel)fromXML(gameAsString);
 		}
 		else {
-			gameModel = null;
+			game = null;
 		}
 		
-		return gameModel;
+		return game;
 	}
 
 	@Override
@@ -143,6 +135,17 @@ public class SQLDataAccess implements IDataAccess {
     	
 		return gameInfo;
 	}
+	
+    @Override
+    public List<GameModel> getAllGames() {
+		List<String> modelsAsString = sqlGameModel.getAllGameModels();
+		List<GameModel> games = new ArrayList<GameModel>();
+    	for(String gameString : modelsAsString) {
+    		GameModel game = (GameModel)fromXML(gameString);
+    		games.add(game);
+    	}
+    	return games;
+    }
 
 	private String toXML(Object toConvert) {
 		XStream xstream = new XStream(new DomDriver());
@@ -155,14 +158,4 @@ public class SQLDataAccess implements IDataAccess {
 		Object converted = xstream.fromXML(xml);
 		return converted;
 	}
-
-    @Override
-    public List<GameModel> getAllGames() {
-        return null;
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        return null;
-    }
 }

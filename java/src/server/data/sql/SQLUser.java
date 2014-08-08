@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import system.Password;
@@ -60,8 +61,27 @@ public class SQLUser extends SQLTable {
 	}
 	
 	public List<User> getAllUsers() {
-		// TODO get a list of all users
-		return null;
+		List<User> users = new ArrayList<User>();
+		Connection conn = startTransaction();
+		try {
+			PreparedStatement statement = conn.prepareStatement(
+					"SELECT * FROM User;");
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				User user = new User(
+						new Username(rs.getString(1)), 
+						new Password(rs.getString(2)), 
+						rs.getInt(3));
+				users.add(user);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			endTransaction(true, conn);
+		}
+		return users;
 	}
 	
 	public void deleteUser(int userID) {
