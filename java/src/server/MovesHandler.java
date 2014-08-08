@@ -735,13 +735,20 @@ public class MovesHandler implements IHandler {
         MapLocationParam map = param.getVertexLocation();
         GameModel game = controller.getGameModel();        
         Player player = game.getPlayers()[param.getPlayerIndex()];
-       addPoint(player);
+        addPoint(player);
         
         CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.ORE, 3);
         CardOwner.changeOwnerResource(game.getBank(), player, ResourceType.WHEAT, 2);
         
         HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
         Corner corner = tile.getCorner(map.getDirection());
+        
+        //////
+        Settlement settlement = (Settlement) tile.getCorner(map.getDirection()).getStructure();
+        game.getBoard().removeSettlement(param.getPlayerIndex(), tile, map.getDirection());
+        //////
+        
+        //deconstruct the settlement here
         City city = (City)player.getAvailableBoardPiece(PieceType.CITY);        
         corner.buildStructure(city);
         city.setActive(true);
