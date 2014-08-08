@@ -12,9 +12,9 @@ import system.User;
  * @author Kevin MacMaster
  */
 public interface IDataAccess {
-    public User createUser(RegisterUserParam param);
+    public User createUser(User user);
     public User getUser(LoginUserParam param);
-    public GameModel createGame(CreateGameParam param);
+    public GameModel createGame(GameModel game);
     public void deleteGame(String gameName);
     public GameModel getGame(GetGameModelParam param);
     public void addCommand(Command command);

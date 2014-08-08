@@ -8,7 +8,7 @@ import server.data.IDataAccess;
  *
  * @author Kevin MacMaster
  */
-public class DataAcess {    
+public class DataAccess {    
     public IDataAccess getAccess(String type) {
         try {
             URL[] url = {new URL("jar:file:/C:/proj/parser/jar/parser.jar!/test.xml")};

@@ -1,7 +1,11 @@
 package server.data.document;
 
 import client.data.GameInfo;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import game.GameModel;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import server.data.IDataAccess;
 import static server.data.document.DDUtils.*;
@@ -16,13 +20,10 @@ import system.*;
 public class DDAccess implements IDataAccess {        
     
     @Override
-    public User createUser(RegisterUserParam param) {
-        int next = findLast(USER_PATH, param.getUsername());
+    public User createUser(User user) {
+        Object next = findMatch(USER_PATH, user.getUsername().getUsername());
         
-        if(next != -1) {
-            User user = new User(new Username(param.getUsername()),
-                                 new Password(param.getPassword()),
-                                 next + 1);
+        if(next != null) {            
             saveFile(USER_PATH, user.getUsername().getUsername(), user);
             return user;
         } else {
@@ -36,17 +37,10 @@ public class DDAccess implements IDataAccess {
     }
 
     @Override
-    public GameModel createGame(CreateGameParam param) {
-        int next = findLast(GAME_PATH, param.getName());
+    public GameModel createGame(GameModel game) {
+        Object next = findMatch(GAME_PATH, game.getGameName());
         
-        if(next != -1) {
-            GameModel game = new GameModel();
-            
-            game.setRandomHexes(param.isRandomHexes());
-            game.setRandomNumbers(param.isRandomNumbers());
-            game.setRandomPorts(param.isRandomPorts());
-            game.setGameName(param.getName());
-            
+        if(next != null) {                        
             saveFile(GAME_PATH, game.getGameName(), game);
             
             return game;
@@ -77,12 +71,24 @@ public class DDAccess implements IDataAccess {
 
     @Override
     public List<GameModel> getAllGames() {
-        return null;
+        ArrayList<GameModel> games = new ArrayList<>();
+        
+        for(File file : new File(GAME_PATH).listFiles()) {
+            games.add((GameModel)new XStream(new DomDriver()).fromXML(file));
+        }
+        
+        return games;
     }    
     
     @Override
     public List<User> getAllUsers() {
-        return null;
+        ArrayList<User> users = new ArrayList<>();
+        
+        for(File file : new File(USER_PATH).listFiles()) {
+            users.add((User)new XStream(new DomDriver()).fromXML(file));
+        }
+        
+        return users;
     }
     
     @Override

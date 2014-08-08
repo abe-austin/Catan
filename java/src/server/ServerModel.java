@@ -2,6 +2,7 @@ package server;
 
 import game.GameModel;
 import java.util.ArrayList;
+import server.data.IDataAccess;
 import system.User;
 
 /**
@@ -11,10 +12,17 @@ import system.User;
 public class ServerModel {
         private ArrayList<GameModel> games;
         private ArrayList<User> users;
+        private IDataAccess dac = null;
         
         public ServerModel() {
-        	games = new ArrayList<GameModel>();
-        	users = new ArrayList<User>();
+        	games = new ArrayList<>();
+        	users = new ArrayList<>();
+        }
+        
+        public void initialize(String database) {
+            dac = new DataAccess().getAccess(database);
+            games = (ArrayList)dac.getAllGames();
+            users = (ArrayList)dac.getAllUsers();
         }
 
         /**
@@ -23,6 +31,7 @@ public class ServerModel {
          */
         public void addGame(GameModel model) {
             games.add(model);
+//            dac.createGame(model);
         }
 
         /**
@@ -39,6 +48,7 @@ public class ServerModel {
          */
         public void addUser(User user) {
             users.add(user);
+//            dac.createUser(null);
         }
 
         /**
