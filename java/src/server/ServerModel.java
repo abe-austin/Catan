@@ -2,7 +2,9 @@ package server;
 
 import game.GameModel;
 import java.util.ArrayList;
+import java.util.List;
 import server.data.IDataAccess;
+import shared.definitions.Command;
 import system.User;
 
 /**
@@ -22,6 +24,10 @@ public class ServerModel {
         public void initialize(String database) {
             dac = new DataAccess().getAccess(database);
             games = (ArrayList)dac.getAllGames();
+            for (GameModel game: games){
+                List<Command> commands = dac.getCommands(database);
+                
+            }
             users = (ArrayList)dac.getAllUsers();
         }
 

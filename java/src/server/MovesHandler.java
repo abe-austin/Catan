@@ -54,52 +54,52 @@ public class MovesHandler implements IHandler {
                             SendChatParam.class, (String)Json));
                 case "/moves/rollNumber":
                     return rollNumber((RollNumberParam)JsonUtils.convertFromJson(
-                            RollNumberParam.class, (String)Json));   
+                            RollNumberParam.class, (String)Json),false);   
                 case "/moves/robPlayer":
                     return robPlayer((RobPlayerParam)JsonUtils.convertFromJson(
-                            RobPlayerParam.class, (String)Json));      
+                            RobPlayerParam.class, (String)Json),false);      
                 case "/moves/finishTurn":
                     return finishTurn((FinishTurnParam)JsonUtils.convertFromJson(
-                            FinishTurnParam.class, (String)Json));      
+                            FinishTurnParam.class, (String)Json),false);      
                 case "/moves/buyDevCard":
                     return buyDevCard((BuyDevCardParam)JsonUtils.convertFromJson(
-                            BuyDevCardParam.class, (String)Json));   
+                            BuyDevCardParam.class, (String)Json),false);   
                 case "/moves/Year_Of_Plenty":
                     return playYearOfPlenty((PlayYearOfPlentyParam)JsonUtils.convertFromJson(
-                            PlayYearOfPlentyParam.class, (String)Json));   
+                            PlayYearOfPlentyParam.class, (String)Json),false);   
                 case "/moves/Road_Building":
                     return playRoadBuilding((PlayRoadBuildingParam)JsonUtils.convertFromJson(
-                            PlayRoadBuildingParam.class, (String)Json));   
+                            PlayRoadBuildingParam.class, (String)Json),false);   
                 case "/moves/Soldier":
                     return playSoldier((PlaySoldierParam)JsonUtils.convertFromJson(
-                            PlaySoldierParam.class, (String)Json));   
+                            PlaySoldierParam.class, (String)Json),false);   
                 case "/moves/Monopoly":
                     return playMonopoly((PlayMonopolyParam)JsonUtils.convertFromJson(
-                            PlayMonopolyParam.class, (String)Json));   
+                            PlayMonopolyParam.class, (String)Json),false);   
                 case "/moves/Monument":
                     return playMonument((PlayMonumentParam)JsonUtils.convertFromJson(
-                            PlayMonumentParam.class, (String)Json));   
+                            PlayMonumentParam.class, (String)Json),false);   
                 case "/moves/buildRoad":
                     return buildRoad((BuildRoadParam)JsonUtils.convertFromJson(
-                            BuildRoadParam.class, (String)Json));   
+                            BuildRoadParam.class, (String)Json),false);   
                 case "/moves/buildSettlement":
                     return buildSettlement((BuildSettlementParam)JsonUtils.convertFromJson(
-                            BuildSettlementParam.class, (String)Json));   
+                            BuildSettlementParam.class, (String)Json),false);   
                 case "/moves/buildCity":
                     return buildCity((BuildCityParam)JsonUtils.convertFromJson(
-                            BuildCityParam.class, (String)Json));   
+                            BuildCityParam.class, (String)Json),false);   
                 case "/moves/offerTrade":
                     return offerTrade((OfferTradeParam)JsonUtils.convertFromJson(
-                            OfferTradeParam.class, (String)Json));   
+                            OfferTradeParam.class, (String)Json),false);   
                 case "/moves/acceptTrade":
                     return acceptTradeOffer((AcceptTradeParam)JsonUtils.convertFromJson(
-                            AcceptTradeParam.class, (String)Json));   
+                            AcceptTradeParam.class, (String)Json),false);   
                 case "/moves/maritimeTrade":
                     return maritimeTrade((MaritimeTradeParam)JsonUtils.convertFromJson(
-                            MaritimeTradeParam.class, (String)Json));   
+                            MaritimeTradeParam.class, (String)Json),false);   
                 case "/moves/discardCards":
                     return discardCards((DiscardCardsParam)JsonUtils.convertFromJson(
-                            DiscardCardsParam.class, (String)Json));   
+                            DiscardCardsParam.class, (String)Json),false);   
                 default:
                     return null;
             }
@@ -108,6 +108,45 @@ public class MovesHandler implements IHandler {
             System.out.println(e);
             e.printStackTrace();
             return null;
+        }
+    }
+    
+    public void applyCommand(String command, Object Json){
+        switch(command) {
+                case "/moves/sendChat":
+                   sendChat((SendChatParam)Json);
+                case "/moves/rollNumber":
+                    rollNumber((RollNumberParam)Json,true);   
+                case "/moves/robPlayer":
+                    robPlayer((RobPlayerParam)Json,true);      
+                case "/moves/finishTurn":
+                    finishTurn((FinishTurnParam)Json,true);      
+                case "/moves/buyDevCard":
+                    buyDevCard((BuyDevCardParam)Json,true);   
+                case "/moves/Year_Of_Plenty":
+                    playYearOfPlenty((PlayYearOfPlentyParam)Json,true);   
+                case "/moves/Road_Building":
+                    playRoadBuilding((PlayRoadBuildingParam)Json,true);   
+                case "/moves/Soldier":
+                    playSoldier((PlaySoldierParam)Json,true);   
+                case "/moves/Monopoly":
+                    playMonopoly((PlayMonopolyParam)Json,true);   
+                case "/moves/Monument":
+                    playMonument((PlayMonumentParam)Json,true);   
+                case "/moves/buildRoad":
+                    buildRoad((BuildRoadParam)Json,true);   
+                case "/moves/buildSettlement":
+                    buildSettlement((BuildSettlementParam)Json,true);   
+                case "/moves/buildCity":
+                    buildCity((BuildCityParam)Json,true);   
+                case "/moves/offerTrade":
+                    offerTrade((OfferTradeParam)Json,true);   
+                case "/moves/acceptTrade":
+                    acceptTradeOffer((AcceptTradeParam)Json,true);   
+                case "/moves/maritimeTrade":
+                    maritimeTrade((MaritimeTradeParam)Json,true);   
+                case "/moves/discardCards":
+                    discardCards((DiscardCardsParam)Json,true);   
         }
     }
     
@@ -138,7 +177,7 @@ public class MovesHandler implements IHandler {
      * @param param roll info
      * @return success or failure
      */
-    public ServerResponse rollNumber(RollNumberParam param) {
+    public ServerResponse rollNumber(RollNumberParam param, boolean commandReapply) {
         GameModel game = controller.getGameModel();
         List<HexTile> hexes = game.getBoard().getHexes();
     	ArrayList<PlayerReceivingResources> resourceChanges = new ArrayList<>();
@@ -189,11 +228,11 @@ public class MovesHandler implements IHandler {
         }
         
     	controller.getGameModel().incrementVersion();
-    	
-        game.getGameHistory().getGameCommands().add(new Command(
+    	if(!commandReapply){
+            game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
         		"rolled a " + param.getNumber() + "."));
-
+        }
         return new ServerResponse(200, game);
     }
     
@@ -222,7 +261,7 @@ public class MovesHandler implements IHandler {
      * @param param end of turn info
      * @return success or failure
      */
-    public ServerResponse finishTurn(FinishTurnParam param) {
+    public ServerResponse finishTurn(FinishTurnParam param, boolean commandReapply) {
         GameModel game = controller.getGameModel();
         
         boolean isFirst = false;
@@ -258,11 +297,11 @@ public class MovesHandler implements IHandler {
             regularTurn(param, game);
         
         controller.getGameModel().incrementVersion();
-        
-        game.getGameHistory().getGameCommands().add(new Command(
+        if(!commandReapply){
+            game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
         		"\'s turn ended."));
-        
+        }
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -356,7 +395,7 @@ public class MovesHandler implements IHandler {
      * @return success or failure
      * @post resource change from one player to another
      */
-    public ServerResponse robPlayer(RobPlayerParam param) {
+    public ServerResponse robPlayer(RobPlayerParam param, boolean commandReapply) {
         GameModel game = controller.getGameModel();
         game.getBoard().getRobber().updateLocation(param.getLocation());
         Player robber = game.getPlayers()[param.getPlayerIndex()];
@@ -376,11 +415,11 @@ public class MovesHandler implements IHandler {
         }
         game.getTurnTracker().setStatus("Playing");
         game.incrementVersion();
-
-        game.getGameHistory().getGameCommands().add(new Command(
+        if(!commandReapply){
+            game.getGameHistory().getGameCommands().add(new Command(
                         controller.getCurrentCookie().getUsername(), 
                         "moved the robber and robbed " + victimName + "."));
-
+        }
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -392,7 +431,7 @@ public class MovesHandler implements IHandler {
      * @return success or failure
      * @post player has another DevCard
      */
-    public ServerResponse buyDevCard(BuyDevCardParam param) {
+    public ServerResponse buyDevCard(BuyDevCardParam param, boolean commandReapply) {
         GameModel game = controller.getGameModel();
         Player player = game.getPlayers()[param.getPlayerIndex()];
         
@@ -410,11 +449,11 @@ public class MovesHandler implements IHandler {
         player.addDevelopmentCard(devCard);
         
         game.incrementVersion();
-        
-        game.getGameHistory().getGameCommands().add(new Command(
+        if(!commandReapply){
+            game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
         		"bought a development card."));
-        
+        }    
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -426,7 +465,7 @@ public class MovesHandler implements IHandler {
      * @return success or failure
      * @post player has one less monopoly card
      */
-    public ServerResponse playMonopoly(PlayMonopolyParam param) {
+    public ServerResponse playMonopoly(PlayMonopolyParam param, boolean commandReapply) {
         GameModel game = controller.getGameModel();
         Player player = game.getPlayers()[param.getPlayerIndex()];        
         player.giveDevelopmentCard(DevCardType.MONOPOLY);
@@ -438,11 +477,11 @@ public class MovesHandler implements IHandler {
         }
         
         game.incrementVersion();
-        
-        game.getGameHistory().getGameCommands().add(new Command(
+        if(!commandReapply){
+            game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
         		"played a " + param.getResource() + " monopoly card."));
-        
+        }    
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -454,7 +493,7 @@ public class MovesHandler implements IHandler {
      * @return success or failure
      * @post player has two more roads built
      */
-    public ServerResponse playRoadBuilding(PlayRoadBuildingParam param) {       
+    public ServerResponse playRoadBuilding(PlayRoadBuildingParam param, boolean commandReapply) {       
         Player player = controller.getGameModel().getPlayers()[param.getPlayerIndex()];
         player.giveDevelopmentCard(DevCardType.ROAD_BUILD);
         
@@ -480,11 +519,11 @@ public class MovesHandler implements IHandler {
         
         checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
         game.incrementVersion();
-        
-        game.getGameHistory().getGameCommands().add(new Command(
+        if(!commandReapply){
+            game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
         		"played a road building card."));
-        
+        }    
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -495,7 +534,7 @@ public class MovesHandler implements IHandler {
      * @return success or failure
      * @post robber is moved
      */
-    public ServerResponse playSoldier(PlaySoldierParam param) {
+    public ServerResponse playSoldier(PlaySoldierParam param, boolean commandReapply) {
         GameModel game = controller.getGameModel();        
         Player player = game.getPlayers()[param.getPlayerIndex()];
         player.giveDevelopmentCard(DevCardType.SOLDIER);
@@ -506,12 +545,12 @@ public class MovesHandler implements IHandler {
         
         checkLargestArmy(player);
         game.incrementVersion();
-        
-        game.getGameHistory().getGameCommands().add(new Command(
+        if(!commandReapply){
+            game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
         		"played a soldier card."));
-        
-        return robPlayer(rob);
+        }    
+        return robPlayer(rob,commandReapply);
     }
     
     /**
@@ -553,7 +592,7 @@ public class MovesHandler implements IHandler {
      * @return success or failure
      * @post player has two more resource cards
      */
-    public ServerResponse playYearOfPlenty(PlayYearOfPlentyParam param) {
+    public ServerResponse playYearOfPlenty(PlayYearOfPlentyParam param, boolean commandReapply) {
         GameModel game = controller.getGameModel();        
         Player player = game.getPlayers()[param.getPlayerIndex()];
         player.giveDevelopmentCard(DevCardType.YEAR_OF_PLENTY);
@@ -564,11 +603,11 @@ public class MovesHandler implements IHandler {
                 ResourceTypeUtils.getResourceType(param.getResource2())));
         
         game.incrementVersion();
-        
-        game.getGameHistory().getGameCommands().add(new Command(
+        if(!commandReapply){
+            game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
         		"played a year of plenty card."));
-        
+        }
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -579,18 +618,18 @@ public class MovesHandler implements IHandler {
      * @return success or failure
      * @post player has one more point
      */
-    public ServerResponse playMonument(PlayMonumentParam param) {
+    public ServerResponse playMonument(PlayMonumentParam param, boolean commandReapply) {
         GameModel game = controller.getGameModel();        
         Player player = game.getPlayers()[param.getPlayerIndex()];
         player.giveDevelopmentCard(DevCardType.MONUMENT);
         addPoint(player);
         
         game.incrementVersion();
-        
-        game.getGameHistory().getGameCommands().add(new Command(
+        if(!commandReapply){
+            game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
         		"played a monument card."));
-        
+        }    
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -601,7 +640,7 @@ public class MovesHandler implements IHandler {
      * @param param board piece info
      * @return success or failure
      */
-    public ServerResponse buildRoad(BuildRoadParam param) {
+    public ServerResponse buildRoad(BuildRoadParam param, boolean commandReapply) {
         try {
 	        MapLocationParam map = param.getRoadLocation();
 	        GameModel game = controller.getGameModel();        
@@ -623,11 +662,11 @@ public class MovesHandler implements IHandler {
 	        controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
 	        
 	        controller.getGameModel().incrementVersion();
-	        
-	        game.getGameHistory().getGameCommands().add(new Command(
+	        if(!commandReapply){
+        	        game.getGameHistory().getGameCommands().add(new Command(
 	        		controller.getCurrentCookie().getUsername(), 
 	        		"built a road."));
-	        
+                }        
 		    return new ServerResponse(200, controller.getGameModel());
         }
     	catch(Exception e) {
@@ -675,7 +714,7 @@ public class MovesHandler implements IHandler {
      * @param param board piece info
      * @return success or failure
      */
-    public ServerResponse buildSettlement(BuildSettlementParam param) {
+    public ServerResponse buildSettlement(BuildSettlementParam param, boolean commandReapply) {
     	try{
 	        MapLocationParam map = param.getVertexLocation();
 	        GameModel game = controller.getGameModel();
@@ -710,11 +749,11 @@ public class MovesHandler implements IHandler {
 	        ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map.getX(), map.getY(), map.getDirection(), "SETTLEMENT");
 	        controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
 	        controller.getGameModel().incrementVersion();
-	        
-	        game.getGameHistory().getGameCommands().add(new Command(
+	        if(!commandReapply){
+        	        game.getGameHistory().getGameCommands().add(new Command(
 	        		controller.getCurrentCookie().getUsername(), 
 	        		"built a settlement."));
-	        
+                }        
 	        return new ServerResponse(200, controller.getGameModel());
     	}
     	catch(Exception e) {
@@ -731,7 +770,7 @@ public class MovesHandler implements IHandler {
      * @return success or failure
      * @post player has one less available city and one more settlement
      */
-    public ServerResponse buildCity(BuildCityParam param) {
+    public ServerResponse buildCity(BuildCityParam param, boolean commandReapply) {
         MapLocationParam map = param.getVertexLocation();
         GameModel game = controller.getGameModel();        
         Player player = game.getPlayers()[param.getPlayerIndex()];
@@ -749,11 +788,11 @@ public class MovesHandler implements IHandler {
         ParsedStructure parsedStruct = new ParsedStructure(param.getPlayerIndex(), map.getX(), map.getY(), map.getDirection(), "CITY");
         controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
         controller.getGameModel().incrementVersion();
-        
-        game.getGameHistory().getGameCommands().add(new Command(
+        if(!commandReapply){
+            game.getGameHistory().getGameCommands().add(new Command(
         		controller.getCurrentCookie().getUsername(), 
         		"built a city."));
-        
+        }
         return new ServerResponse(200, controller.getGameModel());
 
     }
@@ -765,7 +804,7 @@ public class MovesHandler implements IHandler {
      * @param param trade info
      * @return success or failure
      */
-    public ServerResponse offerTrade(OfferTradeParam param) {
+    public ServerResponse offerTrade(OfferTradeParam param, boolean commandReapply) {
         GameModel game = controller.getGameModel();
         
         OfferParam offer = param.getOffer();
@@ -778,10 +817,15 @@ public class MovesHandler implements IHandler {
         trade.setWood(offer.getWood());
         trade.setReceiverIndex(param.getReceiver());
         trade.setSenderIndex(param.getPlayerIndex());
+        Player sender = game.getPlayers()[trade.getSenderIndex()];
+        Player receiver = game.getPlayers()[trade.getReceiverIndex()];      
         
         game.setTradeOffer(trade);
         controller.getGameModel().incrementVersion();
-        
+        if(!commandReapply){
+            game.getGameHistory().getGameCommands().add(new Command(
+        		sender.getUsername(), "sent a trade offer to "+receiver.getUsername()));
+        }
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -793,7 +837,7 @@ public class MovesHandler implements IHandler {
      * @return success or failure
      * @post resources are traded
      */
-    public ServerResponse acceptTradeOffer(AcceptTradeParam param) {
+    public ServerResponse acceptTradeOffer(AcceptTradeParam param, boolean commandReapply) {
         GameModel game = controller.getGameModel();
         TradeOffer offer = game.getTradeOffer();
         Player sender = game.getPlayers()[offer.getSenderIndex()];
@@ -840,16 +884,20 @@ public class MovesHandler implements IHandler {
             }
             controller.getGameModel().setTradeOffer(new TradeOffer());
             controller.getGameModel().incrementVersion();
-            game.getGameHistory().getGameCommands().add(new Command(
-                        receiver.getUsername()," accepted "+sender.getUsername()+"\'s trade offer"));
-            return new ServerResponse(200, controller.getGameModel());
+            if(!commandReapply){
+                game.getGameHistory().getGameCommands().add(new Command(
+                        receiver.getUsername(),"accepted "+sender.getUsername()+"\'s trade offer"));
+            }
+                return new ServerResponse(200, controller.getGameModel());
         } 
         else {
             game.setTradeOffer(new TradeOffer());
             controller.getGameModel().incrementVersion();
-            controller.getGameModel().getGameHistory().getGameCommands().add(new Command(
+            if(!commandReapply){
+                controller.getGameModel().getGameHistory().getGameCommands().add(new Command(
                         receiver.getUsername()," rejected "+sender.getUsername()+"\'s trade offer"));
-            return new ServerResponse(200, controller.getGameModel());
+            }
+                return new ServerResponse(200, controller.getGameModel());
         }
     }
     
@@ -861,7 +909,7 @@ public class MovesHandler implements IHandler {
      * @return success or failure
      * @post player and bank have new resources
      */
-    public ServerResponse maritimeTrade(MaritimeTradeParam param) {
+    public ServerResponse maritimeTrade(MaritimeTradeParam param, boolean commandReapply) {
         GameModel game = controller.getGameModel();
         
         Player player = game.getPlayers()[param.getPlayerIndex()];
@@ -873,7 +921,11 @@ public class MovesHandler implements IHandler {
         for(int i = 0; i < param.getRatio(); i++)
             game.getBank().addResourceCard(player.giveResourceCard(give));
         //controller.getGameModel().incrementVersion();
-        
+        if(!commandReapply){
+             game.getGameHistory().getGameCommands().add(new Command(
+        		controller.getCurrentCookie().getUsername(), 
+        		"maritime traded."));
+        }
         return new ServerResponse(200, controller.getGameModel());
     }
     
@@ -885,7 +937,7 @@ public class MovesHandler implements IHandler {
      * @return success or failure
      * @post player has less cards
      */
-    public ServerResponse discardCards(DiscardCardsParam param) {
+    public ServerResponse discardCards(DiscardCardsParam param, boolean commandReapply) {
         ServerResponse response = null;
         
         GameModel game = controller.getGameModel();
@@ -905,6 +957,12 @@ public class MovesHandler implements IHandler {
             
             player.setDiscarded(true);
             //controller.getGameModel().incrementVersion();
+            if(!commandReapply){
+                game.getGameHistory().getGameCommands().add(new Command(
+        		controller.getCurrentCookie().getUsername(), 
+        		"discarded."));
+            }
+            
             boolean discardingDone = true;
             for(Player p: game.getPlayers()){
                 if(p.getNeedsToDiscard() && !p.hasDiscarded())

@@ -10,6 +10,7 @@ import client.data.PlayerInfo;
 import shared.communication.CookieObject;
 import shared.communication.CreateGameParam;
 import shared.communication.ServerResponse;
+import shared.definitions.Command;
 import system.Password;
 import system.User;
 import system.Username;
@@ -257,6 +258,13 @@ public class ServerController {
             return new ServerResponse(400, "Command not supported");
         }     
         
+        public void applyCommand(Command command){
+            for(IHandler handler: handlers){
+                if (handler.getClass()==MovesHandler.class){
+                    handler.applyCommand(command, command.);
+                }
+            }
+        }
         /**
          * Creates Cookie String
          * 

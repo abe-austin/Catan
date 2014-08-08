@@ -165,4 +165,7 @@ public class AllGamesHandler implements IHandler {
         
         return response;
     }
+
+    @Override
+    public void applyCommand(String command, Object Json) {}
 }

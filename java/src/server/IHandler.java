@@ -17,4 +17,5 @@ public interface IHandler {
      * @post change to the server/game models if possible
      */
     public ServerResponse handle(String command, Object Json);
+    public void applyCommand(String command, Object Json);
 }

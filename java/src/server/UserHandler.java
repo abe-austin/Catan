@@ -73,6 +73,9 @@ public class UserHandler implements IHandler{
         
         return response;
     }
+
+    @Override
+    public void applyCommand(String command, Object Json) {}
     
 }
 
