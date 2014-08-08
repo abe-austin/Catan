@@ -43,7 +43,7 @@ public class Corner {
          * @post there is now a BoardPiece on this corner (city or settlement)
 	 */
 	public void buildStructure(BoardPiece building) {
-                if(builtStructure != null)//Check for crashing anywhere along the path to here...
+                if(builtStructure != null)
                     builtStructure.setActive(false);
 
                 builtStructure = building;

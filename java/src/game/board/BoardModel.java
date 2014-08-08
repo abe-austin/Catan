@@ -16,9 +16,11 @@ import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import game.pieces.BoardPiece;
 import game.pieces.Robber;
+import game.pieces.Settlement;
 import shared.definitions.GameState;
 
 /**
@@ -212,6 +214,26 @@ public class BoardModel {
 	
 	public void addStructure(ParsedStructure p) {
 		theStructures.add(p);
+	}
+	
+	public void removeSettlement(int index, HexTile tile, String direction) {
+		
+		String type = "SETTLEMENT";
+		int x = tile.getX();
+		int y = tile.getY();
+		
+		ParsedStructure p = new ParsedStructure(index, x, y, direction, type);
+		
+		for(int i = 0; i < theStructures.size(); i++) {
+			if(p.Equals(theStructures.get(i))){
+				theStructures.remove(i);
+				i = theStructures.size();
+			}
+		}
+		
+		
+		//Iterate through theStructures until find matching settlement, remove it
+		//Now ensure that player statistics are updated to reflect this, both the number of available settlements and that its owned settlement is now inactive
 	}
 
 	/**

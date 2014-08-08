@@ -35,9 +35,8 @@ public class SQLDataAccess implements IDataAccess {
 	}
 
 	@Override
-	public User createUser(User user) {
+	public void createUser(User user) {
 		user = sqlUser.addUser(user);
-		return user;
 	}
 
 	@Override
@@ -52,28 +51,17 @@ public class SQLDataAccess implements IDataAccess {
     }
 
 	@Override
-	public GameModel createGame(GameModel game) {
-		
-		String gameAsString = sqlGameModel.addGameModel(
+	public void createGame(GameModel game) {
+            sqlGameModel.addGameModel(
 				game.getGameId(), 
 				toXML(game),
 				game.getGameName());
-		
-		if(gameAsString != null) {
-			game = (GameModel)fromXML(gameAsString);
-		}
-		else {
-			game = null;
-		}
-		
-		return game;
 	}
-
-	@Override
-	public void deleteGame(String gameName) {
-		// TODO delete game
-		
-	}
+	
+    @Override
+    public void updateGame(GameModel game) {
+        sqlGameModel.updateGameModel(game.getGameId(), toXML(game));
+    }
 
 	@Override
 	public GameModel getGame(GetGameModelParam param) {
@@ -91,13 +79,13 @@ public class SQLDataAccess implements IDataAccess {
 	}
 
 	@Override
-	public void addCommand(Command command) {
-		sqlCommand.addCommand(toXML(command));
+	public void addCommand(Command command, int gameID) {
+		sqlCommand.addCommand(toXML(command), command.getCommandId(), gameID);
 	}
 
 	@Override
-	public List<Command> getCommands(String gameName) {
-		List<String> commandsString = sqlCommand.getAllCommands();
+	public List<Command> getCommands(int id) {
+		List<String> commandsString = sqlCommand.getAllCommands(id);
 		List<Command> commands = new ArrayList<Command>();
 		for(String commandString : commandsString) {
 			Command command = (Command)fromXML(commandString);

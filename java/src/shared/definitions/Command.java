@@ -1,5 +1,7 @@
 package shared.definitions;
 
+import shared.communication.CookieObject;
+
 /**
  *
  * @author Kevin MacMaster
@@ -7,6 +9,8 @@ package shared.definitions;
 public class Command {
     private String source;
     private String command;
+    private int commandId;
+    private CookieObject cookie;
 
     public Command(String source, String command) {
         this.source= source;
@@ -31,6 +35,34 @@ public class Command {
             //command=command.split("\\u0027")[0]+"\'"+command.split("\\u0027")[1];
         }
         return command;
+    }
+
+    /**
+     * @return the commandId
+     */
+    public int getCommandId() {
+        return commandId;
+    }
+
+    /**
+     * @param commandId the commandId to set
+     */
+    public void setCommandId(int commandId) {
+        this.commandId = commandId;
+    }
+
+    /**
+     * @return the cookie
+     */
+    public CookieObject getCookie() {
+        return cookie;
+    }
+
+    /**
+     * @param cookie the cookie to set
+     */
+    public void setCookie(CookieObject cookie) {
+        this.cookie = cookie;
     }
 
 }

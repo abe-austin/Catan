@@ -55,4 +55,11 @@ public class ParsedStructure
 	{
 		return "" + owner + "," + x + "," + y + "," + direction + "," + type;
 	}
+	
+	public boolean Equals(ParsedStructure p) {
+		if(p.getDirection().equals(direction) && p.getX() == x && p.getY() == y && p.getType().equals(type) && p.getOwner() == owner)
+			return true;
+		else
+			return false;
+	}
 }
