@@ -11,10 +11,14 @@ public class Command {
     private String command;
     private int commandId;
     private CookieObject cookie;
+    private Object paramObject;
 
     public Command(String source, String command) {
+        //this.commandId = commandId;
         this.source= source;
         this.command = command;
+        //this.paramObject = paramObject;
+        //this.cookie = cookie;
     }
 
     public String getSource() {
@@ -64,5 +68,14 @@ public class Command {
     public void setCookie(CookieObject cookie) {
         this.cookie = cookie;
     }
+
+    public Object getParamObject() {
+        return paramObject;
+    }
+
+    public void setParamObject(Object paramObject) {
+        this.paramObject = paramObject;
+    }
+    
 
 }

@@ -33,7 +33,7 @@ public class GameHistoryController extends Controller implements
 			for (Command command : gameModel.getGameHistory().getGameCommands()) {
 				Player player = ControllerFacade.getSingleton().getPlayerByUsername(command.getSource());
 				if (player != null) {
-					LogEntry entry = new LogEntry(player.getColor(), command.getSource() + " " + command.getCommand());
+					LogEntry entry = new LogEntry(player.getColor(), command.getCommand());
 					entries.add(entry);
 				}
 			}

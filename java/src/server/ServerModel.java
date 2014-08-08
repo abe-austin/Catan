@@ -25,8 +25,10 @@ public class ServerModel {
             dac = new DataAccess().getAccess(database);
             games = (ArrayList)dac.getAllGames();
             for (GameModel game: games){
-                List<Command> commands = dac.getCommands(database);
-                
+                List<Command> commands = dac.getCommands(game.getGameId());
+                for(Command command : commands){
+                    ServerController.getSingleton().applyCommand(command);
+                }
             }
             users = (ArrayList)dac.getAllUsers();
         }

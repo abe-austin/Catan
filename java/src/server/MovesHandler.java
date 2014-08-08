@@ -229,9 +229,13 @@ public class MovesHandler implements IHandler {
         
     	controller.getGameModel().incrementVersion();
     	if(!commandReapply){
-            game.getGameHistory().getGameCommands().add(new Command(
-        		controller.getCurrentCookie().getUsername(), 
-        		"rolled a " + param.getNumber() + "."));
+            Command command = new Command("/moves/rollNumber",
+        		controller.getCurrentCookie().getUsername()+" rolled a " + param.getNumber() + ".");
+            command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+            command.setCookie(controller.getCurrentCookie());
+            command.setParamObject(param);
+            game.getGameHistory().getGameCommands().add(command);
+            
         }
         return new ServerResponse(200, game);
     }
@@ -298,9 +302,12 @@ public class MovesHandler implements IHandler {
         
         controller.getGameModel().incrementVersion();
         if(!commandReapply){
-            game.getGameHistory().getGameCommands().add(new Command(
-        		controller.getCurrentCookie().getUsername(), 
-        		"\'s turn ended."));
+            Command command = new Command("/moves/finishTurn",
+        		controller.getCurrentCookie().getUsername()+"\'s turn ended.");
+            command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+            command.setCookie(controller.getCurrentCookie());
+            command.setParamObject(param);
+            game.getGameHistory().getGameCommands().add(command);
         }
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -416,9 +423,12 @@ public class MovesHandler implements IHandler {
         game.getTurnTracker().setStatus("Playing");
         game.incrementVersion();
         if(!commandReapply){
-            game.getGameHistory().getGameCommands().add(new Command(
-                        controller.getCurrentCookie().getUsername(), 
-                        "moved the robber and robbed " + victimName + "."));
+            Command command =new Command("/moves/robPlayer",
+                        controller.getCurrentCookie().getUsername()+" moved the robber and robbed " + victimName + ".");
+            command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+            command.setCookie(controller.getCurrentCookie());
+            command.setParamObject(param);
+            game.getGameHistory().getGameCommands().add(command);
         }
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -450,9 +460,12 @@ public class MovesHandler implements IHandler {
         
         game.incrementVersion();
         if(!commandReapply){
-            game.getGameHistory().getGameCommands().add(new Command(
-        		controller.getCurrentCookie().getUsername(), 
-        		"bought a development card."));
+            Command command = new Command("/moves/buyDevCard",
+        		controller.getCurrentCookie().getUsername()+" bought a development card.");
+            command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+            command.setCookie(controller.getCurrentCookie());
+            command.setParamObject(param);
+            game.getGameHistory().getGameCommands().add(command);
         }    
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -478,9 +491,12 @@ public class MovesHandler implements IHandler {
         
         game.incrementVersion();
         if(!commandReapply){
-            game.getGameHistory().getGameCommands().add(new Command(
-        		controller.getCurrentCookie().getUsername(), 
-        		"played a " + param.getResource() + " monopoly card."));
+            Command command =new Command("/moves/Monopoly",
+        		controller.getCurrentCookie().getUsername()+" played a " + param.getResource() + " monopoly card.");
+            command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+            command.setCookie(controller.getCurrentCookie());
+            command.setParamObject(param);
+            game.getGameHistory().getGameCommands().add(command);
         }    
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -520,9 +536,12 @@ public class MovesHandler implements IHandler {
         checkMostRoads(game.getPlayers()[param.getPlayerIndex()]);
         game.incrementVersion();
         if(!commandReapply){
-            game.getGameHistory().getGameCommands().add(new Command(
-        		controller.getCurrentCookie().getUsername(), 
-        		"played a road building card."));
+            Command command = new Command("/moves/Road_Building",
+        		controller.getCurrentCookie().getUsername()+" played a road building card.");
+            command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+            command.setCookie(controller.getCurrentCookie());
+            command.setParamObject(param);
+            game.getGameHistory().getGameCommands().add(command);
         }    
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -546,9 +565,12 @@ public class MovesHandler implements IHandler {
         checkLargestArmy(player);
         game.incrementVersion();
         if(!commandReapply){
-            game.getGameHistory().getGameCommands().add(new Command(
-        		controller.getCurrentCookie().getUsername(), 
-        		"played a soldier card."));
+            Command command = new Command("/moves/Soldier",
+        		controller.getCurrentCookie().getUsername()+" played a soldier card.");
+            command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+            command.setCookie(controller.getCurrentCookie());
+            command.setParamObject(param);
+            game.getGameHistory().getGameCommands().add(command);
         }    
         return robPlayer(rob,commandReapply);
     }
@@ -604,9 +626,12 @@ public class MovesHandler implements IHandler {
         
         game.incrementVersion();
         if(!commandReapply){
-            game.getGameHistory().getGameCommands().add(new Command(
-        		controller.getCurrentCookie().getUsername(), 
-        		"played a year of plenty card."));
+            Command command = new Command("/moves/Year_Of_Plenty",
+        		controller.getCurrentCookie().getUsername()+" played a year of plenty card.");
+            command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+            command.setCookie(controller.getCurrentCookie());
+            command.setParamObject(param);
+            game.getGameHistory().getGameCommands().add(command);
         }
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -626,9 +651,12 @@ public class MovesHandler implements IHandler {
         
         game.incrementVersion();
         if(!commandReapply){
-            game.getGameHistory().getGameCommands().add(new Command(
-        		controller.getCurrentCookie().getUsername(), 
-        		"played a monument card."));
+            Command command = new Command("/moves/Monument",
+        		controller.getCurrentCookie().getUsername()+" played a monument card.");
+            command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+            command.setCookie(controller.getCurrentCookie());
+            command.setParamObject(param);
+            game.getGameHistory().getGameCommands().add(command);
         }    
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -663,9 +691,12 @@ public class MovesHandler implements IHandler {
 	        
 	        controller.getGameModel().incrementVersion();
 	        if(!commandReapply){
-        	        game.getGameHistory().getGameCommands().add(new Command(
-	        		controller.getCurrentCookie().getUsername(), 
-	        		"built a road."));
+                    Command command = new Command("/moves/buildRoad",
+	        		controller.getCurrentCookie().getUsername()+" built a road.");
+                    command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+                    command.setCookie(controller.getCurrentCookie());
+                    command.setParamObject(param);
+        	    game.getGameHistory().getGameCommands().add(command);
                 }        
 		    return new ServerResponse(200, controller.getGameModel());
         }
@@ -750,9 +781,12 @@ public class MovesHandler implements IHandler {
 	        controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
 	        controller.getGameModel().incrementVersion();
 	        if(!commandReapply){
-        	        game.getGameHistory().getGameCommands().add(new Command(
-	        		controller.getCurrentCookie().getUsername(), 
-	        		"built a settlement."));
+                    Command command = new Command("/moves/buildSettlement",
+	        		controller.getCurrentCookie().getUsername()+" built a settlement.");
+                    command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+                    command.setCookie(controller.getCurrentCookie());
+                    command.setParamObject(param);
+        	    game.getGameHistory().getGameCommands().add(command);
                 }        
 	        return new ServerResponse(200, controller.getGameModel());
     	}
@@ -796,9 +830,12 @@ public class MovesHandler implements IHandler {
         controller.getGameModel().getBoard().addStructure(parsedStruct);//Send a parsedStructure
         controller.getGameModel().incrementVersion();
         if(!commandReapply){
-            game.getGameHistory().getGameCommands().add(new Command(
-        		controller.getCurrentCookie().getUsername(), 
-        		"built a city."));
+            Command command = new Command("/moves/buildCity",
+        		controller.getCurrentCookie().getUsername()+" built a city.");
+            command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+            command.setCookie(controller.getCurrentCookie());
+            command.setParamObject(param);
+            game.getGameHistory().getGameCommands().add(command);
         }
         return new ServerResponse(200, controller.getGameModel());
 
@@ -830,8 +867,12 @@ public class MovesHandler implements IHandler {
         game.setTradeOffer(trade);
         controller.getGameModel().incrementVersion();
         if(!commandReapply){
-            game.getGameHistory().getGameCommands().add(new Command(
-        		sender.getUsername(), "sent a trade offer to "+receiver.getUsername()));
+            Command command = new Command("/moves/offerTrade",
+        		sender.getUsername()+" sent a trade offer to "+receiver.getUsername());
+            command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+            command.setCookie(controller.getCurrentCookie());
+            command.setParamObject(param);
+            game.getGameHistory().getGameCommands().add(command);
         }
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -892,8 +933,12 @@ public class MovesHandler implements IHandler {
             controller.getGameModel().setTradeOffer(new TradeOffer());
             controller.getGameModel().incrementVersion();
             if(!commandReapply){
-                game.getGameHistory().getGameCommands().add(new Command(
-                        receiver.getUsername(),"accepted "+sender.getUsername()+"\'s trade offer"));
+                Command command = new Command("/moves/acceptTrade",
+                            receiver.getUsername()+" accepted "+sender.getUsername()+"\'s trade offer");
+                command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+                command.setCookie(controller.getCurrentCookie());
+                command.setParamObject(param);
+                game.getGameHistory().getGameCommands().add(command);
             }
                 return new ServerResponse(200, controller.getGameModel());
         } 
@@ -901,8 +946,12 @@ public class MovesHandler implements IHandler {
             game.setTradeOffer(new TradeOffer());
             controller.getGameModel().incrementVersion();
             if(!commandReapply){
-                controller.getGameModel().getGameHistory().getGameCommands().add(new Command(
-                        receiver.getUsername()," rejected "+sender.getUsername()+"\'s trade offer"));
+                Command command = new Command("/moves/acceptTrade",
+                            receiver.getUsername()+" rejected "+sender.getUsername()+"\'s trade offer");
+                command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+                command.setCookie(controller.getCurrentCookie());
+                command.setParamObject(param);
+                game.getGameHistory().getGameCommands().add(command);
             }
                 return new ServerResponse(200, controller.getGameModel());
         }
@@ -929,9 +978,12 @@ public class MovesHandler implements IHandler {
             game.getBank().addResourceCard(player.giveResourceCard(give));
         //controller.getGameModel().incrementVersion();
         if(!commandReapply){
-             game.getGameHistory().getGameCommands().add(new Command(
-        		controller.getCurrentCookie().getUsername(), 
-        		"maritime traded."));
+            Command command = new Command("/moves/maritimeTrade",
+        		controller.getCurrentCookie().getUsername()+" maritime traded.");
+            command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+            command.setCookie(controller.getCurrentCookie());
+            command.setParamObject(param);
+             game.getGameHistory().getGameCommands().add(command);
         }
         return new ServerResponse(200, controller.getGameModel());
     }
@@ -965,9 +1017,12 @@ public class MovesHandler implements IHandler {
             player.setDiscarded(true);
             //controller.getGameModel().incrementVersion();
             if(!commandReapply){
-                game.getGameHistory().getGameCommands().add(new Command(
-        		controller.getCurrentCookie().getUsername(), 
-        		"discarded."));
+            Command command = new Command("/moves/discardCards",
+        		controller.getCurrentCookie().getUsername()+" discarded.");
+            command.setCommandId(controller.getGameModel().getGameHistory().getGameCommands().size());
+            command.setCookie(controller.getCurrentCookie());
+            command.setParamObject(param);
+                game.getGameHistory().getGameCommands().add(command);
             }
             
             boolean discardingDone = true;

@@ -52,7 +52,7 @@ public class CatanServer {
 //	}
 
 	private CatanServer() {
-		controller = new ServerController();
+		controller = ServerController.getSingleton();
 	}
 
 	

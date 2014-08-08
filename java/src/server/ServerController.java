@@ -27,7 +27,13 @@ public class ServerController {
     private int lastGameId;
     private CookieObject currentCookie;
     
-    public ServerController() {
+    private static ServerController singleton = new ServerController();
+    
+    public static ServerController getSingleton() {
+        return singleton;
+    }
+    
+    private ServerController() {
         model = new ServerModel();
         currentCookie = null;
         
@@ -263,7 +269,8 @@ public class ServerController {
         public void applyCommand(Command command){
             for(IHandler handler: handlers){
                 if (handler.getClass()==MovesHandler.class){
-                    handler.applyCommand(command, command.);
+                    setCookie(command.getCookie());
+                    handler.applyCommand(command.getSource(), command.getParamObject());
                 }
             }
         }
@@ -296,5 +303,8 @@ public class ServerController {
         public String createCookie(int gameId) {
             return createCookie(currentCookie.getUsername(),currentCookie.getPassword(),
                                     currentCookie.getID(), gameId);
+        }
+        public void setCookie(CookieObject cookie){
+            this.currentCookie=cookie;
         }
 }
