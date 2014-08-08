@@ -20,15 +20,11 @@ import system.*;
 public class DDAccess implements IDataAccess {        
     
     @Override
-    public User createUser(User user) {
+    public void createUser(User user) {
         Object next = findMatch(USER_PATH, user.getUsername().getUsername());
         
-        if(next != null) {            
+        if(next != null)
             saveFile(USER_PATH, user.getUsername().getUsername(), user);
-            return user;
-        } else {
-            return null;
-        }
     }
 
     @Override
@@ -37,21 +33,11 @@ public class DDAccess implements IDataAccess {
     }
 
     @Override
-    public GameModel createGame(GameModel game) {
+    public void createGame(GameModel game) {
         Object next = findMatch(GAME_PATH, game.getGameName());
         
-        if(next != null) {                        
-            saveFile(GAME_PATH, game.getGameName(), game);
-            
-            return game;
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public void deleteGame(String gameName) {
-        // DO NOTHING
+        if(next != null)
+            saveFile(GAME_PATH, "game" + game.getGameId(), game);
     }
 
     @Override
@@ -60,13 +46,20 @@ public class DDAccess implements IDataAccess {
     }
 
     @Override
-    public void addCommand(Command command) {
-        
+    public void addCommand(Command command, int id) {
+        saveFile(CMD_PATH, "game" + String.valueOf(id) + "_" + "1", command);
     }
 
     @Override
-    public List<Command> getCommands(String gameName) {
-        return null;
+    public List<Command> getCommands(int id) {
+        ArrayList<Command> commands = new ArrayList<>();
+        
+        for(File file : new File(GAME_PATH).listFiles()) {
+            if(file.getName().contains(String.valueOf(id)))
+                commands.add((Command)new XStream(new DomDriver()).fromXML(file));
+        }
+        
+        return commands;
     }
 
     @Override
@@ -94,6 +87,11 @@ public class DDAccess implements IDataAccess {
     @Override
     public List<GameInfo> getAllGames(User user) {
         return null;
+    }
+    
+    @Override
+    public void updateGame(GameModel game) {
+        
     }
     
     // FOR TESTING PURPOSES

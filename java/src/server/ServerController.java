@@ -28,8 +28,6 @@ public class ServerController {
     
     public ServerController() {
         model = new ServerModel();
-        lastUserId = 0;
-        lastGameId = 0;
         currentCookie = null;
         
         handlers = new ArrayList<>();
@@ -38,6 +36,10 @@ public class ServerController {
         handlers.add(new MovesHandler(this));
         handlers.add(new AllGamesHandler(this));
         handlers.add(new GameHandler(this));
+        
+//        model.initialize("");
+//        lastGameId = model.getGames().size();
+//        lastUserId = model.getUsers().size();
     }  
     
     public CookieObject getCurrentCookie() {

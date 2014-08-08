@@ -35,9 +35,8 @@ public class SQLDataAccess implements IDataAccess {
 	}
 
 	@Override
-	public User createUser(User user) {
+	public void createUser(User user) {
 		user = sqlUser.addUser(user);
-		return user;
 	}
 
 	@Override
@@ -52,27 +51,11 @@ public class SQLDataAccess implements IDataAccess {
     }
 
 	@Override
-	public GameModel createGame(GameModel game) {
-		
-		String gameAsString = sqlGameModel.addGameModel(
+	public void createGame(GameModel game) {
+            sqlGameModel.addGameModel(
 				game.getGameId(), 
 				toXML(game),
 				game.getGameName());
-		
-		if(gameAsString != null) {
-			game = (GameModel)fromXML(gameAsString);
-		}
-		else {
-			game = null;
-		}
-		
-		return game;
-	}
-
-	@Override
-	public void deleteGame(String gameName) {
-		// TODO delete game
-		
 	}
 
 	@Override
@@ -91,12 +74,12 @@ public class SQLDataAccess implements IDataAccess {
 	}
 
 	@Override
-	public void addCommand(Command command) {
+	public void addCommand(Command command, int id) {
 		sqlCommand.addCommand(toXML(command));
 	}
 
 	@Override
-	public List<Command> getCommands(String gameName) {
+	public List<Command> getCommands(int id) {
 		List<String> commandsString = sqlCommand.getAllCommands();
 		List<Command> commands = new ArrayList<Command>();
 		for(String commandString : commandsString) {
@@ -158,4 +141,9 @@ public class SQLDataAccess implements IDataAccess {
 		Object converted = xstream.fromXML(xml);
 		return converted;
 	}
+
+    @Override
+    public void updateGame(GameModel game) {
+        
+    }
 }
