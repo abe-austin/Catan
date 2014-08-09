@@ -136,6 +136,7 @@ public class AllGamesHandler implements IHandler {
         			if(player.getUser().getId() == controller.getCurrentCookie().getID()) {
         				response = new ServerResponse(200, "Success");
         				response.setCookie(controller.createCookie(game.getGameId()));
+                                        controller.setCookie(game.getGameId());
         				return response;
         			}
         		}
@@ -151,6 +152,7 @@ public class AllGamesHandler implements IHandler {
         		game.addPlayers(player, player.getIndex());
         		response = new ServerResponse(200, "Success");
         		response.setCookie(controller.createCookie(param.getID()));
+                        controller.setCookie(game.getGameId());
         		return response;
         	} 
         	//game is full

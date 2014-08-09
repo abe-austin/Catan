@@ -273,7 +273,10 @@ public class ServerController {
 //                    if(game.getVersion() - game.getLastUpdate() >= numCommands) {
 //                        game.setLastUpdate(game.getVersion());
 //                        model.updateGame(game);                        
-//                    }                        
+//                    }               
+                    
+                    if(command.equals("/games/join"))
+                        model.updateGame(game);
                     
                     return response;
                 }
@@ -321,5 +324,9 @@ public class ServerController {
         }
         public void setCookie(CookieObject cookie){
             this.currentCookie=cookie;
+        }
+        
+        public void setCookie(int gameId) {
+            currentCookie.setGameID(gameId);
         }
 }
