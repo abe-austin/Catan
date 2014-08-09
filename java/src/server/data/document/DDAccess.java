@@ -49,9 +49,11 @@ public class DDAccess implements IDataAccess {
     public List<Command> getCommands(int id) {
         ArrayList<Command> commands = new ArrayList<>();
         
-        for(File file : new File(CMD_PATH).listFiles()) {
-            if(file.getName().matches("game" + String.valueOf(id) + ".*"))
-                commands.add((Command)new XStream(new DomDriver()).fromXML(file));
+        if(new File(CMD_PATH).listFiles() != null) {        
+            for(File file : new File(CMD_PATH).listFiles()) {
+                if(file.getName().matches("game" + String.valueOf(id) + ".*"))
+                    commands.add((Command)new XStream(new DomDriver()).fromXML(file));
+            }
         }
         
         return commands;
