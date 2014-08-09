@@ -29,8 +29,13 @@ public class ServerModel {
                 for(Command command : commands){
                     ServerController.getSingleton().applyCommand(command);
                 }
+                dac.updateGame(game);
             }
             users = (ArrayList)dac.getAllUsers();
+        }
+        
+        public void updateGame(GameModel game) {
+            dac.updateGame(game);
         }
 
         /**
@@ -39,7 +44,7 @@ public class ServerModel {
          */
         public void addGame(GameModel model) {
             games.add(model);
-//            dac.createGame(model);
+            dac.createGame(model);
         }
 
         /**
@@ -56,7 +61,7 @@ public class ServerModel {
          */
         public void addUser(User user) {
             users.add(user);
-//            dac.createUser(null);
+            dac.createUser(null);
         }
 
         /**

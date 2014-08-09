@@ -19,6 +19,7 @@ public class GameModel {
     private TurnTracker turnTracker;
     private TradeOffer tradeOffer;
     private int version;
+    private int lastUpdate;
     private int winner;
     private int id;
     private boolean checkDiscard;
@@ -36,6 +37,7 @@ public class GameModel {
         checkDiscard = false;
         gameName = "";
         id = -1;
+        lastUpdate = 0;
     }
     
     public void buildBoard() {
@@ -207,5 +209,19 @@ public class GameModel {
      */
     public void setCheckDiscard(boolean checkDiscard) {
         this.checkDiscard = checkDiscard;
+    }
+
+    /**
+     * @return the lastUpdate
+     */
+    public int getLastUpdate() {
+        return lastUpdate;
+    }
+
+    /**
+     * @param lastUpdate the lastUpdate to set
+     */
+    public void setLastUpdate(int lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

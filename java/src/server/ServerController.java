@@ -26,6 +26,7 @@ public class ServerController {
     private int lastUserId;
     private int lastGameId;
     private CookieObject currentCookie;
+    private int numCommands;
     
     private static ServerController singleton = new ServerController();
     
@@ -38,6 +39,7 @@ public class ServerController {
         currentCookie = null;
         
         handlers = new ArrayList<>();
+        numCommands = 0;
         
         handlers.add(new UserHandler(this));
         handlers.add(new MovesHandler(this));
@@ -48,6 +50,11 @@ public class ServerController {
 //        lastGameId = model.getGames().size();
 //        lastUserId = model.getUsers().size();
     }  
+    
+    public void initialize(String database, int numCommands) {
+        model.initialize(database);        
+        this.numCommands = numCommands;
+    }
     
     public CookieObject getCurrentCookie() {
 		return currentCookie;
@@ -260,8 +267,16 @@ public class ServerController {
             currentCookie = cookie;
             for(IHandler handler : handlers) {
             	ServerResponse response = handler.handle(command, Json);
-                if(response != null)
-                	return response;
+                if(response != null) {
+                    GameModel game = getGameModel();
+                    
+                    if(game.getVersion() - game.getLastUpdate() >= numCommands) {
+                        game.setLastUpdate(game.getVersion());
+                        model.updateGame(game);                        
+                    }                        
+                    
+                    return response;
+                }
             }
             return new ServerResponse(400, "Command not supported");
         }     
