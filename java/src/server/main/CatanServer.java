@@ -164,8 +164,8 @@ public class CatanServer {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-                String data = "";
-                int num = 0;
+                String data;
+                int num;
             
                 if(args.length == 2) {
                     SERVER_PORT_NUMBER = 8081;

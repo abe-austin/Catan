@@ -29,6 +29,9 @@
    <!-- Jar file path/name from here -->
    <property name="jar.file" value="server.jar"/>
    
+   <property name="num" value = "11" />
+   <property name="store" value = "document" />
+   
 
    <!-- CLASSPATHS -->
    <!-- ********** -->
@@ -122,7 +125,7 @@
 		<attribute name="Class-Path" value="xstream-1.4.7.jar"/>
 		</manifest>
 	   </jar>
-	<jar jarfile="${java.dist}/document.jar" basedir="{java.build}/server/data/document"> 
+	<jar jarfile="${java.dist}/document.jar" basedir="${java.build}/server/data/document"> 
 		<manifest>
 		<attribute name="Class-Path" value="xstream-1.4.7.jar"/>
 		</manifest>
@@ -146,6 +149,8 @@
                    <assertions>
                            <enable/>
                    </assertions>
+                   <arg value="${store}"/>
+                   <arg value="${num}"/>
            </java>
    </target>
    

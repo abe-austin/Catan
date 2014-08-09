@@ -61,8 +61,10 @@ public class DDAccess implements IDataAccess {
     public List<GameModel> getAllGames() {
         ArrayList<GameModel> games = new ArrayList<>();
         
-        for(File file : new File(GAME_PATH).listFiles()) {
-            games.add((GameModel)new XStream(new DomDriver()).fromXML(file));
+        if(new File(GAME_PATH).listFiles() != null) {        
+            for(File file : new File(GAME_PATH).listFiles()) {
+                games.add((GameModel)new XStream(new DomDriver()).fromXML(file));
+            }
         }
         
         return games;
@@ -72,8 +74,10 @@ public class DDAccess implements IDataAccess {
     public List<User> getAllUsers() {
         ArrayList<User> users = new ArrayList<>();
         
-        for(File file : new File(USER_PATH).listFiles()) {
-            users.add((User)new XStream(new DomDriver()).fromXML(file));
+        if(new File(USER_PATH).listFiles() != null) {
+            for(File file : new File(USER_PATH).listFiles()) {
+                users.add((User)new XStream(new DomDriver()).fromXML(file));
+            }
         }
         
         return users;

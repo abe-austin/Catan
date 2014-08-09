@@ -29,6 +29,9 @@
    <!-- Jar file path/name from here -->
    <property name="jar.file" value="server.jar"/>
    
+   <property name="num" value = "11" />
+   <property name="store" value = "document" />
+   
 
    <!-- CLASSPATHS -->
    <!-- ********** -->
@@ -114,7 +117,7 @@
                    <manifest>
                            <attribute name="Main-Class" value="server.main.CatanServer"/>
                            <attribute name="Class-Path" 
-                                   value="lib/gson-2.2.4.jar" />
+                                   value="lib/gson-2.2.4.jar lib/xstream-1.4.7.jar" />
                    </manifest>
            </jar>
 	   <jar jarfile="${java.dist}/sql.jar" basedir="${java.build}/server/data/sql">
@@ -146,6 +149,8 @@
                    <assertions>
                            <enable/>
                    </assertions>
+                   <arg value="${store}"/>
+                   <arg value="${num}"/>
            </java>
    </target>
    
