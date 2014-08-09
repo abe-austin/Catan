@@ -51,8 +51,9 @@ public class CatanServer {
 //		fileHandler.setFormatter(new SimpleFormatter());
 //	}
 
-	private CatanServer() {
+	private CatanServer(String data, int num) {
 		controller = ServerController.getSingleton();
+                controller.initialize(data, num);
 	}
 
 	
@@ -163,12 +164,22 @@ public class CatanServer {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		if(args.length == 0)
-			SERVER_PORT_NUMBER = 8081;
-		else
-			SERVER_PORT_NUMBER = Integer.parseInt(args[0]);
+                String data = "";
+                int num = 0;
+            
+                if(args.length == 2) {
+                    SERVER_PORT_NUMBER = 8081;
+                    data = args[0];
+                    num = Integer.parseInt(args[1]);
+                } else if(args.length == 3) {
+                    SERVER_PORT_NUMBER = Integer.parseInt(args[0]);                
+                    data = args[1];
+                    num = Integer.parseInt(args[2]);
+                } else {
+                    return;
+                }
 
-		new CatanServer().run();
+		new CatanServer(data, num).run();
 	}
 
 }
