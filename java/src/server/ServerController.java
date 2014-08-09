@@ -270,10 +270,10 @@ public class ServerController {
                 if(response != null) {
                     GameModel game = getGameModel();
                     
-                    if(game.getVersion() - game.getLastUpdate() >= numCommands) {
-                        game.setLastUpdate(game.getVersion());
-                        model.updateGame(game);                        
-                    }                        
+//                    if(game.getVersion() - game.getLastUpdate() >= numCommands) {
+//                        game.setLastUpdate(game.getVersion());
+//                        model.updateGame(game);                        
+//                    }                        
                     
                     return response;
                 }

@@ -12,9 +12,9 @@ import system.User;
  * @author Kevin MacMaster
  */
 public class DDUtils {    
-    protected final static String USER_PATH = ".\\database\\document\\user\\";
-    protected final static String CMD_PATH = ".\\database\\document\\command\\";
-    protected final static String GAME_PATH = ".\\database\\document\\game\\";    
+    protected final static String USER_PATH = "database\\document\\user\\";
+    protected final static String CMD_PATH = "database\\document\\command\\";
+    protected final static String GAME_PATH = "database\\document\\game\\";    
 
     /**
      * Returns object from file
@@ -73,13 +73,15 @@ public class DDUtils {
             File file = new File(source + name + ".catan");
             
             if(file.exists())
-                file.delete();
+                file.delete();            
+            
+            file.createNewFile();
             
             FileOutputStream out = new FileOutputStream(file);
             XStream xmlStream = new XStream(new DomDriver());
             
             out.write(xmlStream.toXML(obj).getBytes());
             out.close();
-        } catch(IOException e) { }
+        } catch(IOException e) { e.printStackTrace(); }
     }    
 }

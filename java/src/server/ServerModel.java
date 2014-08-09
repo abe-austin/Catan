@@ -61,7 +61,7 @@ public class ServerModel {
          */
         public void addUser(User user) {
             users.add(user);
-            dac.createUser(null);
+            dac.createUser(user);
         }
 
         /**
