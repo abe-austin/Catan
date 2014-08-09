@@ -24,6 +24,7 @@ public class ServerModel {
         public void initialize(String database) {
             dac = new DataAccess().getAccess(database);
             games = (ArrayList)dac.getAllGames();
+            
             for (GameModel game: games){
                 List<Command> commands = dac.getCommands(game.getGameId());
                 for(Command command : commands){
@@ -36,6 +37,10 @@ public class ServerModel {
         
         public void updateGame(GameModel game) {
             dac.updateGame(game);
+        }
+        
+        public void addCommand(Command command, int gameID) {
+            dac.addCommand(command, gameID);
         }
 
         /**

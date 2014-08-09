@@ -44,16 +44,14 @@ public class ServerController {
         handlers.add(new UserHandler(this));
         handlers.add(new MovesHandler(this));
         handlers.add(new AllGamesHandler(this));
-        handlers.add(new GameHandler(this));
-        
-//        model.initialize("");
-//        lastGameId = model.getGames().size();
-//        lastUserId = model.getUsers().size();
+        handlers.add(new GameHandler(this));                
     }  
     
     public void initialize(String database, int numCommands) {
         model.initialize(database);        
         this.numCommands = numCommands;
+        lastGameId = model.getGames().size();
+        lastUserId = model.getUsers().size();
     }
     
     public CookieObject getCurrentCookie() {
@@ -270,10 +268,16 @@ public class ServerController {
                 if(response != null) {
                     GameModel game = getGameModel();
                     
-//                    if(game.getVersion() - game.getLastUpdate() >= numCommands) {
-//                        game.setLastUpdate(game.getVersion());
-//                        model.updateGame(game);                        
-//                    }               
+                    if(game != null) {
+                        game.setVersion(game.getVersion() + 1);
+                        model.addCommand(game.getGameHistory().getGameCommands().get(
+                                game.getGameHistory().getGameCommands().size()-1), game.getGameId());
+                        
+                        if(game.getVersion() - game.getLastUpdate() >= numCommands) {
+                            game.setLastUpdate(game.getVersion());
+                            model.updateGame(game);                        
+                        }              
+                    }
                     
                     if(command.equals("/games/join"))
                         model.updateGame(game);

@@ -47,3 +47,4 @@ nbproject/project.xml
 *.class
 *.properties
 /build/
+*.catan
