@@ -206,7 +206,7 @@ public class ServerController {
          *          gameName string meets basic requirements
          */
         public boolean canCreateGame (String gameName) {
-            return (getGameModel(gameName) == null);
+            return true;
         }
         
         /**
