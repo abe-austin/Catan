@@ -216,6 +216,7 @@ public class ServerController {
          * @post new game is added to ServerModel
          */
         public GameModel createGame(CreateGameParam param) {
+        	try {
             GameModel game = new GameModel();
             
             game.setRandomHexes(param.isRandomHexes());
@@ -229,6 +230,11 @@ public class ServerController {
             currentCookie.setGameID(game.getGameId());
             
             return game;
+        	}
+        	catch(Exception e){
+        		e.printStackTrace();
+        		return null;
+        	}
         }
         
         public int getPlayerCount(int gameID){
@@ -262,6 +268,7 @@ public class ServerController {
          * @post object updates games/users
          */
         public ServerResponse handleCommand(String command, Object Json, CookieObject cookie) {
+        	try{
             currentCookie = cookie;
             for(IHandler handler : handlers) {
             	ServerResponse response = handler.handle(command, Json);
@@ -270,8 +277,14 @@ public class ServerController {
                     
                     if(game != null) {
                         game.setVersion(game.getVersion() + 1);
-                        model.addCommand(game.getGameHistory().getGameCommands().get(
-                                game.getGameHistory().getGameCommands().size()-1), game.getGameId());
+                        if(game.getGameHistory().getGameCommands().size() == 0) {
+                        	
+                        }
+                        else{
+                        	Command commandToAdd = game.getGameHistory().getGameCommands().get(
+                    				game.getGameHistory().getGameCommands().size()-1);
+                        	model.addCommand(commandToAdd, game.getGameId());
+                        }
                         
                         if(game.getVersion() - game.getLastUpdate() >= numCommands) {
                             game.setLastUpdate(game.getVersion());
@@ -286,6 +299,11 @@ public class ServerController {
                 }
             }
             return new ServerResponse(400, "Command not supported");
+        	}
+        	catch(Exception e){
+        		e.printStackTrace();
+                return new ServerResponse(400, "Failed in command handler");
+        	}
         }     
         
         public void applyCommand(Command command){

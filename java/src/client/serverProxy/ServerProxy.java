@@ -71,6 +71,7 @@ public class ServerProxy implements Server{
 		}
 		catch(Exception e) {
 			System.out.println(e);
+			System.out.println("Failure at: "+url);
 			serverResponse = new ServerResponse(521, "Server connection failed");
 		}
 		return serverResponse;
@@ -107,6 +108,7 @@ public class ServerProxy implements Server{
 		}
 		catch(Exception e) {
 			System.out.println(e);
+			System.out.println("Failure at: "+url);
 			serverResponse = new ServerResponse(521, "Server connection failed");
 		}
 		return serverResponse;
