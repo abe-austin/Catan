@@ -216,7 +216,6 @@ public class ServerController {
          * @post new game is added to ServerModel
          */
         public GameModel createGame(CreateGameParam param) {
-        	try {
             GameModel game = new GameModel();
             
             game.setRandomHexes(param.isRandomHexes());
@@ -230,11 +229,6 @@ public class ServerController {
             currentCookie.setGameID(game.getGameId());
             
             return game;
-        	}
-        	catch(Exception e){
-        		e.printStackTrace();
-        		return null;
-        	}
         }
         
         public int getPlayerCount(int gameID){
@@ -268,7 +262,6 @@ public class ServerController {
          * @post object updates games/users
          */
         public ServerResponse handleCommand(String command, Object Json, CookieObject cookie) {
-        	try{
             currentCookie = cookie;
             for(IHandler handler : handlers) {
             	ServerResponse response = handler.handle(command, Json);
@@ -299,11 +292,6 @@ public class ServerController {
                 }
             }
             return new ServerResponse(400, "Command not supported");
-        	}
-        	catch(Exception e){
-        		e.printStackTrace();
-                return new ServerResponse(400, "Failed in command handler");
-        	}
         }     
         
         public void applyCommand(Command command){
