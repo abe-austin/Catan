@@ -69,9 +69,9 @@ public class SQLUser extends SQLTable {
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
 				User user = new User(
-						new Username(rs.getString(1)), 
-						new Password(rs.getString(2)), 
-						rs.getInt(3));
+						new Username(rs.getString(2)), 
+						new Password(rs.getString(3)), 
+						rs.getInt(1));
 				users.add(user);
 			}
 		}
