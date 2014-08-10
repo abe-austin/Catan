@@ -117,7 +117,7 @@
                    <manifest>
                            <attribute name="Main-Class" value="server.main.CatanServer"/>
                            <attribute name="Class-Path" 
-                                   value="lib/gson-2.2.4.jar lib/xstream-1.4.7.jar" />
+                                   value="lib/gson-2.2.4.jar lib/xstream-1.4.7.jar lib/sqlite-jdbc-3.7.2.jar" />
                    </manifest>
            </jar>
 	   <jar jarfile="${java.dist}/sql.jar" basedir="${java.build}/server/data/sql">

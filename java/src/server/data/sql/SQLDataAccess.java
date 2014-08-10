@@ -36,6 +36,7 @@ public class SQLDataAccess implements IDataAccess {
 
 	@Override
 	public void createUser(User user) {
+		System.out.println("HERERE");
 		user = sqlUser.addUser(user);
 	}
 
