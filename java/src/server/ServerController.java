@@ -281,8 +281,10 @@ public class ServerController {
 	                    }
                     }
                     
-                    if(command.equals("/games/join"))
-                        model.updateGame(game);
+                    if(command.equals("/games/join")) {
+                    	if(((String)response.getBody()).equals("First join"))
+                    		model.updateGame(game);
+                    }
                     
                     return response;
                 }
@@ -291,13 +293,14 @@ public class ServerController {
         }
         
         public void commandStuff(GameModel game) {
-            game.setVersion(game.getVersion() + 1);
+            //game.setVersion(game.getVersion() + 1);
             if(game.getGameHistory().getGameCommands().size() != 0) {
             	Command commandToAdd = game.getGameHistory().getGameCommands().get(
         				game.getGameHistory().getGameCommands().size()-1);
             	model.addCommand(commandToAdd, game.getGameId());
-            	System.out.println(commandToAdd.getCommand());
             }
+            System.out.println("Game Version: " + game.getVersion());
+            System.out.println("Last Upadate: "+ game.getLastUpdate());
             if(game.getVersion() - game.getLastUpdate() >= numCommands) {
                 game.setLastUpdate(game.getVersion());
                 model.updateGame(game);                        
@@ -308,6 +311,7 @@ public class ServerController {
             for(IHandler handler: handlers){
                 if (handler.getClass()==MovesHandler.class){
                     setCookie(command.getCookie());
+                    System.out.println(command.getCommand());
                     handler.applyCommand(command.getSource(), command.getParamObject());
                 }
             }

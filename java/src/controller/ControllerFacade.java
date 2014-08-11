@@ -104,7 +104,6 @@ public class ControllerFacade implements IControllerFacadeListener{
                         reassignControllers();
                         updateClientPlayer(currentGameModel);
                         gameModelChanged(currentGameModel);
-                        System.out.println(gameState);
 //                    }
                 }
 //                else

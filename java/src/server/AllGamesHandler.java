@@ -134,9 +134,9 @@ public class AllGamesHandler implements IHandler {
         	for(Player player : game.getPlayers()) {
         		if(player != null) {
         			if(player.getUser().getId() == controller.getCurrentCookie().getID()) {
-        				response = new ServerResponse(200, "Success");
+        				response = new ServerResponse(200, "Rejoin");
         				response.setCookie(controller.createCookie(game.getGameId()));
-                                        controller.setCookie(game.getGameId());
+                        controller.setCookie(game.getGameId());
         				return response;
         			}
         		}
@@ -150,9 +150,9 @@ public class AllGamesHandler implements IHandler {
         				controller.getUserByID(controller.getCurrentCookie().getID()));
 
         		game.addPlayers(player, player.getIndex());
-        		response = new ServerResponse(200, "Success");
+        		response = new ServerResponse(200, "First join");
         		response.setCookie(controller.createCookie(param.getID()));
-                        controller.setCookie(game.getGameId());
+                controller.setCookie(game.getGameId());
         		return response;
         	} 
         	//game is full

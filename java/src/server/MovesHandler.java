@@ -774,8 +774,8 @@ public class MovesHandler implements IHandler {
 	        HexTile tile = game.getBoard().getHexTileAt(map.getX(), map.getY());
 	        Corner corner = tile.getCorner(map.getDirection());
 	        Settlement settlement = (Settlement)player.getAvailableBoardPiece(PieceType.SETTLEMENT);
-	        System.out.println("Settlement: "+settlement);
-	        System.out.println("Corner: "+corner);
+//	        System.out.println("Settlement: "+settlement);
+//	        System.out.println("Corner: "+corner);
 	        corner.buildStructure(settlement);
 	        settlement.setActive(true);
 	        

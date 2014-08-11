@@ -30,7 +30,7 @@ public class ServerModel {
                 for(Command command : commands){
                     ServerController.getSingleton().applyCommand(command);
                 }
-                dac.updateGame(game);
+                //dac.updateGame(game);
             }
             users = (ArrayList)dac.getAllUsers();
         }

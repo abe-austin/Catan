@@ -13,6 +13,7 @@ import game.GameModel;
 public class SQLGameModel extends SQLTable {
 	
 	public String addGameModel(int gameID, String game, String name) {
+		System.out.println("GAME MODEL ADDED");
 		Connection conn = startTransaction();
 		try {
 			PreparedStatement statement = conn.prepareStatement(
@@ -33,6 +34,7 @@ public class SQLGameModel extends SQLTable {
 	}
 	
 	public String updateGameModel(int gameID, String game) {
+		System.out.println("GAME MODEL UPDATED");
 		Connection conn = startTransaction();
 		try {
 			PreparedStatement statement = conn.prepareStatement(
