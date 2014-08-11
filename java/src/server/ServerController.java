@@ -307,14 +307,16 @@ public class ServerController {
             } 
         }
         
-        public void applyCommand(Command command){
-            for(IHandler handler: handlers){
-                if (handler.getClass()==MovesHandler.class){
-                    setCookie(command.getCookie());
-                    System.out.println(command.getCommand());
-                    handler.applyCommand(command.getSource(), command.getParamObject());
-                }
-            }
+        public void applyCommand(Command command, int lastUpdate){
+        	if(command.getCommandId() > lastUpdate) {
+	            for(IHandler handler: handlers){
+	                if (handler.getClass()==MovesHandler.class){
+	                    setCookie(command.getCookie());
+	                    System.out.println(command.getCommand());
+	                    handler.applyCommand(command.getSource(), command.getParamObject());
+	                }
+	            }
+        	}
         }
         /**
          * Creates Cookie String

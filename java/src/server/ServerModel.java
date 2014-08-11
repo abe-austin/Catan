@@ -28,7 +28,7 @@ public class ServerModel {
             for (GameModel game: games){
                 List<Command> commands = dac.getCommands(game.getGameId());
                 for(Command command : commands){
-                    ServerController.getSingleton().applyCommand(command);
+                    ServerController.getSingleton().applyCommand(command, game.getLastUpdate());
                 }
                 //dac.updateGame(game);
             }

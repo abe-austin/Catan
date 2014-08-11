@@ -14,10 +14,11 @@ public class SQLCommand extends SQLTable {
 		Connection conn = startTransaction();
 		try {
 			PreparedStatement statement = conn.prepareStatement(
-					"INSERT INTO Command(CommandID, GameID, Command) VALUES(?,?,?);");
+					"INSERT INTO Command(CommandID, GameID, Command, CommandNum) VALUES(?,?,?,?);");
 			statement.setInt(1, getNextCommandID());
 			statement.setInt(2, gameID);
 			statement.setBytes(3, command.getBytes());
+			statement.setInt(4, commandID);
 			statement.executeUpdate();
 		}
 		catch(Exception e) {
