@@ -270,15 +270,11 @@ public class ServerController {
                     
                     if(game != null) {
                         game.setVersion(game.getVersion() + 1);
-                        if(game.getGameHistory().getGameCommands().size() == 0) {
-                        	
-                        }
-                        else{
+                        if(game.getGameHistory().getGameCommands().size() != 0) {
                         	Command commandToAdd = game.getGameHistory().getGameCommands().get(
                     				game.getGameHistory().getGameCommands().size()-1);
                         	model.addCommand(commandToAdd, game.getGameId());
                         }
-                        
                         if(game.getVersion() - game.getLastUpdate() >= numCommands) {
                             game.setLastUpdate(game.getVersion());
                             model.updateGame(game);                        

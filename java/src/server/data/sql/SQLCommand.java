@@ -15,7 +15,7 @@ public class SQLCommand extends SQLTable {
 		try {
 			PreparedStatement statement = conn.prepareStatement(
 					"INSERT INTO Command(CommandID, GameID, Command) VALUES(?,?,?);");
-			statement.setInt(1, commandID);
+			statement.setInt(1, getNextCommandID());
 			statement.setInt(2, gameID);
 			statement.setBytes(3, command.getBytes());
 			statement.executeUpdate();

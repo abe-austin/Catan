@@ -104,6 +104,7 @@ public class ControllerFacade implements IControllerFacadeListener{
                         reassignControllers();
                         updateClientPlayer(currentGameModel);
                         gameModelChanged(currentGameModel);
+                        System.out.println(gameState);
 //                    }
                 }
 //                else
@@ -701,14 +702,14 @@ public class ControllerFacade implements IControllerFacadeListener{
 			break;
 		case JoinGame:
 			int index = gameInfo.getPlayers().size();
-                        if(gameInfo.getPlayers().size()>0){
-                            for(PlayerInfo player: gameInfo.getPlayers()){
-                                if(player.getCatanColor()==color){
-                                    index=player.getPlayerIndex();
-                                    break;
-                                }
-                            }
-                        }
+			if(gameInfo.getPlayers().size()>0){
+				for(PlayerInfo player: gameInfo.getPlayers()){
+					if(player.getCatanColor()==color){
+						index=player.getPlayerIndex();
+						break;
+					}
+				}
+			}
                         
 //			clientPlayer = new Player(color, user.getUsername().getUsername(), index);
 //			currentPlayerInfo.setPlayerIndex(index);
