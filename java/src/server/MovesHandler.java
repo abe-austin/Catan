@@ -115,38 +115,55 @@ public class MovesHandler implements IHandler {
         switch(command) {
                 case "/moves/sendChat":
                    sendChat((SendChatParam)Json);
+                   break;
                 case "/moves/rollNumber":
-                    rollNumber((RollNumberParam)Json,true);   
+                    rollNumber((RollNumberParam)Json,true);  
+                    break;
                 case "/moves/robPlayer":
-                    robPlayer((RobPlayerParam)Json,true);      
+                    robPlayer((RobPlayerParam)Json,true); 
+                    break;
                 case "/moves/finishTurn":
-                    finishTurn((FinishTurnParam)Json,true);      
+                    finishTurn((FinishTurnParam)Json,true); 
+                    break;
                 case "/moves/buyDevCard":
-                    buyDevCard((BuyDevCardParam)Json,true);   
+                    buyDevCard((BuyDevCardParam)Json,true);
+                    break;
                 case "/moves/Year_Of_Plenty":
                     playYearOfPlenty((PlayYearOfPlentyParam)Json,true);   
+                    break;
                 case "/moves/Road_Building":
-                    playRoadBuilding((PlayRoadBuildingParam)Json,true);   
+                    playRoadBuilding((PlayRoadBuildingParam)Json,true); 
+                    break;
                 case "/moves/Soldier":
                     playSoldier((PlaySoldierParam)Json,true);   
+                    break;
                 case "/moves/Monopoly":
-                    playMonopoly((PlayMonopolyParam)Json,true);   
+                    playMonopoly((PlayMonopolyParam)Json,true);  
+                    break;
                 case "/moves/Monument":
-                    playMonument((PlayMonumentParam)Json,true);   
+                    playMonument((PlayMonumentParam)Json,true);  
+                    break;
                 case "/moves/buildRoad":
                     buildRoad((BuildRoadParam)Json,true);   
+                    break;
                 case "/moves/buildSettlement":
                     buildSettlement((BuildSettlementParam)Json,true);   
+                    break;
                 case "/moves/buildCity":
                     buildCity((BuildCityParam)Json,true);   
+                    break;
                 case "/moves/offerTrade":
                     offerTrade((OfferTradeParam)Json,true);   
+                    break;
                 case "/moves/acceptTrade":
-                    acceptTradeOffer((AcceptTradeParam)Json,true);   
+                    acceptTradeOffer((AcceptTradeParam)Json,true);  
+                    break;
                 case "/moves/maritimeTrade":
                     maritimeTrade((MaritimeTradeParam)Json,true);   
+                    break;
                 case "/moves/discardCards":
                     discardCards((DiscardCardsParam)Json,true);   
+                    break;
         }
     }
     
