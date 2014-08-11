@@ -44,7 +44,7 @@ public class SQLCommand extends SQLTable {
 			statement.setInt(1, gameID);
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
-				String command = rs.getString(2);
+				String command = rs.getString(3);
 				commands.add(command);
 			}
 		}

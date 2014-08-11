@@ -269,16 +269,16 @@ public class ServerController {
                     GameModel game = getGameModel();
                     
                     if(game != null) {
-                        game.setVersion(game.getVersion() + 1);
-                        if(game.getGameHistory().getGameCommands().size() != 0) {
-                        	Command commandToAdd = game.getGameHistory().getGameCommands().get(
-                    				game.getGameHistory().getGameCommands().size()-1);
-                        	model.addCommand(commandToAdd, game.getGameId());
-                        }
-                        if(game.getVersion() - game.getLastUpdate() >= numCommands) {
-                            game.setLastUpdate(game.getVersion());
-                            model.updateGame(game);                        
-                        }              
+	                    try{
+	                    	String commandP = command.substring(command.indexOf("/")+1,command.length());
+	                    	commandP = commandP.substring(0, commandP.indexOf("/"));
+	                    	if(commandP.equals("moves")) {
+	                    		commandStuff(game);
+	                    	}
+	                    }
+	                    catch(Exception e) {
+	                    	e.printStackTrace();
+	                    }
                     }
                     
                     if(command.equals("/games/join"))
@@ -288,7 +288,21 @@ public class ServerController {
                 }
             }
             return new ServerResponse(400, "Command not supported");
-        }     
+        }
+        
+        public void commandStuff(GameModel game) {
+            game.setVersion(game.getVersion() + 1);
+            if(game.getGameHistory().getGameCommands().size() != 0) {
+            	Command commandToAdd = game.getGameHistory().getGameCommands().get(
+        				game.getGameHistory().getGameCommands().size()-1);
+            	model.addCommand(commandToAdd, game.getGameId());
+            	System.out.println(commandToAdd.getCommand());
+            }
+            if(game.getVersion() - game.getLastUpdate() >= numCommands) {
+                game.setLastUpdate(game.getVersion());
+                model.updateGame(game);                        
+            } 
+        }
         
         public void applyCommand(Command command){
             for(IHandler handler: handlers){
